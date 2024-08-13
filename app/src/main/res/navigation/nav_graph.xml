@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/coverFragment"
+        android:name="com.proksi.kotodama.fragments.FilesFragment"
+        android:label="fragment_cover"
+        tools:layout="@layout/fragment_cover" >
+        <action
+            android:id="@+id/action_coverFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.proksi.kotodama.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.proksi.kotodama.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_coverFragment"
+            app:destination="@id/coverFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_nullFilesFragment"
+            app:destination="@id/nullFilesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nullFilesFragment"
+        android:name="com.proksi.kotodama.fragments.NullFilesFragment"
+        android:label="fragment_null_files"
+        tools:layout="@layout/fragment_null_files" >
+        <action
+            android:id="@+id/action_nullFilesFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+</navigation>

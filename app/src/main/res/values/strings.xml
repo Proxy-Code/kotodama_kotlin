@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Kotodama</string>
+
+    <string name="all">All</string>
+    <string name="trends">Trends</string>
+    <string name="newCtg">New</string>
+    <string name="musicians">Musicians</string>
+    <string name="tvShows">TV-Shows</string>
+    <string name="sports">Sports</string>
+    <string name="rap">Rap</string>
+    <string name="kpop">K-Pop</string>
+    <string name="random">Random</string> <string name="anime">Anime</string>
+    <string name="cartoon">Cartoon</string>
+    <string name="actors">Actors</string>
+    <string name="game">Game</string>
+    <string name="fictional">Fictional</string>
+    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+
 </resources>
