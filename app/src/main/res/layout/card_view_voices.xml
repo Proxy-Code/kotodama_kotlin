@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-    <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_marginBottom="15dp"
-        android:layout_width="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_height="wrap_content"
-        app:cardElevation="0dp"
-        app:cardUseCompatPadding="false"
-        app:cardBackgroundColor="@android:color/transparent"
-
->
-<LinearLayout
-    android:layout_gravity="center"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="15dp"
     android:layout_width="wrap_content"
-    android:orientation="vertical"
-    android:background="@android:color/transparent"
-    android:layout_height="wrap_content">
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/cardImgView"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
-        android:src="@drawable/fotow22"
-        android:padding="3dp"
-        app:strokeWidth="3dp"
-        app:shapeAppearanceOverlay="@style/roundedImgView"
-        app:strokeColor="@android:color/transparent"
-        />
+    android:layout_marginHorizontal="8dp"
+    android:layout_height="wrap_content"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="false"
+    app:cardBackgroundColor="@android:color/transparent">
 
-    <TextView
-        android:id="@+id/textViewArtist"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/transparent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/semi_bold"
-        android:text="Artist" />
+        android:gravity="center"> <!-- Merkez hizalama eklendi -->
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/cardImgView"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:src="@drawable/fotow22"
+            android:padding="3dp"
+            app:strokeWidth="3dp"
+            android:background="@color/white"
+            app:shapeAppearanceOverlay="@style/roundedImgView"
+            app:strokeColor="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/textViewArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/semi_bold"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:minHeight="36dp"
+            android:text="Artist" />
     </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

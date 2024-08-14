@@ -9,11 +9,25 @@
     <string name="sports">Sports</string>
     <string name="rap">Rap</string>
     <string name="kpop">K-Pop</string>
-    <string name="random">Random</string> <string name="anime">Anime</string>
+    <string name="random">Random</string>
+    <string name="anime">Anime</string>
     <string name="cartoon">Cartoon</string>
     <string name="actors">Actors</string>
     <string name="game">Game</string>
     <string name="fictional">Fictional</string>
     <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="since_all_transactions">Since all transactions for our app are processed through the Apple App Store, we cannot issue refunds directly. However, you can request a refund directly from Apple.</string>
+    <string name="when_will_multilingual_service_supported">When will multilingual service be supported?</string>
+    <string name="you_can_cancel_your_subscription">You can cancel your subscription anytime without being subjected to any inquiries. Apple\'s App Store manages all the subscriptions.</string>
+    <string name="how_cancel_my_subscription">How do I cancel my subscription?</string>
+    <string name="how_request_refund">How do I request a refund?</string>
+    <string name="it_actually_works">It actually works</string>
+    <string name="just_few_clicks_create_ai_cover">Just few clicks to create ai cover songs. As a 50 year old, I am really surprised how technology has advanced so far.</string>
+    <string name="the_offer_expires_in">The offer expires in:</string>
+    <string name="our_ai_already_supports_multiple_languages">Our AI Already supports multiple languages. You can cover any song with non-native speakers, and it will make perfect covers.</string>
+
 
 </resources>

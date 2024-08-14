@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_bg"
+    android:contentDescription="@string/app_name"
+   android:paddingBottom="25dp"
+    tools:context=".fragments.PaywallFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+       >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_marginTop="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/paywall_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="240dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bold"
+                android:textAlignment="center"
+                android:text="Unlock Premium"
+                android:textColor="@color/black"
+                android:textSize="28sp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:orientation="vertical"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/radius_13_purple"
+                    android:padding="10dp"
+                    android:src="@drawable/icon_realistic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/semi_bold"
+                    android:text="Generate Realistic Voices"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView12"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="Faster Voice Processing"
+                    android:textColor="#9A9A9A"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/radius_13_purple"
+                    android:padding="10dp"
+                    android:src="@drawable/icon_clon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textView142"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/semi_bold"
+                    android:text="Free Voice Clones"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView122"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView122"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="Clone Any Voice"
+                    android:textColor="#9A9A9A"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintTop_toBottomOf="@+id/textView142" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/radius_13_purple"
+                    android:padding="10dp"
+                    android:src="@drawable/icon_locked"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textView143"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/semi_bold"
+                    android:text="All Famous Voices"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView123"
+                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView123"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="Unlock All Premium Voice"
+                    android:textColor="#9A9A9A"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/textView143" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/bold"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:layout_marginBottom="20dp"
+            android:text="Choose your plan"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/radius14_bg_white"
+            android:layout_marginBottom="15dp"
+            android:layout_height="55dp">
+            <TextView
+                android:id="@+id/textView151"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/bold"
+                android:text="Weekly"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/bold"
+                android:text="$4.99"
+                android:textColor="@color/main_purple"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView151" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/radius14_bg_white"
+            android:layout_height="55dp">
+
+            <TextView
+                android:id="@+id/textView152"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/bold"
+                android:text="Annually"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/bold"
+                android:text="$44.99"
+                android:textColor="@color/main_purple"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView152" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/radius14_bg_white"
+            android:layout_marginBottom="15dp"
+            android:layout_height="55dp">
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/bold"
+                android:text="Lifetime"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/bold"
+                android:text="$114.99"
+                android:textColor="@color/main_purple"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:text="Unlock All Features"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/bold"
+            android:paddingVertical="24dp"
+            android:background="@drawable/radius_13_purple"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="30dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/main_purple"
+            android:text="Indistinguishable AI Voices"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="17sp"
+            android:fontFamily="@font/bold"
+            android:textColor="@color/main_purple"
+            android:layout_marginTop="5dp"
+            android:text="Experience the Future of Voice Cloning"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="@font/regular"
+            android:textColor="#888888"
+            android:layout_marginHorizontal="25dp"
+            android:textAlignment="center"
+            android:lineHeight="24dp"
+            android:layout_marginTop="10dp"
+            android:text="Elevate your audio with our AI voice cloning, transforming text into stunningly realistic speech. Perfect for engaging voiceovers, experience unparalleled clarity and versatility in every narrative."
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:text="Reviews"
+            android:lineHeight="47dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bold"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:lineHeight="47dp"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:text="Features"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bold"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="17dp"
+            android:text="AI Text To Speech"
+            android:textColor="#0F0F0F"
+            android:lineHeight="33dp"
+            android:fontFamily="@font/semi_bold"
+            android:textSize="17sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:text="Create natural-sounding speech easily with our advanced text-to-speech technology. Our AI brings emotions to life, making every voice unique and expressive."
+            android:textColor="#1A1A1B"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/regular"
+            android:lineHeight="28dp"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="22dp"
+            android:text="Voice Cloning"
+            android:lineHeight="33dp"
+            android:textColor="#0F0F0F"
+            android:fontFamily="@font/semi_bold"
+            android:textSize="17sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:text="Create personalized voice clones using Kotodama's advanced voice cloning technology. Our AI captures unique vocal characteristics, ensuring each clone is as expressive and authentic as the original voice."
+            android:textColor="#1A1A1B"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/regular"
+            android:lineHeight="28dp"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:lineHeight="47dp"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:text="FAQ"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bold"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/faqRv"
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
+

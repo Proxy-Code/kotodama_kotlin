@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/paywallFragment">
 
     <fragment
         android:id="@+id/coverFragment"
@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_homeFragment_to_nullFilesFragment"
             app:destination="@id/nullFilesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_voiceLabNameFragment"
+            app:destination="@id/voiceLabNameFragment" />
     </fragment>
     <fragment
         android:id="@+id/nullFilesFragment"
@@ -45,6 +48,57 @@
         tools:layout="@layout/fragment_null_files" >
         <action
             android:id="@+id/action_nullFilesFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/voiceLabNameFragment"
+        android:name="com.proksi.kotodama.fragments.VoiceLabNameFragment"
+        android:label="fragment_voice_lab_namee"
+        tools:layout="@layout/fragment_voice_lab_namee" >
+        <action
+            android:id="@+id/action_voiceLabNameFragment_to_voiceLabPhotoFragment"
+            app:destination="@id/voiceLabPhotoFragment" />
+        <action
+            android:id="@+id/action_voiceLabNameFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/voiceLabPhotoFragment"
+        android:name="com.proksi.kotodama.fragments.VoiceLabPhotoFragment"
+        android:label="VoiceLabPhotoFragment" >
+        <action
+            android:id="@+id/action_voiceLabPhotoFragment_to_voiceLabFormatFragment"
+            app:destination="@id/voiceLabFormatFragment" />
+        <action
+            android:id="@+id/action_voiceLabPhotoFragment_to_voiceLabNameFragment"
+            app:destination="@id/voiceLabNameFragment" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/voiceLabFormatFragment"
+        android:name="com.proksi.kotodama.fragments.VoiceLabFormatFragment"
+        android:label="VoiceLabFormatFragment" >
+        <action
+            android:id="@+id/action_voiceLabFormatFragment_to_voiceLabPhotoFragment"
+            app:destination="@id/voiceLabPhotoFragment" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="image"
+            app:argType="android.net.Uri" />
+    </fragment>
+    <fragment
+        android:id="@+id/paywallFragment"
+        android:name="com.proksi.kotodama.fragments.PaywallFragment"
+        android:label="fragment_paywall"
+        tools:layout="@layout/fragment_paywall" >
+        <action
+            android:id="@+id/action_paywallFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

@@ -1,6 +1,7 @@
 package com.proksi.kotodama
 
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -33,6 +34,17 @@ class MainActivity : BaseActivity() {
                 R.id.settings_bottom -> navController.navigate(R.id.settingsFragment)
             }
             true
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.voiceLabFormatFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.voiceLabNameFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.voiceLabPhotoFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.paywallFragment -> binding.bottomNavigationView.visibility = View.GONE
+                else -> binding.bottomNavigationView.visibility = View.VISIBLE
+            }
+
         }
 
     }

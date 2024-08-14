@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.proksi.kotodama.R
@@ -44,11 +45,12 @@ class VoicesAdapter(var mContext: Context,
                 notifyItemChanged(selectedPosition)
 
                 updateViewVisibility()
-                if(selectedPosition != -1){
-                  //  onCategoryClickListener?.onCategoryClick(adapterPosition,items[adapterPosition])
-                  //  listener.onVoiceCardSelected() // Notify the listener
-                } else{
-                   // onCategoryClickListener?.onCategoryClick(-1,VoiceModel("", 0, "", Timestamp.now(), "",listOf()))
+                if (selectedPosition != -1) {
+                    val selectedVoice = items[selectedPosition]
+                    if (selectedVoice.title == "Create Your Voice") {
+                        val navController = Navigation.findNavController(itemView)
+                        navController.navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
+                    }
                 }
 
             }
@@ -77,6 +79,7 @@ class VoicesAdapter(var mContext: Context,
 
         if (position == selectedPosition) {
             holder.design.cardImgView.setStrokeColorResource(R.color.main_purple)
+
 
         } else {
             holder.design.cardImgView.setStrokeColorResource(android.R.color.transparent)
