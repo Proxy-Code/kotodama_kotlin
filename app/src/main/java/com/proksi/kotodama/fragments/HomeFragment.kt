@@ -1,18 +1,33 @@
 package com.proksi.kotodama.fragments
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.proksi.kotodama.BaseFragment
 import com.proksi.kotodama.R
 import com.proksi.kotodama.adapters.CategoryAdapter
 import com.proksi.kotodama.adapters.VoicesAdapter
 import com.proksi.kotodama.databinding.FragmentHomeBinding
 import com.proksi.kotodama.models.Category
 import com.proksi.kotodama.models.Voice
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -24,11 +39,11 @@ class HomeFragment : Fragment() {
     ): View {
         design = FragmentHomeBinding.inflate(inflater, container, false)
 
-        //ADAPTER MANAGE
         design.recyclerViewCategories.layoutManager=
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         design.recyclerViewVoices.layoutManager=
             GridLayoutManager(requireContext(),3, GridLayoutManager.VERTICAL,false)
+
 
         val categoryList = getCategoryList()
         val adapterCategory = CategoryAdapter(this.requireContext(),categoryList)
@@ -37,6 +52,10 @@ class HomeFragment : Fragment() {
         val voicesList = getVoicesList()
         val adapterVoice = VoicesAdapter(this.requireContext(),voicesList,design.selectedImg)
         design.recyclerViewVoices.adapter=adapterVoice
+
+        design.imageCrown.setOnClickListener{
+            showPremiumDialogBox()
+        }
 
 
         return design.root
@@ -84,6 +103,51 @@ class HomeFragment : Fragment() {
             addAll(voicesData.map { (title, image) ->
                 Voice(title, image)
             })
+        }
+    }
+    private fun showPremiumDialogBox(){
+
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_premium)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        dialog.show()
+
+        val closeBtnPremium = dialog.findViewById<ImageView>(R.id.closeButton)
+        closeBtnPremium.setOnClickListener {
+            dialog.dismiss()
+            showFinalOffer()
+        }
+    }
+
+    private fun showFinalOffer(){
+
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_final_offer)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        val title = dialog.findViewById<TextView>(R.id.finalTitle)
+        val paint = title.paint
+        val width = paint.measureText(title.text.toString())
+        title.paint.shader= LinearGradient(
+            0f,0f,width,title.textSize, intArrayOf(
+                Color.parseColor("#7100E2"),
+                Color.parseColor("#8E05C2"),
+            ), null, Shader.TileMode.REPEAT
+        )
+
+
+        dialog.show()
+
+        val closeBtnPremium = dialog.findViewById<ImageView>(R.id.closeButton)
+        closeBtnPremium.setOnClickListener {
+            dialog.dismiss()
         }
     }
 

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import com.proksi.kotodama.BaseFragment
 import com.proksi.kotodama.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -17,14 +19,15 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NullFilesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class NullFilesFragment : Fragment() {
+class NullFilesFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_null_files, container, false)
+
     }
 
 }

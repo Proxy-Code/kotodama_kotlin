@@ -19,8 +19,9 @@ import com.proksi.kotodama.databinding.FragmentVoiceLabRecordBinding
 class VoiceLabFormatFragment : Fragment() {
 
     private lateinit var design: FragmentVoiceLabFormatBinding
-    private lateinit var photoUri: Uri
+    private lateinit var imageUri: Uri
     private lateinit var name:String
+    private lateinit var typeClone:String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,20 +36,32 @@ class VoiceLabFormatFragment : Fragment() {
 
         }
         val bundle: VoiceLabFormatFragmentArgs by navArgs()
-        photoUri = bundle.image
+        imageUri = bundle.image
         name = bundle.name
 
         design.cloneVoiceBtn.setOnClickListener {
             selectButton(design.cloneVoiceBtn)
             deselectButton(design.uploadVoiceBtn)
             design.continueBtn.text = "Start Cloning"
+            typeClone="clone"
+
         }
 
-        // İkinci butona tıklanma olayı
+
         design.uploadVoiceBtn.setOnClickListener {
             selectButton(design.uploadVoiceBtn)
             deselectButton(design.cloneVoiceBtn)
             design.continueBtn.text = "Upload Voice"
+            typeClone="upload"
+        }
+
+        design.continueBtn.setOnClickListener{
+            if(typeClone =="clone"){
+                val action = VoiceLabFormatFragmentDirections.actionVoiceLabFormatFragmentToVoiceLabRecordFragment(name,imageUri)
+                findNavController().navigate(action)
+            }else{
+                //
+            }
         }
 
         return design.root

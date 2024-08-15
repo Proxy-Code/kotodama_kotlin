@@ -42,7 +42,19 @@ class MainActivity : BaseActivity() {
                 R.id.voiceLabNameFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabPhotoFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.paywallFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.voiceLabRecordFragment -> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
+            }
+            when (destination.id) {
+                R.id.homeFragment -> binding.bottomNavigationView.menu.findItem(R.id.home_bottom).isChecked =
+                    true
+
+                R.id.nullFilesFragment -> binding.bottomNavigationView.menu.findItem(
+                    R.id.cover_bottom
+                ).isChecked = true
+
+                R.id.settingsFragment -> binding.bottomNavigationView.menu.findItem(R.id.settings_bottom).isChecked =
+                    true
             }
 
         }
