@@ -12,5 +12,9 @@
     <item
         android:title=""
         android:id="@+id/settings_bottom"
+<<<<<<< HEAD
         android:icon="@drawable/settings_frame"/>
+=======
+        android:icon="@drawable/settingsmenu"/>
+>>>>>>> 2333e3e (third init)
 </menu>

@@ -86,6 +86,15 @@ class VoiceLabRecordFragment : Fragment() {
         design.restartButton.setOnClickListener{
             restartPlaying()
         }
+<<<<<<< HEAD
+=======
+
+        design.continueBtn.setOnClickListener{
+            val action = VoiceLabRecordFragmentDirections
+                .actionVoiceLabRecordFragmentToVoiceLabCompletedFragment(name,imageUri)
+            findNavController().navigate(action)
+        }
+>>>>>>> 2333e3e (third init)
 
         return design.root
     }

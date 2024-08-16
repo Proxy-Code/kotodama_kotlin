@@ -12,26 +12,35 @@ import com.proksi.kotodama.R
 import com.proksi.kotodama.databinding.FragmentVoiceLabNameeBinding
 import com.proksi.kotodama.databinding.FragmentVoiceLabPhotoBinding
 import android.Manifest
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.drawable.ColorDrawable
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.view.Window
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.proksi.kotodama.adapters.ImagesAdapter
+import com.proksi.kotodama.models.Image
 
 class VoiceLabPhotoFragment : Fragment() {
 
     private lateinit var design: FragmentVoiceLabPhotoBinding
     private lateinit var photoUri: Uri
     private lateinit var name:String
+    private val TAG = VoiceLabPhotoFragment::class.java.simpleName
 
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -44,6 +53,7 @@ class VoiceLabPhotoFragment : Fragment() {
 
         val bundle: VoiceLabPhotoFragmentArgs by navArgs()
         name = bundle.name
+
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
         design.backButtonName.setOnClickListener(){
@@ -63,6 +73,11 @@ class VoiceLabPhotoFragment : Fragment() {
             }
         }
 
+        design.skipBtn.setOnClickListener{
+            Log.d(TAG, "onCreateView: skipteyim")
+            showDialog()
+        }
+
         return design.root
     }
 
@@ -71,7 +86,7 @@ class VoiceLabPhotoFragment : Fragment() {
             if (isGranted) {
                 openGallery()
             } else {
-                Log.e("VoiceLabPhotoFragment", "Permission denied")
+                Log.e(TAG, "Permission denied")
             }
         }
 
@@ -83,9 +98,40 @@ class VoiceLabPhotoFragment : Fragment() {
                 design.uploadPhoto.setImageBitmap(bitmap)
                 design.continueBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.radius15_bg_gradient)
                 design.continueBtn.isEnabled = true
-                design.uploadText.text = name
+                design.fotoImg.visibility=View.GONE
             }
         }
+
+
+    private fun showDialog(){
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_custom_images)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        Log.d(TAG, "showDialog: burdayikm")
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.imagesRv)
+        recyclerView.layoutManager=
+            GridLayoutManager(requireContext(),2, GridLayoutManager.VERTICAL,false)
+
+        val items = mutableListOf<Image>()
+        items.add(Image(1,R.drawable.boy))
+        items.add(Image(2,R.drawable.boy))
+        items.add(Image(3,R.drawable.boy))
+        items.add(Image(4,R.drawable.boy))
+        items.add(Image(5,R.drawable.boy))
+        items.add(Image(6,R.drawable.boy))
+        items.add(Image(7,R.drawable.boy))
+        items.add(Image(8,R.drawable.boy))
+
+        val adapter = ImagesAdapter(requireContext(), items)
+        recyclerView.adapter = adapter
+
+        dialog.show()
+
+    }
 
     private fun getCorrectlyOrientedBitmap(uri: Uri): Bitmap? {
         val inputStream = requireContext().contentResolver.openInputStream(uri)

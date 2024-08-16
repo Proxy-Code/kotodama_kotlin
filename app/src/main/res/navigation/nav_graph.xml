@@ -117,5 +117,24 @@
         <action
             android:id="@+id/action_voiceLabRecordFragment_to_voiceLabFormatFragment"
             app:destination="@id/voiceLabFormatFragment" />
+<<<<<<< HEAD
+=======
+        <action
+            android:id="@+id/action_voiceLabRecordFragment_to_voiceLabCompletedFragment"
+            app:destination="@id/voiceLabCompletedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/voiceLabCompletedFragment"
+        android:name="com.proksi.kotodama.fragments.VoiceLabCompletedFragment"
+        android:label="fragment_voice_lab_completed"
+        tools:layout="@layout/fragment_voice_lab_completed" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="image"
+            app:argType="android.net.Uri" />
+
+>>>>>>> 2333e3e (third init)
     </fragment>
 </navigation>

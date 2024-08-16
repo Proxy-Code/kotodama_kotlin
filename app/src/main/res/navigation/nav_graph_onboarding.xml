@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_onboarding"
+    app:startDestination="@id/boardingOneFragment">
+    <fragment
+        android:id="@+id/boardingThreeFragment"
+        android:name="com.proksi.kotodama.fragments.BoardingThreeFragment"
+        android:label="fragment_onboarding_three"
+        tools:layout="@layout/fragment_onboarding_three" >
+        <action
+            android:id="@+id/action_boardingThreeFragment_to_boardingFourFragment"
+            app:destination="@id/boardingFourFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/boardingOneFragment"
+        android:name="com.proksi.kotodama.fragments.BoardingOneFragment"
+        android:label="BoardingOneFragment" >
+        <action
+            android:id="@+id/action_boardingOneFragment_to_boardingTwoFragment"
+            app:destination="@id/boardingTwoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/boardingTwoFragment"
+        android:name="com.proksi.kotodama.fragments.BoardingTwoFragment"
+        android:label="BoardingTwoFragment" >
+        <action
+            android:id="@+id/action_boardingTwoFragment_to_boardingThreeFragment"
+            app:destination="@id/boardingThreeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/boardingFourFragment"
+        android:name="com.proksi.kotodama.fragments.BoardingFourFragment"
+        android:label="fragment_boarding_four"
+        tools:layout="@layout/fragment_boarding_four" />
+</navigation>

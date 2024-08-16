@@ -1,7 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Kotodama" parent="Theme.Material3.DayNight.NoActionBar">
+<<<<<<< HEAD
         <item name="android:statusBarColor">@android:color/transparent</item>
+=======
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+>>>>>>> 2333e3e (third init)
     </style>
 
     <style name="Theme.Kotodama" parent="Base.Theme.Kotodama" />
@@ -23,12 +27,18 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2333e3e (third init)
     <style name="CircleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2333e3e (third init)
 
     <style name="roundedImgView">
         <item name="cornerFamily">rounded</item>

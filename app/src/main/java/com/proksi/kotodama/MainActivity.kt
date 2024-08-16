@@ -2,6 +2,7 @@ package com.proksi.kotodama
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -15,6 +16,7 @@ class MainActivity : BaseActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Kotodama)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,6 +45,10 @@ class MainActivity : BaseActivity() {
                 R.id.voiceLabPhotoFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.paywallFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabRecordFragment -> binding.bottomNavigationView.visibility = View.GONE
+<<<<<<< HEAD
+=======
+                R.id.voiceLabCompletedFragment -> binding.bottomNavigationView.visibility = View.GONE
+>>>>>>> 2333e3e (third init)
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
             when (destination.id) {

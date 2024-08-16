@@ -82,11 +82,11 @@ class HomeFragment : Fragment() {
         }
     }
     private fun getVoicesList(): List<Voice> {
-        val manuelVoice:Voice = Voice("Create Your Voice",R.drawable.create_voice)
+        val manuelVoice = Voice("Create Your Voice",R.drawable.create_voice)
         val voicesData= listOf(
-            Pair("Artist",  R.drawable.fotow22),
             Pair("Artist",  R.drawable.boy),
-            Pair("Artist",  R.drawable.fotow22),
+            Pair("Artist",  R.drawable.boy),
+            Pair("Artist",  R.drawable.boy),
             Pair("Artist",  R.drawable.fotow22),
             Pair("Artist",  R.drawable.fotow22),
             Pair("Artist",  R.drawable.fotow22),
