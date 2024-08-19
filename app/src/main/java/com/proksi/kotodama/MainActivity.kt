@@ -6,7 +6,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.proksi.kotodama.databinding.ActivityMainBinding
+import com.kotodama.app.R
+import com.kotodama.app.databinding.ActivityMainBinding
 import com.proksi.kotodama.fragments.FilesFragment
 import com.proksi.kotodama.fragments.SettingsFragment
 
@@ -45,10 +46,10 @@ class MainActivity : BaseActivity() {
                 R.id.voiceLabPhotoFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.paywallFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabRecordFragment -> binding.bottomNavigationView.visibility = View.GONE
-<<<<<<< HEAD
-=======
+
+
                 R.id.voiceLabCompletedFragment -> binding.bottomNavigationView.visibility = View.GONE
->>>>>>> 2333e3e (third init)
+
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
             when (destination.id) {

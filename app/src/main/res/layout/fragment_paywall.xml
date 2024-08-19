@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
@@ -7,7 +8,7 @@
     android:layout_height="wrap_content"
     android:background="@color/main_bg"
     android:contentDescription="@string/app_name"
-    tools:context=".fragments.PaywallFragment">
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -350,10 +351,20 @@
             android:layout_marginTop="20dp"
             android:text="Reviews"
             android:lineHeight="47dp"
+            android:visibility="gone"
             android:textColor="@color/black"
             android:fontFamily="@font/bold"
             android:textSize="24sp"
             android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/viewPagerReview"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="16dp"/>
+
 
         <TextView
             android:lineHeight="47dp"

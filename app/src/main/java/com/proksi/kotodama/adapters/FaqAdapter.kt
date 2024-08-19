@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.proksi.kotodama.databinding.FaqsCardViewBinding
+import com.kotodama.app.databinding.FaqsCardViewBinding
 import com.proksi.kotodama.models.Faqs
 
 class FaqAdapter(var mContext: Context, val items:MutableList<Faqs>) :
     RecyclerView.Adapter<FaqAdapter.Viewholder>(){
     inner class Viewholder(design: FaqsCardViewBinding) : RecyclerView.ViewHolder(design.root){
-        var design:FaqsCardViewBinding
+        var design: FaqsCardViewBinding
         init {
             this.design=design
         }

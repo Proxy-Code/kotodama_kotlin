@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.proksi.kotodama.databinding.CardViewImagesBinding
+import com.kotodama.app.databinding.CardViewImagesBinding
 import com.proksi.kotodama.models.Image
 
 class ImagesAdapter( var mContext: Context, val items:MutableList<Image>) :

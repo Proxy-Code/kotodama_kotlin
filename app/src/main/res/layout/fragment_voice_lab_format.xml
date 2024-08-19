@@ -6,10 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg"
-<<<<<<< HEAD
-=======
     android:paddingTop="40dp"
->>>>>>> 2333e3e (third init)
     tools:context=".fragments.VoiceLabNameFragment">
 
     <!-- TODO: Update blank fragment layout -->

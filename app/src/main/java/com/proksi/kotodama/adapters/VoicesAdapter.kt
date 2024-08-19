@@ -8,8 +8,8 @@ import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.proksi.kotodama.R
-import com.proksi.kotodama.databinding.CardViewVoicesBinding
+import com.kotodama.app.R
+import com.kotodama.app.databinding.CardViewVoicesBinding
 import com.proksi.kotodama.models.Voice
 
 class VoicesAdapter(var mContext: Context,

@@ -15,19 +15,17 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.proksi.kotodama.BaseFragment
-import com.proksi.kotodama.R
+import com.kotodama.app.R
+import com.kotodama.app.databinding.FragmentHomeBinding
+
 import com.proksi.kotodama.adapters.CategoryAdapter
 import com.proksi.kotodama.adapters.VoicesAdapter
-import com.proksi.kotodama.databinding.FragmentHomeBinding
 import com.proksi.kotodama.models.Category
 import com.proksi.kotodama.models.Voice
-import kotlinx.coroutines.launch
+
 
 class HomeFragment : Fragment() {
 
@@ -82,7 +80,7 @@ class HomeFragment : Fragment() {
         }
     }
     private fun getVoicesList(): List<Voice> {
-        val manuelVoice = Voice("Create Your Voice",R.drawable.create_voice)
+        val manuelVoice = Voice("Create Your Voice",R.drawable.create_voice_home)
         val voicesData= listOf(
             Pair("Artist",  R.drawable.boy),
             Pair("Artist",  R.drawable.boy),

@@ -11,10 +11,10 @@ import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.proksi.kotodama.R
-import com.proksi.kotodama.databinding.FragmentVoiceLabFormatBinding
-import com.proksi.kotodama.databinding.FragmentVoiceLabPhotoBinding
-import com.proksi.kotodama.databinding.FragmentVoiceLabRecordBinding
+import com.kotodama.app.R
+import com.kotodama.app.databinding.FragmentVoiceLabFormatBinding
+
+
 
 class VoiceLabFormatFragment : Fragment() {
 

@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
+import com.kotodama.app.R
 import com.proksi.kotodama.MainActivity
-import com.proksi.kotodama.R
+
 
 class BoardingFourFragment : Fragment() {
 

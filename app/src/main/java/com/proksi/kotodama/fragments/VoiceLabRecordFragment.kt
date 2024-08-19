@@ -15,12 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import android.media.MediaRecorder
-import android.util.Log
-import android.widget.Button
 import android.widget.TextView
-import com.proksi.kotodama.R
+import com.kotodama.app.R
+import com.kotodama.app.databinding.FragmentVoiceLabRecordBinding
 import java.io.IOException
-import com.proksi.kotodama.databinding.FragmentVoiceLabRecordBinding
 
 class VoiceLabRecordFragment : Fragment() {
 
@@ -42,6 +40,9 @@ class VoiceLabRecordFragment : Fragment() {
 
         design = FragmentVoiceLabRecordBinding.inflate(inflater, container, false)
         continueBtn = design.continueBtn
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
+
 
         val bundle:  VoiceLabRecordFragmentArgs by navArgs()
         name= bundle.name
@@ -86,15 +87,13 @@ class VoiceLabRecordFragment : Fragment() {
         design.restartButton.setOnClickListener{
             restartPlaying()
         }
-<<<<<<< HEAD
-=======
 
         design.continueBtn.setOnClickListener{
             val action = VoiceLabRecordFragmentDirections
                 .actionVoiceLabRecordFragmentToVoiceLabCompletedFragment(name,imageUri)
             findNavController().navigate(action)
         }
->>>>>>> 2333e3e (third init)
+
 
         return design.root
     }

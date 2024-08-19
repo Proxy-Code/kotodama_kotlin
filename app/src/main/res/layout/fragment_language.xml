@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/paywallScroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/app_name"
+    android:background="@color/main_bg"
+    android:paddingHorizontal="25dp"
+    android:paddingTop="20dp"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/paywallLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/main">
+
+        <TextView
+            android:id="@+id/paywallTitle"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/bold"
+            android:gravity="center"
+            android:text="Choose your language"
+            android:textColor="@color/black"
+            android:textSize="28dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/languageRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+

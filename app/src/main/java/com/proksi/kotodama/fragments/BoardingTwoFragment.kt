@@ -12,7 +12,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.navigation.fragment.findNavController
-import com.proksi.kotodama.R
+import com.kotodama.app.R
+
 
 class BoardingTwoFragment : Fragment() {
 

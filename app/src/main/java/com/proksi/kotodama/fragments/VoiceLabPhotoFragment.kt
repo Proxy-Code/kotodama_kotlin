@@ -8,9 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
-import com.proksi.kotodama.R
-import com.proksi.kotodama.databinding.FragmentVoiceLabNameeBinding
-import com.proksi.kotodama.databinding.FragmentVoiceLabPhotoBinding
 import android.Manifest
 import android.app.Dialog
 import android.content.Intent
@@ -32,6 +29,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kotodama.app.R
+import com.kotodama.app.databinding.FragmentVoiceLabPhotoBinding
 import com.proksi.kotodama.adapters.ImagesAdapter
 import com.proksi.kotodama.models.Image
 
@@ -117,7 +116,7 @@ class VoiceLabPhotoFragment : Fragment() {
             GridLayoutManager(requireContext(),2, GridLayoutManager.VERTICAL,false)
 
         val items = mutableListOf<Image>()
-        items.add(Image(1,R.drawable.boy))
+        items.add(Image(1, R.drawable.boy))
         items.add(Image(2,R.drawable.boy))
         items.add(Image(3,R.drawable.boy))
         items.add(Image(4,R.drawable.boy))

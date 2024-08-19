@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.proksi.kotodama.R
+import androidx.activity.addCallback
+import com.kotodama.app.R
 
 class VoiceLabCompletedFragment : Fragment() {
 
@@ -14,6 +15,8 @@ class VoiceLabCompletedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
+
         return inflater.inflate(R.layout.fragment_voice_lab_completed, container, false)
     }
 

@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_languageFragment"
+            app:destination="@id/languageFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -117,8 +120,7 @@
         <action
             android:id="@+id/action_voiceLabRecordFragment_to_voiceLabFormatFragment"
             app:destination="@id/voiceLabFormatFragment" />
-<<<<<<< HEAD
-=======
+
         <action
             android:id="@+id/action_voiceLabRecordFragment_to_voiceLabCompletedFragment"
             app:destination="@id/voiceLabCompletedFragment" />
@@ -135,6 +137,10 @@
             android:name="image"
             app:argType="android.net.Uri" />
 
->>>>>>> 2333e3e (third init)
     </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.proksi.kotodama.fragments.LanguageFragment"
+        android:label="fragment_language"
+        tools:layout="@layout/fragment_language" />
 </navigation>

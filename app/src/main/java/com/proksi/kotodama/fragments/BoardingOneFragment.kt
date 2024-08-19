@@ -12,9 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.VideoView
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.proksi.kotodama.R
+import com.kotodama.app.R
+
 
 class BoardingOneFragment : Fragment() {
 

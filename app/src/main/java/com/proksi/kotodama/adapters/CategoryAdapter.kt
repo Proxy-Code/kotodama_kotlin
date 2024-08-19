@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.proksi.kotodama.R
-import com.proksi.kotodama.databinding.CardViewCategoriesBinding
+import com.kotodama.app.R
+import com.kotodama.app.databinding.CardViewCategoriesBinding
 import com.proksi.kotodama.models.Category
 
 class CategoryAdapter(var mContext: Context, val items: List<Category>) :
