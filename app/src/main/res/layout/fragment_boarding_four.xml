@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F4F9"
+    android:paddingBottom="20dp"
     tools:context=".fragments.BoardingThreeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -83,7 +84,7 @@
         android:layout_marginBottom="50dp"
         android:background="@drawable/radius15_gradient"
         android:fontFamily="@font/semi_bold"
-        android:paddingVertical="25dp"
+        android:paddingVertical="15dp"
         android:text="Continue"
         android:textAlignment="center"
         android:textColor="@color/white"

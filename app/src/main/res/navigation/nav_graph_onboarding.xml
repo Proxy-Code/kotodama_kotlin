@@ -11,7 +11,10 @@
         tools:layout="@layout/fragment_onboarding_three" >
         <action
             android:id="@+id/action_boardingThreeFragment_to_boardingFourFragment"
-            app:destination="@id/boardingFourFragment" />
+            app:destination="@id/boardingFourFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/boardingOneFragment"
@@ -19,7 +22,10 @@
         android:label="BoardingOneFragment" >
         <action
             android:id="@+id/action_boardingOneFragment_to_boardingTwoFragment"
-            app:destination="@id/boardingTwoFragment" />
+            app:destination="@id/boardingTwoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/boardingTwoFragment"
@@ -27,7 +33,10 @@
         android:label="BoardingTwoFragment" >
         <action
             android:id="@+id/action_boardingTwoFragment_to_boardingThreeFragment"
-            app:destination="@id/boardingThreeFragment" />
+            app:destination="@id/boardingThreeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/boardingFourFragment"

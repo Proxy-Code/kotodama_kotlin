@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:paddingBottom="20dp"
     android:paddingTop="50dp"
     android:layout_above="@+id/bottomNavigationView"
     android:layout_height="match_parent">
@@ -199,7 +200,7 @@
         android:text="Create"
         android:textSize="18sp"
         android:fontFamily="@font/bold"
-        android:paddingVertical="18dp"
+        android:paddingVertical="15dp"
         android:background="@drawable/create_btn_inactive"
         android:textColor="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

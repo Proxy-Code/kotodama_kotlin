@@ -22,6 +22,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.view.Window
+import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -127,6 +128,10 @@ class VoiceLabPhotoFragment : Fragment() {
 
         val adapter = ImagesAdapter(requireContext(), items)
         recyclerView.adapter = adapter
+
+        dialog.findViewById<ImageView>(R.id.backButtonName).setOnClickListener {
+            dialog.dismiss()
+        }
 
         dialog.show()
 

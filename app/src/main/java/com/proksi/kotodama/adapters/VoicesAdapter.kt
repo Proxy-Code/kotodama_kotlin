@@ -1,6 +1,7 @@
 package com.proksi.kotodama.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,10 @@ import com.bumptech.glide.Glide
 import com.kotodama.app.R
 import com.kotodama.app.databinding.CardViewVoicesBinding
 import com.proksi.kotodama.models.Voice
+import com.proksi.kotodama.models.VoiceModel
 
 class VoicesAdapter(var mContext: Context,
-                    val items: List<Voice>,
+                    var items: List<VoiceModel>,
                     val selectedImg: View) :
     RecyclerView.Adapter<VoicesAdapter.ViewHolder>(){
 
@@ -47,7 +49,7 @@ class VoicesAdapter(var mContext: Context,
                 updateViewVisibility()
                 if (selectedPosition != -1) {
                     val selectedVoice = items[selectedPosition]
-                    if (selectedVoice.title == "Create Your Voice") {
+                    if (selectedVoice.name == "Create Your Voice") {
                         val navController = Navigation.findNavController(itemView)
                         navController.navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
                     }
@@ -65,6 +67,7 @@ class VoicesAdapter(var mContext: Context,
     }
 
     override fun getItemCount(): Int {
+        Log.d("aaa", "getItemCount: $items.size")
         return items.size
     }
 
@@ -72,10 +75,12 @@ class VoicesAdapter(var mContext: Context,
         val voice = items[position]
 
         Glide.with(holder.itemView.context)
-            .load(voice.img)
+            .load(voice.imageUrl)
+            .placeholder(R.drawable.icon_kotodama) // Eğer resim yüklenemezse, bir placeholder göster
+            .error(R.drawable.icon_kotodama)
             .into(holder.design.cardImgView)
 
-        holder.design.textViewArtist.text=voice.title
+        holder.design.textViewArtist.text=voice.name
 
         if (position == selectedPosition) {
             holder.design.cardImgView.setStrokeColorResource(R.color.main_purple)
@@ -90,12 +95,16 @@ class VoicesAdapter(var mContext: Context,
             selectedImg.visibility=View.VISIBLE
             val selectedVoice = items[selectedPosition]
             Glide.with(selectedImg.context)
-                .load(selectedVoice.img)
+                .load(selectedVoice.imageUrl)
                 .into(selectedImg as ImageView)
 
         } else {
             selectedImg.visibility=View.GONE
         }
+    }
+    fun updateData(newVoicesList: List<VoiceModel>) {
+        this.items = newVoicesList
+        notifyDataSetChanged() // RecyclerView'ın verilerin güncellendiğini bilmesi için
     }
 }
 

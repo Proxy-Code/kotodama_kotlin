@@ -1,11 +1,13 @@
 package com.proksi.kotodama.fragments
 
+import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,23 +15,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kotodama.app.R
 import com.kotodama.app.databinding.FragmentHomeBinding
-
 import com.proksi.kotodama.adapters.CategoryAdapter
 import com.proksi.kotodama.adapters.VoicesAdapter
 import com.proksi.kotodama.models.Category
 import com.proksi.kotodama.models.Voice
+import com.proksi.kotodama.viewmodel.HomeViewModel
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var design: FragmentHomeBinding
+    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var adapterVoice: VoicesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,14 +53,22 @@ class HomeFragment : Fragment() {
         val adapterCategory = CategoryAdapter(this.requireContext(),categoryList)
         design.recyclerViewCategories.adapter=adapterCategory
 
-        val voicesList = getVoicesList()
-        val adapterVoice = VoicesAdapter(this.requireContext(),voicesList,design.selectedImg)
-        design.recyclerViewVoices.adapter=adapterVoice
+        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg)
+        design.recyclerViewVoices.adapter = adapterVoice
 
         design.imageCrown.setOnClickListener{
             showPremiumDialogBox()
         }
+        viewModel.data.observe(viewLifecycleOwner, Observer { voicesList ->
+            if (voicesList != null) {
+                Log.d("Observer", "Voices List: $voicesList") // Veriler gözlemleniyor mu kontrol et
+                adapterVoice.updateData(voicesList)
+            } else {
+                Log.d("Observer", "Voices List is null")
+            }
+        })
 
+        viewModel.fetchVoices()
 
         return design.root
     }
@@ -79,30 +93,9 @@ class HomeFragment : Fragment() {
             Category(id, text, image)
         }
     }
-    private fun getVoicesList(): List<Voice> {
-        val manuelVoice = Voice("Create Your Voice",R.drawable.create_voice_home)
-        val voicesData= listOf(
-            Pair("Artist",  R.drawable.boy),
-            Pair("Artist",  R.drawable.boy),
-            Pair("Artist",  R.drawable.boy),
-            Pair("Artist",  R.drawable.fotow22),
-            Pair("Artist",  R.drawable.fotow22),
-            Pair("Artist",  R.drawable.fotow22),
-            Pair("kanye west",  R.drawable.fotow22),
-            Pair("Artist",  R.drawable.fotow22),
-            Pair("Artist",  R.drawable.fotow22),
-            Pair("Artist",  R.drawable.fotow22),
-            Pair("Artist",  R.drawable.fotow22),
-            Pair("Artist",  R.drawable.fotow22),
-            Pair("Artist",  R.drawable.fotow22),
-
-        )
-        return mutableListOf(manuelVoice).apply {
-            addAll(voicesData.map { (title, image) ->
-                Voice(title, image)
-            })
-        }
-    }
+//    private fun getVoicesList(): List<Voice> {
+//
+//    }
     private fun showPremiumDialogBox(){
 
         val dialog = Dialog(requireContext())
@@ -147,6 +140,17 @@ class HomeFragment : Fragment() {
         closeBtnPremium.setOnClickListener {
             dialog.dismiss()
         }
+    }
+
+    fun hideKeyboard(){
+
+        val imm=requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        var currentFocus=requireActivity().currentFocus
+        if(currentFocus == null){
+            currentFocus = View(requireContext())
+        }
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+
     }
 
 }

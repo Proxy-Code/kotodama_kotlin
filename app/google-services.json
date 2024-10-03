@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "328007600023",
+    "project_id": "kotodama-ai",
+    "storage_bucket": "kotodama-ai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328007600023:android:1462fa3a9af66da091e6d2",
+        "android_client_info": {
+          "package_name": "com.kotodama.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFhQBnx0dtwGX2OXY4DiAWML4kHaFJvYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

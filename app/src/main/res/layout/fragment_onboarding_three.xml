@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F4F9"
-    tools:context=".fragments.BoardingThreeFragment">
+    android:paddingBottom="20dp"
+
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <ImageView
@@ -30,8 +32,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.5">
 
-        <VideoView
+        <androidx.media3.ui.PlayerView
             android:id="@+id/videoView"
+            app:use_controller="false"
+
             android:background="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +83,7 @@
         android:layout_marginBottom="50dp"
         android:background="@drawable/radius15_gradient"
         android:fontFamily="@font/semi_bold"
-        android:paddingVertical="25dp"
+        android:paddingVertical="15dp"
         android:text="Continue"
         android:textAlignment="center"
         android:textColor="@color/white"
