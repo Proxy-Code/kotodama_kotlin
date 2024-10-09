@@ -63,7 +63,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
@@ -82,4 +81,14 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-config-ktx")
     implementation("com.google.firebase:firebase-functions")
+
+    //reveneu cat
+    implementation ("com.revenuecat.purchases:purchases:7.0.0")
+
+    // Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.5.0")
+
+    implementation ("com.google.mlkit:language-id:17.0.3")
 }

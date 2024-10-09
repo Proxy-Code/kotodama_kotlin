@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@color/main_bg"
     android:contentDescription="@string/app_name"
-    tools:context=".fragments.PaywallFragment">
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -206,6 +206,7 @@
             android:text="Choose your plan"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lifetimeLayout"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/radius14_bg_white"
@@ -225,6 +226,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/lifetimePrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -238,6 +240,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/normalLayout"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="15dp"
@@ -258,6 +261,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/normalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -274,6 +278,7 @@
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/radius14_bg_white"
             android:layout_marginBottom="15dp"
+            android:id="@+id/mostLayout"
             android:layout_height="55dp">
 
             <TextView
@@ -290,6 +295,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/mostPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

@@ -1,4 +1,4 @@
-package com.proksi.kotodama.fragments
+package com.proksi.kotodama.dataStore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

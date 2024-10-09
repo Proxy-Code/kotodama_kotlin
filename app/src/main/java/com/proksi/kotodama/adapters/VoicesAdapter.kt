@@ -9,6 +9,8 @@ import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.firebase.Timestamp
 import com.kotodama.app.R
 import com.kotodama.app.databinding.CardViewVoicesBinding
 import com.proksi.kotodama.models.Voice
@@ -16,13 +18,14 @@ import com.proksi.kotodama.models.VoiceModel
 
 class VoicesAdapter(var mContext: Context,
                     var items: List<VoiceModel>,
-                    val selectedImg: View) :
+                    val selectedImg: View,
+                    val voiceSelectedListener: OnVoiceSelectedListener ) :
     RecyclerView.Adapter<VoicesAdapter.ViewHolder>(){
 
     var selectedPosition=-1
 
-    interface OnVoiceCardInteractionListener {
-        fun onVoiceCardSelected()
+    interface OnVoiceSelectedListener {
+        fun onVoiceSelected(voice: VoiceModel)
     }
     interface OnCategoryClickListener {
       //  fun onCategoryClick(position: Int, item: VoiceModel)
@@ -53,6 +56,21 @@ class VoicesAdapter(var mContext: Context,
                         val navController = Navigation.findNavController(itemView)
                         navController.navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
                     }
+                    voiceSelectedListener.onVoiceSelected(selectedVoice)
+                } else {
+                    voiceSelectedListener.onVoiceSelected(
+                        VoiceModel(
+                            name = "",
+                            id = "",
+                            imageUrl = "",
+                            createdAt = Timestamp.now(),
+                            model_name = "Sample Model",
+                            category = emptyList(),
+                            allTimeCounter = 0,
+                            weeklyCounter = 0,
+                            charUsedCount = 0
+                        )
+                    )
                 }
 
             }
@@ -67,36 +85,50 @@ class VoicesAdapter(var mContext: Context,
     }
 
     override fun getItemCount(): Int {
-        Log.d("aaa", "getItemCount: $items.size")
         return items.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val voice = items[position]
 
-        Glide.with(holder.itemView.context)
-            .load(voice.imageUrl)
-            .placeholder(R.drawable.icon_kotodama) // Eğer resim yüklenemezse, bir placeholder göster
-            .error(R.drawable.icon_kotodama)
-            .into(holder.design.cardImgView)
-
-        holder.design.textViewArtist.text=voice.name
-
-        if (position == selectedPosition) {
-            holder.design.cardImgView.setStrokeColorResource(R.color.main_purple)
-
-
+        if (voice.id=="create_voice"){
+                Log.d("create voice da", "onBindViewHolder: ")
+                //val imgResId = if (isSubscribed) R.drawable.sing_ai_subscribed else R.drawable.sing_ai
+                val imgResId = R.drawable.plus_clone_unsubs
+                Glide.with(holder.itemView.context)
+                    .load(imgResId)
+                    .into(holder.design.cardImgView)
+                holder.design.textViewArtist.text=voice.name
         } else {
-            holder.design.cardImgView.setStrokeColorResource(android.R.color.transparent)
+
+            Glide.with(holder.itemView.context)
+                .load(voice.imageUrl)
+                .placeholder(R.drawable.icon_kotodama) // Eğer resim yüklenemezse, bir placeholder göster
+                .error(R.drawable.icon_kotodama)
+                .into(holder.design.cardImgView)
+
+            holder.design.textViewArtist.text=voice.name
+
+            if (position == selectedPosition) {
+                holder.design.cardImgView.setStrokeColorResource(R.color.main_purple)
+
+
+            } else {
+                holder.design.cardImgView.setStrokeColorResource(android.R.color.transparent)
+            }
         }
+
     }
     private fun updateViewVisibility() {
         if (selectedPosition != -1) {
             selectedImg.visibility=View.VISIBLE
+
             val selectedVoice = items[selectedPosition]
             Glide.with(selectedImg.context)
                 .load(selectedVoice.imageUrl)
+                .transform(RoundedCorners(12))
                 .into(selectedImg as ImageView)
+
 
         } else {
             selectedImg.visibility=View.GONE

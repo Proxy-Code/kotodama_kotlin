@@ -1,128 +1,476 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:background="@color/main"
+    android:paddingBottom="20dp"
     android:paddingTop="40dp"
-    tools:context=".fragments.VoiceLabNameFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingHorizontal="20dp"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/main_bg"
-        android:fontFamily="@font/regular"
-        android:text="Voice Lab"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:src="@drawable/backbtn"
+            android:layout_marginTop="15dp"
+            android:elevation="5dp"
+            android:layout_height="wrap_content"
+            app:tint="#424242" />
 
-    <ImageView
-        android:id="@+id/backButtonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="34dp"
-        android:src="@drawable/left_arrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:fontFamily="@font/bold"
-        android:text="Add a Face to Your Voice?"
-        android:textAlignment="center"
-        android:textColor="@color/main_purple"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-
-
-        <FrameLayout
-            android:id="@+id/frameLayoutContainer"
+        <TextView
+            android:id="@+id/title"
+            android:text="Upload Or Record"
+            android:textSize="30sp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/bold"
+            android:textColor="@color/black"
+            android:layout_below="@+id/back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/textView4">
+            />
 
+        <TextView
+            android:id="@+id/good_exp"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="20dp"
+            android:text="Good Examples"
+            android:textSize="18sp"
+            android:fontFamily="@font/semi_bold"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/first_linear"
+            android:layout_below="@+id/good_exp"
+            android:layout_width="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/circle_green"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="20dp">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/uploadPhoto"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_gravity="center"
-                android:src="@drawable/add_face"
-                app:shapeAppearanceOverlay="@style/CircleImageView" />
+                android:id="@+id/playButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/icon_thick" />
+        </LinearLayout >
+
+        <TextView
+            android:id="@+id/clear_sound"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/good_exp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="30dp"
+            android:text="Clear Sound"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:fontFamily="@font/semi_bold"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_below="@+id/first_linear"
+            android:id="@+id/second_thick"
+            android:layout_width="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/circle_green"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="20dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/Button2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                app:srcCompat="@drawable/icon_thick" />
+        </LinearLayout >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/clear_sound"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="30dp"
+            android:text="One Person"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:fontFamily="@font/semi_bold"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/good_music_box_1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/second_thick"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/radius11_bg_white">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_gravity="center"
-                android:layout_height="30dp"
-                android:id="@+id/fotoImg"
-                android:src="@drawable/icon_photomac"
-                app:tint="@color/main_purple" />
+                android:id="@+id/imageView16"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/voice"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="11dp"
+                android:fontFamily="@font/semi_bold"
+                android:text="Good Example 1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView16"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/regular"
+                android:text="00:30"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView16"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seekbar1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:progressDrawable="@drawable/seekbar_progress_clone"
+                android:thumb="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+            <ImageView
+                android:id="@+id/play_btn_1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/play_purple"
+                app:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
 
 
-        </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/good_music_box_2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/good_music_box_1"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/radius11_bg_white">
+
+            <ImageView
+                android:id="@+id/imageView161"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/voice"
+                app:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="11dp"
+                android:fontFamily="@font/semi_bold"
+                android:text="Good Example 2"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView161"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/continueBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="45dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/radius15_bg_c8c8"
-        android:enabled="false"
-        android:fontFamily="@font/semi_bold"
-        android:paddingVertical="15dp"
-        android:text="Continue"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/textView261"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/regular"
+                android:text="00:30"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView161"
+                app:layout_constraintTop_toBottomOf="@+id/textView31" />
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seekbar2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:progressDrawable="@drawable/seekbar_progress_clone"
+                android:thumb="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView261" />
 
-    <TextView
-        android:id="@+id/skipBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="45dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/radius15_bg_c8c8"
-        android:fontFamily="@font/semi_bold"
-        android:paddingVertical="15dp"
-        android:text="Skip"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/play_purple"
+                app:tint="@color/black"
+                android:id="@+id/play_btn_2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/bad_exp"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/good_music_box_2"
+            android:layout_marginTop="20dp"
+            android:text="Bad Examples"
+            android:textSize="18sp"
+            android:fontFamily="@font/semi_bold"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/first_linear_bad"
+            android:layout_below="@+id/bad_exp"
+            android:layout_width="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/circle_red"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="20dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/playButtonn"
+                android:layout_width="15dp"
+                android:layout_height="10dp"
+                app:srcCompat="@drawable/icon_close" />
+        </LinearLayout >
+
+        <TextView
+            android:id="@+id/noisy"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/bad_exp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="30dp"
+            android:text="Noisy"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:fontFamily="@font/semi_bold"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/second_linear_bad"
+            android:layout_below="@+id/first_linear_bad"
+            android:layout_width="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/circle_red"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="20dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/playButton1"
+                android:layout_width="15dp"
+                android:layout_height="10dp"
+                app:srcCompat="@drawable/icon_close" />
+        </LinearLayout >
+
+        <TextView
+            android:id="@+id/more_people"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/noisy"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="30dp"
+            android:text="Two Or More People"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:fontFamily="@font/semi_bold"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bad_music_box_1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/second_linear_bad"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/radius11_bg_white">
+
+            <ImageView
+                android:id="@+id/voice"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/voice"
+                app:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:id="@+id/bad_exp_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="11dp"
+                android:fontFamily="@font/semi_bold"
+                android:text="Bad Example 1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/voice"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/regular"
+                android:text="00:30"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/voice"
+                app:layout_constraintTop_toBottomOf="@+id/bad_exp_1" />
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seekbar3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:progressDrawable="@drawable/seekbar_progress_clone"
+                android:thumb="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/second" />
+
+            <ImageView
+                android:id="@+id/play_btn_3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/play_purple"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                app:tint="@color/black" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bad_music_box_2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/bad_music_box_1"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/radius11_bg_white">
+
+            <ImageView
+                android:id="@+id/voice2"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/voice"
+                app:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:id="@+id/bad_exp_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="11dp"
+                android:fontFamily="@font/semi_bold"
+                android:text="Bad Example 2"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/voice2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/second2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/regular"
+                android:text="00:30"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/voice2"
+                app:layout_constraintTop_toBottomOf="@+id/bad_exp_2" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seekbar4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:progressDrawable="@drawable/seekbar_progress_clone"
+                android:thumb="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/second2" />
+
+            <ImageView
+                android:id="@+id/play_btn_4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/play_purple"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                app:tint="@color/black" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/continueButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@+id/bad_music_box_2"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="52dp"
+            android:background="@drawable/create_btn_active"
+            android:fontFamily="@font/bold"
+            android:gravity="center"
+            android:text="Continue"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

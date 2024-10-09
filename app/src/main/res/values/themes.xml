@@ -33,10 +33,18 @@
         <item name="cornerSize">50%</item>
     </style>
 
-
+    <style name="CustomProgressBar" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="indicatorColor">@color/main_purple</item>
+        <item name="trackColor">@android:color/transparent</item>
+    </style>
 
     <style name="roundedImgView">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">17dp</item>
+    </style>
+
+    <style name="roundedImgViewLibrary">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
     </style>
 </resources>

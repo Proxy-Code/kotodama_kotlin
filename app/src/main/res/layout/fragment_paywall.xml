@@ -207,6 +207,7 @@
             android:text="Choose your plan"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lifetimeLayout"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/radius14_bg_white"
@@ -218,14 +219,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/bold"
+                android:fontFamily="@font/regular"
                 android:text="Weekly"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/lifetime_camp_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -240,6 +242,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/normalLayout"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/radius14_bg_white"
@@ -251,14 +254,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/bold"
+                android:fontFamily="@font/regular"
                 android:text="Annually"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/normal_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -272,6 +276,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/mostLayout"
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/radius14_bg_white"
             android:layout_marginBottom="15dp"
@@ -283,14 +288,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/bold"
+                android:fontFamily="@font/regular"
                 android:text="Lifetime"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/mostPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -304,15 +310,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/getPremiumButton"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="20dp"
             android:text="Unlock All Features"
             android:textColor="@color/white"
             android:textSize="17sp"
+            android:enabled="false"
             android:layout_marginTop="10dp"
             android:textAlignment="center"
             android:fontFamily="@font/bold"
-            android:paddingVertical="24dp"
+            android:paddingVertical="14dp"
             android:background="@drawable/radius_13_purple"
             android:layout_height="wrap_content"/>
 

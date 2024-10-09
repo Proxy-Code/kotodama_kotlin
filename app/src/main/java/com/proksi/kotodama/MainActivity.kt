@@ -6,9 +6,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.proksi.kotodama.fragments.LibraryFragment
 import com.kotodama.app.R
 import com.kotodama.app.databinding.ActivityMainBinding
-import com.proksi.kotodama.fragments.FilesFragment
 import com.proksi.kotodama.fragments.SettingsFragment
 
 class MainActivity : BaseActivity() {
@@ -32,7 +32,7 @@ class MainActivity : BaseActivity() {
             when (menuItem.itemId) {
                 R.id.home_bottom -> navController.navigate(R.id.homeFragment)
                 R.id.cover_bottom -> {
-                    navController.navigate(R.id.nullFilesFragment)
+                    navController.navigate(R.id.libraryFragment)
                 }
                 R.id.settings_bottom -> navController.navigate(R.id.settingsFragment)
             }
@@ -45,10 +45,9 @@ class MainActivity : BaseActivity() {
                 R.id.voiceLabNameFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabPhotoFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.paywallFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.voiceLabRecordFragment -> binding.bottomNavigationView.visibility = View.GONE
-
-
-                R.id.voiceLabCompletedFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.recordVoiceFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.customizeFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.voiceLabLoadingFragment -> binding.bottomNavigationView.visibility = View.GONE
 
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
@@ -56,7 +55,7 @@ class MainActivity : BaseActivity() {
                 R.id.homeFragment -> binding.bottomNavigationView.menu.findItem(R.id.home_bottom).isChecked =
                     true
 
-                R.id.nullFilesFragment -> binding.bottomNavigationView.menu.findItem(
+                R.id.libraryFragment -> binding.bottomNavigationView.menu.findItem(
                     R.id.cover_bottom
                 ).isChecked = true
 
@@ -73,7 +72,7 @@ class MainActivity : BaseActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val currentFragment = navHostFragment.childFragmentManager.primaryNavigationFragment
 
-        if (currentFragment is FilesFragment) {
+        if (currentFragment is LibraryFragment) {
             navController.navigate(R.id.homeFragment)
         } else if (currentFragment is SettingsFragment) {
             navController.navigate(R.id.homeFragment)
@@ -81,4 +80,6 @@ class MainActivity : BaseActivity() {
             super.onBackPressed()
         }
     }
+
+
 }

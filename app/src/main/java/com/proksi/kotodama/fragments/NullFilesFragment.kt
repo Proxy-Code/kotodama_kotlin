@@ -1,33 +1,47 @@
 package com.proksi.kotodama.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.kotodama.app.R
+import com.kotodama.app.databinding.FragmentHomeBinding
+import com.kotodama.app.databinding.FragmentNullFilesBinding
 import com.proksi.kotodama.BaseFragment
+import com.proksi.kotodama.viewmodel.UserLibraryViewModel
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [NullFilesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class NullFilesFragment : BaseFragment() {
+
+    private lateinit var design: FragmentNullFilesBinding
+    private val viewModel: UserLibraryViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        return inflater.inflate(R.layout.fragment_null_files, container, false)
+        design = FragmentNullFilesBinding.inflate(inflater, container, false)
+
+        viewModel.libraryItems.observe(viewLifecycleOwner, Observer { libraryItems ->
+            Log.d("fetch items", "onCreateView: ")
+            if (libraryItems.isEmpty()) {
+
+            } else {
+
+
+            }
+        })
+
+        viewModel.fetchUserLibrary(this.requireContext())
+
+        return design.root
 
     }
 

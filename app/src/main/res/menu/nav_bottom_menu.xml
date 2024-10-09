@@ -12,6 +12,6 @@
     <item
         android:title=""
         android:id="@+id/settings_bottom"
-        android:icon="@drawable/settings_frame"/>
+        android:icon="@drawable/settings_bottom"/>
 
 </menu>
