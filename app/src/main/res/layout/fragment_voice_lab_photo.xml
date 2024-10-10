@@ -108,7 +108,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/good_music_box_1"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_below="@+id/second_thick"
             android:layout_marginTop="20dp"
             android:background="@drawable/radius11_bg_white">
@@ -179,9 +179,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/good_music_box_2"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_below="@+id/good_music_box_1"
             android:layout_marginTop="13dp"
+
             android:background="@drawable/radius11_bg_white">
 
             <ImageView
@@ -318,7 +319,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bad_music_box_1"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_below="@+id/second_linear_bad"
             android:layout_marginTop="20dp"
             android:background="@drawable/radius11_bg_white">
@@ -389,7 +390,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bad_music_box_2"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_below="@+id/bad_music_box_1"
             android:layout_marginTop="20dp"
             android:background="@drawable/radius11_bg_white">

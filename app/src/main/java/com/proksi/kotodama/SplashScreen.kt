@@ -57,7 +57,8 @@ class SplashScreen : AppCompatActivity() {
         } ?: signInAnonymously { user ->
             user?.let { proceedWithUser(it) }
         }
-        setupRemoteConfig()
+        //setupRemoteConfig()
+        startMainActivity()
     }
 
     private fun signInAnonymously(callback: (FirebaseUser?) -> Unit) {
@@ -134,7 +135,8 @@ class SplashScreen : AppCompatActivity() {
         val isActive = customerInfo.entitlements["subscription"]?.isActive ?: false
         Log.d("isSubscribed SPLASH", "$isActive")
         lifecycleScope.launch {
-            // Save subscription status if necessary
+            dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
+           // dataStoreManager.saveSubscriptionStatus(this@SplashScreen, true)
         }
         fetchAndDisplayOfferings()
     }

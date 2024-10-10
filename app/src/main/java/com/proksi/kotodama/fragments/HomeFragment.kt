@@ -48,8 +48,7 @@ class HomeFragment : Fragment() {
     private var imageUrl: String? = ""
     private var name: String? = ""
     private val choices = listOf("en", "es", "fr", "de", "it", "pt", "pl", "tr", "ru", "nl", "cs", "ar", "zh", "hu", "ko", "hi")
-
-    private val isSubscribed:Boolean = true
+    private var isSubscribed:Boolean = false
     private val TAG = HomeFragment::class.java.simpleName
 
     override fun onCreateView(
@@ -57,6 +56,19 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         design = FragmentHomeBinding.inflate(inflater, container, false)
+        dataStoreManager = DataStoreManager
+
+        //check for subscription
+        lifecycleScope.launch {
+            dataStoreManager.getSubscriptionStatusKey(this@HomeFragment.requireContext()).collect { isActive ->
+                isSubscribed = isActive
+                if (isActive) {
+                    design.imageCrown.visibility=View.GONE
+                    design.counterLayout.visibility=View.GONE
+                }
+                setupVoicesAdapter()
+            }
+        }
 
         //Adapters
         design.recyclerViewCategories.layoutManager=
@@ -74,34 +86,35 @@ class HomeFragment : Fragment() {
             }
         })
 
-        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg,object : VoicesAdapter.OnVoiceSelectedListener{
-            override fun onVoiceSelected(voice: VoiceModel) {
-                if(voice.id == "create_voice" && isSubscribed){
-                    findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
-                } else if(voice.id == "create_voice" && !isSubscribed){
-                    dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
-                } else{
-                    selectedVoiceId = voice.id
-                    imageUrl = voice.imageUrl
-                    name = voice.name
-                    updateCreateButtonState()
-                }
+//        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg,isSubscribed,object : VoicesAdapter.OnVoiceSelectedListener{
+//            override fun onVoiceSelected(voice: VoiceModel) {
+//                if(voice.id == "create_voice" && isSubscribed){
+//                    findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
+//                } else if(voice.id == "create_voice" && !isSubscribed){
+//                    dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
+//                } else{
+//                    selectedVoiceId = voice.id
+//                    imageUrl = voice.imageUrl
+//                    name = voice.name
+//                    updateCreateButtonState()
+//                }
+//            }
+//        })
 
-            }
-        })
+//        design.recyclerViewVoices.adapter = adapterVoice
 
-        design.recyclerViewVoices.adapter = adapterVoice
-
-        viewModel.data.observe(viewLifecycleOwner, Observer { voicesList ->
-            if (voicesList != null) {
-                Log.d("Observer", "Voices List: $voicesList")
-                adapterVoice.updateData(voicesList)
-            } else {
-                Log.d("Observer", "Voices List is null")
-            }
-        })
+//        viewModel.data.observe(viewLifecycleOwner, Observer { voicesList ->
+//            if (voicesList != null) {
+//                Log.d("Observer", "Voices List: $voicesList")
+//                adapterVoice.updateData(voicesList)
+//            } else {
+//                Log.d("Observer", "Voices List is null")
+//            }
+//        })
 
         viewModel.fetchVoices("all",requireContext())
+
+
 
         //show dialog
         design.imageCrown.setOnClickListener {
@@ -121,7 +134,6 @@ class HomeFragment : Fragment() {
                 updateCreateButtonState() // Butonun aktif olup olmadığını kontrol et
             }
         })
-
 
         design.buttonCreate.setOnClickListener {
             Log.d(TAG, "onCreateView: called button create")
@@ -145,7 +157,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
 
         return design.root
     }
@@ -235,12 +246,10 @@ class HomeFragment : Fragment() {
                     Log.d(TAG, "Process Response Result: ${processResponse?.data?.result}")
                     Log.d(TAG, "Success: ${processResponse?.success}")
                     Log.d(TAG, "Message: ${processResponse?.data?.message}")
-                    findNavController().navigate(R.id.libraryFragment)
+                    findNavController().navigate(R.id.action_homeFragment_to_libraryFragment)
                 } else {
                     val errorMessage = response.errorBody()?.string()
                     Log.d(TAG, "Error: $errorMessage")
-
-                   // Toast.makeText(context, errorMessage ?: "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -250,9 +259,36 @@ class HomeFragment : Fragment() {
         })
     }
 
+    private fun setupVoicesAdapter() {
+        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, object : VoicesAdapter.OnVoiceSelectedListener {
+            override fun onVoiceSelected(voice: VoiceModel) {
+                if (voice.id == "create_voice" && isSubscribed) {
+                    findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
+                } else if (voice.id == "create_voice" && !isSubscribed) {
+                    dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
+                } else {
+                    selectedVoiceId = voice.id
+                    imageUrl = voice.imageUrl
+                    name = voice.name
+                    updateCreateButtonState()
+                }
+            }
+        })
 
+        design.recyclerViewVoices.adapter = adapterVoice
 
+        // Observer for voices list
+        viewModel.data.observe(viewLifecycleOwner, Observer { voicesList ->
+            if (voicesList != null) {
+                Log.d("Observer", "Voices List: $voicesList")
+                adapterVoice.updateData(voicesList)
+            } else {
+                Log.d("Observer", "Voices List is null")
+            }
+        })
 
+        viewModel.fetchVoices("all", requireContext())
+    }
 
 
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Shadow layer (dış çember) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#381175" /> <!-- Gölge rengi -->
+            <size
+                android:width="84dp"
+                android:height="84dp" /> <!-- İç çemberden büyük olacak şekilde boyutlandır -->
+        </shape>
+    </item>
+
+    <!-- Inner circle (iç çember) -->
+    <item android:top="10dp" android:bottom="10dp" android:left="10dp" android:right="10dp">
+        <shape android:shape="oval">
+            <solid android:color="#4D1C99" />
+        </shape>
+    </item>
+
+</layer-list>

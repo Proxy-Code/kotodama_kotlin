@@ -90,5 +90,9 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.5.0")
 
+    //language
     implementation ("com.google.mlkit:language-id:17.0.3")
+
+    //facebook
+    implementation ("com.facebook.android:facebook-android-sdk:17.0.1")
 }

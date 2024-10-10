@@ -3,6 +3,7 @@ package com.proksi.kotodama.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +11,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kotodama.app.R
 import com.kotodama.app.databinding.FragmentSettingsBinding
+import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.utils.DialogUtils
+import kotlinx.coroutines.launch
 
 
 class SettingsFragment : Fragment() {
 
     private lateinit var design: FragmentSettingsBinding
+    private val dialogUtils = DialogUtils()
+    private lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,9 +32,23 @@ class SettingsFragment : Fragment() {
     ): View {
 
         design = FragmentSettingsBinding.inflate(inflater, container, false)
+        dataStoreManager = DataStoreManager
+
+        lifecycleScope.launch {
+            dataStoreManager.getSubscriptionStatusKey(this@SettingsFragment.requireContext()).collect { isActive ->
+                if (isActive) {
+                    design.linearLayout2.visibility = View.GONE
+                    design.textView9.visibility = View.GONE
+                }
+            }
+        }
 
         design.settingsBackBtn.setOnClickListener(){
             findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
+        }
+
+        design.textViewUpgrade.setOnClickListener{
+            dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
         }
 
         design.privacyLayout.setOnClickListener{

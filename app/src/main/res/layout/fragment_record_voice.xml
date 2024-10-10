@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/bottomNavigationView"
+    android:background="@color/main"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="55dp"
+    android:paddingBottom="20dp">
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/backbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#424242" />
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bold"
+        android:gravity="center"
+        android:text="Record Your Voice!"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/back_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="3dp" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/readText"
+        android:layout_width="match_parent"
+        android:layout_height="528dp"
+        android:layout_marginTop="24dp"
+        android:layout_weight="1"
+        android:background="@drawable/radius11_bg_white"
+        android:padding="20dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/recordingDuration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subTitle"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/script1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/light"
+                android:lineHeight="24sp"
+                android:text="Lorem ipsum dolor sit amet consectetur. Viverra velit adipiscing lobortis cras tristique orci in gravida. Fames pretium vitae arcu dignissim sed tincidunt neque. Ultrices aliquet nunc faucibus donec arcu aliquet tellus sed. Aenean sed in id feugiat. Consequat pellentesque nibh laoreet nunc Viverra velit adipiscing lobortis cras tristique orci in gravida."
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/script2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/light"
+                android:lineHeight="24sp"
+                android:text="Lorem ipsum dolor sit amet consectetur. Viverra velit adipiscing lobortis cras tristique orci in gravida. Fames pretium vitae arcu dignissim sed tincidunt neque. Ultrices aliquet nunc faucibus donec arcu aliquet tellus sed. Aenean sed in id feugiat. Consequat pellentesque nibh laoreet nunc Viverra velit adipiscing lobortis cras tristique orci in gravida."
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/script3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/light"
+                android:lineHeight="24sp"
+                android:text="Lorem ipsum dolor sit amet consectetur. Viverra velit adipiscing lobortis cras tristique orci in gravida. Fames pretium vitae arcu dignissim sed tincidunt neque. Ultrices aliquet nunc faucibus donec arcu aliquet tellus sed. Aenean sed in id feugiat. Consequat pellentesque nibh laoreet nunc Viverra velit adipiscing lobortis cras tristique orci in gravida."
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/cancelRecord"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="102dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/circle_red"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/pressText"
+        app:layout_constraintEnd_toStartOf="@+id/microBtn"
+        app:layout_constraintTop_toBottomOf="@+id/readText">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/playButtonn"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:background="@drawable/circle_red"
+            app:srcCompat="@drawable/icon_close"
+            tools:layout_editor_absoluteX="75dp"
+            tools:layout_editor_absoluteY="696dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/microBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/circle_micro"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/pressText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/recordingDuration"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordingDuration">
+
+        <ImageView
+            android:id="@+id/microImg"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/micro" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submitButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="102dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/circle_green"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/pressText"
+        app:layout_constraintStart_toEndOf="@+id/microBtn"
+        app:layout_constraintTop_toBottomOf="@+id/readText">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/playButton"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:background="@drawable/circle_green"
+            app:srcCompat="@drawable/icon_thick"
+            tools:layout_editor_absoluteX="296dp"
+            tools:layout_editor_absoluteY="695dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:fontFamily="@font/bold"
+        android:text="Press to start recording!"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/recordingDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/radius11_bg_white"
+        android:gravity="center"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:text="00:00"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/microBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/readText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

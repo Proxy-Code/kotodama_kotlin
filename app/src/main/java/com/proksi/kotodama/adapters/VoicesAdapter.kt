@@ -19,6 +19,7 @@ import com.proksi.kotodama.models.VoiceModel
 class VoicesAdapter(var mContext: Context,
                     var items: List<VoiceModel>,
                     val selectedImg: View,
+                    val isSubscribed: Boolean,
                     val voiceSelectedListener: OnVoiceSelectedListener ) :
     RecyclerView.Adapter<VoicesAdapter.ViewHolder>(){
 
@@ -90,11 +91,12 @@ class VoicesAdapter(var mContext: Context,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val voice = items[position]
+        Log.d("aaa", "$isSubscribed")
 
         if (voice.id=="create_voice"){
                 Log.d("create voice da", "onBindViewHolder: ")
                 //val imgResId = if (isSubscribed) R.drawable.sing_ai_subscribed else R.drawable.sing_ai
-                val imgResId = R.drawable.plus_clone_unsubs
+            val imgResId = if (isSubscribed) R.drawable.plus_frame_subs else R.drawable.plus_clone_unsubs
                 Glide.with(holder.itemView.context)
                     .load(imgResId)
                     .into(holder.design.cardImgView)

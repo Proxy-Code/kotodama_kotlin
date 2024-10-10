@@ -1,20 +1,26 @@
 package com.proksi.kotodama
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.proksi.kotodama.fragments.LibraryFragment
 import com.kotodama.app.R
 import com.kotodama.app.databinding.ActivityMainBinding
+import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.fragments.SettingsFragment
+import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var dataStoreManager: DataStoreManager
+    private var isSubscribed: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -22,7 +28,7 @@ class MainActivity : BaseActivity() {
         setTheme(R.style.Theme_Kotodama)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        dataStoreManager = DataStoreManager
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController= navHostFragment.navController
@@ -63,6 +69,18 @@ class MainActivity : BaseActivity() {
                     true
             }
 
+        }
+
+        lifecycleScope.launch {
+            dataStoreManager.getSubscriptionStatusKey(this@MainActivity).collect { isActive ->
+                isSubscribed = isActive
+                Log.d("isSubscribed", "$isSubscribed")
+                if (isActive) {
+                    navController.navigate(R.id.homeFragment)
+                } else {
+                    navController.navigate(R.id.paywallFragment)
+                }
+            }
         }
 
     }
