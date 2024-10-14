@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@android:id/background"
-        android:height="4dp"
+        android:height="6dp"
         android:bottom="1dp"
         android:top="1dp">
         <shape android:shape="rectangle">
@@ -15,7 +15,7 @@
         android:id="@android:id/progress"
         android:bottom="1dp"
         android:top="1dp"
-        android:height="4dp"
+        android:height="6dp"
         >
         <clip
             android:clipOrientation="horizontal"
@@ -23,9 +23,9 @@
             <shape android:shape="rectangle">
                 <gradient
                     android:angle="270"
-                    android:startColor="@color/main_purple"
+                    android:startColor="#AC59FF"
                     android:type="linear"
-                    android:endColor="@color/main_purple" />
+                    android:endColor="#7100E2" />
                 <corners android:radius="8dp"/>
             </shape>
         </clip>

@@ -38,6 +38,12 @@
         <item name="trackColor">@android:color/transparent</item>
     </style>
 
+    <style name="CustomProgressBarLoading" parent="Widget.MaterialComponents.CircularProgressIndicator">
+
+        <item name="indicatorColor">@array/progress_bar_colors</item>
+        <item name="trackColor">@android:color/transparent</item>
+    </style>
+
     <style name="roundedImgView">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">17dp</item>

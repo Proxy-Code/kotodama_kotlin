@@ -22,13 +22,16 @@ import com.kotodama.app.R
 import com.kotodama.app.databinding.FragmentPaywallBinding
 import com.proksi.kotodama.adapters.FaqAdapter
 import com.proksi.kotodama.adapters.ReviewAdapter
+import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.models.Faqs
 import com.proksi.kotodama.models.Review
 import com.revenuecat.purchases.Offerings
 import com.revenuecat.purchases.Package
+import com.revenuecat.purchases.PurchaseParams
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
 import com.revenuecat.purchases.interfaces.ReceiveOfferingsCallback
+import com.revenuecat.purchases.purchaseWith
 import kotlinx.coroutines.launch
 
 class PaywallFragment : Fragment() {
@@ -45,7 +48,8 @@ class PaywallFragment : Fragment() {
     private lateinit var mostPopularButton:TextView
     private lateinit var normalPlanButton:TextView
     private lateinit var lifetimeButton:TextView
-
+    private lateinit var dataStoreManager: DataStoreManager
+    private var packageType: String = ""
 
     private val reviews = listOf(
         Review(R.drawable.boy, "sdfsf","fsfsfs","Great app, I love it!"),
@@ -61,6 +65,7 @@ class PaywallFragment : Fragment() {
     ): View {
         design = FragmentPaywallBinding.inflate(inflater, container, false)
         recyclerView = design.viewPagerReview
+        dataStoreManager = DataStoreManager
 
         mostPopularButton=design.textView15
         normalPlanButton=design.textView152
@@ -96,21 +101,31 @@ class PaywallFragment : Fragment() {
         val mostLayout: ConstraintLayout = design.mostLayout
 
         val layouts = listOf(lifetimeLayout, normalLayout, mostLayout)
+
+
         fun resetBackgrounds() {
             layouts.forEach { layout ->
                 layout.setBackgroundResource(R.drawable.radius14_bg_white)
             }
         }
 
-        layouts.forEach { layout ->
+        fun setOnClickListener(layout: ConstraintLayout, type: String) {
             layout.setOnClickListener {
                 resetBackgrounds() // Tüm arka planları sıfırla
-                layout.setBackgroundResource(R.drawable.radius14_bg_white_purple) // Tıklanan layout'un arka planını değiştir
+                layout.setBackgroundResource(R.drawable.radius14_bg_white_purple) // Seçili arka planı ayarla
+                packageType = type // Package type'ı ayarla
             }
         }
 
+        setOnClickListener(lifetimeLayout, "lifetime")
+        setOnClickListener(normalLayout, "normal")
+        setOnClickListener(mostLayout, "most")
 
+        design.getPremiumButton.isEnabled = packageType != ""
 
+        design.getPremiumButton.setOnClickListener(){
+            selectPackage(packageType)
+        }
 
         fetchAndDisplayOfferings()
 
@@ -166,6 +181,70 @@ class PaywallFragment : Fragment() {
                 Log.e("Offerings", "Error fetching offerings: ${error.message}")
             }
         })
+    }
+
+    private fun selectPackage(packageType: String) {
+        Log.d("PaywallFragment", "Selecting package: $packageType")
+
+        when (packageType) {
+            "normal" -> {
+                handleSelectedPackage(normalPackage)
+            }
+            "lifetime" -> {
+                handleSelectedPackage(lifetimePackage)
+            }
+            "most" -> {
+                handleSelectedPackage(mostPackage)
+            }
+        }
+    }
+
+    private fun handleSelectedPackage(selectedPackage: Package) {
+        Log.d("TAG", selectedPackage.identifier)
+        Purchases.sharedInstance.purchaseWith(
+            PurchaseParams.Builder(requireActivity(), selectedPackage).build(),
+            onError = { error, userCancelled ->
+                Log.e("PurchaseError", "Purchase failed: $error, userCancelled: $userCancelled")
+
+            },
+            onSuccess = { storeTransaction, customerInfo ->
+
+                // Check and log the specific entitlement
+                val entitlement = customerInfo.entitlements["subscription"]
+                if (entitlement != null) {
+                    Log.d("Entitlement", "Entitlement details: $entitlement")
+                } else {
+                    Log.d("Entitlement", "Entitlement not found")
+                }
+
+                if (entitlement?.isActive == true) {
+//                    val eventValues = HashMap<String, Any>()
+//                    eventValues.put(AFInAppEventParameterName.CONTENT_ID, selectedPackage.product.id)
+//                    eventValues.put(AFInAppEventParameterName.CONTENT_TYPE, selectedPackage.product.price)
+//                    eventValues.put(AFInAppEventParameterName.REVENUE, selectedPackage.product.price.amountMicros / 1_000_000)
+//
+//                    eventValues.put(AFInAppEventParameterName.CURRENCY,selectedPackage.product.price.currencyCode)
+
+                    lifecycleScope.launch {
+                        dataStoreManager.saveSubscriptionStatus(requireContext(), true)
+                        navigateToHomeFragment()
+                    }
+
+
+                } else {
+                    Log.d("onsuccessde", "Entitlement is not active")
+                }
+            }
+        )
+    }
+
+    private fun navigateToHomeFragment() {
+        try {
+            val navController = findNavController()
+            navController.navigate(R.id.action_paywallFragment_to_homeFragment)
+        } catch (e: Exception) {
+            Log.e("NavigationError", "Failed to navigate: ${e.message}")
+        }
     }
 
 }

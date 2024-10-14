@@ -95,4 +95,7 @@ dependencies {
 
     //facebook
     implementation ("com.facebook.android:facebook-android-sdk:17.0.1")
+
+    //google service
+    implementation ("com.google.android.gms:play-services-auth:21.2.0")
 }

@@ -135,8 +135,8 @@ class SplashScreen : AppCompatActivity() {
         val isActive = customerInfo.entitlements["subscription"]?.isActive ?: false
         Log.d("isSubscribed SPLASH", "$isActive")
         lifecycleScope.launch {
-            dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
-           // dataStoreManager.saveSubscriptionStatus(this@SplashScreen, true)
+           // dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
+            dataStoreManager.saveSubscriptionStatus(this@SplashScreen, true)
         }
         fetchAndDisplayOfferings()
     }

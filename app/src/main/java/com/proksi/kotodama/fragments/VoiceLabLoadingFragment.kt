@@ -130,9 +130,9 @@ class VoiceLabLoadingFragment : Fragment() {
             return
         }
                         cloneService.cloneRequest(
-                            imageUrl = imageUrl,
-                            name = name,
-                            idToken = idToken,
+                            imageUrl = RequestBody.create("text/plain".toMediaTypeOrNull(), imageUrl ?: ""),
+                            name = RequestBody.create("text/plain".toMediaTypeOrNull(), name ?: ""),
+                            idToken = RequestBody.create("text/plain".toMediaTypeOrNull(), idToken ?: ""),
                             files = audioParts
                         ).enqueue(object : Callback<ApiInterface.CloneResponse> {
                             override fun onResponse(call: Call<ApiInterface.CloneResponse>, response: Response<ApiInterface.CloneResponse>) {

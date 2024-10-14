@@ -122,6 +122,7 @@
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
+               android:paddingBottom="35dp"
                android:orientation="horizontal">
 
                <ImageView
@@ -142,6 +143,7 @@
                    android:inputType="textMultiLine"
                    android:textColor="@color/black"
                    android:textSize="12sp"
+
                    android:textColorHint="#C1C1C1"
                    android:fontFamily="@font/regular"
                    android:hint="Type here for your AI speech!"
@@ -150,6 +152,31 @@
                    android:minLines="3"
                    android:singleLine="false"
                    android:paddingStart="8dp"/>
+           </LinearLayout>
+           <LinearLayout
+               android:visibility="gone"
+               android:id="@+id/langCodeLayout"
+               android:layout_width="wrap_content"
+               android:background="@drawable/radius11_purple"
+               android:gravity="center"
+               android:layout_gravity="bottom"
+               android:paddingVertical="5dp"
+               android:paddingHorizontal="9dp"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:id="@+id/langCodeImg"
+                   android:layout_width="8dp"
+                   android:src="@drawable/circle_red"
+                   android:layout_marginEnd="3dp"
+                   android:layout_height="8dp"/>
+               <TextView
+                   android:id="@+id/langCode"
+                   android:text="Unknown"
+                   android:textColor="@color/white"
+                   android:textSize="10sp"
+                   android:fontFamily="@font/medium"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
            </LinearLayout>
 
        </FrameLayout>
@@ -207,4 +234,17 @@
         android:paddingVertical="15dp"
         android:background="@drawable/create_btn_inactive"
         android:textColor="@color/white" />
+    <View
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -20,6 +20,10 @@ import java.util.Date
 
 class HomeViewModel : ViewModel() {
     private val _data = MutableLiveData<List<VoiceModel>>() // Örnek veri tipi
+    private val _allVoices = MutableLiveData<List<VoiceModel>>() // Örnek veri tipi
+    val allVoices: LiveData<List<VoiceModel>> get() = _allVoices
+    private val _hasClone = MutableLiveData<Boolean>().apply { value = false }  // LiveData olarak tanımladık
+    val hasClone: LiveData<Boolean> get() = _hasClone
     private lateinit var dataStoreManager: DataStoreManager
     private var uid : String= ""
 
@@ -43,82 +47,51 @@ class HomeViewModel : ViewModel() {
             charUsedCount = 0
         )
 
-        when (category) {
+        firestore
+            .orderBy("allTimeCounter", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val voiceList = mutableListOf<VoiceModel>()
+                for (document in querySnapshot) {
+                    var voiceItem = document.toObject(VoiceModel::class.java)
+                    voiceItem.id = document.id
+                    voiceList.add(voiceItem)
+                    _allVoices.value = voiceList
 
-            "trends" -> {
-                firestore
-                    .orderBy("weeklyCounter", Query.Direction.DESCENDING)
-                    .limit(11)
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        val voiceList = mutableListOf<VoiceModel>()
-                        for (document in querySnapshot) {
-                            var voiceItem = document.toObject(VoiceModel::class.java)
-                            voiceItem.id = document.id
-                            voiceList.add(voiceItem)
+                }
+                checkForCloneData(context,voiceList, createVoiceItem)
 
-                        }
-                        checkForCloneData(context,voiceList, createVoiceItem)
-
-                    }
             }
-            "new" -> {
-                firestore
-                    .orderBy("createdAt", Query.Direction.DESCENDING)
-                    .limit(11)
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        val voiceList = mutableListOf<VoiceModel>()
-                        for (document in querySnapshot) {
-                            var voiceItem = document.toObject(VoiceModel::class.java)
-                            voiceItem.id = document.id
-                            voiceList.add(voiceItem)
-                        }
-                        checkForCloneData(context,voiceList, createVoiceItem)
-                    }
-            }
-            "all" -> {
-                firestore
-                    .orderBy("allTimeCounter", Query.Direction.DESCENDING)
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        val voiceList = mutableListOf<VoiceModel>()
-                        for (document in querySnapshot) {
-                            var voiceItem = document.toObject(VoiceModel::class.java)
-                            voiceItem.id = document.id
-                            voiceList.add(voiceItem)
-//
-//                            if (voiceList.size <= 5) {
-//                                imagesFive.add(document.id)
-//                            }
-                        }
-                        checkForCloneData(context,voiceList, createVoiceItem)
+    }
 
-                       // _data.value=voiceList
-                    }
-            }
-            else -> {
-                FirebaseFirestore.getInstance().collection("all-voices")
-                    .whereArrayContains("category", category)
-                    //.orderBy("allTimeCounter", Query.Direction.DESCENDING)
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        val voiceList = mutableListOf<VoiceModel>()
-                        for (document in querySnapshot) {
-                            var voiceItem = document.toObject(VoiceModel::class.java)
-                            voiceItem.id = document.id
-                            voiceList.add(voiceItem)
-                        }
-                        checkForCloneData(context,voiceList, createVoiceItem)
+    fun getVoicesByCategory(category: String, context: Context): List<VoiceModel> {
+        // Get the current value of allVoices safely using the value property
+        val voicesList = allVoices.value ?: emptyList()
+        val date = Date()
+        val timestamp = Timestamp(date)
+        val createVoiceItem = VoiceModel(
+            name = "Create Voice",
+            id = "create_voice",
+            imageUrl = "R.drawable.sing_ai",
+            createdAt = timestamp,
+            model_name = "Create Voice",
+            category = listOf("all,trends"),
+            allTimeCounter = 0,
+            weeklyCounter = 0,
+            charUsedCount = 0
+        )
 
-                        Log.d("Firestore", "Fetched ${voiceList.size} items for category: $category")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.d("Firestore", "Error fetching voices: ${e.message}")
-                    }
-            }
-
+        val filteredVoices = when (category) {
+            "trends" -> voicesList.sortedByDescending { it.weeklyCounter }
+            "new" -> voicesList.sortedByDescending { it.createdAt }
+            "all" -> voicesList.sortedByDescending { it.allTimeCounter }
+            else -> voicesList.filter { it.category.contains(category) }
         }
+
+
+        checkForCloneData(context, filteredVoices.toMutableList(), createVoiceItem)
+
+        return filteredVoices
     }
 
     private fun checkForCloneData(
@@ -136,6 +109,7 @@ class HomeViewModel : ViewModel() {
                     val clonesRef = userDocRef.collection("clones")
                     clonesRef.addSnapshotListener { cloneDocumentSnapshot, exception ->
                         if (exception != null) {
+                            _hasClone.value = false
                             Log.e("CLONE", "Error listening for clone document changes: $exception")
                             voiceList.add(0, createVoiceItem)
                             return@addSnapshotListener
@@ -144,28 +118,31 @@ class HomeViewModel : ViewModel() {
                         voiceList.removeAll { it.id == "create_voice" }  // Remove any previous clone items
 
                         val cloneCount = cloneDocumentSnapshot?.size() ?: 0
+                        voiceList.add(0, createVoiceItem)
                         when (cloneCount) {
-                            0 -> {
-                                voiceList.add(0, createVoiceItem)
-                                _data.value = voiceList
-                            }
                             1 -> {
                                 val cloneData = cloneDocumentSnapshot?.documents?.first()?.data
+                                val id=cloneDocumentSnapshot?.documents?.first()?.id
                                 val name = (cloneData?.get("name")) as String
                                 val imageUrl = (cloneData["imageUrl"] ?: "") as String
                                 val createdAt = (cloneData["createdAt"] ?: Timestamp.now()) as Timestamp
                                 val modelName = (cloneData["model_name"] ?: "") as String
 
-                                val cloneVoiceModel = VoiceModel(
-                                    name = name,
-                                    id = "create_voice",  // Use appropriate ID if available
-                                    imageUrl = imageUrl,
-                                    createdAt = createdAt,
-                                    model_name = modelName,
-                                    category = emptyList()  // Set if available
-                                )
-
-                                voiceList.add(0, cloneVoiceModel)
+                                val cloneVoiceModel = id?.let {
+                                    VoiceModel(
+                                        name = name,
+                                        id = it,  // Use appropriate ID if available
+                                        imageUrl = imageUrl,
+                                        createdAt = createdAt,
+                                        model_name = modelName,
+                                        category = emptyList()  // Set if available
+                                    )
+                                }
+                                Log.d("adapterraa", "checkForCloneData: 1 da ")
+                                _hasClone.value = true
+                                if (cloneVoiceModel != null) {
+                                    voiceList.add(1, cloneVoiceModel)
+                                }
                                 _data.value = voiceList
                             }
                             else -> {
@@ -197,6 +174,13 @@ class HomeViewModel : ViewModel() {
         return categoryData.map { (id, text, image) ->
             Category(id, text, image)
         }
+    }
+
+    fun filterVoices(query: String) {
+        val filteredVoices = _allVoices.value?.filter { voiceModel ->
+            voiceModel.name.contains(query, ignoreCase = true) // Burada isme göre filtreleme yapıyoruz
+        } ?: emptyList()
+        _data.value = filteredVoices // Filtrelenmiş veriyi güncelle
     }
 
 }

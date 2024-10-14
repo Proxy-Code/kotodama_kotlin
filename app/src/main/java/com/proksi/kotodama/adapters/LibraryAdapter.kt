@@ -129,13 +129,35 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
             } else {
                 if (mediaPlayer!!.isPlaying) {
                     mediaPlayer?.pause()
-
+                    holder.design.playButton.setImageResource(R.drawable.play_lib)
                 } else {
                     mediaPlayer?.start()
+                    holder.design.playButton.setImageResource(R.drawable.pause_lib)
 
                 }
             }
         }
+
+        holder.design.minusButton.setOnClickListener {
+            mediaPlayer?.let {
+                val currentPosition = it.currentPosition
+                val newPosition = (currentPosition - 5000).coerceAtLeast(0)  // 5 saniye geri sar
+                it.seekTo(newPosition)
+                holder.design.seekbar.progress = newPosition
+                holder.design.startTime.text = formatTime(newPosition)
+            }
+        }
+
+        holder.design.plusButton.setOnClickListener {
+            mediaPlayer?.let {
+                val currentPosition = it.currentPosition
+                val newPosition = (currentPosition + 5000).coerceAtMost(it.duration)  // 5 saniye ileri sar
+                it.seekTo(newPosition)
+                holder.design.seekbar.progress = newPosition
+                holder.design.startTime.text = formatTime(newPosition)
+            }
+        }
+
 
         // SeekBar ve süreyi sıfırla (eğer bu item oynatılmıyorsa)
         if (currentlyPlayingPosition != position) {
@@ -177,6 +199,11 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
         currentlyPlayingPosition = position
         holder.design.playButton.setImageResource(R.drawable.pause_lib)
         holder.design.seekbar.max = mediaPlayer?.duration ?: 0
+
+        mediaPlayer?.setOnCompletionListener {
+            //holder.design.seekbar.progress = 0
+            holder.design.playButton.setImageResource(R.drawable.play_lib)
+        }
 
         val runnable = object : Runnable {
             override fun run() {

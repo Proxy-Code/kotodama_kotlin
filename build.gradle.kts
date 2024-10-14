@@ -15,6 +15,7 @@ buildscript {
         val navVersion = "2.7.7"
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
-
+        classpath("com.google.gms:google-services:4.4.2")
+        //sonradan eklendi
     }
 }

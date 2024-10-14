@@ -1,5 +1,6 @@
 package com.proksi.kotodama.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -35,6 +37,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.properties.Delegates
 
 class HomeFragment : Fragment() {
 
@@ -50,6 +53,7 @@ class HomeFragment : Fragment() {
     private val choices = listOf("en", "es", "fr", "de", "it", "pt", "pl", "tr", "ru", "nl", "cs", "ar", "zh", "hu", "ko", "hi")
     private var isSubscribed:Boolean = false
     private val TAG = HomeFragment::class.java.simpleName
+    private var hasClone by Delegates.notNull<Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,39 +86,13 @@ class HomeFragment : Fragment() {
 
         adapterCategory.setOnCategoryClickListener(object : CategoryAdapter.OnCategoryClickListener {
             override fun onCategoryClick(category: String) {
-                viewModel.fetchVoices(category, requireContext())
+                viewModel.getVoicesByCategory(category, requireContext())
             }
         })
 
-//        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg,isSubscribed,object : VoicesAdapter.OnVoiceSelectedListener{
-//            override fun onVoiceSelected(voice: VoiceModel) {
-//                if(voice.id == "create_voice" && isSubscribed){
-//                    findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
-//                } else if(voice.id == "create_voice" && !isSubscribed){
-//                    dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
-//                } else{
-//                    selectedVoiceId = voice.id
-//                    imageUrl = voice.imageUrl
-//                    name = voice.name
-//                    updateCreateButtonState()
-//                }
-//            }
-//        })
 
-//        design.recyclerViewVoices.adapter = adapterVoice
-
-//        viewModel.data.observe(viewLifecycleOwner, Observer { voicesList ->
-//            if (voicesList != null) {
-//                Log.d("Observer", "Voices List: $voicesList")
-//                adapterVoice.updateData(voicesList)
-//            } else {
-//                Log.d("Observer", "Voices List is null")
-//            }
-//        })
 
         viewModel.fetchVoices("all",requireContext())
-
-
 
         //show dialog
         design.imageCrown.setOnClickListener {
@@ -127,16 +105,49 @@ class HomeFragment : Fragment() {
 
         design.editTextLayout.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val enteredText = s.toString().trim()
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val languageCode = recognizeLanguage(enteredText)
+                    Log.d(TAG, "Recognized Language Code: $languageCode")
+//                    design.langCode.text=languageCode
+//                    design.langCodeImg.setImageResource(R.drawable.circle_green)
+                }
+            }
 
             override fun afterTextChanged(s: Editable?) {
                 enteredText = s.toString().trim()
+                if (enteredText.isEmpty()) {
+                    design.langCodeLayout.visibility = View.GONE  // Layout'u gizle
+                } else {
+                    design.langCodeLayout.visibility = View.VISIBLE  // Layout'u göster
+                }
                 updateCreateButtonState() // Butonun aktif olup olmadığını kontrol et
             }
         })
 
+        design.searchVoice.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                val query = newText ?: ""
+
+                viewModel.filterVoices(query)
+
+
+                return true
+            }
+
+        })
+
         design.buttonCreate.setOnClickListener {
             Log.d(TAG, "onCreateView: called button create")
+            design.progressBar.visibility = View.VISIBLE
+            design.loadingOverlay.visibility = View.VISIBLE
 
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
@@ -187,6 +198,7 @@ class HomeFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     suspend fun recognizeLanguage(text: String): String {
         return suspendCancellableCoroutine { cont ->
             val languageIdentifier: LanguageIdentifier = LanguageIdentification.getClient()
@@ -194,14 +206,20 @@ class HomeFragment : Fragment() {
                 .addOnSuccessListener { languageCode ->
                     if (languageCode != "und") {
                         val result = if (choices.contains(languageCode)) languageCode else "en"
-                        cont.resume(result)  // Result olarak languageCode veya "en" döndürülüyor
+                        design.langCode.text=languageCode
+                          design.langCodeImg.setImageResource(R.drawable.circle_green)
+                        cont.resume(result)
                     } else {
-                        cont.resume("en") // Default olarak "en" döndürüyoruz
+                        cont.resume("en")
+                        design.langCode.text="Unknown"
+                        design.langCodeImg.setImageResource(R.drawable.circle_red)
                     }
                 }
                 .addOnFailureListener { e ->
                     e.printStackTrace()
-                    cont.resume("en") // Hata durumunda da "en" döndürüyoruz
+                    cont.resume("en")
+                    design.langCode.text="Unknown"
+                    design.langCodeImg.setImageResource(R.drawable.circle_red)
                 }
         }
     }
@@ -214,8 +232,6 @@ class HomeFragment : Fragment() {
         imageUrl: String?,
         name: String?
     ) {
-        Log.d(TAG, "sendProcessRequest: called ")
-
 
         if (selectedVoiceId.isNullOrEmpty() || imageUrl.isNullOrEmpty() || name.isNullOrEmpty()) {
             Log.e(TAG, "Payload values are missing: selectedVoiceId=$selectedVoiceId, imageUrl=$imageUrl, name=$name")
@@ -238,7 +254,7 @@ class HomeFragment : Fragment() {
             override fun onResponse(
                 call: Call<ApiInterface.ProcessResponse>,
                 response: retrofit2.Response<ApiInterface.ProcessResponse>) {
-                Log.d(TAG, "onResponse is succes?: ${response.isSuccessful}")
+
                 if (response.isSuccessful) {
                     val processResponse = response.body()
                     Log.d(TAG, "onResponse: isscuesss")
@@ -246,9 +262,13 @@ class HomeFragment : Fragment() {
                     Log.d(TAG, "Process Response Result: ${processResponse?.data?.result}")
                     Log.d(TAG, "Success: ${processResponse?.success}")
                     Log.d(TAG, "Message: ${processResponse?.data?.message}")
+                    design.progressBar.visibility = View.GONE
+                    design.loadingOverlay.visibility = View.GONE
                     findNavController().navigate(R.id.action_homeFragment_to_libraryFragment)
                 } else {
                     val errorMessage = response.errorBody()?.string()
+                    design.progressBar.visibility = View.GONE
+                    design.loadingOverlay.visibility = View.GONE
                     Log.d(TAG, "Error: $errorMessage")
                 }
             }
@@ -260,7 +280,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupVoicesAdapter() {
-        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, object : VoicesAdapter.OnVoiceSelectedListener {
+        // İlk başta adapter'ı boş bir liste ve hasClone değeriyle başlatıyoruz.
+        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, false, object : VoicesAdapter.OnVoiceSelectedListener {
             override fun onVoiceSelected(voice: VoiceModel) {
                 if (voice.id == "create_voice" && isSubscribed) {
                     findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
@@ -277,18 +298,22 @@ class HomeFragment : Fragment() {
 
         design.recyclerViewVoices.adapter = adapterVoice
 
-        // Observer for voices list
-        viewModel.data.observe(viewLifecycleOwner, Observer { voicesList ->
+        viewModel.hasClone.observe(viewLifecycleOwner) { hasCloneValue ->
+            Log.d(TAG, "setupVoicesAdapter: $hasCloneValue")
+        }
+
+        viewModel.data.observe(viewLifecycleOwner) { voicesList ->
             if (voicesList != null) {
                 Log.d("Observer", "Voices List: $voicesList")
                 adapterVoice.updateData(voicesList)
             } else {
                 Log.d("Observer", "Voices List is null")
             }
-        })
+        }
 
         viewModel.fetchVoices("all", requireContext())
     }
+
 
 
 }

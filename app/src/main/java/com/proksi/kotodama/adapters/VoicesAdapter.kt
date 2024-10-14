@@ -1,5 +1,6 @@
 package com.proksi.kotodama.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ class VoicesAdapter(var mContext: Context,
                     var items: List<VoiceModel>,
                     val selectedImg: View,
                     val isSubscribed: Boolean,
+                    val hasClone:Boolean,
                     val voiceSelectedListener: OnVoiceSelectedListener ) :
     RecyclerView.Adapter<VoicesAdapter.ViewHolder>(){
 
@@ -41,6 +43,7 @@ class VoicesAdapter(var mContext: Context,
 
     inner class ViewHolder(design: CardViewVoicesBinding) : RecyclerView.ViewHolder(design.root){
         var design: CardViewVoicesBinding
+
         init {
             this.design=design
             design.cardImgView.setOnClickListener{
@@ -89,9 +92,9 @@ class VoicesAdapter(var mContext: Context,
         return items.size
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val voice = items[position]
-        Log.d("aaa", "$isSubscribed")
 
         if (voice.id=="create_voice"){
                 Log.d("create voice da", "onBindViewHolder: ")
@@ -102,7 +105,6 @@ class VoicesAdapter(var mContext: Context,
                     .into(holder.design.cardImgView)
                 holder.design.textViewArtist.text=voice.name
         } else {
-
             Glide.with(holder.itemView.context)
                 .load(voice.imageUrl)
                 .placeholder(R.drawable.icon_kotodama) // Eğer resim yüklenemezse, bir placeholder göster

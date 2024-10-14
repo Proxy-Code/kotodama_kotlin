@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/radius11_bg_white"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="10dp"
     android:paddingTop="8dp"
     android:paddingBottom="11dp"
     android:paddingHorizontal="7dp"
@@ -106,14 +106,46 @@
             android:layout_marginTop="5dp"
             android:progressDrawable="@drawable/seekbar_progress"
             android:thumb="@null" />
-        <ImageView
-            android:id="@+id/playButton"
-            android:layout_marginTop="5dp"
-            android:layout_width="35dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
             android:layout_gravity="center"
-            android:src="@drawable/play_lib"
-            android:layout_height="35dp"
-            app:tint="@color/main_purple" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/plusButton"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:paddingVertical="5dp"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:src="@drawable/fiveplus"
+                app:tint="@color/main_purple" />
+
+            <ImageView
+                android:id="@+id/playButton"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/play_lib"
+                app:tint="@color/main_purple" />
+
+            <ImageView
+                android:id="@+id/minusButton"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:paddingVertical="5dp"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:src="@drawable/fiveminus"
+                app:tint="@color/main_purple" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

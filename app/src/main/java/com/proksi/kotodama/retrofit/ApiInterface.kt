@@ -1,6 +1,7 @@
 package com.proksi.kotodama.retrofit
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -52,9 +53,9 @@ interface ApiInterface {
         @Multipart
         @POST("/clone")
         fun cloneRequest(
-            @Part("imageUrl") imageUrl: String,
-            @Part("name") name: String,
-            @Part("idToken") idToken: String,
+            @Part("name") name: RequestBody,
+            @Part("idToken") idToken: RequestBody,
+            @Part("imageUrl") imageUrl: RequestBody,
             @Part files: List<MultipartBody.Part>
         ): Call<CloneResponse>
     }
