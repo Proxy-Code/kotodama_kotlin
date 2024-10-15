@@ -97,5 +97,10 @@ dependencies {
     implementation ("com.facebook.android:facebook-android-sdk:17.0.1")
 
     //google service
-    implementation ("com.google.android.gms:play-services-auth:21.2.0")
+    implementation ("com.appsflyer:af-android-sdk:6.12.1")
+
+
+    //appsflyer
+    implementation ("com.appsflyer:af-android-sdk:HERE_LATEST_VERSION")
+
 }

@@ -145,24 +145,25 @@ class PaywallFragment : Fragment() {
 
                             Log.d(TAG, "onReceived: ${pkg} ")
                             lifetimeButton.text=pkg.product.title
+                          //  Log.d("hello", "onReceived: ${pkg.product.id} ")
 
                             when (pkg.product.id) {
                                 "subscription_annual:subs" -> {
                                     normalPackage = pkg
-                                    normalPlanButton.text = pkg.product.title
+                                    normalPlanButton.text = pkg.product.title.split("(")[0].trim()
                                     design.normalPrice.text = pkg.product.price.formatted
                                 }
-                                "life_time_offer" -> {
-                                    lifetimePackage = pkg
-                                    lifetimeButton.text = pkg.product.title
-                                    design.lifetimeCampPrice.text = pkg.product.price.formatted
-                                }
+//                                "life_time_offer" -> {
+//                                    lifetimePackage = pkg
+//                                    lifetimeButton.text = pkg.product.title.split("(")[0].trim()
+//                                    design.lifetimeCampPrice.text = pkg.product.price.formatted
+//                                }
                                 "subscription_weekly:subs" -> {
                                     mostPackage = pkg
-                                    mostPopularButton.text = pkg.product.title
+                                    mostPopularButton.text = pkg.product.title.split("(")[0].trim()
                                     design.mostPrice.text = pkg.product.price.formatted
                                 }
-                                "life_time_final" -> {
+                                "subscription_final_offer:subs" -> {
                                     finalPackage = pkg
                                 }
 
@@ -190,9 +191,9 @@ class PaywallFragment : Fragment() {
             "normal" -> {
                 handleSelectedPackage(normalPackage)
             }
-            "lifetime" -> {
-                handleSelectedPackage(lifetimePackage)
-            }
+//            "lifetime" -> {
+//                handleSelectedPackage(lifetimePackage)
+//            }
             "most" -> {
                 handleSelectedPackage(mostPackage)
             }

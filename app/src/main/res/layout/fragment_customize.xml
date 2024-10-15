@@ -7,9 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main"
-    android:paddingHorizontal="20dp"
-    android:paddingTop="45dp"
-    android:paddingBottom="20dp">
+    >
 
     <View
         android:id="@+id/overlay"
@@ -21,9 +19,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
+        android:paddingStart="20dp"
+        android:paddingTop="45dp"
         android:id="@+id/back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +42,7 @@
         android:fontFamily="@font/bold"
         android:gravity="center"
         android:text="Customize"
+        android:paddingTop="45dp"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,14 +65,16 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="85dp"
         android:fontFamily="@font/bold"
         android:gravity="center"
+        android:paddingTop="10dp"
         android:text="Pick An Avatar"
         android:textColor="@color/black"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/progressBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/closeBtn" />
 
@@ -123,21 +127,42 @@
         app:layout_constraintTop_toBottomOf="@+id/uploadPhoto" />
 
     <TextView
+
         android:id="@+id/continueButton"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/create_btn_inactive"
+        android:enabled="false"
         android:fontFamily="@font/extra_bold"
         android:gravity="center"
-        android:enabled="false"
         android:text="Continue"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

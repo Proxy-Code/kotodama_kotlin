@@ -51,17 +51,21 @@ class UserLibraryViewModel : ViewModel() {
                         if (isGeneratingFirestore != null) {
                             this.isGenerating = isGeneratingFirestore
                         }
-                        Log.d("aaaabb", "fetchItems:name  ${this.isGenerating} ${isGeneratingFirestore}")
                     }
                 }
-                _libraryItems.value = items
+
+                // Sort the items by createdAt in descending order
+                val sortedItems = items.sortedByDescending { it.createdAt }
+
+                _libraryItems.value = sortedItems
             } else {
                 _libraryItems.value = emptyList()
             }
         }
     }
 
-        fun removeFirestoreListener() {
+
+    fun removeFirestoreListener() {
             Log.d("cleared", "removeFirestoreListener: ")
             registration?.remove()
             registration = null // Set to null after removing the listener

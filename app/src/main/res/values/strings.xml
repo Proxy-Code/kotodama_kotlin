@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Kotodama</string>
     <string name="facebook_app_id" translatable="false">1523115955751601</string>
+    <string name="appsflyer_api_key" translatable="false">UkZnkSxPoa24iFJVkbP3Ri</string>
 
     <string name="all">All</string>
     <string name="trends">Trends</string>

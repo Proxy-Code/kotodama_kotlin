@@ -1,6 +1,7 @@
 package com.proksi.kotodama.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.api.LogDescriptor
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.nl.languageid.LanguageIdentifier
@@ -32,6 +35,7 @@ import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiInterface
 import com.proksi.kotodama.utils.DialogUtils
 import com.proksi.kotodama.viewmodel.HomeViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
@@ -54,6 +58,11 @@ class HomeFragment : Fragment() {
     private var isSubscribed:Boolean = false
     private val TAG = HomeFragment::class.java.simpleName
     private var hasClone by Delegates.notNull<Boolean>()
+    private var remainingCount = 150
+    private var remainingCharacters : Number? = null
+    private var additionalCount: Number? = null
+    private var remainingRights : Number? = null
+    private var cloningRights : Number? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +83,8 @@ class HomeFragment : Fragment() {
             }
         }
 
+        getUidFromDataStore(requireContext())
+
         //Adapters
         design.recyclerViewCategories.layoutManager=
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -90,8 +101,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-
-
         viewModel.fetchVoices("all",requireContext())
 
         //show dialog
@@ -100,13 +109,35 @@ class HomeFragment : Fragment() {
         }
 
         design.remaningCounterLayout.setOnClickListener{
-            dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
+            if (isSubscribed){
+                dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
+            } else {
+                dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
+            }
+        }
+
+        design.doneLayout.setOnClickListener(){
+            hideKeyboard()
+            design.langCodeLayout.visibility = View.GONE
+            design.doneLayout.visibility = View.GONE
         }
 
         design.editTextLayout.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            @SuppressLint("ResourceAsColor")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val enteredText = s.toString().trim()
+
+                remainingCount = 150 - s.toString().length
+
+                if (remainingCount<0){
+                    design.remaningText.setTextColor(ContextCompat.getColor(this@HomeFragment.requireContext(), R.color.progress_red))
+
+                    design.remaningText.text = remainingCount.toString()
+                }else{
+                    design.remaningText.text = remainingCount.toString()
+                }
+
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     val languageCode = recognizeLanguage(enteredText)
@@ -120,8 +151,10 @@ class HomeFragment : Fragment() {
                 enteredText = s.toString().trim()
                 if (enteredText.isEmpty()) {
                     design.langCodeLayout.visibility = View.GONE  // Layout'u gizle
+                    design.doneLayout.visibility = View.GONE
                 } else {
                     design.langCodeLayout.visibility = View.VISIBLE  // Layout'u göster
+                    design.doneLayout.visibility = View.VISIBLE
                 }
                 updateCreateButtonState() // Butonun aktif olup olmadığını kontrol et
             }
@@ -145,26 +178,42 @@ class HomeFragment : Fragment() {
         })
 
         design.buttonCreate.setOnClickListener {
-            Log.d(TAG, "onCreateView: called button create")
-            design.progressBar.visibility = View.VISIBLE
-            design.loadingOverlay.visibility = View.VISIBLE
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                try {
-                    val idToken = getFirebaseIdToken()
-                    if (idToken != null) {
-                        val languageCode = recognizeLanguage(enteredText)
-                        val voiceId = selectedVoiceId
-                        val text = enteredText
-                        val defaultValue = false
+            if (remainingCount < 0 ){
+                if (isSubscribed){
+                    dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
+                } else{
+                    dialogUtils.showPremiumDialogBox(requireContext(),viewLifecycleOwner)
+                }
+            } else {
 
-                        Log.d(TAG, "onCreateView: send processe gidicek")
-                        sendProcessRequest(idToken, enteredText, selectedVoiceId, languageCode,imageUrl,name)
-                    } else {
-                        Log.e(TAG, "Firebase ID Token is null")
+                design.progressBar.visibility = View.VISIBLE
+                design.loadingOverlay.visibility = View.VISIBLE
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    try {
+                        val idToken = getFirebaseIdToken()
+                        if (idToken != null) {
+                            val languageCode = recognizeLanguage(enteredText)
+                            val voiceId = selectedVoiceId
+                            val text = enteredText
+                            val defaultValue = false
+
+                            Log.d(TAG, "onCreateView: send processe gidicek")
+                            sendProcessRequest(
+                                idToken,
+                                enteredText,
+                                selectedVoiceId,
+                                languageCode,
+                                imageUrl,
+                                name
+                            )
+                        } else {
+                            Log.e(TAG, "Firebase ID Token is null")
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error fetching Firebase ID token", e)
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Error fetching Firebase ID token", e)
                 }
             }
         }
@@ -198,7 +247,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     suspend fun recognizeLanguage(text: String): String {
         return suspendCancellableCoroutine { cont ->
             val languageIdentifier: LanguageIdentifier = LanguageIdentification.getClient()
@@ -207,7 +256,7 @@ class HomeFragment : Fragment() {
                     if (languageCode != "und") {
                         val result = if (choices.contains(languageCode)) languageCode else "en"
                         design.langCode.text=languageCode
-                          design.langCodeImg.setImageResource(R.drawable.circle_green)
+                        design.langCodeImg.setImageResource(R.drawable.circle_green)
                         cont.resume(result)
                     } else {
                         cont.resume("en")
@@ -280,7 +329,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupVoicesAdapter() {
-        // İlk başta adapter'ı boş bir liste ve hasClone değeriyle başlatıyoruz.
+        Log.d(TAG, "setupVoicesAdapter: called")
         adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, false, object : VoicesAdapter.OnVoiceSelectedListener {
             override fun onVoiceSelected(voice: VoiceModel) {
                 if (voice.id == "create_voice" && isSubscribed) {
@@ -298,11 +347,10 @@ class HomeFragment : Fragment() {
 
         design.recyclerViewVoices.adapter = adapterVoice
 
-        viewModel.hasClone.observe(viewLifecycleOwner) { hasCloneValue ->
-            Log.d(TAG, "setupVoicesAdapter: $hasCloneValue")
-        }
 
         viewModel.data.observe(viewLifecycleOwner) { voicesList ->
+            Log.d(TAG, "Data changed, updating adapter with size: ${voicesList.size}")
+
             if (voicesList != null) {
                 Log.d("Observer", "Voices List: $voicesList")
                 adapterVoice.updateData(voicesList)
@@ -313,6 +361,60 @@ class HomeFragment : Fragment() {
 
         viewModel.fetchVoices("all", requireContext())
     }
+
+    private fun getUidFromDataStore(context: Context) {
+        lifecycleScope.launch {
+            DataStoreManager.getUid(context).collect { uid ->
+                if (uid != null) {
+                    Log.d("HomeFragment", "UID from DataStore: $uid")
+                    val firestore = FirebaseFirestore.getInstance()
+                    val userDocRef = firestore.collection("users").document(uid)
+
+                    // Add SnapshotListener for real-time updates
+                    userDocRef.addSnapshotListener { documentSnapshot, exception ->
+                        if (exception != null) {
+                            Log.e("Home Firestore", "Error listening to user document: ", exception)
+                            return@addSnapshotListener
+                        }
+
+                        Log.d(TAG, "getUidFromDataStore: $documentSnapshot")
+
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            // Fetch data from Firestore
+                            remainingCharacters = documentSnapshot.getLong("remainingCharacters")
+                            additionalCount = documentSnapshot.getLong("additionalCount")
+                            remainingRights = documentSnapshot.getLong("remainingRights")
+                            cloningRights = documentSnapshot.getLong("cloningRights")
+
+                            // Only update `remainingCount` if both values are available
+                            if (remainingCharacters != null && additionalCount != null) {
+                                remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
+                            } else {
+                                // Fallback to a default value if the Firestore data is missing or null
+                                remainingCount = 150
+                            }
+
+
+                            Log.d("Home Firestore", "Real-time User data: $remainingCount")
+
+                        } else {
+                            // If document does not exist, set the default values
+                            remainingCount = 150
+                            remainingRights = 3
+                            Log.d("Home Firestore", "User document does not exist")
+                        }
+
+                        // Update the UI with the fetched values
+                        design.remaningText.text = remainingCount.toString()
+                        design.tokenCounterText.text = remainingRights.toString()
+                    }
+                } else {
+                    Log.d("HomeFragment", "No UID found in DataStore")
+                }
+            }
+        }
+    }
+
 
 
 

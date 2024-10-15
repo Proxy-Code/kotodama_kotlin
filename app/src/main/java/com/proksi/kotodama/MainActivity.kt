@@ -14,6 +14,8 @@ import com.kotodama.app.databinding.ActivityMainBinding
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.fragments.SettingsFragment
 import kotlinx.coroutines.launch
+import com.appsflyer.AppsFlyerLib
+
 
 class MainActivity : BaseActivity() {
 
@@ -82,6 +84,11 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+
+        val appsFlyer = AppsFlyerLib.getInstance()
+        val apiKey = getString(R.string.appsflyer_api_key)
+        appsFlyer.init(apiKey, null, this)
+        appsFlyer.start(this)
 
     }
 

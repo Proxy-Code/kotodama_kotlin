@@ -40,13 +40,20 @@ import com.kotodama.app.databinding.FragmentCustomizeBinding
 import com.kotodama.app.databinding.FragmentVoiceLabFormatBinding
 import com.proksi.kotodama.adapters.ImagesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiClient.imagesService
+import com.proksi.kotodama.retrofit.ApiInterface
 import com.proksi.kotodama.viewmodel.CloneViewModel
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -61,6 +68,8 @@ class CustomizeFragment : Fragment() {
     private lateinit var imagesButtons:List<ImageView>
     private lateinit var imageUrls:List<String>
     private lateinit var dataStoreManager: DataStoreManager
+    private var uid: String? = null
+
 
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -71,13 +80,68 @@ class CustomizeFragment : Fragment() {
         design = FragmentCustomizeBinding.inflate(inflater,container,false)
         name = design.nameInput.text.toString()
 
+        dataStoreManager = DataStoreManager
+
         design.continueButton.setOnClickListener{
-            findNavController().navigate(R.id.action_customizeFragment_to_voiceLabLoadingFragment)
+            lifecycleScope.launch {
+                try {
+                    val idToken = getFirebaseIdToken()
+                    idToken?.let {
+                        viewModel.setIdToken(it)
+                    }
+
+                } catch (e: Exception) {
+                    Log.e("FirebaseAuth", "Error getting ID token", e)
+                }
+            }
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val idToken = getFirebaseIdToken()
+                    if (idToken != null) {
+                        val imageUrl = viewModel.voiceImage.value ?: ""  // URL olarak göndermek
+                        val name = viewModel.voiceName.value ?: ""
+                        val cleanedIdToken = idToken.trim()
+                        val allowedFormats = listOf("wav", "mp3", "m4a")
+                        val audioParts = viewModel.audioFilePaths.value?.mapNotNull { audioRecord ->
+                            val audioFile = File(audioRecord.path)
+                            val fileExtension = audioFile.extension.lowercase()
+
+                            if (allowedFormats.contains(fileExtension)) {
+                                val requestFile = RequestBody.create("audio/$fileExtension".toMediaTypeOrNull(), audioFile)
+                                MultipartBody.Part.createFormData("files", audioFile.name, requestFile)
+                            } else {
+                                Log.e("Upload", "Invalid file format: $fileExtension. Allowed formats: $allowedFormats")
+                                null
+                            }
+                        } ?: emptyList()
+                        if (audioParts.isNotEmpty()) {
+                            uploadData(cleanedIdToken, imageUrl, name, audioParts )
+                        } else{
+                            Log.d(TAG, "uploadData: No valid audio files to upload")
+                        }
+                    } else {
+                        Log.e(TAG, "Firebase ID Token is null")
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error fetching Firebase ID token", e)
+                }
+            }
+
+            design.progressBar.visibility = View.VISIBLE
+            design.loadingOverlay.visibility = View.VISIBLE
+
+            //findNavController().navigate(R.id.action_customizeFragment_to_voiceLabLoadingFragment)
         }
 
         design.backBtn.setOnClickListener{
             findNavController().navigate(R.id.action_customizeFragment_to_voiceLabFormatFragment)
         }
+
+        lifecycleScope.launch {
+            uid = dataStoreManager.getUid(requireContext()).firstOrNull().toString()
+            Log.d(TAG, "onCreateView: $uid")
+        }
+
 
 
         viewModel.isButtonEnabled.observe(viewLifecycleOwner, Observer { isEnabled ->
@@ -112,17 +176,7 @@ class CustomizeFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
-            try {
-                val idToken = getFirebaseIdToken()
-                idToken?.let {
-                    viewModel.setIdToken(it)
-                }
 
-            } catch (e: Exception) {
-                Log.e("FirebaseAuth", "Error getting ID token", e)
-            }
-        }
 
         design.uploadPhoto.setOnClickListener{
             showCustomDialog()
@@ -238,6 +292,54 @@ class CustomizeFragment : Fragment() {
             // Optionally show a message to the user or handle it appropriately
         }
     }
+
+    fun uploadData(idToken:String,imageUrl:String,name:String,audioParts: List<MultipartBody.Part>) {
+        Log.d(TAG, "uploadData: $idToken ")
+        Log.d(TAG, "uploadData: $imageUrl")
+
+        if (idToken.isEmpty() || imageUrl.isEmpty() || name.isEmpty()) {
+            Log.e(TAG, "missing: idToken=$idToken, imageUrl=$imageUrl, name=$name")
+            return
+        }
+        ApiClient.cloneService.cloneRequest(
+            imageUrl = RequestBody.create("text/plain".toMediaTypeOrNull(), imageUrl ?: ""),
+            name = RequestBody.create("text/plain".toMediaTypeOrNull(), name ?: ""),
+            idToken = RequestBody.create("text/plain".toMediaTypeOrNull(), idToken ?: ""),
+            files = audioParts
+        ).enqueue(object : Callback<ApiInterface.CloneResponse> {
+            override fun onResponse(call: Call<ApiInterface.CloneResponse>, response: Response<ApiInterface.CloneResponse>) {
+                Log.d("id token", idToken)
+                if (response.isSuccessful) {
+                    val result = response.body()
+                    val status = result?.status
+                    Log.d("Upload", "Clone created successfully with status: $status")
+                    findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
+                } else {
+                    Log.e("Upload", "Failed: ${response.errorBody()?.string()}")
+                    findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
+                }
+
+
+            }
+
+            override fun onFailure(call: Call<ApiInterface.CloneResponse>, t: Throwable) {
+                Log.e("Upload", "Error: ${t.message}")
+            }
+        })
+
+    }
+
+    suspend fun getFirebaseIdToken(): String? = suspendCancellableCoroutine { cont ->
+        val firebaseUser = Firebase.auth.currentUser
+        firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                cont.resume(task.result?.token)
+            } else {
+                cont.resumeWithException(task.exception ?: Exception("Unknown error"))
+            }
+        }
+    }
+
 
 
 

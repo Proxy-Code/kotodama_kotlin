@@ -189,19 +189,20 @@ class DialogUtils {
                                 when (pkg.product.id) {
                                     "subscription_annual:subs" -> {
                                         normalPackage = pkg
-                                        normalPlanButton.text = pkg.product.title
+                                        normalPlanButton.text = pkg.product.title.split("(")[0].trim()
+
                                         normalPlanPrice.text = pkg.product.price.formatted
                                     }
 
                                     "life_time_offer" -> {
                                         lifetimePackage = pkg
-                                        lifetimeButton.text = pkg.product.title
+                                        lifetimeButton.text = pkg.product.title.split("(")[0].trim()
                                         lifetimePrice.text = pkg.product.price.formatted
                                     }
 
                                     "subscription_weekly:subs" -> {
                                         mostPackage = pkg
-                                        mostPopularButton.text = pkg.product.title
+                                        mostPopularButton.text = pkg.product.title.split("(")[0].trim()
                                         mostPopularPrice.text = pkg.product.price.formatted
                                     }
 
@@ -216,17 +217,17 @@ class DialogUtils {
                                     "add_character_100k" -> {
                                         hundredKPackage = pkg
                                         hundredKPrice.text = pkg.product.price.formatted
-                                        hundredKTitle.text = pkg.product.title
+                                        hundredKTitle.text = pkg.product.title.split("(")[0].trim()
                                     }
                                     "add_character_10k" -> {
                                         tenKPackage = pkg
                                         tenKPrice.text = pkg.product.price.formatted
-                                        tenKTitle.text = pkg.product.title
+                                        tenKTitle.text = pkg.product.title.split("(")[0].trim()
                                     }
                                     "add_character_50k" -> {
                                         fiftyKPackage = pkg
                                         fiftyKPrice.text = pkg.product.price.formatted
-                                        fiftyKTitle.text = pkg.product.title
+                                        fiftyKTitle.text = pkg.product.title.split("(")[0].trim()
                                     }
                                 }
                             }

@@ -138,6 +138,9 @@
         <action
             android:id="@+id/action_customizeFragment_to_voiceLabLoadingFragment"
             app:destination="@id/voiceLabLoadingFragment" />
+        <action
+            android:id="@+id/action_customizeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/voiceLabLoadingFragment"

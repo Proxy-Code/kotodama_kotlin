@@ -25,6 +25,7 @@ import com.kotodama.app.databinding.FaqsCardViewBinding
 import com.proksi.kotodama.dataStore.DataStoreManager.getUid
 import com.proksi.kotodama.models.Faqs
 import com.proksi.kotodama.models.UserLibrary
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,6 +46,7 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
     private val handler = Handler(Looper.getMainLooper())  // UI güncelleme için Handler
     private var uid: String? = null
 
+    @OptIn(DelicateCoroutinesApi::class)
     inner class Viewholder(design: CardViewLibraryBinding) : RecyclerView.ViewHolder(design.root) {
         var design: CardViewLibraryBinding
 
@@ -81,32 +83,32 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
             holder.design.accordionLayout.visibility = View.GONE
         }
 
-        // Name'e tıklanınca accordion'u aç/kapa yap
         holder.design.layout.setOnClickListener {
-            if (expandedPosition == position) {
-                expandedPosition = -1  // Aynı öğeye tıklandıysa kapat
-                notifyItemChanged(position)
+            if(!item.isGenerating){
+                if (expandedPosition == position) {
+                    expandedPosition = -1
+                    notifyItemChanged(position)
 
-                // Eğer oynayan bir medya varsa durdur ve sıfırla
-                if (currentlyPlayingPosition == position) {
-                    stopPlaying()
-                    currentlyPlayingPosition = null
-                    holder.design.seekbar.progress = 0
-                    holder.design.startTime.text = formatTime(0)
-                }
-            } else {
-                val previousExpandedPosition = expandedPosition
-                expandedPosition = position
-                notifyItemChanged(previousExpandedPosition)  // Önceki açık olanı kapat
-                notifyItemChanged(position)  // Yeni tıklanılanı aç
+                    if (currentlyPlayingPosition == position) {
+                        stopPlaying()
+                        currentlyPlayingPosition = null
+                        holder.design.seekbar.progress = 0
+                        holder.design.startTime.text = formatTime(0)
+                    }
+                } else {
+                    val previousExpandedPosition = expandedPosition
+                    expandedPosition = position
+                    notifyItemChanged(previousExpandedPosition)
+                    notifyItemChanged(position)
 
-                // Eğer çalan bir medya varsa durdur
-                if (currentlyPlayingPosition != -1 && currentlyPlayingPosition != position) {
-                    stopPlaying()
-                    currentlyPlayingPosition?.let { it1 -> notifyItemChanged(it1) }  // Artık null kontrolüne gerek yok
-                    currentlyPlayingPosition = -1
+                    if (currentlyPlayingPosition != -1 && currentlyPlayingPosition != position) {
+                        stopPlaying()
+                        currentlyPlayingPosition?.let { it1 -> notifyItemChanged(it1) }  // Artık null kontrolüne gerek yok
+                        currentlyPlayingPosition = -1
+                    }
                 }
             }
+
         }
 
         holder.design.sendButton.setOnClickListener {

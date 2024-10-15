@@ -77,11 +77,13 @@ class VoicesAdapter(var mContext: Context,
                     )
                 }
 
+
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         val layoutInflater = LayoutInflater.from(mContext)
         val design=CardViewVoicesBinding.inflate(layoutInflater,parent,false)
 
@@ -138,9 +140,10 @@ class VoicesAdapter(var mContext: Context,
             selectedImg.visibility=View.GONE
         }
     }
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newVoicesList: List<VoiceModel>) {
         this.items = newVoicesList
-        notifyDataSetChanged() // RecyclerView'ın verilerin güncellendiğini bilmesi için
+        notifyDataSetChanged()
     }
 }
 
