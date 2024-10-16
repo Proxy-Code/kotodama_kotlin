@@ -18,6 +18,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.kotodama.app.R
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.fragments.RecordVoiceFragment
 import com.revenuecat.purchases.*
 import com.revenuecat.purchases.interfaces.ReceiveCustomerInfoCallback
 import com.revenuecat.purchases.interfaces.ReceiveOfferingsCallback
@@ -30,6 +31,9 @@ class SplashScreen : AppCompatActivity() {
     private lateinit var dataStoreManager: DataStoreManager
     private lateinit var auth: FirebaseAuth
     private lateinit var remoteConfig: FirebaseRemoteConfig
+    private var isSubscribed: Boolean = false
+    private val TAG = SplashScreen::class.java.simpleName
+
 
     companion object {
         private const val SPLASH_DELAY = 2000L
@@ -44,24 +48,35 @@ class SplashScreen : AppCompatActivity() {
 
         dataStoreManager = DataStoreManager
         auth = Firebase.auth
+        Log.d(TAG, "onCreate: 1")
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            continueWithAppFlow()
-        }, SPLASH_DELAY)
+        checkUserAndProceed()
     }
 
-    private fun continueWithAppFlow() {
+    private fun checkUserAndProceed() {
+        Log.d(TAG, "checkUserAndProceed: 2")
         val currentUser = auth.currentUser
-        currentUser?.let {
-            proceedWithUser(it)
-        } ?: signInAnonymously { user ->
-            user?.let { proceedWithUser(it) }
+        Log.d(TAG, "checkUserAndProceed: 3 $currentUser")
+        if (currentUser != null) {
+            Log.d(TAG, "checkUserAndProceed: oturum aciksa 4")
+            proceedWithUser(currentUser)
+        } else {
+            
+            Log.d(TAG, "checkUserAndProceed: oturumn acik degilse  4")
+            signInAnonymously { user ->
+                user?.let {
+                    Log.d(TAG, "checkUserAndProceed: 5 $it")
+                    proceedWithUser(it)
+                } ?: run {
+                    Log.d(TAG, "checkUserAndProceed: 5 anonim giris basairiiz")
+                    Toast.makeText(this, "Failed to authenticate.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
-        //setupRemoteConfig()
-        startMainActivity()
     }
 
     private fun signInAnonymously(callback: (FirebaseUser?) -> Unit) {
+        Log.d(TAG, "signInAnonymously: 6")
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -69,49 +84,21 @@ class SplashScreen : AppCompatActivity() {
                     callback(auth.currentUser)
                 } else {
                     Log.w("SplashScreen", "signInAnonymously:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     callback(null)
                 }
             }
     }
 
     private fun proceedWithUser(user: FirebaseUser) {
-        Log.d("CURRENT USER", "Sign in: ${user.uid}")
+        Log.d(TAG, "Sign in 7 : ${user.uid}")
         lifecycleScope.launch {
             DataStoreManager.savedUid(this@SplashScreen, user.uid)
         }
-        setupPurchases(user.uid)
-    }
-
-    private fun setupRemoteConfig() {
-        remoteConfig = FirebaseRemoteConfig.getInstance()
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = RC_FETCH_INTERVAL
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
-
-        remoteConfig.fetchAndActivate()
-            .addOnCompleteListener { task ->
-                val showOnboarding = if (task.isSuccessful) {
-                    remoteConfig.getBoolean("show_onboarding")
-                } else false
-                decideNextActivity(showOnboarding)
-            }
-    }
-
-    private fun decideNextActivity(showOnboarding: Boolean) {
-        startMainActivity() // Currently always starting main activity
-    }
-
-    private fun startMainActivity() {
-        Intent(this, MainActivity::class.java).also {
-            startActivity(it)
-        }
-        finish()
+            setupPurchases(user.uid)
     }
 
     private fun setupPurchases(userId: String) {
+
         Purchases.logLevel = LogLevel.DEBUG
         Purchases.configure(
             PurchasesConfiguration.Builder(this, REVENUE_CAT_KEY)
@@ -136,24 +123,27 @@ class SplashScreen : AppCompatActivity() {
         Log.d("isSubscribed SPLASH", "$isActive")
         lifecycleScope.launch {
             dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
-           // dataStoreManager.saveSubscriptionStatus(this@SplashScreen, true)
         }
-        fetchAndDisplayOfferings()
+        isSubscribed = isActive
+        if (isActive) {
+            startMainActivity()
+        } else {
+            startPaywallActivity()
+        }
     }
 
-    private fun fetchAndDisplayOfferings() {
-        Purchases.sharedInstance.getOfferings(object : ReceiveOfferingsCallback {
-            override fun onReceived(offerings: Offerings) {
-                val currentOfferings = offerings.current
-                currentOfferings?.availablePackages?.forEach { pkg ->
-                    Log.d("RevenueCat", "Offering: ${pkg.offering}")
-                    // Save package details if necessary
-                } ?: Log.d("Offerings", "No offerings available")
-            }
+    private fun startMainActivity() {
+        Intent(this, MainActivity::class.java).also {
+            startActivity(it)
+        }
+        finish()
+    }
 
-            override fun onError(error: PurchasesError) {
-                Log.e("OfferingsError", "Error fetching offerings: ${error.message}")
-            }
-        })
+    private fun startPaywallActivity() {
+        Intent(this, PaywallActivity::class.java).also {
+            startActivity(it)
+        }
+        finish()
     }
 }
+

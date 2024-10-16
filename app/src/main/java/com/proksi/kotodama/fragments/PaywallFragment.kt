@@ -1,5 +1,6 @@
 package com.proksi.kotodama.fragments
 
+import android.content.Intent
 import android.graphics.Color
 import android.nfc.Tag
 import android.os.Build
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.kotodama.app.R
 import com.kotodama.app.databinding.FragmentPaywallBinding
+import com.proksi.kotodama.MainActivity
 import com.proksi.kotodama.adapters.FaqAdapter
 import com.proksi.kotodama.adapters.ReviewAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
@@ -91,11 +93,6 @@ class PaywallFragment : Fragment() {
         val faqsAdapter = FaqAdapter(this.requireContext(),faqList)
         design.faqRv.adapter=faqsAdapter
 
-        design.closeButton.setOnClickListener{
-            findNavController().navigate(R.id.action_paywallFragment_to_homeFragment)
-        }
-
-
         val lifetimeLayout: ConstraintLayout = design.lifetimeLayout
         val normalLayout: ConstraintLayout = design.normalLayout
         val mostLayout: ConstraintLayout = design.mostLayout
@@ -127,6 +124,10 @@ class PaywallFragment : Fragment() {
             selectPackage(packageType)
         }
 
+        design.closeButton.setOnClickListener{
+            navigateToHomeFragment()
+        }
+
         fetchAndDisplayOfferings()
 
 
@@ -148,10 +149,13 @@ class PaywallFragment : Fragment() {
                           //  Log.d("hello", "onReceived: ${pkg.product.id} ")
 
                             when (pkg.product.id) {
+
                                 "subscription_annual:subs" -> {
+
                                     normalPackage = pkg
                                     normalPlanButton.text = pkg.product.title.split("(")[0].trim()
                                     design.normalPrice.text = pkg.product.price.formatted
+                                    Log.d(TAG, "normal: normal $normalPackage")
                                 }
 //                                "life_time_offer" -> {
 //                                    lifetimePackage = pkg
@@ -240,12 +244,13 @@ class PaywallFragment : Fragment() {
     }
 
     private fun navigateToHomeFragment() {
-        try {
-            val navController = findNavController()
-            navController.navigate(R.id.action_paywallFragment_to_homeFragment)
-        } catch (e: Exception) {
-            Log.e("NavigationError", "Failed to navigate: ${e.message}")
+        Intent(requireContext(), MainActivity::class.java).also {
+            // Start MainActivity
+            startActivity(it)
+            // Optional: If you want to clear the back stack so the user can't return to PaywallActivity
+            requireActivity().finishAffinity()
         }
+
     }
 
 }

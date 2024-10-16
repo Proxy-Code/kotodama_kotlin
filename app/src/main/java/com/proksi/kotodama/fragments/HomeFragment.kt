@@ -63,6 +63,7 @@ class HomeFragment : Fragment() {
     private var additionalCount: Number? = null
     private var remainingRights : Number? = null
     private var cloningRights : Number? = null
+    private var remaningRightUI = 3
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -105,14 +106,22 @@ class HomeFragment : Fragment() {
 
         //show dialog
         design.imageCrown.setOnClickListener {
-            dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
+            dialogUtils.showPremiumDialogBox(
+                requireContext(),
+                viewLifecycleOwner,
+                lifecycleScope,
+                dataStoreManager )
         }
 
         design.remaningCounterLayout.setOnClickListener{
             if (isSubscribed){
                 dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
             } else {
-                dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
+                dialogUtils.showPremiumDialogBox(
+                    requireContext(),
+                    viewLifecycleOwner,
+                    lifecycleScope,
+                    dataStoreManager )
             }
         }
 
@@ -183,9 +192,12 @@ class HomeFragment : Fragment() {
                 if (isSubscribed){
                     dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
                 } else{
-                    dialogUtils.showPremiumDialogBox(requireContext(),viewLifecycleOwner)
+                    dialogUtils.showPremiumDialogBox(requireContext(),
+                                                     viewLifecycleOwner,
+                                                     lifecycleScope,
+                                                     dataStoreManager )
                 }
-            } else {
+            }else {
 
                 design.progressBar.visibility = View.VISIBLE
                 design.loadingOverlay.visibility = View.VISIBLE
@@ -335,7 +347,11 @@ class HomeFragment : Fragment() {
                 if (voice.id == "create_voice" && isSubscribed) {
                     findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
                 } else if (voice.id == "create_voice" && !isSubscribed) {
-                    dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
+                    dialogUtils.showPremiumDialogBox(
+                        requireContext(),
+                        viewLifecycleOwner,
+                        lifecycleScope,
+                        dataStoreManager )
                 } else {
                     selectedVoiceId = voice.id
                     imageUrl = voice.imageUrl
@@ -392,6 +408,14 @@ class HomeFragment : Fragment() {
                             } else {
                                 // Fallback to a default value if the Firestore data is missing or null
                                 remainingCount = 150
+                            }
+                            if (remainingRights != null) {
+                                if(remainingRights==0){
+                                    remainingCount=0
+                                }
+                                design.remaningText.text = remainingCount.toString()
+                            } else {
+                                design.remaningText.text = "3"
                             }
 
 

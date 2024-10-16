@@ -48,7 +48,8 @@ class SettingsFragment : Fragment() {
         }
 
         design.textViewUpgrade.setOnClickListener{
-            dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner)
+            dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner,lifecycleScope,
+                dataStoreManager)
         }
 
         design.privacyLayout.setOnClickListener{

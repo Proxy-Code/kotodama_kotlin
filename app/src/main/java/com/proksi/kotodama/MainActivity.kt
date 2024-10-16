@@ -32,6 +32,22 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         dataStoreManager = DataStoreManager
 
+//        lifecycleScope.launch {
+//            dataStoreManager.getSubscriptionStatusKey(this@MainActivity).collect { isActive ->
+//                isSubscribed = isActive
+//                Log.d("isSubscribed", "$isSubscribed")
+//
+//                val currentDestination = navController.currentDestination?.id
+//
+//                if (isActive && currentDestination != R.id.homeFragment) {
+//                    navController.navigate(R.id.homeFragment)
+//                } else if (!isActive && currentDestination != R.id.paywallFragment) {
+//                    navController.navigate(R.id.paywallFragment)
+//                }
+//            }
+//        }
+
+
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController= navHostFragment.navController
 
@@ -52,7 +68,6 @@ class MainActivity : BaseActivity() {
                 R.id.voiceLabFormatFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabNameFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabPhotoFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.paywallFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.recordVoiceFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.customizeFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabLoadingFragment -> binding.bottomNavigationView.visibility = View.GONE
@@ -73,17 +88,17 @@ class MainActivity : BaseActivity() {
 
         }
 
-        lifecycleScope.launch {
-            dataStoreManager.getSubscriptionStatusKey(this@MainActivity).collect { isActive ->
-                isSubscribed = isActive
-                Log.d("isSubscribed", "$isSubscribed")
-                if (isActive) {
-                    navController.navigate(R.id.homeFragment)
-                } else {
-                    navController.navigate(R.id.paywallFragment)
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            dataStoreManager.getSubscriptionStatusKey(this@MainActivity).collect { isActive ->
+//                isSubscribed = isActive
+//                Log.d("isSubscribed", "$isSubscribed")
+//                if (isActive) {
+//                    navController.navigate(R.id.homeFragment)
+//                } else {
+//                    navController.navigate(R.id.paywallFragment)
+//                }
+//            }
+//        }
 
         val appsFlyer = AppsFlyerLib.getInstance()
         val apiKey = getString(R.string.appsflyer_api_key)

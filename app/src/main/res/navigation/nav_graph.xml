@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/paywallFragment">
+    app:startDestination="@id/homeFragment">
 
 <!--    <fragment-->
 <!--        android:id="@+id/coverFragment"-->
@@ -97,15 +97,6 @@
         <action
             android:id="@+id/action_voiceLabFormatFragment_to_customizeFragment"
             app:destination="@id/customizeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/paywallFragment"
-        android:name="com.proksi.kotodama.fragments.PaywallFragment"
-        android:label="fragment_paywall"
-        tools:layout="@layout/fragment_paywall" >
-        <action
-            android:id="@+id/action_paywallFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment

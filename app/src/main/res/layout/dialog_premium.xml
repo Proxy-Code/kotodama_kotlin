@@ -309,6 +309,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/getPremiumButton"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="20dp"
             android:text="Continue"

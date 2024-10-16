@@ -16,15 +16,20 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kotodama.app.R
+import com.proksi.kotodama.dataStore.DataStoreManager
 import com.revenuecat.purchases.Offerings
 import com.revenuecat.purchases.Package
+import com.revenuecat.purchases.PurchaseParams
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
 import com.revenuecat.purchases.interfaces.ReceiveOfferingsCallback
+import com.revenuecat.purchases.purchaseWith
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class DialogUtils {
@@ -39,6 +44,7 @@ class DialogUtils {
     private lateinit var mostPopularButton: TextView
     private lateinit var normalPlanButton: TextView
     private lateinit var lifetimeButton: TextView
+    private lateinit var getPremiumButton: TextView
     private lateinit var mostPopularPrice: TextView
     private lateinit var normalPlanPrice: TextView
     private lateinit var lifetimePrice: TextView
@@ -50,8 +56,9 @@ class DialogUtils {
     private lateinit var hundredKTitle: TextView
     private var isPremium:Boolean = true
     private var finalPrice: String = ""
+    private var packageType: String = ""
 
-    fun showPremiumDialogBox(context: Context, viewLifecycleOwner: LifecycleOwner) {
+    fun showPremiumDialogBox(context: Context, viewLifecycleOwner: LifecycleOwner, lifecycleScope: CoroutineScope,dataStoreManager: DataStoreManager) {
 
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -63,6 +70,7 @@ class DialogUtils {
 
         isPremium=true
 
+        getPremiumButton = dialog.findViewById(R.id.getPremiumButton)
         lifetimeButton = dialog.findViewById(R.id.textView151)
         normalPlanButton = dialog.findViewById(R.id.textView152)
         mostPopularButton = dialog.findViewById(R.id.textView15)
@@ -74,18 +82,25 @@ class DialogUtils {
         val mostLayout: ConstraintLayout = dialog.findViewById(R.id.mostLayout)
 
         val layouts = listOf(lifetimeLayout, normalLayout, mostLayout)
+
         fun resetBackgrounds() {
             layouts.forEach { layout ->
                 layout.setBackgroundResource(R.drawable.radius14_bg_white)
             }
         }
-
-        layouts.forEach { layout ->
+        fun setOnClickListener(layout: ConstraintLayout, type: String) {
             layout.setOnClickListener {
                 resetBackgrounds()
                 layout.setBackgroundResource(R.drawable.radius14_bg_white_purple)
+                packageType = type
             }
         }
+
+        setOnClickListener(lifetimeLayout, "lifetime")
+        setOnClickListener(normalLayout, "normal")
+        setOnClickListener(mostLayout, "most")
+
+
 
         fetchAndDisplayOfferings(viewLifecycleOwner)
 
@@ -93,6 +108,10 @@ class DialogUtils {
         closeBtnPremium.setOnClickListener {
             dialog.dismiss()
             showFinalOffer(context)
+        }
+
+        dialog.findViewById<TextView>(R.id.getPremiumButton).setOnClickListener{
+            selectPackage(context, packageType , lifecycleScope, dataStoreManager)
         }
     }
 
@@ -232,6 +251,8 @@ class DialogUtils {
                                 }
                             }
 
+                            getPremiumButton.isEnabled = true
+
                         }
                     }
                 } else {
@@ -243,6 +264,61 @@ class DialogUtils {
                 Log.e("Offerings", "Error fetching offerings: ${error.message}")
             }
         })
+    }
+
+    private fun selectPackage(context: Context, packageType: String, lifecycleScope: CoroutineScope, dataStoreManager: DataStoreManager) {
+        Log.d("selected packagedat", "Selecting package: $packageType")
+
+        when (packageType) {
+            "normal" -> {
+                handleSelectedPackage(context,lifecycleScope,normalPackage,dataStoreManager)
+            }
+//            "lifetime" -> {
+//                handleSelectedPackage(lifetimePackage)
+//            }
+            "most" -> {
+                handleSelectedPackage(context,lifecycleScope,mostPackage,dataStoreManager)
+            }
+        }
+    }
+
+    private fun handleSelectedPackage(context: Context,lifecycleScope: CoroutineScope,selectedPackage: Package,dataStoreManager: DataStoreManager) {
+        Log.d("TAG", selectedPackage.identifier)
+        Purchases.sharedInstance.purchaseWith(
+            PurchaseParams.Builder(context as Activity, selectedPackage).build(),
+            onError = { error, userCancelled ->
+                Log.e("PurchaseError", "Purchase failed: $error, userCancelled: $userCancelled")
+
+            },
+            onSuccess = { storeTransaction, customerInfo ->
+
+                // Check and log the specific entitlement
+                val entitlement = customerInfo.entitlements["subscription"]
+                if (entitlement != null) {
+                    Log.d("Entitlement", "Entitlement details: $entitlement")
+                } else {
+                    Log.d("Entitlement", "Entitlement not found")
+                }
+
+                if (entitlement?.isActive == true) {
+//                    val eventValues = HashMap<String, Any>()
+//                    eventValues.put(AFInAppEventParameterName.CONTENT_ID, selectedPackage.product.id)
+//                    eventValues.put(AFInAppEventParameterName.CONTENT_TYPE, selectedPackage.product.price)
+//                    eventValues.put(AFInAppEventParameterName.REVENUE, selectedPackage.product.price.amountMicros / 1_000_000)
+//
+//                    eventValues.put(AFInAppEventParameterName.CURRENCY,selectedPackage.product.price.currencyCode)
+
+                    lifecycleScope.launch {
+                        dataStoreManager.saveSubscriptionStatus(context as Activity, true)
+
+                    }
+
+
+                } else {
+                    Log.d("onsuccessde", "Entitlement is not active")
+                }
+            }
+        )
     }
 
 }

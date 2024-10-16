@@ -10,7 +10,7 @@ class MyApplication : Application() {
         super.onCreate()
 
         FirebaseApp.initializeApp(this)
-        Purchases.configure(PurchasesConfiguration.Builder(this, "goog_eeDwptXJEvGAUloteeRtTognxZr").build())
+      //  Purchases.configure(PurchasesConfiguration.Builder(this, "goog_eeDwptXJEvGAUloteeRtTognxZr").build())
 
     }
 }
