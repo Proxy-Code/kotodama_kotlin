@@ -5,7 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.kotodama.app.R
+import com.kotodama.tts.R
 import com.proksi.kotodama.fragments.PaywallFragment
 
 class PaywallActivity : AppCompatActivity() {

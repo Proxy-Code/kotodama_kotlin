@@ -16,8 +16,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentRecordVoiceBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentRecordVoiceBinding
 import com.proksi.kotodama.models.AudioRecord
 import com.proksi.kotodama.viewmodel.CloneViewModel
 import java.io.File

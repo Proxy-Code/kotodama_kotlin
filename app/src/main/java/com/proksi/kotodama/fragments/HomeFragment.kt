@@ -25,8 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.nl.languageid.LanguageIdentifier
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentHomeBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentHomeBinding
 import com.proksi.kotodama.adapters.CategoryAdapter
 import com.proksi.kotodama.adapters.VoicesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
     private var additionalCount: Number? = null
     private var remainingRights : Number? = null
     private var cloningRights : Number? = null
-    private var remaningRightUI = 3
+    private var tokenCounter = 3
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,13 +115,15 @@ class HomeFragment : Fragment() {
 
         design.remaningCounterLayout.setOnClickListener{
             if (isSubscribed){
-                dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
+              //  dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
             } else {
-                dialogUtils.showPremiumDialogBox(
-                    requireContext(),
-                    viewLifecycleOwner,
-                    lifecycleScope,
-                    dataStoreManager )
+//                dialogUtils.showPremiumDialogBox(
+//                    requireContext(),
+//                    viewLifecycleOwner,
+//                    lifecycleScope,
+//                    dataStoreManager )
+                dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner,lifecycleScope, dataStoreManager)
+//
             }
         }
 
@@ -145,6 +147,8 @@ class HomeFragment : Fragment() {
                     design.remaningText.text = remainingCount.toString()
                 }else{
                     design.remaningText.text = remainingCount.toString()
+                    design.remaningText.setTextColor(ContextCompat.getColor(this@HomeFragment.requireContext(), R.color.black))
+
                 }
 
 
@@ -190,7 +194,7 @@ class HomeFragment : Fragment() {
 
             if (remainingCount < 0 ){
                 if (isSubscribed){
-                    dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
+                    dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner,lifecycleScope, dataStoreManager )
                 } else{
                     dialogUtils.showPremiumDialogBox(requireContext(),
                                                      viewLifecycleOwner,
@@ -331,6 +335,9 @@ class HomeFragment : Fragment() {
                     design.progressBar.visibility = View.GONE
                     design.loadingOverlay.visibility = View.GONE
                     Log.d(TAG, "Error: $errorMessage")
+                    Toast.makeText(this@HomeFragment.requireContext(), "An error occurred: $errorMessage", Toast.LENGTH_LONG).show()
+
+
                 }
             }
 
@@ -342,7 +349,7 @@ class HomeFragment : Fragment() {
 
     private fun setupVoicesAdapter() {
         Log.d(TAG, "setupVoicesAdapter: called")
-        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, false, object : VoicesAdapter.OnVoiceSelectedListener {
+        adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, false,dataStoreManager, viewLifecycleOwner,object : VoicesAdapter.OnVoiceSelectedListener {
             override fun onVoiceSelected(voice: VoiceModel) {
                 if (voice.id == "create_voice" && isSubscribed) {
                     findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
@@ -358,6 +365,9 @@ class HomeFragment : Fragment() {
                     name = voice.name
                     updateCreateButtonState()
                 }
+            }
+            override fun deleteClone(cloneId: String, context: Context) {
+                viewModel.deleteClone(cloneId, context)
             }
         })
 
@@ -396,41 +406,48 @@ class HomeFragment : Fragment() {
                         Log.d(TAG, "getUidFromDataStore: $documentSnapshot")
 
                         if (documentSnapshot != null && documentSnapshot.exists()) {
-                            // Fetch data from Firestore
+
                             remainingCharacters = documentSnapshot.getLong("remainingCharacters")
                             additionalCount = documentSnapshot.getLong("additionalCount")
                             remainingRights = documentSnapshot.getLong("remainingRights")
                             cloningRights = documentSnapshot.getLong("cloningRights")
 
-                            // Only update `remainingCount` if both values are available
-                            if (remainingCharacters != null && additionalCount != null) {
-                                remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
-                            } else {
-                                // Fallback to a default value if the Firestore data is missing or null
-                                remainingCount = 150
-                            }
+                            Log.d(TAG, "BOSDEGIL $remainingRights $remainingCount ")
+
+
                             if (remainingRights != null) {
                                 if(remainingRights==0){
                                     remainingCount=0
+                                    tokenCounter=0
+                                }else{
+                                    if (remainingCharacters != null && additionalCount != null) {
+                                        remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
+                                    } else {
+                                        remainingCount = 150
+                                    }
+                                }
+
+                                design.remaningText.text = remainingCount.toString()
+                                design.tokenCounterText.text=remainingRights.toString()
+                            } else {
+                                design.tokenCounterText.text = "3"
+                                if (remainingCharacters != null && additionalCount != null) {
+                                    remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
+                                } else {
+                                    remainingCount = 150
                                 }
                                 design.remaningText.text = remainingCount.toString()
-                            } else {
-                                design.remaningText.text = "3"
                             }
-
-
-                            Log.d("Home Firestore", "Real-time User data: $remainingCount")
 
                         } else {
                             // If document does not exist, set the default values
                             remainingCount = 150
-                            remainingRights = 3
-                            Log.d("Home Firestore", "User document does not exist")
+                            tokenCounter=3
+                            design.remaningText.text = remainingCount.toString()
+                            design.tokenCounterText.text = tokenCounter.toString()
                         }
 
-                        // Update the UI with the fetched values
-                        design.remaningText.text = remainingCount.toString()
-                        design.tokenCounterText.text = remainingRights.toString()
+
                     }
                 } else {
                     Log.d("HomeFragment", "No UID found in DataStore")
@@ -438,6 +455,8 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+
 
 
 

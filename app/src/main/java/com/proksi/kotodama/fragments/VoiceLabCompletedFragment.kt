@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
-import com.kotodama.app.R
+import com.kotodama.tts.R
 
 class VoiceLabCompletedFragment : Fragment() {
 

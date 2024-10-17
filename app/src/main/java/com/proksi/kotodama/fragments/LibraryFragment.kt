@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentLibraryBinding
-import com.kotodama.app.databinding.FragmentNullFilesBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentLibraryBinding
+import com.kotodama.tts.databinding.FragmentNullFilesBinding
 import com.proksi.kotodama.adapters.LibraryAdapter
 import com.proksi.kotodama.models.SwipeGesture
 import com.proksi.kotodama.viewmodel.UserLibraryViewModel

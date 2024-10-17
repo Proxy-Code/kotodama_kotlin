@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.kotodama.app.R
+import com.kotodama.tts.R
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.models.Category
 import com.proksi.kotodama.models.VoiceModel
@@ -195,4 +195,30 @@ class HomeViewModel : ViewModel() {
         // Filtrelenmiş veriyi _data ile güncelle
         _data.value = filteredVoices
     }
+
+    fun deleteClone(cloneId: String, context: Context) {
+        viewModelScope.launch {
+            dataStoreManager.getUid(context).collect { uid ->
+                if (uid != null) {
+                    val db = FirebaseFirestore.getInstance()
+                    val userDocRef = db.collection("users").document(uid)
+
+                    // Reference to the clone document
+                    val cloneDocRef = userDocRef.collection("clones").document(cloneId)
+
+                    // Delete clone from Firestore
+                    cloneDocRef.delete().addOnSuccessListener {
+                        Log.d("DeleteClone", "Clone deleted from Firestore")
+
+                        // After deleting from Firestore, update the UI
+                        val updatedList = _data.value?.filterNot { it.id == cloneId }
+                        _data.value = updatedList
+                    }.addOnFailureListener { exception ->
+                        Log.e("DeleteClone", "Error deleting clone: $exception")
+                    }
+                }
+            }
+        }
+    }
+
 }

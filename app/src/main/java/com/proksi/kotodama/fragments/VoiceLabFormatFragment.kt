@@ -26,8 +26,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentVoiceLabFormatBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentVoiceLabFormatBinding
 import com.proksi.kotodama.adapters.RecordUploadVoices
 import com.proksi.kotodama.models.AudioRecord
 import com.proksi.kotodama.viewmodel.CloneViewModel

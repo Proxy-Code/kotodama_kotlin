@@ -29,8 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentVoiceLabLoadingBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentVoiceLabLoadingBinding
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiClient.cloneService

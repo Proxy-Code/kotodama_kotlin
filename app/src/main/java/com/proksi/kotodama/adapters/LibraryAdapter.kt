@@ -19,9 +19,9 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kotodama.app.R
-import com.kotodama.app.databinding.CardViewLibraryBinding
-import com.kotodama.app.databinding.FaqsCardViewBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.CardViewLibraryBinding
+import com.kotodama.tts.databinding.FaqsCardViewBinding
 import com.proksi.kotodama.dataStore.DataStoreManager.getUid
 import com.proksi.kotodama.models.Faqs
 import com.proksi.kotodama.models.UserLibrary
@@ -213,7 +213,7 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
                     val currentPosition = it.currentPosition
                     holder.design.seekbar.progress = currentPosition
                     holder.design.startTime.text = formatTime(currentPosition)
-                    handler.postDelayed(this, 1000)  // Her saniye güncelle
+                    handler.postDelayed(this, 1)  // Her saniye güncelle
                 }
             }
         }

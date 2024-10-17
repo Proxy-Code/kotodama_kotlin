@@ -27,8 +27,8 @@ import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentVoiceLabPhotoBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentVoiceLabPhotoBinding
 
 
 class VoiceLabExampleFragment : Fragment() {

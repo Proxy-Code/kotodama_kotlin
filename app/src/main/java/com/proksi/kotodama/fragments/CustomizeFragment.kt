@@ -35,9 +35,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentCustomizeBinding
-import com.kotodama.app.databinding.FragmentVoiceLabFormatBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentCustomizeBinding
+import com.kotodama.tts.databinding.FragmentVoiceLabFormatBinding
 import com.proksi.kotodama.adapters.ImagesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.retrofit.ApiClient
@@ -334,7 +334,9 @@ class CustomizeFragment : Fragment() {
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 cont.resume(task.result?.token)
+                Log.d(TAG, "getFirebaseIdToken: success ")
             } else {
+                Log.d(TAG, "getFirebaseIdToken: basarisiz")
                 cont.resumeWithException(task.exception ?: Exception("Unknown error"))
             }
         }

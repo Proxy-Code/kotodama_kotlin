@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
-import com.kotodama.app.R
+import com.kotodama.tts.R
 import com.proksi.kotodama.MainActivity
 
 

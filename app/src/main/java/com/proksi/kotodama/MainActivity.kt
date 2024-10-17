@@ -9,8 +9,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.proksi.kotodama.fragments.LibraryFragment
-import com.kotodama.app.R
-import com.kotodama.app.databinding.ActivityMainBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.ActivityMainBinding
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.fragments.SettingsFragment
 import kotlinx.coroutines.launch

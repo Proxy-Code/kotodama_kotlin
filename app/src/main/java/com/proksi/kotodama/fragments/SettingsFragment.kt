@@ -13,8 +13,8 @@ import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentSettingsBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentSettingsBinding
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.utils.DialogUtils
 import kotlinx.coroutines.launch
@@ -68,10 +68,6 @@ class SettingsFragment : Fragment() {
 
         design.mailSupportLayout.setOnClickListener(){
             sendEmail()
-        }
-
-        design.languageLayout.setOnClickListener(){
-            findNavController().navigate(R.id.action_settingsFragment_to_languageFragment)
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}

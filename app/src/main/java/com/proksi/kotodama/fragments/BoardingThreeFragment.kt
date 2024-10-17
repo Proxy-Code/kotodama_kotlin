@@ -15,7 +15,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.navigation.fragment.findNavController
-import com.kotodama.app.R
+import com.kotodama.tts.R
 
 
 class BoardingThreeFragment : Fragment() {

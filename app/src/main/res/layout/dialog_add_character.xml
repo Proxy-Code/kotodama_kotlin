@@ -173,6 +173,7 @@
 
 
     <TextView
+        android:id="@+id/buyButton"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="30dp"
         android:text="Buy"
@@ -182,7 +183,7 @@
         android:textAlignment="center"
         android:fontFamily="@font/bold"
         android:paddingVertical="15dp"
-        android:enabled="false"
+
         android:layout_marginBottom="20dp"
         android:background="@drawable/radius_13_purple"
         android:layout_height="wrap_content"/>

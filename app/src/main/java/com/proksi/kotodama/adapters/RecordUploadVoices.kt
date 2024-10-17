@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
-import com.kotodama.app.R
-import com.kotodama.app.databinding.CardviewUploadrecordedVoicesBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.CardviewUploadrecordedVoicesBinding
 import com.proksi.kotodama.models.AudioRecord
 import com.proksi.kotodama.viewmodel.CloneViewModel
 

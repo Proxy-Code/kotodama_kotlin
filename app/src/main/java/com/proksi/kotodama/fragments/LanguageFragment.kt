@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentLanguageBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentLanguageBinding
 
 import com.proksi.kotodama.adapters.LanguageAdapter
 import com.proksi.kotodama.models.Language

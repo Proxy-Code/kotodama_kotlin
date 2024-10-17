@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentVoiceLabNameeBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentVoiceLabNameeBinding
 import com.proksi.kotodama.viewmodel.CloneViewModel
 
 

@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kotodama.app.R
-import com.kotodama.app.databinding.CardViewImagesBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.CardViewImagesBinding
 import com.proksi.kotodama.models.Image
 
 class ImagesAdapter (

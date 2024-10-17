@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kotodama.app.databinding.FaqsCardViewBinding
+import com.kotodama.tts.databinding.FaqsCardViewBinding
 import com.proksi.kotodama.models.Faqs
 
 class FaqAdapter(var mContext: Context, val items:MutableList<Faqs>) :

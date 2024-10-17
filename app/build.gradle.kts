@@ -7,15 +7,15 @@ plugins {
 }
 
 android {
-    namespace = "com.kotodama.app"
+    namespace = "com.kotodama.tts"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.kotodama.app"
+        applicationId = "com.kotodama.tts"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 6
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

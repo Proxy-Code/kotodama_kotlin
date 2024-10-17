@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kotodama.app.databinding.LanguageCardViewBinding
+import com.kotodama.tts.databinding.LanguageCardViewBinding
 import com.proksi.kotodama.models.Language
 
 class LanguageAdapter(private var mContext: Context,

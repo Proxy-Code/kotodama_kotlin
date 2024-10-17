@@ -3,7 +3,7 @@ package com.proksi.kotodama
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.kotodama.app.R
+import com.kotodama.tts.R
 
 class OnboardingActivity : AppCompatActivity() {
 

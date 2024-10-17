@@ -19,8 +19,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentPaywallBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentPaywallBinding
 import com.proksi.kotodama.MainActivity
 import com.proksi.kotodama.adapters.FaqAdapter
 import com.proksi.kotodama.adapters.ReviewAdapter

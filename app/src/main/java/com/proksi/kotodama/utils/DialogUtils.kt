@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -20,7 +21,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.kotodama.app.R
+import com.kotodama.tts.R
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.revenuecat.purchases.Offerings
 import com.revenuecat.purchases.Package
@@ -115,7 +116,7 @@ class DialogUtils {
         }
     }
 
-    fun showAddCharacterDialogBox(context: Context, viewLifecycleOwner: LifecycleOwner){
+    fun showAddCharacterDialogBox(context: Context, viewLifecycleOwner: LifecycleOwner,lifecycleScope: CoroutineScope,dataStoreManager: DataStoreManager){
         val dialog = BottomSheetDialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -146,11 +147,27 @@ class DialogUtils {
             }
         }
 
-        layouts.forEach { layout ->
-            layout?.setOnClickListener {
+
+        fun setOnClickListener(layout: ConstraintLayout, type: String) {
+            layout.setOnClickListener {
                 resetBackgrounds()
                 layout.setBackgroundResource(R.drawable.radius14_bg_white_purple)
+                packageType = type
             }
+        }
+
+        if (tenKLayout != null) {
+            setOnClickListener(tenKLayout, "10k")
+        }
+        if (fiftyKLayout != null) {
+            setOnClickListener(fiftyKLayout, "50k")
+        }
+        if (hundredKLayout != null) {
+            setOnClickListener(hundredKLayout, "100k")
+        }
+
+        dialog.findViewById<TextView>(R.id.buyButton)!!.setOnClickListener{
+            selectPackage(context, packageType , lifecycleScope, dataStoreManager)
         }
 
         fetchAndDisplayOfferings(viewLifecycleOwner)
@@ -160,6 +177,16 @@ class DialogUtils {
 
     @SuppressLint("SetTextI18n")
     fun showFinalOffer(context: Context) {
+        val sharedPreferences: SharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val lastOfferKey = "lastOfferKey"
+        val storedValue = sharedPreferences.getLong(lastOfferKey, 0)
+        val currentTime = System.currentTimeMillis() / 1000
+        val timeDiff = currentTime - storedValue
+
+        // Eğer zaman farkı 5 dakikadan fazla ise final offer'ı gösterme
+        if (timeDiff > 300) {
+            return
+        }
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -251,7 +278,11 @@ class DialogUtils {
                                 }
                             }
 
-                            getPremiumButton.isEnabled = true
+                            if (::getPremiumButton.isInitialized) {
+                                getPremiumButton.isEnabled = true
+                            } else {
+                                Log.e("DialogUtils", "getPremiumButton not initialized yet")
+                            }
 
                         }
                     }
@@ -279,11 +310,23 @@ class DialogUtils {
             "most" -> {
                 handleSelectedPackage(context,lifecycleScope,mostPackage,dataStoreManager)
             }
+            "10k" -> {
+                handleSelectedPackage(context,lifecycleScope,tenKPackage,dataStoreManager)
+            }
+            "50k" -> {
+                handleSelectedPackage(context,lifecycleScope,fiftyKPackage,dataStoreManager)
+            }
+            "100k" -> {
+                handleSelectedPackage(context,lifecycleScope,hundredKPackage,dataStoreManager)
+            }
         }
     }
 
     private fun handleSelectedPackage(context: Context,lifecycleScope: CoroutineScope,selectedPackage: Package,dataStoreManager: DataStoreManager) {
-        Log.d("TAG", selectedPackage.identifier)
+        Log.d("TAG", selectedPackage.product.id)
+        Log.d("TAG", selectedPackage.packageType.name)
+
+
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(context as Activity, selectedPackage).build(),
             onError = { error, userCancelled ->

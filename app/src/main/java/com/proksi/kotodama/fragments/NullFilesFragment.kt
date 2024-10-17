@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.kotodama.app.R
-import com.kotodama.app.databinding.FragmentHomeBinding
-import com.kotodama.app.databinding.FragmentNullFilesBinding
+import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentHomeBinding
+import com.kotodama.tts.databinding.FragmentNullFilesBinding
 import com.proksi.kotodama.BaseFragment
 import com.proksi.kotodama.viewmodel.UserLibraryViewModel
 

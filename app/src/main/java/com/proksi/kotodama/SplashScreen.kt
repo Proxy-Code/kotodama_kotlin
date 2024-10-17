@@ -16,7 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
-import com.kotodama.app.R
+import com.kotodama.tts.R
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.fragments.RecordVoiceFragment
 import com.revenuecat.purchases.*
@@ -38,7 +38,7 @@ class SplashScreen : AppCompatActivity() {
     companion object {
         private const val SPLASH_DELAY = 2000L
         private const val RC_FETCH_INTERVAL = 3600L
-        private const val REVENUE_CAT_KEY = "goog_eeDwptXJEvGAUloteeRtTognxZr"
+        private const val REVENUE_CAT_KEY = "goog_ZFxhttuGLirLABneJJhRTbkNOst"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,10 +119,12 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun handleCustomerInfo(customerInfo: CustomerInfo) {
-        val isActive = customerInfo.entitlements["subscription"]?.isActive ?: false
+        val isActive = customerInfo.entitlements["Subscription"]?.isActive ?: false
         Log.d("isSubscribed SPLASH", "$isActive")
         lifecycleScope.launch {
             dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
+           // dataStoreManager.saveSubscriptionStatus(this@SplashScreen, true)
+
         }
         isSubscribed = isActive
         if (isActive) {
