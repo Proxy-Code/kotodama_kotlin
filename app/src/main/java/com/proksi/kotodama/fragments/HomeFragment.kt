@@ -14,7 +14,10 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,15 +33,19 @@ import com.kotodama.tts.databinding.FragmentHomeBinding
 import com.proksi.kotodama.adapters.CategoryAdapter
 import com.proksi.kotodama.adapters.VoicesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.dataStore.DataStoreManager.saveText
 import com.proksi.kotodama.models.VoiceModel
 import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiInterface
 import com.proksi.kotodama.utils.DialogUtils
 import com.proksi.kotodama.viewmodel.HomeViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
+import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.properties.Delegates
@@ -57,13 +64,13 @@ class HomeFragment : Fragment() {
     private val choices = listOf("en", "es", "fr", "de", "it", "pt", "pl", "tr", "ru", "nl", "cs", "ar", "zh", "hu", "ko", "hi")
     private var isSubscribed:Boolean = false
     private val TAG = HomeFragment::class.java.simpleName
-    private var hasClone by Delegates.notNull<Boolean>()
     private var remainingCount = 150
     private var remainingCharacters : Number? = null
     private var additionalCount: Number? = null
     private var remainingRights : Number? = null
     private var cloningRights : Number? = null
     private var tokenCounter = 3
+    private var initialRemainingCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,21 +79,28 @@ class HomeFragment : Fragment() {
         design = FragmentHomeBinding.inflate(inflater, container, false)
         dataStoreManager = DataStoreManager
 
-        //check for subscription
-        lifecycleScope.launch {
-            dataStoreManager.getSubscriptionStatusKey(this@HomeFragment.requireContext()).collect { isActive ->
-                isSubscribed = isActive
-                if (isActive) {
-                    design.imageCrown.visibility=View.GONE
-                    design.counterLayout.visibility=View.GONE
-                }
-                setupVoicesAdapter()
-            }
+        val currentView = view
+        if (currentView != null) {
+            val lifecycleOwner = currentView.findViewTreeLifecycleOwner()
+            // Continue with your operations
         }
 
-        getUidFromDataStore(requireContext())
+//        lifecycleScope.launchWhenStarted {
+//            dataStoreManager.getText(requireContext()).collect { text ->
+//
+//                Log.d("aaaaaaa", "onCreateView: $text")
+//                design.editTextLayout.setText(text)
+//
+//                // Trigger remaining count update when text is loaded from DataStore
+//                if (text != null) {
+//                    remainingCount = initialRemainingCount - text.length
+//                    updateRemainingCountUI(remainingCount)
+//                    design.editTextLayout.setSelection(text.length)
+//                }
+//            }
+//        }
 
-        //Adapters
+
         design.recyclerViewCategories.layoutManager=
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         design.recyclerViewVoices.layoutManager=
@@ -115,15 +129,17 @@ class HomeFragment : Fragment() {
 
         design.remaningCounterLayout.setOnClickListener{
             if (isSubscribed){
-              //  dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner)
+               dialogUtils.showAddCharacterDialogBox( requireContext(),
+                   viewLifecycleOwner,
+                   lifecycleScope,
+                   dataStoreManager)
             } else {
-//                dialogUtils.showPremiumDialogBox(
-//                    requireContext(),
-//                    viewLifecycleOwner,
-//                    lifecycleScope,
-//                    dataStoreManager )
-                dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner,lifecycleScope, dataStoreManager)
-//
+                dialogUtils.showPremiumDialogBox(
+                    requireContext(),
+                    viewLifecycleOwner,
+                    lifecycleScope,
+                    dataStoreManager )
+
             }
         }
 
@@ -131,47 +147,58 @@ class HomeFragment : Fragment() {
             hideKeyboard()
             design.langCodeLayout.visibility = View.GONE
             design.doneLayout.visibility = View.GONE
+            design.deleteLayout.visibility = View.GONE
         }
 
         design.editTextLayout.addTextChangedListener(object : TextWatcher {
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             @SuppressLint("ResourceAsColor")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val enteredText = s.toString().trim()
-
-                remainingCount = 150 - s.toString().length
-
-                if (remainingCount<0){
-                    design.remaningText.setTextColor(ContextCompat.getColor(this@HomeFragment.requireContext(), R.color.progress_red))
-
-                    design.remaningText.text = remainingCount.toString()
-                }else{
-                    design.remaningText.text = remainingCount.toString()
-                    design.remaningText.setTextColor(ContextCompat.getColor(this@HomeFragment.requireContext(), R.color.black))
-
-                }
-
+                remainingCount = initialRemainingCount - enteredText.length
+                updateRemainingCountUI(remainingCount)
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     val languageCode = recognizeLanguage(enteredText)
-                    Log.d(TAG, "Recognized Language Code: $languageCode")
-//                    design.langCode.text=languageCode
-//                    design.langCodeImg.setImageResource(R.drawable.circle_green)
+
                 }
+
             }
 
             override fun afterTextChanged(s: Editable?) {
                 enteredText = s.toString().trim()
                 if (enteredText.isEmpty()) {
-                    design.langCodeLayout.visibility = View.GONE  // Layout'u gizle
+                    design.langCodeLayout.visibility = View.GONE
                     design.doneLayout.visibility = View.GONE
+                    design.deleteLayout.visibility = View.GONE
                 } else {
-                    design.langCodeLayout.visibility = View.VISIBLE  // Layout'u göster
+                    design.langCodeLayout.visibility = View.VISIBLE
                     design.doneLayout.visibility = View.VISIBLE
+                    design.deleteLayout.visibility = View.VISIBLE
                 }
-                updateCreateButtonState() // Butonun aktif olup olmadığını kontrol et
+
+                updateCreateButtonState()
+
             }
         })
+
+        design.deleteLayout.setOnClickListener {
+            // EditText'in içindeki metni sil
+            design.editTextLayout.setText("")
+
+            // Remaining count'u sıfırla
+            remainingCount = initialRemainingCount
+            updateRemainingCountUI(remainingCount)
+
+            // Diğer UI elementlerini gizle
+            design.langCodeLayout.visibility = View.GONE
+            design.doneLayout.visibility = View.GONE
+
+            // Eğer başka bir işlem yapılacaksa (örneğin createButton'u disable etmek), buraya ekleyin
+            updateCreateButtonState()
+        }
+
 
         design.searchVoice.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -237,6 +264,22 @@ class HomeFragment : Fragment() {
         return design.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        lifecycleScope.launch {
+            dataStoreManager.getSubscriptionStatusKey(this@HomeFragment.requireContext()).collect { isActive ->
+                isSubscribed = isActive
+                if (isActive) {
+                    design.imageCrown.visibility=View.GONE
+                    design.counterLayout.visibility=View.GONE
+                }
+                setupVoicesAdapter()
+            }
+        }
+        getUidFromDataStore(requireContext())
+    }
+
     private fun hideKeyboard() {
         dialogUtils.hideKeyboard(requireActivity())
     }
@@ -271,7 +314,9 @@ class HomeFragment : Fragment() {
                 .addOnSuccessListener { languageCode ->
                     if (languageCode != "und") {
                         val result = if (choices.contains(languageCode)) languageCode else "en"
-                        design.langCode.text=languageCode
+
+                        val languageName = Locale(languageCode).displayLanguage // Dil adını al
+                        design.langCode.text = languageName // Dil adını göster
                         design.langCodeImg.setImageResource(R.drawable.circle_green)
                         cont.resume(result)
                     } else {
@@ -348,7 +393,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupVoicesAdapter() {
-        Log.d(TAG, "setupVoicesAdapter: called")
+        val currentView = view ?: return // Exit if view is null
+
         adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, false,dataStoreManager, viewLifecycleOwner,object : VoicesAdapter.OnVoiceSelectedListener {
             override fun onVoiceSelected(voice: VoiceModel) {
                 if (voice.id == "create_voice" && isSubscribed) {
@@ -403,33 +449,37 @@ class HomeFragment : Fragment() {
                             return@addSnapshotListener
                         }
 
-                        Log.d(TAG, "getUidFromDataStore: $documentSnapshot")
-
                         if (documentSnapshot != null && documentSnapshot.exists()) {
-
-                            remainingCharacters = documentSnapshot.getLong("remainingCharacters")
-                            additionalCount = documentSnapshot.getLong("additionalCount")
+                            remainingCharacters = documentSnapshot.getLong("remainingCount")
+                            additionalCount = documentSnapshot.getLong("additionalCount") ?: 0L
                             remainingRights = documentSnapshot.getLong("remainingRights")
                             cloningRights = documentSnapshot.getLong("cloningRights")
 
-                            Log.d(TAG, "BOSDEGIL $remainingRights $remainingCount ")
-
-
                             if (remainingRights != null) {
-                                if(remainingRights==0){
-                                    remainingCount=0
-                                    tokenCounter=0
-                                }else{
-                                    if (remainingCharacters != null && additionalCount != null) {
+                                if (remainingRights == 0L) {
+                                    if (!isSubscribed){
+                                        remainingCount = 0
+                                        tokenCounter = 0
+                                        Log.d(TAG, "getUidFromDataStore: Token sıfır -> remainingCount: $remainingCount")
+                                        design.remaningText.text = remainingCount.toString()
+                                        design.tokenCounterText.text = tokenCounter.toString()
+                                    }else{
+                                        remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
+                                        design.remaningText.text = remainingCount.toString()
+                                        design.tokenCounterText.text = tokenCounter.toString()
+                                    }
+
+                                } else {
+                                    if (remainingCharacters != null) {
                                         remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
                                     } else {
                                         remainingCount = 150
                                     }
+                                    design.remaningText.text = remainingCount.toString()
+                                    design.tokenCounterText.text = remainingRights.toString()
                                 }
-
-                                design.remaningText.text = remainingCount.toString()
-                                design.tokenCounterText.text=remainingRights.toString()
                             } else {
+                                // Eğer remainingRights null ise varsayılan değerler
                                 design.tokenCounterText.text = "3"
                                 if (remainingCharacters != null && additionalCount != null) {
                                     remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
@@ -438,16 +488,29 @@ class HomeFragment : Fragment() {
                                 }
                                 design.remaningText.text = remainingCount.toString()
                             }
-
                         } else {
-                            // If document does not exist, set the default values
+                            // Eğer documentSnapshot yoksa varsayılan değerler
                             remainingCount = 150
-                            tokenCounter=3
+                            tokenCounter = 3
                             design.remaningText.text = remainingCount.toString()
                             design.tokenCounterText.text = tokenCounter.toString()
                         }
+                        initialRemainingCount = remainingCount
+                        lifecycleScope.launchWhenStarted {
+                            dataStoreManager.getText(requireContext()).collect { text ->
 
+                                Log.d("aaaaaaa", "onCreateView: $text")
+                                design.editTextLayout.setText(text)
 
+                                // Trigger remaining count update when text is loaded from DataStore
+                                if (text != null) {
+                                    remainingCount = initialRemainingCount - text.length
+                                    updateRemainingCountUI(remainingCount)
+                                    design.editTextLayout.setSelection(text.length)
+                                }
+                            }
+                        }
+                        Log.d(TAG, "getUidFromDataStore: $initialRemainingCount")
                     }
                 } else {
                     Log.d("HomeFragment", "No UID found in DataStore")
@@ -456,7 +519,21 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        lifecycleScope.launch {
+            dataStoreManager.saveText(requireContext(),enteredText)
+        }
+    }
 
+    private fun updateRemainingCountUI(remainingCount: Int) {
+        if (remainingCount < 0) {
+            design.remaningText.setTextColor(ContextCompat.getColor(this@HomeFragment.requireContext(), R.color.progress_red))
+        } else {
+            design.remaningText.setTextColor(ContextCompat.getColor(this@HomeFragment.requireContext(), R.color.black))
+        }
+        design.remaningText.text = remainingCount.toString()
+    }
 
 
 

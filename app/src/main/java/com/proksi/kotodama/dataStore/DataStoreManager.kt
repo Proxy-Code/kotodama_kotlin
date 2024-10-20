@@ -15,7 +15,7 @@ val Context.dataStore : DataStore<androidx.datastore.preferences.core.Preference
 object DataStoreManager {
     private val UID = stringPreferencesKey("uid")
     private val SUBSCRIPTION_STATUS_KEY = booleanPreferencesKey("subscription_status")
-
+    private val USER_TEXT_KEY = stringPreferencesKey("user_text")
     suspend fun savedUid(context: Context,uid:String){
         context.dataStore.edit { preferences ->
             preferences[UID] = uid
@@ -29,6 +29,12 @@ object DataStoreManager {
         }
     }
 
+    suspend fun saveText(context: Context,text: String) {
+        context.dataStore.edit { preferences ->
+            preferences[USER_TEXT_KEY] = text
+        }
+    }
+
     fun getSubscriptionStatusKey(context:Context):Flow<Boolean> {
         return context.dataStore.data.map { preferences ->
             preferences[SUBSCRIPTION_STATUS_KEY]?: false
@@ -37,6 +43,12 @@ object DataStoreManager {
     fun getUid(context: Context): Flow<String?> {
         return context.dataStore.data.map { preferences ->
             preferences[UID]
+        }
+    }
+
+    fun getText(context: Context): Flow<String?> {
+        return context.dataStore.data.map { preferences ->
+            preferences[USER_TEXT_KEY]
         }
     }
 }

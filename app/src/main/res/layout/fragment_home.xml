@@ -179,7 +179,27 @@
                    android:layout_height="wrap_content"/>
            </LinearLayout>
            <LinearLayout
-                android:visibility="gone"
+               android:visibility="gone"
+               android:id="@+id/deleteLayout"
+               android:layout_width="wrap_content"
+               android:background="@drawable/circle_purple"
+               android:gravity="center"
+               android:layout_gravity="bottom|end"
+               android:paddingVertical="3dp"
+               android:layout_marginEnd="50dp"
+               android:paddingHorizontal="3dp"
+               android:layout_height="24dp">
+
+               <ImageView
+                   android:id="@+id/delete"
+                   android:src="@drawable/deletetrash"
+                   android:textColor="@color/white"
+                   android:fontFamily="@font/medium"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"/>
+           </LinearLayout>
+           <LinearLayout
+               android:visibility="gone"
                android:id="@+id/doneLayout"
                android:layout_width="wrap_content"
                android:background="@drawable/radius11_purple"

@@ -12,7 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -34,6 +36,7 @@ import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
 import com.revenuecat.purchases.interfaces.ReceiveOfferingsCallback
 import com.revenuecat.purchases.purchaseWith
+import com.revenuecat.purchases.restorePurchasesWith
 import kotlinx.coroutines.launch
 
 class PaywallFragment : Fragment() {
@@ -49,7 +52,6 @@ class PaywallFragment : Fragment() {
     private val TAG = PaywallFragment::class.java.simpleName
     private lateinit var mostPopularButton:TextView
     private lateinit var normalPlanButton:TextView
-    private lateinit var lifetimeButton:TextView
     private lateinit var dataStoreManager: DataStoreManager
     private var packageType: String = ""
 
@@ -71,7 +73,7 @@ class PaywallFragment : Fragment() {
 
         mostPopularButton=design.textView15
         normalPlanButton=design.textView152
-        lifetimeButton=design.textView151
+
 
         val adapter = ReviewAdapter(reviews)
         recyclerView.adapter = adapter
@@ -93,12 +95,16 @@ class PaywallFragment : Fragment() {
         val faqsAdapter = FaqAdapter(this.requireContext(),faqList)
         design.faqRv.adapter=faqsAdapter
 
-        val lifetimeLayout: ConstraintLayout = design.lifetimeLayout
+
         val normalLayout: ConstraintLayout = design.normalLayout
         val mostLayout: ConstraintLayout = design.mostLayout
 
-        val layouts = listOf(lifetimeLayout, normalLayout, mostLayout)
+        val layouts = listOf( normalLayout, mostLayout)
 
+        design.restoreButtonLayout.setOnClickListener{
+            restorePurchases()
+            showLoadingState(true)
+        }
 
         fun resetBackgrounds() {
             layouts.forEach { layout ->
@@ -114,7 +120,6 @@ class PaywallFragment : Fragment() {
             }
         }
 
-        setOnClickListener(lifetimeLayout, "lifetime")
         setOnClickListener(normalLayout, "normal")
         setOnClickListener(mostLayout, "most")
 
@@ -145,8 +150,6 @@ class PaywallFragment : Fragment() {
                         for (pkg in availablePackages) {
 
                             Log.d(TAG, "onReceived: ${pkg} ")
-                            lifetimeButton.text=pkg.product.title
-                          //  Log.d("hello", "onReceived: ${pkg.product.id} ")
 
                             when (pkg.product.id) {
 
@@ -251,6 +254,55 @@ class PaywallFragment : Fragment() {
             requireActivity().finishAffinity()
         }
 
+    }
+
+    private fun restorePurchases() {
+        Purchases.sharedInstance.restorePurchasesWith(
+            onSuccess = { customerInfo ->
+                val entitlement = customerInfo.entitlements["subscription"]
+                if (entitlement?.isActive == true) {
+
+                    Log.d("Restore", "Subscription restored successfully")
+
+                    lifecycleScope.launch {
+                        dataStoreManager.saveSubscriptionStatus(requireContext(), true)
+                        navigateToHomeFragment() // Geri yüklendikten sonra kullanıcıyı yönlendir
+                    }
+                    showLoadingState(false)
+
+                } else {
+                    Log.d("Restore", "No active subscription found")
+                    showNoSubscriptionDialog()
+                    showLoadingState(false)
+                }
+            },
+            onError = { error ->
+                Log.e("Restore", "Error restoring purchases: ${error.message}")
+                Toast.makeText(requireContext(), "Error restoring purchases: ${error.message}", Toast.LENGTH_LONG).show()
+                showLoadingState(false)
+            }
+        )
+    }
+
+    private fun showLoadingState(isLoading: Boolean) {
+        if (isLoading) {
+            design.restoreBtn.visibility = View.GONE
+            design.restoreProgressBar.visibility = View.VISIBLE
+        } else {
+            design.restoreBtn.visibility = View.VISIBLE
+            design.restoreProgressBar.visibility = View.GONE
+        }
+    }
+
+    private fun showNoSubscriptionDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Subscription Not Found")
+            .setMessage("We couldn't find active subscription. Contact us if problem continues.")
+            .setPositiveButton("Okay") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
 }

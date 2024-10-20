@@ -23,6 +23,45 @@
             android:layout_gravity="center"
             android:layout_height="wrap_content">
 
+            <RelativeLayout
+                android:id="@+id/restoreButtonLayout"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:background="@drawable/radius_5"
+                android:gravity="center"
+                android:elevation="5dp"
+
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Restore Button -->
+                <TextView
+                    android:id="@+id/restoreBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/semi_bold"
+                    android:gravity="center"
+                    android:text="Restore"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <!-- ProgressBar -->
+                <ProgressBar
+                    android:id="@+id/restoreProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+
 
             <ImageView
                 android:layout_width="match_parent"
@@ -208,36 +247,52 @@
             android:text="Choose your plan"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lifetimeLayout"
             android:layout_width="match_parent"
+            android:id="@+id/mostLayout"
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/radius14_bg_white"
             android:layout_marginBottom="15dp"
             android:layout_height="55dp">
+
             <TextView
-                android:id="@+id/textView151"
+                android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/regular"
-                android:text="Lifetime"
+                android:fontFamily="@font/semi_bold"
+                android:text="Annual"
                 android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/lifetime_camp_price"
+                android:id="@+id/mostPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/bold"
-                android:text="$4.99"
+                android:text="$114.99"
                 android:textColor="@color/main_purple"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView151" />
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:textSize="10dp"
+                android:background="@drawable/radius_5"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:text="81% Save"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -255,10 +310,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/regular"
-                android:text="Normal"
+                android:fontFamily="@font/semi_bold"
+                android:text="Weekly"
                 android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -274,41 +329,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView152" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:id="@+id/mostLayout"
-            android:layout_marginHorizontal="30dp"
-            android:background="@drawable/radius14_bg_white"
-            android:layout_marginBottom="15dp"
-            android:layout_height="55dp">
-
             <TextView
-                android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="7dp"
-                android:fontFamily="@font/regular"
-                android:text="Most"
-                android:textColor="@color/black"
-                android:textSize="10sp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/radius_5"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:text="Popular"
+                android:textSize="10dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/mostPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/bold"
-                android:text="$114.99"
-                android:textColor="@color/main_purple"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/getPremiumButton"

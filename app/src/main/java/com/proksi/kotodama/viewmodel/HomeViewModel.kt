@@ -23,14 +23,14 @@ class HomeViewModel : ViewModel() {
     private val _allVoices = MutableLiveData<List<VoiceModel>>() // Tüm ses listesini tutar
     val allVoices: LiveData<List<VoiceModel>> get() = _allVoices
     private val _hasClone = MutableLiveData<Boolean>().apply { value = false }  // Clone durumunu tutar
-    val hasClone: LiveData<Boolean> get() = _hasClone
     private lateinit var dataStoreManager: DataStoreManager
-    private var uid: String = ""
-
-    // Ses listesini gözlemleyen LiveData
+    private val _text =MutableLiveData<String>()
+    val text: LiveData<String> get() = _text
+    private val _enteredText = MutableLiveData<String>()
+    val enteredText: LiveData<String> get() = _enteredText
     val data: LiveData<List<VoiceModel>> get() = _data
 
-    // Ses listesini Firestore'dan çeken fonksiyon
+
     fun fetchVoices(category: String, context: Context) {
         Log.d("category", "fetchVoices: $category")
 
@@ -68,7 +68,6 @@ class HomeViewModel : ViewModel() {
             }
     }
 
-    // Kategoriye göre sesleri döndüren fonksiyon
     fun getVoicesByCategory(category: String, context: Context): List<VoiceModel> {
         Log.d("getbyctg", "getVoicesByCategory: ${allVoices.value?.size} ")
         val voicesList = allVoices.value ?: emptyList()
@@ -99,7 +98,7 @@ class HomeViewModel : ViewModel() {
         return filteredVoices
     }
 
-    // Clone verisini kontrol eden ve listeye ekleyen fonksiyon
+
     private fun checkForCloneData(
         context: Context,
         voiceList: MutableList<VoiceModel>,
@@ -186,7 +185,6 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    // Ses listesini arama sorgusuna göre filtreleyen fonksiyon
     fun filterVoices(query: String) {
         val filteredVoices = _allVoices.value?.filter { voiceModel ->
             voiceModel.name.contains(query, ignoreCase = true)
@@ -220,5 +218,11 @@ class HomeViewModel : ViewModel() {
             }
         }
     }
+
+    fun updateEnteredText(text: String) {
+        Log.d("Observed entered text", "updateEnteredText: $text ")
+        _enteredText.value = text
+    }
+
 
 }
