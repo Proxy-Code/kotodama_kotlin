@@ -64,7 +64,7 @@
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/light"
                 android:lineHeight="24sp"
-                android:text="Lorem ipsum dolor sit amet consectetur. Viverra velit adipiscing lobortis cras tristique orci in gravida. Fames pretium vitae arcu dignissim sed tincidunt neque. Ultrices aliquet nunc faucibus donec arcu aliquet tellus sed. Aenean sed in id feugiat. Consequat pellentesque nibh laoreet nunc Viverra velit adipiscing lobortis cras tristique orci in gravida."
+                android:text="Kotodama AI is your gateway to the future of text-to-speech technology. With Kotodama AI, you can easily clone your voice and use it for TTS, bringing a personal touch to your digital communications. Whether you’re narrating a story, creating content, or just having fun with text-to-speech, Kotodama AI ensures that your voice sounds natural, clear, and uniquely yours. The app captures every detail, making your digital voice indistinguishable from your real one. Imagine the convenience of turning written words into spoken ones, all with your own voice."
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -75,7 +75,7 @@
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/light"
                 android:lineHeight="24sp"
-                android:text="Lorem ipsum dolor sit amet consectetur. Viverra velit adipiscing lobortis cras tristique orci in gravida. Fames pretium vitae arcu dignissim sed tincidunt neque. Ultrices aliquet nunc faucibus donec arcu aliquet tellus sed. Aenean sed in id feugiat. Consequat pellentesque nibh laoreet nunc Viverra velit adipiscing lobortis cras tristique orci in gravida."
+                android:text="Every morning, I wake up early and walk my dog around the neighborhood. The streets are quiet and peaceful, with birds chirping and a cool breeze blowing. We often meet other friendly people and their pets, and I enjoy watching the sun rise, painting the sky with beautiful colors as the day begins."
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/light"
                 android:lineHeight="24sp"
-                android:text="Lorem ipsum dolor sit amet consectetur. Viverra velit adipiscing lobortis cras tristique orci in gravida. Fames pretium vitae arcu dignissim sed tincidunt neque. Ultrices aliquet nunc faucibus donec arcu aliquet tellus sed. Aenean sed in id feugiat. Consequat pellentesque nibh laoreet nunc Viverra velit adipiscing lobortis cras tristique orci in gravida."
+                android:text="As the sun begins to set, I like to unwind with a calming evening ritual. I light a few scented candles and dim the lights in my living room. The soft glow creates a warm and cozy atmosphere, perfect for relaxing after a long day. I often make myself a cup of herbal tea and settle into my favorite chair with a good book. The quietness of the evening, paired with the gentle flicker of the candles, helps me reflect on the day and prepare for a restful night ahead."
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 

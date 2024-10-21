@@ -114,6 +114,10 @@ class RecordVoiceFragment : Fragment() {
             }
 
             updateButtonStates()
+
+            design.backBtn.setOnClickListener{
+                findNavController().navigate(R.id.action_recordVoiceFragment_to_voiceLabFormatFragment)
+            }
             return design.root
         }
 

@@ -14,15 +14,11 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.api.LogDescriptor
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -30,25 +26,26 @@ import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.nl.languageid.LanguageIdentifier
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentHomeBinding
+import com.proksi.kotodama.MainActivity
 import com.proksi.kotodama.adapters.CategoryAdapter
 import com.proksi.kotodama.adapters.VoicesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
-import com.proksi.kotodama.dataStore.DataStoreManager.saveText
 import com.proksi.kotodama.models.VoiceModel
 import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiInterface
 import com.proksi.kotodama.utils.DialogUtils
 import com.proksi.kotodama.viewmodel.HomeViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.properties.Delegates
 
 class HomeFragment : Fragment() {
 
@@ -61,6 +58,7 @@ class HomeFragment : Fragment() {
     private var selectedVoiceId: String? = ""
     private var imageUrl: String? = ""
     private var name: String? = ""
+    private var isClone: Boolean? = true
     private val choices = listOf("en", "es", "fr", "de", "it", "pt", "pl", "tr", "ru", "nl", "cs", "ar", "zh", "hu", "ko", "hi")
     private var isSubscribed:Boolean = false
     private val TAG = HomeFragment::class.java.simpleName
@@ -71,6 +69,10 @@ class HomeFragment : Fragment() {
     private var cloningRights : Number? = null
     private var tokenCounter = 3
     private var initialRemainingCount = 0
+    private var hasCloneModel :Boolean = false
+    private var isShowSlotPaywall : Boolean= false
+    private var saveTextJob: Job? = null
+    private var isFirstLoad:Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,27 +81,16 @@ class HomeFragment : Fragment() {
         design = FragmentHomeBinding.inflate(inflater, container, false)
         dataStoreManager = DataStoreManager
 
+        viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
+            updateIsShowSlotPaywall(cloneCount)
+        }
+
+
         val currentView = view
         if (currentView != null) {
             val lifecycleOwner = currentView.findViewTreeLifecycleOwner()
             // Continue with your operations
         }
-
-//        lifecycleScope.launchWhenStarted {
-//            dataStoreManager.getText(requireContext()).collect { text ->
-//
-//                Log.d("aaaaaaa", "onCreateView: $text")
-//                design.editTextLayout.setText(text)
-//
-//                // Trigger remaining count update when text is loaded from DataStore
-//                if (text != null) {
-//                    remainingCount = initialRemainingCount - text.length
-//                    updateRemainingCountUI(remainingCount)
-//                    design.editTextLayout.setSelection(text.length)
-//                }
-//            }
-//        }
-
 
         design.recyclerViewCategories.layoutManager=
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -116,9 +107,40 @@ class HomeFragment : Fragment() {
             }
         })
 
-        viewModel.fetchVoices("all",requireContext())
+       // viewModel.fetchVoices("all",requireContext())
+        if (isFirstLoad) {
+            isFirstLoad = false // İlk yüklemeden sonra false yapıyoruz
+            design.progressBar.visibility = View.VISIBLE
+            design.loadingOverlay.visibility = View.VISIBLE
+            (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
 
-        //show dialog
+            viewModel.data.observe(viewLifecycleOwner) { voicesList ->
+                if (voicesList != null && voicesList.isNotEmpty()) {
+                    Log.d(TAG, "Data changed, updating adapter with size: ${voicesList.size}")
+
+                    design.progressBar.visibility = View.GONE
+                    design.loadingOverlay.visibility = View.GONE
+                    (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
+
+                    adapterVoice.updateData(voicesList)
+                } else {
+                    Log.d(TAG, "Voices List is null or empty")
+                }
+            }
+        } else {
+
+            val voicesList = viewModel.data.value
+            if (voicesList != null && voicesList.isNotEmpty()) {
+                Log.d(TAG, "Updating adapter with cached data, size: ${voicesList.size}")
+
+                adapterVoice.updateData(voicesList)
+            } else {
+                Log.d(TAG, "Voices List is null or empty")
+            }
+        }
+
+        viewModel.fetchVoices("all", requireContext())
+
         design.imageCrown.setOnClickListener {
             dialogUtils.showPremiumDialogBox(
                 requireContext(),
@@ -184,18 +206,15 @@ class HomeFragment : Fragment() {
         })
 
         design.deleteLayout.setOnClickListener {
-            // EditText'in içindeki metni sil
+
             design.editTextLayout.setText("")
 
-            // Remaining count'u sıfırla
             remainingCount = initialRemainingCount
             updateRemainingCountUI(remainingCount)
 
-            // Diğer UI elementlerini gizle
             design.langCodeLayout.visibility = View.GONE
             design.doneLayout.visibility = View.GONE
 
-            // Eğer başka bir işlem yapılacaksa (örneğin createButton'u disable etmek), buraya ekleyin
             updateCreateButtonState()
         }
 
@@ -221,7 +240,10 @@ class HomeFragment : Fragment() {
 
             if (remainingCount < 0 ){
                 if (isSubscribed){
-                    dialogUtils.showAddCharacterDialogBox(requireContext(), viewLifecycleOwner,lifecycleScope, dataStoreManager )
+                    dialogUtils.showAddCharacterDialogBox(requireContext(),
+                                                          viewLifecycleOwner,
+                                                          lifecycleScope,
+                                                          dataStoreManager )
                 } else{
                     dialogUtils.showPremiumDialogBox(requireContext(),
                                                      viewLifecycleOwner,
@@ -232,29 +254,33 @@ class HomeFragment : Fragment() {
 
                 design.progressBar.visibility = View.VISIBLE
                 design.loadingOverlay.visibility = View.VISIBLE
+                (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
+
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
                         val idToken = getFirebaseIdToken()
                         if (idToken != null) {
                             val languageCode = recognizeLanguage(enteredText)
-                            val voiceId = selectedVoiceId
-                            val text = enteredText
-                            val defaultValue = false
 
-                            Log.d(TAG, "onCreateView: send processe gidicek")
-                            sendProcessRequest(
-                                idToken,
-                                enteredText,
-                                selectedVoiceId,
-                                languageCode,
-                                imageUrl,
-                                name
-                            )
+                            isClone?.let { it1 ->
+                                sendProcessRequest(
+                                    idToken,
+                                    enteredText,
+                                    selectedVoiceId,
+                                    languageCode,
+                                    imageUrl,
+                                    name,
+                                    it1
+                                )
+                            }
                         } else {
                             Log.e(TAG, "Firebase ID Token is null")
                         }
                     } catch (e: Exception) {
+                        design.progressBar.visibility = View.GONE
+                        design.loadingOverlay.visibility = View.GONE
+                        (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
                         Log.e(TAG, "Error fetching Firebase ID token", e)
                     }
                 }
@@ -267,18 +293,48 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {
+        getUidFromDataStore(requireContext())
+
+        // Start collecting the subscription status in a coroutine
+        viewLifecycleOwner.lifecycleScope.launch {
+            // Collect the subscription status from the DataStoreManager
             dataStoreManager.getSubscriptionStatusKey(this@HomeFragment.requireContext()).collect { isActive ->
-                isSubscribed = isActive
-                if (isActive) {
-                    design.imageCrown.visibility=View.GONE
-                    design.counterLayout.visibility=View.GONE
+                // Ensure the fragment is still attached and the view exists before updating UI
+                if (isAdded && view != null) {
+                    isSubscribed = isActive
+                    if (isActive) {
+                        design.imageCrown.visibility = View.GONE
+                        design.counterLayout.visibility = View.GONE
+                    } else{
+                        design.imageCrown.visibility = View.VISIBLE
+                        design.counterLayout.visibility = View.VISIBLE
+                    }
+                    // Only set up the voices adapter if the fragment is still attached
+                    setupVoicesAdapter()
+                } else {
+                    Log.d(TAG, "Fragment not added or view is null, skipping UI update")
                 }
-                setupVoicesAdapter()
             }
         }
-        getUidFromDataStore(requireContext())
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        lifecycleScope.coroutineContext.cancelChildren()  // Cancels any coroutines launched in the scope
+    }
+
+
+    private fun updateIsShowSlotPaywall(cloneCount: Int) {
+        val rights = cloningRights?.toInt()
+        if (rights != null) {
+            isShowSlotPaywall = (rights <= cloneCount )
+        } else {
+            isShowSlotPaywall = false
+        }
+        Log.d(TAG, "rights: $rights clonecount: $cloneCount")
+        Log.d("111113", "updateIsShowSlotPaywall: $isShowSlotPaywall, hasClone= $hasCloneModel cloningRights=$cloningRights")
+    }
+
 
     private fun hideKeyboard() {
         dialogUtils.hideKeyboard(requireActivity())
@@ -340,7 +396,8 @@ class HomeFragment : Fragment() {
         selectedVoiceId: String?,
         languageCode: String,
         imageUrl: String?,
-        name: String?
+        name: String?,
+        isClone: Boolean,
     ) {
 
         if (selectedVoiceId.isNullOrEmpty() || imageUrl.isNullOrEmpty() || name.isNullOrEmpty()) {
@@ -352,7 +409,7 @@ class HomeFragment : Fragment() {
             text = enteredText,
             name = name,
             language_code = languageCode,
-            isDefault = true,
+            isDefault = !isClone,
             sound_sample_id = selectedVoiceId,
             imageUrl = imageUrl,
             idToken = idToken
@@ -374,46 +431,62 @@ class HomeFragment : Fragment() {
                     Log.d(TAG, "Message: ${processResponse?.data?.message}")
                     design.progressBar.visibility = View.GONE
                     design.loadingOverlay.visibility = View.GONE
+                    (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
+
                     findNavController().navigate(R.id.action_homeFragment_to_libraryFragment)
                 } else {
                     val errorMessage = response.errorBody()?.string()
                     design.progressBar.visibility = View.GONE
                     design.loadingOverlay.visibility = View.GONE
+                    (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
                     Log.d(TAG, "Error: $errorMessage")
-                    Toast.makeText(this@HomeFragment.requireContext(), "An error occurred: $errorMessage", Toast.LENGTH_LONG).show()
-
-
                 }
             }
 
             override fun onFailure(call: Call<ApiInterface.ProcessResponse>, t: Throwable) {
                 Log.d(TAG,"Failure: ${t.message}")
+                design.progressBar.visibility = View.GONE
+                design.loadingOverlay.visibility = View.GONE
+                (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
             }
         })
     }
 
     private fun setupVoicesAdapter() {
-        val currentView = view ?: return // Exit if view is null
-
+        Log.d(TAG, "setupVoicesAdapter: $isShowSlotPaywall")
+      
         adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, false,dataStoreManager, viewLifecycleOwner,object : VoicesAdapter.OnVoiceSelectedListener {
             override fun onVoiceSelected(voice: VoiceModel) {
                 if (voice.id == "create_voice" && isSubscribed) {
-                    findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
+                    if (isShowSlotPaywall){
+                        dialogUtils.showAddSlotDialogBox(
+                            requireContext(),
+                            viewLifecycleOwner,
+                            lifecycleScope,
+                            dataStoreManager )
+                    }else {
+                        findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
+
+                    }
                 } else if (voice.id == "create_voice" && !isSubscribed) {
                     dialogUtils.showPremiumDialogBox(
                         requireContext(),
                         viewLifecycleOwner,
                         lifecycleScope,
                         dataStoreManager )
-                } else {
+                }
+                else {
                     selectedVoiceId = voice.id
                     imageUrl = voice.imageUrl
                     name = voice.name
+                    isClone = voice.isClone
                     updateCreateButtonState()
+                    Log.d("111111", "$name $isClone")
                 }
             }
             override fun deleteClone(cloneId: String, context: Context) {
                 viewModel.deleteClone(cloneId, context)
+
             }
         })
 
@@ -421,10 +494,8 @@ class HomeFragment : Fragment() {
 
 
         viewModel.data.observe(viewLifecycleOwner) { voicesList ->
-            Log.d(TAG, "Data changed, updating adapter with size: ${voicesList.size}")
-
+            Log.d(TAG, "Data changed, updating adapter with size: ${voicesList!!.size}")
             if (voicesList != null) {
-                Log.d("Observer", "Voices List: $voicesList")
                 adapterVoice.updateData(voicesList)
             } else {
                 Log.d("Observer", "Voices List is null")
@@ -438,7 +509,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             DataStoreManager.getUid(context).collect { uid ->
                 if (uid != null) {
-                    Log.d("HomeFragment", "UID from DataStore: $uid")
+                    Log.d("uid", "UID from DataStore: $uid")
                     val firestore = FirebaseFirestore.getInstance()
                     val userDocRef = firestore.collection("users").document(uid)
 
@@ -488,6 +559,15 @@ class HomeFragment : Fragment() {
                                 }
                                 design.remaningText.text = remainingCount.toString()
                             }
+                            viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
+                                if (cloneCount != null) {
+                                    updateIsShowSlotPaywall(cloneCount) // cloneCount'u buradan geçiyoruz
+                                }
+                            }
+
+
+                            Log.d(TAG, "isShowSlotPaywall: $isShowSlotPaywall, hasClone= $hasCloneModel cloningRights=$cloningRights")
+
                         } else {
                             // Eğer documentSnapshot yoksa varsayılan değerler
                             remainingCount = 150
@@ -510,7 +590,6 @@ class HomeFragment : Fragment() {
                                 }
                             }
                         }
-                        Log.d(TAG, "getUidFromDataStore: $initialRemainingCount")
                     }
                 } else {
                     Log.d("HomeFragment", "No UID found in DataStore")
@@ -519,12 +598,20 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onPause() {
         super.onPause()
-        lifecycleScope.launch {
-            dataStoreManager.saveText(requireContext(),enteredText)
+
+        saveTextJob = GlobalScope.launch(Dispatchers.IO) {
+            try {
+                Log.d("SaveText", "onPause: Saving entered text: $enteredText")
+                dataStoreManager.saveText(requireContext(), enteredText)
+            } catch (e: Exception) {
+                Log.e("SaveText Error", "Error saving text: ${e.message}")
+            }
         }
     }
+
 
     private fun updateRemainingCountUI(remainingCount: Int) {
         if (remainingCount < 0) {

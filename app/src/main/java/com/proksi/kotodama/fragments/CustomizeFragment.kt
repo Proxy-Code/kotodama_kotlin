@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContentProviderCompat
@@ -209,15 +210,6 @@ class CustomizeFragment : Fragment() {
         pickImageLauncher.launch("image/*")
     }
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                openGallery()
-            } else {
-                Log.e(TAG, "Permission denied")
-            }
-        }
-
 
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -316,6 +308,7 @@ class CustomizeFragment : Fragment() {
                     findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
                 } else {
                     Log.e("Upload", "Failed: ${response.errorBody()?.string()}")
+                    Toast.makeText(requireContext(), "Failed ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
                 }
 
@@ -323,7 +316,10 @@ class CustomizeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ApiInterface.CloneResponse>, t: Throwable) {
-                Log.e("Upload", "Error: ${t.message}")
+                Log.e("Upload", "onFailure: ${t.message}")
+                //Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_LONG).show()
+                findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
+
             }
         })
 

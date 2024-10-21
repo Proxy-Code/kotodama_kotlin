@@ -123,7 +123,7 @@ class SplashScreen : AppCompatActivity() {
         Log.d("isSubscribed SPLASH", "$isActive")
         lifecycleScope.launch {
             dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
-           // dataStoreManager.saveSubscriptionStatus(this@SplashScreen, true)
+          //  dataStoreManager.saveSubscriptionStatus(this@SplashScreen, true)
 
         }
         isSubscribed = isActive

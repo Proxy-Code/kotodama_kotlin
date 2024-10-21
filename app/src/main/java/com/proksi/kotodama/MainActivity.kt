@@ -32,21 +32,6 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         dataStoreManager = DataStoreManager
 
-//        lifecycleScope.launch {
-//            dataStoreManager.getSubscriptionStatusKey(this@MainActivity).collect { isActive ->
-//                isSubscribed = isActive
-//                Log.d("isSubscribed", "$isSubscribed")
-//
-//                val currentDestination = navController.currentDestination?.id
-//
-//                if (isActive && currentDestination != R.id.homeFragment) {
-//                    navController.navigate(R.id.homeFragment)
-//                } else if (!isActive && currentDestination != R.id.paywallFragment) {
-//                    navController.navigate(R.id.paywallFragment)
-//                }
-//            }
-//        }
-
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController= navHostFragment.navController
@@ -88,17 +73,6 @@ class MainActivity : BaseActivity() {
 
         }
 
-//        lifecycleScope.launch {
-//            dataStoreManager.getSubscriptionStatusKey(this@MainActivity).collect { isActive ->
-//                isSubscribed = isActive
-//                Log.d("isSubscribed", "$isSubscribed")
-//                if (isActive) {
-//                    navController.navigate(R.id.homeFragment)
-//                } else {
-//                    navController.navigate(R.id.paywallFragment)
-//                }
-//            }
-//        }
 
         val appsFlyer = AppsFlyerLib.getInstance()
         val apiKey = getString(R.string.appsflyer_api_key)
@@ -118,6 +92,14 @@ class MainActivity : BaseActivity() {
             navController.navigate(R.id.homeFragment)
         }else{
             super.onBackPressed()
+        }
+    }
+
+    fun setBottomNavigationVisibility(isVisible: Boolean) {
+        if (isVisible) {
+            binding.bottomNavigationView.visibility = View.VISIBLE
+        } else {
+            binding.bottomNavigationView.visibility = View.GONE
         }
     }
 

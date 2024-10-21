@@ -33,6 +33,7 @@ object DataStoreManager {
         context.dataStore.edit { preferences ->
             preferences[USER_TEXT_KEY] = text
         }
+        Log.d("aaaaaaa", "saveText: $text")
     }
 
     fun getSubscriptionStatusKey(context:Context):Flow<Boolean> {

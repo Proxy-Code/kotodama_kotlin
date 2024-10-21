@@ -13,6 +13,7 @@ data class VoiceModel (
     val weeklyCounter: Int = 0, // Sayısal bir değer olarak tanımladığınızdan emin olun
     val charUsedCount: Int = 0,
     val isClone: Boolean = false
+
 ){
-    constructor() : this("", "", "", Timestamp.now(), "",listOf(),0,0,0,false)
+    constructor() : this("", "", "", Timestamp.now(), "",listOf(),0,0,0,false,)
 }

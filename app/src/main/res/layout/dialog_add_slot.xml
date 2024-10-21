@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#EEEEF3"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:paddingBottom="15dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/circle_purple"
+        android:layout_height="70dp"
+       android:gravity="center"
+        android:layout_width="70dp">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:paddingTop="2dp"
+            android:layout_height="35dp"
+            android:src="@drawable/add_slot"
+            app:tint="@color/white" />
+        
+    </LinearLayout>
+
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:paddingHorizontal="30dp"
+       android:textSize="14sp"
+       android:fontFamily="@font/regular"
+       android:textColor="@color/black"
+       android:justificationMode="inter_word"
+       android:layout_marginBottom="10dp"
+       android:text="You have reached the maximum of number voice clone allowed.To create a new voice clone, please purchase an additional slot to create more voice clones."
+       />
+    <TextView
+        android:id="@+id/priceText"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/bold"
+        android:textSize="16sp"
+        android:textColor="@color/main_purple"
+        android:text="One time / $3.99"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/buyButton"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30dp"
+        android:text="Buy"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/bold"
+        android:paddingVertical="15dp"
+        android:enabled="false"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/radius_13_purple"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

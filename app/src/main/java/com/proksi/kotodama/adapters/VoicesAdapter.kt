@@ -115,7 +115,12 @@ class VoicesAdapter(var mContext: Context,
                 holder.design.textViewArtist.text=voice.name
         } else {
             if(voice.isClone){
-                holder.design.topRightImage.visibility=View.VISIBLE
+                if(voice.id=="create_voice"){
+                    holder.design.topRightImage.visibility=View.GONE
+                }else{
+                    holder.design.topRightImage.visibility=View.VISIBLE
+                }
+
             }else{
                 holder.design.topRightImage.visibility=View.GONE
             }
@@ -124,8 +129,6 @@ class VoicesAdapter(var mContext: Context,
                 .placeholder(R.drawable.icon_kotodama) // Eğer resim yüklenemezse, bir placeholder göster
                 .error(R.drawable.icon_kotodama)
                 .into(holder.design.cardImgView)
-
-
 
             holder.design.textViewArtist.text=voice.name
 

@@ -19,16 +19,19 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class HomeViewModel : ViewModel() {
-    private val _data = MutableLiveData<List<VoiceModel>>() // Filtrelenmiş ses listesini tutar
+    private val _data = MutableLiveData<List<VoiceModel>?>() // Filtrelenmiş ses listesini tutar
     private val _allVoices = MutableLiveData<List<VoiceModel>>() // Tüm ses listesini tutar
     val allVoices: LiveData<List<VoiceModel>> get() = _allVoices
     private val _hasClone = MutableLiveData<Boolean>().apply { value = false }  // Clone durumunu tutar
+    val hasClone: LiveData<Boolean> get() = _hasClone
     private lateinit var dataStoreManager: DataStoreManager
     private val _text =MutableLiveData<String>()
     val text: LiveData<String> get() = _text
     private val _enteredText = MutableLiveData<String>()
     val enteredText: LiveData<String> get() = _enteredText
-    val data: LiveData<List<VoiceModel>> get() = _data
+    val data: MutableLiveData<List<VoiceModel>?> get() = _data
+    private val _cloneCount =MutableLiveData<Int>()
+    val cloneCount: LiveData<Int> get() = _cloneCount
 
 
     fun fetchVoices(category: String, context: Context) {
@@ -111,19 +114,17 @@ class HomeViewModel : ViewModel() {
                     val db = FirebaseFirestore.getInstance()
                     val userDocRef = db.collection("users").document(uid)
 
-                    // "clones" koleksiyonunu dinle
                     val clonesRef = userDocRef.collection("clones")
                     clonesRef.addSnapshotListener { cloneDocumentSnapshot, exception ->
                         if (exception != null) {
                             _hasClone.value = false
                             Log.e("CLONE", "Error listening for clone document changes: $exception")
-                            // Clone olmadığı durumlarda "Create Voice" itemini ekleyin
+
                             voiceList.add(0, createVoiceItem)
                             _data.value = voiceList
                             return@addSnapshotListener
                         }
 
-                        // **Tüm eski klonları temizle**
                         voiceList.removeAll { it.isClone }
 
                         val cloneCount = cloneDocumentSnapshot?.size() ?: 0
@@ -131,6 +132,7 @@ class HomeViewModel : ViewModel() {
 
                         if (cloneCount > 0) {
                             _hasClone.value = true
+                            _cloneCount.value= cloneCount
 
                             // Klon dökümanlarını listeye ekleyin
                             for (document in cloneDocumentSnapshot!!.documents) {
@@ -154,6 +156,8 @@ class HomeViewModel : ViewModel() {
 
                                 voiceList.add(1, cloneVoiceModel)
                             }
+                        }else{
+                            _hasClone.value = false
                         }
 
                         _data.value = voiceList

@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/main"
-    android:paddingBottom="20dp"
     android:paddingTop="40dp"
     android:layout_height="match_parent">
 
@@ -462,12 +461,12 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_below="@+id/bad_music_box_2"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="52dp"
             android:background="@drawable/create_btn_active"
             android:fontFamily="@font/bold"
             android:gravity="center"
             android:text="Continue"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="60dp"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
