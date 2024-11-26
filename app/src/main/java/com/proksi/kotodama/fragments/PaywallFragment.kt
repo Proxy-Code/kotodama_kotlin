@@ -17,12 +17,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentPaywallBinding
+import com.kotodama.tts.databinding.FragmentPaywallChristmasBinding
 import com.proksi.kotodama.MainActivity
 import com.proksi.kotodama.adapters.FaqAdapter
 import com.proksi.kotodama.adapters.ReviewAdapter
@@ -41,7 +40,7 @@ import kotlinx.coroutines.launch
 
 class PaywallFragment : Fragment() {
 
-    private lateinit var design: FragmentPaywallBinding
+    private lateinit var design: FragmentPaywallChristmasBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var prevButton: ImageButton
     private lateinit var nextButton: ImageButton
@@ -67,7 +66,7 @@ class PaywallFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        design = FragmentPaywallBinding.inflate(inflater, container, false)
+        design = FragmentPaywallChristmasBinding.inflate(inflater, container, false)
         recyclerView = design.viewPagerReview
         dataStoreManager = DataStoreManager
 
@@ -84,10 +83,10 @@ class PaywallFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         val faqList = ArrayList<Faqs>()
-        val f1=Faqs(R.string.when_will_multilingual_service_supported,
-            R.string.our_ai_already_supports_multiple_languages,false)
-        val f2=Faqs(R.string.how_cancel_my_subscription,R .string.you_can_cancel_your_subscription,false)
-        val f3=Faqs(R.string.how_request_refund,R.string.since_all_transactions,false)
+        val f1=Faqs(R.string.whenWillMulti,
+            R.string.support_multiple,false)
+        val f2=Faqs(R.string.howDoI,R .string.youCanCancelYour,false)
+        val f3=Faqs(R.string.howDoIRequest,R.string.sinceAllTransactions,false)
 
         faqList.add(f1)
         faqList.add(f2)
@@ -115,7 +114,9 @@ class PaywallFragment : Fragment() {
         fun setOnClickListener(layout: ConstraintLayout, type: String) {
             layout.setOnClickListener {
                 resetBackgrounds() // Tüm arka planları sıfırla
-                layout.setBackgroundResource(R.drawable.radius14_bg_white_purple) // Seçili arka planı ayarla
+              //  layout.setBackgroundResource(R.drawable.radius14_bg_white_purple) // Seçili arka planı ayarla
+                layout.setBackgroundResource(R.drawable.radius14_bg_christmas)
+
                 packageType = type // Package type'ı ayarla
             }
         }
@@ -135,6 +136,8 @@ class PaywallFragment : Fragment() {
 
         fetchAndDisplayOfferings()
 
+        normalLayout.performClick()
+
 
         return design.root
     }
@@ -149,8 +152,6 @@ class PaywallFragment : Fragment() {
                     lifecycleScope.launch {
                         for (pkg in availablePackages) {
 
-                            Log.d(TAG, "onReceived: ${pkg} ")
-
                             when (pkg.product.id) {
 
                                 "subscription_annual:subs" -> {
@@ -160,11 +161,6 @@ class PaywallFragment : Fragment() {
                                     design.normalPrice.text = pkg.product.price.formatted
                                     Log.d(TAG, "normal: normal $normalPackage")
                                 }
-//                                "life_time_offer" -> {
-//                                    lifetimePackage = pkg
-//                                    lifetimeButton.text = pkg.product.title.split("(")[0].trim()
-//                                    design.lifetimeCampPrice.text = pkg.product.price.formatted
-//                                }
                                 "subscription_weekly:subs" -> {
                                     mostPackage = pkg
                                     mostPopularButton.text = pkg.product.title.split("(")[0].trim()
@@ -216,35 +212,23 @@ class PaywallFragment : Fragment() {
 
             },
             onSuccess = { storeTransaction, customerInfo ->
+                Log.d("onSuccess burada 111", "handleSelectedPackage: 1 ")
 
-                // Check and log the specific entitlement
-                val entitlement = customerInfo.entitlements["subscription"]
-                if (entitlement != null) {
-                    Log.d("Entitlement", "Entitlement details: $entitlement")
-                } else {
-                    Log.d("Entitlement", "Entitlement not found")
-                }
-
-                if (entitlement?.isActive == true) {
-//                    val eventValues = HashMap<String, Any>()
-//                    eventValues.put(AFInAppEventParameterName.CONTENT_ID, selectedPackage.product.id)
-//                    eventValues.put(AFInAppEventParameterName.CONTENT_TYPE, selectedPackage.product.price)
-//                    eventValues.put(AFInAppEventParameterName.REVENUE, selectedPackage.product.price.amountMicros / 1_000_000)
-//
-//                    eventValues.put(AFInAppEventParameterName.CURRENCY,selectedPackage.product.price.currencyCode)
-
+                if (customerInfo.entitlements["Subscription"]?.isActive == true) {
+                    Log.d("onSuccess burada 222", "handleSelectedPackage: 1 ")
                     lifecycleScope.launch {
+                        Log.d("onSuccess burada 333", "handleSelectedPackage: 1 ")
                         dataStoreManager.saveSubscriptionStatus(requireContext(), true)
                         navigateToHomeFragment()
                     }
 
-
-                } else {
-                    Log.d("onsuccessde", "Entitlement is not active")
                 }
-            }
+
+                }
+
         )
     }
+
 
     private fun navigateToHomeFragment() {
         Intent(requireContext(), MainActivity::class.java).also {
@@ -259,7 +243,7 @@ class PaywallFragment : Fragment() {
     private fun restorePurchases() {
         Purchases.sharedInstance.restorePurchasesWith(
             onSuccess = { customerInfo ->
-                val entitlement = customerInfo.entitlements["subscription"]
+                val entitlement = customerInfo.entitlements["Subscription"]
                 if (entitlement?.isActive == true) {
 
                     Log.d("Restore", "Subscription restored successfully")

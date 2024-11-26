@@ -1,2 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+
+    <string name="restore">Wiederherstellen</string>
+    <string name="unlockPremium">Premium freischalten</string>
+    <string name="generateRealisticVoices">Realistische Stimmen erzeugen</string>
+    <string name="fasterVoiceProcessing">Schnellere Sprachverarbeitung</string>
+    <string name="freeVoiceClones">Kostenlose Sprachklone</string>
+    <string name="clonesAnyVoice">Beliebige Stimme klonen</string>
+    <string name="allFamousVoices">Alle bekannten Stimmen</string>
+    <string name="unlockAllPremiumVoices">Alle Premium-Stimmen freischalten</string>
+    <string name="chooseYourPlan">Wählen Sie Ihren Plan</string>
+    <string name="weekly">Wöchentlich</string>
+    <string name="sale_81">81 % Rabatt</string>
+    <string name="annual">Jährlich</string>
+    <string name="popular">Beliebt</string>
+    <string name="unlockAllFeatures">Alle Funktionen freischalten</string>
+    <string name="indistinguishableAiVoices">Ununterscheidbare KI-Stimmen</string>
+    <string name="experienceTheFuture">Erleben Sie die Zukunft des Stimmklonens</string>
+    <string name="elevateYour">Verbessern Sie Ihr Audio mit unserem KI-Stimmklon und verwandeln Sie Text in atemberaubend realistische Sprache.</string>
+    <string name="perfectForEngaging">Perfekt für fesselnde Voiceovers, erleben Sie unvergleichliche Klarheit und Vielseitigkeit in jeder Erzählung.</string>
+    <string name="feature">Funktionen</string>
+    <string name="aiTextToSpeech">KI-Text-zu-Sprache</string>
+    <string name="createNatural">Erstellen Sie mühelos natürlich klingende Sprache mit unserer fortschrittlichen Text-zu-Sprache-Technologie. Unsere KI bringt Emotionen zum Leben und macht jede Stimme einzigartig und ausdrucksstark.</string>
+    <string name="voiceCloning">Stimmklonen</string>
+    <string name="createPersonalized">Erstellen Sie personalisierte Sprachklone mit Kotodamas fortschrittlicher Stimmklontechnologie. Unsere KI erfasst einzigartige stimmliche Merkmale und sorgt dafür, dass jeder Klon so ausdrucksstark und authentisch wie die Originalstimme ist.</string>
+    <string name="faq">FAQ</string>
+    <string name="whenWillMulti">Wann wird der mehrsprachige Dienst unterstützt?</string>
+    <string name="support_multiple">Unsere KI unterstützt bereits mehrere Sprachen. Geben Sie einfach den Text ein, und unsere KI versteht und generiert automatisch die Sprache.</string>
+    <string name="howDoI">Wie kündige ich mein Abonnement?</string>
+    <string name="youCanCancelYour">Sie können Ihr Abonnement jederzeit kündigen, ohne Fragen beantworten zu müssen. Der Google Play Store verwaltet alle Abonnements.</string>
+    <string name="howDoIRequest">Wie beantrage ich eine Rückerstattung?</string>
+    <string name="sinceAllTransactions">Da alle Transaktionen für unsere App über den Google Play Store abgewickelt werden, können wir keine Rückerstattungen direkt ausstellen. Sie können jedoch direkt bei Google eine Rückerstattung beantragen.</string>
+
+
+    <string name="weWillGive">Wir geben Ihnen</string>
+    <string name="bestOffer">Das beste Angebot!</string>
+    <string name="theOfferExpires">Das Angebot endet in:</string>
+    <string name="off_seven">77 % Rabatt</string>
+
+    <string name="remaining">Verbleibend</string>
+    <string name="typeHereFor">Geben Sie hier für Ihre KI-Sprache ein!</string>
+    <string name="serach">Suchen</string>
+    <string name="all">Alle</string>
+    <string name="trend">Trend</string>
+    <string name="new_">Neu</string>
+    <string name="musicians">Musiker</string>
+    <string name="tvShows">TV-Sendungen</string>
+    <string name="actors">Schauspieler</string>
+    <string name="sports">Sport</string>
+    <string name="ficitional">Fiktional</string>
+    <string name="rap">Rap</string>
+    <string name="game">Spiel</string>
+    <string name="anime">Anime</string>
+    <string name="kPop">K-Pop</string>
+    <string name="random">Zufällig</string>
+    <string name="create">Erstellen</string>
+    <string name="createVoice">Stimme erstellen</string>
+
+    <string name="information">Information</string>
+    <string name="pleaseBeAdvised">Bitte beachten Sie, dass die derzeit erworbenen Charaktere nur während Ihres aktiven Abonnements verfügbar sind!</string>
+    <string name="done">Fertig</string>
+    <string name="doNotShow">Nicht mehr anzeigen.</string>
+
+
+    <string name="addotionalCharacters">Zusätzliche Zeichen!</string>
+    <string name="chacters_ten">10.000 Zeichen</string>
+    <string name="chacters_fifty">50.000 Zeichen</string>
+    <string name="chacters_hundred">100.000 Zeichen</string>
+    <string name="buy">Kaufen</string>
+
+    <string name="youHaveReached">Sie haben die maximale Anzahl an Sprachklonen erreicht. Um einen neuen Sprachklon zu erstellen, kaufen Sie bitte einen zusätzlichen Slot.</string>
+    <string name="OneTime">Einmalig</string>
+
+    <string name="file">Dateien</string>
+    <string name="noFiles">Keine Dateien</string>
+    <string name="goToHome">Gehen Sie zur Startseite und probieren Sie Text-to-Speech aus!</string>
+
+
+    <string name="home">Startseite</string>
+    <string name="library">Bibliothek</string>
+    <string name="settings">Einstellungen</string>
+
+
+    <string name="membership">Mitgliedschaft</string>
+    <string name="getPremium">Premium holen</string>
+    <string name="accessAllThe">Greifen Sie auf alle Funktionen zu</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="general">Allgemein</string>
+    <string name="emailSupport">E-Mail-Support</string>
+    <string name="referAnd">Freunde werben &amp; Belohnen lassen</string>
+    <string name="about">Über uns</string>
+    <string name="termsAndConditions">Nutzungsbedingungen</string>
+    <string name="privacyPolicy">Datenschutzrichtlinie</string>
+    <string name="appVersion">App-Version</string>
+
+    <string name="theBest">Das Beste</string>
+    <string name="voiceChanger">Stimmenveränderer</string>
+    <string name="cloneYour">Klonen Sie Ihre</string>
+    <string name="ownVoice">eigene Stimme</string>
+    <string name="soundLike">Klingt wie</string>
+    <string name="celebrities">Prominente</string>
+    <string name="continue_">Weiter</string>
+    <string name="welcomeTo">Willkommen bei</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">Beste Text-to-Speech- und Stimmklon-Technologie</string>
+
+
+    <string name="inviteFriends">Lade Freunde ein!</string>
+    <string name="getFreeGenerations">Erhalte kostenlose Generierungen</string>
+    <string name="share_1">1. Teile deinen Code mit deinen Freunden</string>
+    <string name="they_2">2. Sie geben deinen Code auf dieser Seite ein</string>
+    <string name="you_3">3. Du und deine Freunde erhalten kostenlose Credits</string>
+    <string name="userCode">Benutzercode:</string>
+    <string name="invite">Einladen</string>
+    <string name="enterFriendsCode">Gib den Code eines Freundes ein</string>
+    <string name="enterOrPaste">Geben Sie den Code ein oder fügen Sie ihn ein</string>
+    <string name="paste">Einfügen</string>
+    <string name="confirm">Bestätigen</string>
+
+
+    <string name="step1">Schritt 1</string>
+    <string name="step2">Schritt 2</string>
+    <string name="step3">Schritt 3</string>
+    <string name="speakAnytextAnytime">Sprich jeden Text, jederzeit!</string>
+    <string name="uploadYourVoice">Lade deine Stimme hoch</string>
+    <string name="uploadOrRecordYour">Hochladen oder aufnehmen.</string>
+    <string name="letAiDo">Lass die KI ihre Magie wirken</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI wird mit deinen Aufnahmen eine individuelle Stimme erstellen.</string>
+    <string name="yourUniqueAI">Deine einzigartige KI-Stimme ist bereit!</string>
+    <string name="useYourCustom">Nutze deine individuelle Stimme und sage alles!</string>
+
+    <string name="uploadOrRecords">Hochladen oder Aufnehmen</string>
+    <string name="goodExamples">Gute Beispiele</string>
+    <string name="clearSound">Klarer Klang</string>
+    <string name="onePerson">Eine Person</string>
+    <string name="goodExample1">Gutes Beispiel 1</string>
+    <string name="goodExample2">Gutes Beispiel 2</string>
+    <string name="badExamples">Schlechte Beispiele</string>
+    <string name="noisy">Rauschend</string>
+    <string name="twoOrMore">Zwei oder mehr Personen</string>
+    <string name="badExample1">Schlechtes Beispiel 1</string>
+    <string name="badExample2">Schlechtes Beispiel 2</string>
+
+
+    <string name="voiceSelection">Stimm-Auswahl</string>
+    <string name="pleaseProvideBetween">Bitte zwischen 30 Sekunden und 7 Minuten deiner Stimme bereitstellen.</string>
+    <string name="record">Aufnehmen</string>
+    <string name="upload">Hochladen</string>
+    <string name="sec_30">30 Sekunden bis 7 Minuten</string>
+
+
+    <string name="recordYourVoice">Nimm deine Stimme auf</string>
+    <string name="script1">Kotodama AI ist dein Zugang zur Zukunft der Text-zu-Sprache-Technologie. Mit Kotodama AI kannst du deine Stimme einfach klonen und für TTS verwenden, was deinen digitalen Kommunikationen eine persönliche Note verleiht. Ob beim Erzählen einer Geschichte, Erstellen von Inhalten oder einfach nur beim Spaß mit Text-to-Speech – Kotodama AI sorgt dafür, dass deine Stimme natürlich, klar und einzigartig klingt. Die App erfasst jedes Detail und macht deine digitale Stimme von der echten nicht unterscheidbar. Stell dir vor, wie praktisch es ist, geschriebene Worte in gesprochene zu verwandeln – und das alles mit deiner eigenen Stimme.</string>
+    <string name="script2">Morgens stehe ich früh auf und gehe mit meinem Hund in der Nachbarschaft spazieren. Die Straßen sind ruhig und friedlich, Vögel zwitschern und eine kühle Brise weht. Wir treffen oft andere freundliche Menschen und ihre Haustiere, und ich genieße es, die Sonne aufgehen zu sehen, die den Himmel mit wunderschönen Farben bemalt, wenn der Tag beginnt.</string>
+    <string name="script3">Wenn die Sonne untergeht, entspanne ich mich gerne mit einem beruhigenden Abendritual. Ich zünde ein paar Duftkerzen an und dimme die Lichter in meinem Wohnzimmer. Das sanfte Leuchten schafft eine warme und gemütliche Atmosphäre, perfekt, um nach einem langen Tag zu entspannen. Oft mache ich mir eine Tasse Kräutertee und setze mich mit einem guten Buch in meinen Lieblingssessel. Die Stille des Abends, gepaart mit dem sanften Flackern der Kerzen, hilft mir, über den Tag nachzudenken und mich auf eine erholsame Nacht vorzubereiten.</string>
+    <string name="PressToStart">Drücke, um die Aufnahme zu starten!</string>
+
+
+    <string name="customize">Anpassen</string>
+    <string name="pickAn">Wähle einen Avatar</string>
+    <string name="exVoice">z. B. Stimme 1</string>
+
+    <string name="shareKotodama">Kotodama teilen</string>
+    <string name="yearly">Jährlich</string>
+    <string name="language">Sprache</string> <!-- German -->
+
+</resources>

@@ -38,7 +38,7 @@
        android:textColor="@color/black"
        android:justificationMode="inter_word"
        android:layout_marginBottom="10dp"
-       android:text="You have reached the maximum of number voice clone allowed.To create a new voice clone, please purchase an additional slot to create more voice clones."
+       android:text="@string/youHaveReached"
        />
     <TextView
         android:id="@+id/priceText"
@@ -47,13 +47,13 @@
         android:fontFamily="@font/bold"
         android:textSize="16sp"
         android:textColor="@color/main_purple"
-        android:text="One time / $3.99"
+        android:text="@string/OneTime"
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/buyButton"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="30dp"
-        android:text="Buy"
+        android:text="@string/buy"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:layout_marginTop="10dp"

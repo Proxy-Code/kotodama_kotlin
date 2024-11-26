@@ -1,2 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string name="restore">Restaurar</string>
+    <string name="unlockPremium">Desbloquear Premium</string>
+    <string name="generateRealisticVoices">Gerar Vozes Realistas</string>
+    <string name="fasterVoiceProcessing">Processamento Rápido</string>
+    <string name="freeVoiceClones">Clones de Voz Grátis</string>
+    <string name="clonesAnyVoice">Clone Qualquer Voz</string>
+    <string name="allFamousVoices">Todas as Vozes Famosas</string>
+    <string name="unlockAllPremiumVoices">Desbloqueie Todas as Vozes Premium</string>
+    <string name="chooseYourPlan">Escolha seu Plano</string>
+    <string name="weekly">Semanal</string>
+    <string name="sale_81">81% de Desconto</string>
+    <string name="annual">Anual</string>
+    <string name="popular">Popular</string>
+    <string name="unlockAllFeatures">Desbloquear Todos os Recursos</string>
+    <string name="indistinguishableAiVoices">Vozes AI Indistinguíveis</string>
+    <string name="experienceTheFuture">Experimente o Futuro da Clonagem de Voz</string>
+    <string name="elevateYour">Eleve seu áudio com nossa tecnologia de clonagem de voz AI, transformando texto em fala incrivelmente realista.</string>
+    <string name="perfectForEngaging">Perfeito para dublagens envolventes, com clareza e versatilidade inigualáveis em cada narrativa.</string>
+    <string name="feature">Recursos</string>
+    <string name="aiTextToSpeech">Texto para Fala com AI</string>
+    <string name="createNatural">Crie fala natural facilmente com nossa tecnologia avançada de texto para fala. Nossa AI traz emoção para a sua voz, tornando cada fala única e expressiva.</string>
+    <string name="voiceCloning">Clonagem de Voz</string>
+    <string name="createPersonalized">Crie clones de voz personalizados com a tecnologia avançada da Kotodama. Nossa AI captura as características únicas da voz, garantindo que cada clone seja tão autêntico quanto a voz original.</string>
+    <string name="faq">Perguntas Frequentes</string>
+    <string name="whenWillMulti">Quando o suporte multilíngue será lançado?</string>
+    <string name="support_multiple">Nossa AI já suporta vários idiomas. Basta digitar o texto e nossa AI entenderá automaticamente e gerará a fala para você.</string>
+    <string name="howDoI">Como cancelo minha assinatura?</string>
+    <string name="youCanCancelYour">Você pode cancelar sua assinatura a qualquer momento sem questionamentos. A Play Store do Google gerencia todas as assinaturas.</string>
+    <string name="howDoIRequest">Como solicito um reembolso?</string>
+    <string name="sinceAllTransactions">Como todas as transações do nosso aplicativo são processadas pela Play Store do Google, não podemos emitir reembolsos diretamente. No entanto, você pode solicitar um reembolso diretamente pelo Google.</string>
+
+    <string name="weWillGive">Nós Oferecemos</string>
+    <string name="bestOffer">Melhor Oferta!</string>
+    <string name="theOfferExpires">A oferta expira em:</string>
+    <string name="off_seven">77% de Desconto</string>
+
+    <string name="remaining">Restante</string>
+    <string name="typeHereFor">Digite aqui para seu texto AI!</string>
+    <string name="serach">Pesquisar</string>
+    <string name="all">Tudo</string>
+    <string name="trend">Tendências</string>
+    <string name="new_">Novo</string>
+    <string name="musicians">Músicos</string>
+    <string name="tvShows">Séries de TV</string>
+    <string name="actors">Atores</string>
+    <string name="sports">Esportes</string>
+    <string name="ficitional">Ficção</string>
+    <string name="rap">Rap</string>
+    <string name="game">Jogos</string>
+    <string name="anime">Anime</string>
+    <string name="kPop">K-Pop</string>
+    <string name="random">Aleatório</string>
+    <string name="create">Criar</string>
+    <string name="createVoice">Criar Voz</string>
+
+    <string name="information">Informações</string>
+    <string name="pleaseBeAdvised">Aviso: os personagens que você está adquirindo estão disponíveis apenas enquanto sua assinatura estiver ativa!</string>
+    <string name="done">Concluído</string>
+    <string name="doNotShow">Não mostrar novamente.</string>
+
+    <string name="addotionalCharacters">Personagens Adicionais!</string>
+    <string name="chacters_ten">10.000 Caracteres</string>
+    <string name="chacters_fifty">50.000 Caracteres</string>
+    <string name="chacters_hundred">100.000 Caracteres</string>
+    <string name="buy">Comprar</string>
+
+    <string name="youHaveReached">Você atingiu o número máximo de clones de voz permitidos. Para criar um novo clone de voz, compre um espaço adicional.</string>
+    <string name="OneTime">Único</string>
+
+    <string name="file">Arquivos</string>
+    <string name="noFiles">Sem Arquivos</string>
+    <string name="goToHome">Vá para a página inicial e experimente texto para fala!</string>
+
+    <string name="home">Início</string>
+    <string name="library">Biblioteca</string>
+    <string name="settings">Configurações</string>
+
+    <string name="membership">Assinatura</string>
+    <string name="getPremium">Obtenha Premium</string>
+    <string name="accessAllThe">Acesse todos os recursos</string>
+    <string name="upgrade">Atualizar</string>
+    <string name="general">Geral</string>
+    <string name="emailSupport">Suporte por E-mail</string>
+    <string name="referAnd">Indique e Ganhe</string>
+    <string name="about">Sobre</string>
+    <string name="termsAndConditions">Termos e Condições</string>
+    <string name="privacyPolicy">Política de Privacidade</string>
+    <string name="appVersion">Versão do App</string>
+
+    <string name="theBest">O Melhor</string>
+    <string name="voiceChanger">Modificador de Voz</string>
+    <string name="cloneYour">Clone sua</string>
+    <string name="ownVoice">Própria Voz</string>
+    <string name="soundLike">Soa como</string>
+    <string name="celebrities">Celebridades</string>
+    <string name="continue_">Continuar</string>
+    <string name="welcomeTo">Bem-vindo ao</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">Melhor Texto para Fala e Clonagem de Voz</string>
+
+    <string name="inviteFriends">Convide Amigos!</string>
+    <string name="getFreeGenerations">Ganhe Gerações Grátis</string>
+    <string name="share_1">1. Compartilhe seu código com amigos</string>
+    <string name="they_2">2. Eles inserem seu código nesta página</string>
+    <string name="you_3">3. Você e seus amigos recebem créditos grátis</string>
+    <string name="userCode">Código do Usuário:</string>
+    <string name="invite">Convidar</string>
+    <string name="enterFriendsCode">Digite o Código do Amigo</string>
+    <string name="enterOrPaste">Digite ou cole o código</string>
+    <string name="paste">Colar</string>
+    <string name="confirm">Confirmar</string>
+
+    <string name="step1">Passo 1</string>
+    <string name="step2">Passo 2</string>
+    <string name="step3">Passo 3</string>
+    <string name="speakAnytextAnytime">Fale qualquer texto, a qualquer momento!</string>
+    <string name="uploadYourVoice">Envie sua voz</string>
+    <string name="uploadOrRecordYour">Envie ou grave sua voz.</string>
+    <string name="letAiDo">Deixe a IA fazer sua mágica</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI irá criar uma voz personalizada com suas gravações.</string>
+    <string name="yourUniqueAI">Sua voz única de IA está pronta!</string>
+    <string name="useYourCustom">Use sua voz personalizada e diga qualquer coisa!</string>
+
+    <string name="uploadOrRecords">Envie ou Grave</string>
+    <string name="goodExamples">Exemplos Bons</string>
+    <string name="clearSound">Som Claro</string>
+    <string name="onePerson">Uma Pessoa</string>
+    <string name="goodExample1">Bom Exemplo 1</string>
+    <string name="goodExample2">Bom Exemplo 2</string>
+    <string name="badExamples">Exemplos Ruins</string>
+    <string name="noisy">Barulhento</string>
+    <string name="twoOrMore">Duas ou Mais Pessoas</string>
+    <string name="badExample1">Exemplo Ruim 1</string>
+    <string name="badExample2">Exemplo Ruim 2</string>
+
+
+    <string name="voiceSelection">Seleção de Voz</string>
+    <string name="pleaseProvideBetween">Forneça entre 30 segundos a 7 minutos de sua voz.</string>
+    <string name="record">Gravar</string>
+    <string name="upload">Enviar</string>
+    <string name="sec_30">30 segundos a 7 minutos</string>
+
+    <string name="recordYourVoice">Grave Sua Voz</string>
+    <string name="script1">Kotodama AI é seu portal para o futuro da tecnologia de texto para fala. Com o Kotodama AI, você pode facilmente clonar sua voz e usá-la para TTS, trazendo um toque pessoal às suas comunicações digitais. Seja narrando uma história, criando conteúdo ou apenas se divertindo com texto para fala, o Kotodama AI garante que sua voz soe natural, clara e exclusivamente sua. O app captura cada detalhe, tornando sua voz digital indistinguível da real. Imagine a conveniência de transformar palavras escritas em faladas, tudo com sua própria voz.</string>
+    <string name="script2">De manhã, acordo cedo e passeio com meu cachorro pelo bairro. As ruas estão calmas e pacíficas, com pássaros cantando e uma brisa fresca soprando. Frequentemente encontramos outras pessoas amigáveis e seus animais de estimação, e eu gosto de assistir ao nascer do sol, pintando o céu com belas cores enquanto o dia começa.</string>
+    <string name="script3">Quando o sol começa a se pôr, gosto de relaxar com um ritual tranquilo à noite. Acendo algumas velas perfumadas e diminuo as luzes na minha sala de estar. O brilho suave cria uma atmosfera acolhedora, perfeita para relaxar após um longo dia. Costumo preparar uma xícara de chá de ervas e me acomodo na minha poltrona favorita com um bom livro. O silêncio da noite, combinado com o brilho suave das velas, me ajuda a refletir sobre o dia e me preparar para uma noite de descanso.</string>
+    <string name="PressToStart">Pressione para começar a gravar!</string>
+
+
+    <string name="customize">Personalizar</string>
+    <string name="pickAn">Escolha um Avatar</string>
+    <string name="exVoice">ex. Voz 1</string>
+
+    <string name="shareKotodama">Compartilhar Kotodama</string>
+    <string name="yearly">Anual</string>
+    <string name="language">Idioma</string> <!-- Portuguese (Brazil) -->
+
+</resources>

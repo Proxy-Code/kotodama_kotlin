@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_languageFragment"
             app:destination="@id/languageFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_referFragment"
+            app:destination="@id/referFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -140,5 +143,13 @@
         <action
             android:id="@+id/action_voiceLabLoadingFragment_to_customizeFragment"
             app:destination="@id/customizeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/referFragment"
+        android:name="com.proksi.kotodama.fragments.ReferFragment"
+        android:label="ReferFragment" >
+        <action
+            android:id="@+id/action_referFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
 </navigation>

@@ -1,10 +1,16 @@
 package com.proksi.kotodama
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -13,9 +19,9 @@ import com.kotodama.tts.R
 import com.kotodama.tts.databinding.ActivityMainBinding
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.fragments.SettingsFragment
-import kotlinx.coroutines.launch
 import com.appsflyer.AppsFlyerLib
-
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : BaseActivity() {
 
@@ -32,6 +38,7 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         dataStoreManager = DataStoreManager
 
+        askNotificationPermission()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController= navHostFragment.navController
@@ -56,6 +63,7 @@ class MainActivity : BaseActivity() {
                 R.id.recordVoiceFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.customizeFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabLoadingFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.referFragment -> binding.bottomNavigationView.visibility = View.GONE
 
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
@@ -71,6 +79,15 @@ class MainActivity : BaseActivity() {
                     true
             }
 
+        }
+
+        val sharedPreferences: SharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val lastOfferKey = "lastOfferKey"
+
+        if (!sharedPreferences.contains(lastOfferKey)) {
+            val editor = sharedPreferences.edit()
+            editor.putLong(lastOfferKey, System.currentTimeMillis() / 1000)
+            editor.apply()
         }
 
 
@@ -100,6 +117,51 @@ class MainActivity : BaseActivity() {
             binding.bottomNavigationView.visibility = View.VISIBLE
         } else {
             binding.bottomNavigationView.visibility = View.GONE
+        }
+    }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                // TODO: display an educational UI explaining to the user the features that will be enabled
+                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                //       If the user selects "No thanks," allow the user to continue without notifications.
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }else{
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("FIREBASE", "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                val token = task.result
+                Log.d("token", "askNotificationPermission: $token")
+            })
+        }
+    }
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("FIREBASE", "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                val token = task.result
+                Log.d("token", "askNotificationPermission: $token")
+            })
+        } else {
+            // TODO: Inform user that that your app will not show notifications.
         }
     }
 

@@ -12,6 +12,8 @@
     <color name="d2d2">#D2D2D2</color>
     <color name="progress_red">#FF0000</color>
     <color name="progress_green">#00FF00</color>
+    <color name="christmas_green">#1A8D7D</color>
+
 
         <array name="progress_bar_colors">
             <item>#AC59FF</item> <!-- Başlangıç rengi -->

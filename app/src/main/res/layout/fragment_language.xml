@@ -29,7 +29,7 @@
             android:layout_marginBottom="30dp"
             android:fontFamily="@font/bold"
             android:gravity="center"
-            android:text="Choose your language"
+            android:text="@string/language"
             android:textColor="@color/black"
             android:textSize="28dp" />
 

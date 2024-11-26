@@ -27,13 +27,14 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
         android:gravity="center"
-        android:text="Record Your Voice!"
+        android:text="@string/recordYourVoice"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/back_btn"
         app:layout_constraintTop_toTopOf="parent"
+
         tools:layout_editor_absoluteY="3dp" />
 
     <androidx.core.widget.NestedScrollView
@@ -64,7 +65,7 @@
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/light"
                 android:lineHeight="24sp"
-                android:text="Kotodama AI is your gateway to the future of text-to-speech technology. With Kotodama AI, you can easily clone your voice and use it for TTS, bringing a personal touch to your digital communications. Whether you’re narrating a story, creating content, or just having fun with text-to-speech, Kotodama AI ensures that your voice sounds natural, clear, and uniquely yours. The app captures every detail, making your digital voice indistinguishable from your real one. Imagine the convenience of turning written words into spoken ones, all with your own voice."
+                android:text="@string/script1"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -75,8 +76,7 @@
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/light"
                 android:lineHeight="24sp"
-                android:text="Every morning, I wake up early and walk my dog around the neighborhood. The streets are quiet and peaceful, with birds chirping and a cool breeze blowing. We often meet other friendly people and their pets, and I enjoy watching the sun rise, painting the sky with beautiful colors as the day begins."
-                android:textColor="@color/black"
+                android:text="@string/script2"                android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <TextView
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/light"
                 android:lineHeight="24sp"
-                android:text="As the sun begins to set, I like to unwind with a calming evening ritual. I light a few scented candles and dim the lights in my living room. The soft glow creates a warm and cozy atmosphere, perfect for relaxing after a long day. I often make myself a cup of herbal tea and settle into my favorite chair with a good book. The quietness of the evening, paired with the gentle flicker of the candles, helps me reflect on the day and prepare for a restful night ahead."
+                android:text="@string/script3"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -170,7 +170,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:fontFamily="@font/bold"
-        android:text="Press to start recording!"
+        android:text="@string/PressToStart"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="12sp"

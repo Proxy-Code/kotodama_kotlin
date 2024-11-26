@@ -1,33 +1,172 @@
 <resources>
-    <string name="app_name">Kotodama</string>
+    <string name="language">اللغة</string> <!-- Arabic -->
 
-    <string name="all">All</string>
-    <string name="trends">Trends</string>
-    <string name="newCtg">New</string>
-    <string name="musicians">Musicians</string>
-    <string name="tvShows">TV-Shows</string>
-    <string name="sports">Sports</string>
-    <string name="rap">Rap</string>
-    <string name="kpop">K-Pop</string>
-    <string name="random">Random</string>
-    <string name="anime">Anime</string>
-    <string name="cartoon">Cartoon</string>
-    <string name="actors">Actors</string>
-    <string name="game">Game</string>
-    <string name="fictional">Fictional</string>
-    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="since_all_transactions">Since all transactions for our app are processed through the Apple App Store, we cannot issue refunds directly. However, you can request a refund directly from Apple.</string>
-    <string name="when_will_multilingual_service_supported">When will multilingual service be supported?</string>
-    <string name="you_can_cancel_your_subscription">You can cancel your subscription anytime without being subjected to any inquiries. Apple\'s App Store manages all the subscriptions.</string>
-    <string name="how_cancel_my_subscription">How do I cancel my subscription?</string>
-    <string name="how_request_refund">How do I request a refund?</string>
-    <string name="it_actually_works">It actually works</string>
-    <string name="just_few_clicks_create_ai_cover">Just few clicks to create ai cover songs. As a 50 year old, I am really surprised how technology has advanced so far.</string>
-    <string name="the_offer_expires_in">The offer expires in:</string>
-    <string name="our_ai_already_supports_multiple_languages">Our AI Already supports multiple languages. You can cover any song with non-native speakers, and it will make perfect covers.</string>
+    <string name="restore">استعادة</string>
+    <string name="unlockPremium">افتح الميزات المميزة</string>
+    <string name="generateRealisticVoices">توليد أصوات واقعية</string>
+    <string name="fasterVoiceProcessing">معالجة صوتية أسرع</string>
+    <string name="freeVoiceClones">نسخ صوتية مجانية</string>
+    <string name="clonesAnyVoice">نسخ أي صوت</string>
+    <string name="allFamousVoices">جميع الأصوات الشهيرة</string>
+    <string name="unlockAllPremiumVoices">افتح جميع الأصوات المميزة</string>
+    <string name="chooseYourPlan">اختر خطتك</string>
+    <string name="weekly">أسبوعيًا</string>
+    <string name="sale_81">خصم 81%</string>
+    <string name="annual">سنويًا</string>
+    <string name="popular">الأكثر شهرة</string>
+    <string name="unlockAllFeatures">افتح جميع الميزات</string>
+    <string name="indistinguishableAiVoices">أصوات AI لا يمكن تمييزها</string>
+    <string name="experienceTheFuture">اختبر مستقبل نسخ الأصوات</string>
+    <string name="elevateYour">ارفع مستوى الصوت الخاص بك مع تقنية نسخ الأصوات بالذكاء الاصطناعي، لتحويل النصوص إلى كلام نابض بالحياة.</string>
+    <string name="perfectForEngaging">مثالي لتعليقات صوتية جذابة، تجربة وضوح وتنوع لا مثيل لها في كل قصة</string>
+    <string name="feature">الميزات</string>
+    <string name="aiTextToSpeech">الذكاء الاصطناعي لتحويل النصوص إلى كلام</string>
+    <string name="createNatural">أنشئ كلامًا طبيعيًا بسهولة باستخدام تقنيتنا المتقدمة لتحويل النصوص إلى كلام. يجلب الذكاء الاصطناعي مشاعر نابضة بالحياة، مما يجعل كل صوت فريدًا ومعبرًا.</string>
+    <string name="voiceCloning">نسخ الأصوات</string>
+    <string name="createPersonalized">أنشئ نسخًا صوتية مخصصة باستخدام تقنية النسخ الصوتي المتقدمة من كوتوداما. يلتقط الذكاء الاصطناعي الخصائص الصوتية الفريدة، مما يضمن أن يكون كل نسخة معبرة وأصيلة كالصوت الأصلي.</string>
+    <string name="faq">الأسئلة الشائعة</string>
+    <string name="whenWillMulti">متى سيتم دعم الخدمة متعددة اللغات؟</string>
+    <string name="support_multiple">يدعم الذكاء الاصطناعي لدينا بالفعل لغات متعددة. يمكنك ببساطة كتابة النص وسيتعرف الذكاء الاصطناعي تلقائيًا عليه وينشئ الكلام.</string>
+    <string name="howDoI">كيف ألغي اشتراكي؟</string>
+    <string name="youCanCancelYour">يمكنك إلغاء اشتراكك في أي وقت دون أي استفسارات. يتم إدارة جميع الاشتراكات عبر متجر Google Play.</string>
+    <string name="howDoIRequest">كيف أطلب استرداد الأموال؟</string>
+    <string name="sinceAllTransactions">نظرًا لأن جميع معاملات التطبيق تتم من خلال متجر Google Play، لا يمكننا إصدار المبالغ المستردة مباشرة. ومع ذلك، يمكنك طلب استرداد الأموال مباشرة من Google.</string>
+
+
+    <string name="weWillGive">سنمنحك</string>
+    <string name="bestOffer">أفضل عرض!</string>
+    <string name="theOfferExpires">ينتهي العرض خلال:</string>
+    <string name="off_seven">خصم 77%</string>
+
+    <string name="remaining">المتبقي</string>
+    <string name="typeHereFor">اكتب هنا لتحويل النص إلى كلام!</string>
+    <string name="serach">بحث</string>
+    <string name="all">الكل</string>
+    <string name="trend">رائج</string>
+    <string name="new_">جديد</string>
+    <string name="musicians">موسيقيون</string>
+    <string name="actors">ممثلون</string>
+    <string name="sports">رياضة</string>
+    <string name="ficitional">خيالي</string>
+    <string name="rap">راب</string>
+    <string name="game">ألعاب</string>
+    <string name="anime">أنمي</string>
+    <string name="kPop">كي-بوب</string>
+    <string name="random">عشوائي</string>
+    <string name="create">إنشاء</string>
+    <string name="createVoice">إنشاء صوت</string>
+
+
+    <string name="information">معلومات</string>
+    <string name="pleaseBeAdvised">يرجى العلم أن الشخصيات التي تحصل عليها حاليًا متاحة فقط أثناء فترة اشتراكك!</string>
+    <string name="done">تم</string>
+    <string name="doNotShow">لا تعرض مرة أخرى.</string>
+
+    <string name="addotionalCharacters">شخصيات إضافية!</string>
+    <string name="chacters_ten">10,000 حرف</string>
+    <string name="chacters_fifty">50,000 حرف</string>
+    <string name="chacters_hundred">100,000 حرف</string>
+    <string name="buy">شراء</string>
+
+    <string name="youHaveReached">لقد وصلت إلى الحد الأقصى لعدد نسخ الأصوات المسموح بها. لعمل نسخة صوتية جديدة، يرجى شراء مساحة إضافية لإنشاء المزيد.</string>
+    <string name="OneTime">مرة واحدة</string>
+
+    <string name="file">ملفات</string>
+    <string name="noFiles">لا توجد ملفات</string>
+    <string name="goToHome">اذهب إلى الصفحة الرئيسية وجرب تحويل النص إلى كلام!</string>
+
+
+    <string name="home">الرئيسية</string>
+    <string name="library">المكتبة</string>
+    <string name="settings">الإعدادات</string>
+
+    <string name="membership">العضوية</string>
+    <string name="getPremium">احصل على النسخة المميزة</string>
+    <string name="accessAllThe">استفد من جميع الميزات</string>
+    <string name="upgrade">ترقية</string>
+    <string name="general">عام</string>
+    <string name="emailSupport">دعم البريد الإلكتروني</string>
+    <string name="referAnd">شارك واربح</string>
+    <string name="about">حول</string>
+    <string name="termsAndConditions">الشروط والأحكام</string>
+    <string name="privacyPolicy">سياسة الخصوصية</string>
+    <string name="appVersion">إصدار التطبيق</string>
+
+
+    <string name="theBest">الأفضل</string>
+    <string name="voiceChanger">مغير الصوت</string>
+    <string name="cloneYour">انسخ صوتك</string>
+    <string name="ownVoice">صوتك الخاص</string>
+    <string name="soundLike">تحدث مثل</string>
+    <string name="celebrities">المشاهير</string>
+    <string name="continue_">متابعة</string>
+    <string name="welcomeTo">مرحبًا بك في</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">أفضل تقنية لتحويل النص إلى كلام ونسخ الصوت</string>
+
+
+    <string name="inviteFriends">ادعُ أصدقاءك!</string>
+    <string name="getFreeGenerations">احصل على جولات مجانية</string>
+    <string name="share_1">1. شارك الرمز مع أصدقائك</string>
+    <string name="they_2">2. يقومون بإدخال الرمز في هذه الصفحة</string>
+    <string name="you_3">3. تحصل أنت وأصدقاؤك على أرصدة مجانية</string>
+    <string name="userCode">رمز المستخدم:</string>
+    <string name="invite">دعوة</string>
+    <string name="enterFriendsCode">أدخل رمز الصديق</string>
+    <string name="enterOrPaste">أدخل أو الصق الرمز</string>
+    <string name="paste">لصق</string>
+    <string name="confirm">تأكيد</string>
+
+    <string name="step1">الخطوة 1</string>
+    <string name="step2">الخطوة 2</string>
+    <string name="step3">الخطوة 3</string>
+    <string name="speakAnytextAnytime">تحدث أي نص، في أي وقت!</string>
+    <string name="uploadYourVoice">قم بتحميل صوتك</string>
+    <string name="uploadOrRecordYour">قم بتحميل أو تسجيل صوتك.</string>
+    <string name="letAiDo">دع الذكاء الاصطناعي يقوم بالسحر</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI سيقوم بإنشاء صوت مخصص بناءً على تسجيلاتك.</string>
+    <string name="yourUniqueAI">صوت الذكاء الاصطناعي الفريد الخاص بك جاهز!</string>
+    <string name="useYourCustom">استخدم صوتك المخصص وقل أي شيء!</string>
+
+
+    <string name="uploadOrRecords">تحميل أو تسجيل</string>
+    <string name="goodExamples">أمثلة جيدة</string>
+    <string name="clearSound">صوت واضح</string>
+    <string name="onePerson">شخص واحد</string>
+    <string name="goodExample1">مثال جيد 1</string>
+    <string name="goodExample2">مثال جيد 2</string>
+    <string name="badExamples">أمثلة سيئة</string>
+    <string name="noisy">ضجيج</string>
+    <string name="twoOrMore">شخصان أو أكثر</string>
+    <string name="badExample1">مثال سيئ 1</string>
+    <string name="badExample2">مثال سيئ 2</string>
+
+
+    <string name="voiceSelection">اختيار الصوت</string>
+    <string name="pleaseProvideBetween">يرجى تقديم مدة صوت تتراوح بين 30 ثانية و7 دقائق.</string>
+    <string name="record">تسجيل</string>
+    <string name="upload">تحميل</string>
+    <string name="sec_30">30 ثانية إلى 7 دقائق</string>
+
+
+    <string name="recordYourVoice">سجل صوتك</string>
+    <string name="script1">Kotodama AI هو بوابتك إلى مستقبل تقنية تحويل النص إلى كلام. مع Kotodama AI، يمكنك بسهولة نسخ صوتك واستخدامه لتحويل النصوص إلى كلام، مما يضيف لمسة شخصية إلى اتصالاتك الرقمية. سواء كنت تروي قصة، أو تنشئ محتوى، أو تستمتع بتجربة تحويل النص إلى كلام، يضمن لك Kotodama AI أن يكون صوتك طبيعيًا وواضحًا ومميزًا. يلتقط التطبيق كل التفاصيل، مما يجعل صوتك الرقمي مطابقًا تمامًا لصوتك الحقيقي. تخيل سهولة تحويل الكلمات المكتوبة إلى كلمات منطوقة، بصوتك الخاص.</string>
+    <string name="script2">في الصباح، أستيقظ مبكرًا وأمشي مع كلبي في الحي. الشوارع هادئة وسلمية، مع زقزقة الطيور ونسيم بارد. غالبًا ما نقابل أشخاصًا ودودين آخرين وحيواناتهم الأليفة، وأستمتع بمشاهدة شروق الشمس وهي تلوّن السماء بألوان جميلة مع بداية اليوم.</string>
+    <string name="script3">مع غروب الشمس، أحب الاسترخاء بطقوس مسائية هادئة. أشعل بضع شموع معطرة وأخفض الأضواء في غرفة المعيشة. الإضاءة الخافتة تخلق جوًا دافئًا ومريحًا، مثاليًا للاسترخاء بعد يوم طويل. غالبًا ما أصنع لنفسي كوبًا من الشاي العشبي وأستقر في كرسيي المفضل مع كتاب جيد. هدوء المساء مع وميض الشموع يساعدني على التفكير في اليوم والاستعداد لليلة هادئة.</string>
+    <string name="PressToStart">اضغط لبدء التسجيل!</string>
+
+
+    <string name="customize">تخصيص</string>
+    <string name="pickAn">اختر صورة رمزية</string>
+    <string name="exVoice">مثل: صوت 1</string>
+
+
+    <string name="shareKotodama">شارك كوتوداما</string>
+
+    <string name="yearly">سنوي</string>
+
+    <string name="tvShows">برامج تلفزيونية</string>
 
 
 </resources>

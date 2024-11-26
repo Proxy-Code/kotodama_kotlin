@@ -14,10 +14,13 @@ android {
         applicationId = "com.kotodama.tts"
         minSdk = 24
         targetSdk = 34
-        versionCode = 16
-        versionName = "1.12"
+        versionCode = 28
+        versionName = "1.28"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        resourceConfigurations += listOf("en", "ar-rAE", "de",  "es", "fr", "in",
+            "ja", "ko", "pt-rBR",
+            "ru",  "tr",  "vi", "zh-rCN","zh-rSG")
     }
 
     buildTypes {
@@ -41,6 +44,12 @@ android {
         viewBinding = true
         dataBinding = true
         buildConfig = true
+    }
+
+    bundle {
+        language{
+            enableSplit =false
+        }
     }
 }
 
@@ -96,11 +105,7 @@ dependencies {
     //facebook
     implementation ("com.facebook.android:facebook-android-sdk:17.0.1")
 
-    //google service
-    implementation ("com.appsflyer:af-android-sdk:6.12.1")
-
-
     //appsflyer
-    implementation ("com.appsflyer:af-android-sdk:HERE_LATEST_VERSION")
+    implementation ("com.appsflyer:af-android-sdk:6.15.2")
 
 }

@@ -1,2 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+
+    <string name="restore">復元</string>
+    <string name="unlockPremium">プレミアムを解除</string>
+    <string name="generateRealisticVoices">リアルな音声を生成</string>
+    <string name="fasterVoiceProcessing">高速音声処理</string>
+    <string name="freeVoiceClones">無料ボイスクローン</string>
+    <string name="clonesAnyVoice">任意の声をクローン</string>
+    <string name="allFamousVoices">すべての有名な声</string>
+    <string name="unlockAllPremiumVoices">プレミアムボイスをすべて解除</string>
+    <string name="chooseYourPlan">プランを選択</string>
+    <string name="weekly">週次</string>
+    <string name="sale_81">81%オフ</string>
+    <string name="annual">年次</string>
+    <string name="popular">人気</string>
+    <string name="unlockAllFeatures">全機能を解除</string>
+    <string name="indistinguishableAiVoices">違いの分からないAI音声</string>
+    <string name="experienceTheFuture">音声クローンの未来を体験</string>
+    <string name="elevateYour">AI音声で音質を向上し、リアルな音声を実現</string>
+    <string name="perfectForEngaging">魅力的なナレーションに最適。比類ない明瞭さと柔軟性を体験</string>
+    <string name="feature">機能</string>
+    <string name="aiTextToSpeech">AIテキスト読み上げ</string>
+    <string name="createNatural">自然な音声を簡単に生成。感情豊かな音声を実現</string>
+    <string name="voiceCloning">ボイスクローン</string>
+    <string name="createPersonalized">個性的な声を生成。リアルな音声を再現</string>
+    <string name="faq">FAQ</string>
+    <string name="support_multiple">私たちのAIはすでに複数の言語に対応しています。テキストを入力するだけで、AIが自動的に理解し、音声を生成します。</string>
+
+    <string name="whenWillMulti">多言語対応はいつ利用可能になりますか？</string>
+    <string name="howDoI">サブスクリプションをキャンセルするには？</string>
+    <string name="youCanCancelYour">サブスクリプションはいつでもキャンセル可能です。Google Playが管理します。</string>
+    <string name="howDoIRequest">返金を依頼するには？</string>
+    <string name="sinceAllTransactions">Google Playを通じて処理されるため、返金依頼はGoogleに直接お問い合わせください。</string>
+
+    <string name="language">言語</string> <!-- Japanese -->
+
+    <string name="weWillGive">特典をお届け！</string>
+    <string name="bestOffer">最高のオファー！</string>
+    <string name="theOfferExpires">オファー終了まで:</string>
+    <string name="off_seven">77%オフ</string>
+
+
+    <string name="remaining">残り</string>
+    <string name="typeHereFor">ここに入力してAI音声を作成！</string>
+    <string name="serach">検索</string>
+    <string name="all">すべて</string>
+    <string name="trend">トレンド</string>
+    <string name="new_">新着</string>
+    <string name="musicians">ミュージシャン</string>
+    <string name="tvShows">テレビ番組</string>
+    <string name="actors">俳優</string>
+    <string name="sports">スポーツ</string>
+    <string name="ficitional">架空</string>
+    <string name="rap">ラップ</string>
+    <string name="game">ゲーム</string>
+    <string name="anime">アニメ</string>
+    <string name="kPop">K-POP</string>
+    <string name="random">ランダム</string>
+    <string name="create">作成</string>
+    <string name="createVoice">ボイス作成</string>
+
+
+    <string name="information">情報</string>
+    <string name="pleaseBeAdvised">現在取得しているキャラクターは、サブスクリプションが有効な間のみアクセス可能です！</string>
+    <string name="done">完了</string>
+    <string name="doNotShow">再表示しない</string>
+
+
+    <string name="addotionalCharacters">追加キャラクター！</string>
+    <string name="chacters_ten">10,000文字</string>
+    <string name="chacters_fifty">50,000文字</string>
+    <string name="chacters_hundred">100,000文字</string>
+    <string name="buy">購入</string>
+
+    <string name="youHaveReached">ボイスクローンの最大数に達しました。新しいボイスクローンを作成するには、追加スロットを購入してください。</string>
+    <string name="OneTime">一回限り</string>
+
+    <string name="file">ファイル</string>
+    <string name="noFiles">ファイルがありません</string>
+    <string name="goToHome">ホームページに戻り、テキスト読み上げを試してください！</string>
+
+    <string name="home">ホーム</string>
+    <string name="library">ライブラリ</string>
+    <string name="settings">設定</string>
+
+
+    <string name="membership">メンバーシップ</string>
+    <string name="getPremium">プレミアムを取得</string>
+    <string name="accessAllThe">すべての機能にアクセス</string>
+    <string name="upgrade">アップグレード</string>
+    <string name="general">一般</string>
+    <string name="emailSupport">メールサポート</string>
+    <string name="referAnd">紹介して稼ぐ</string>
+    <string name="about">アプリについて</string>
+    <string name="termsAndConditions">利用規約</string>
+    <string name="privacyPolicy">プライバシーポリシー</string>
+    <string name="appVersion">アプリバージョン</string>
+
+    <string name="theBest">最高</string>
+    <string name="voiceChanger">ボイスチェンジャー</string>
+    <string name="cloneYour">クローンする</string>
+    <string name="ownVoice">自分の声</string>
+    <string name="soundLike">のように話す</string>
+    <string name="celebrities">有名人</string>
+    <string name="continue_">続行</string>
+    <string name="welcomeTo">ようこそ</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">最高のテキスト読み上げと音声クローン</string>
+
+    <string name="inviteFriends">友達を招待！</string>
+    <string name="getFreeGenerations">無料クレジットをゲット</string>
+    <string name="share_1">1. 友達にコードを共有</string>
+    <string name="they_2">友達がこのページでコードを入力</string>
+    <string name="you_3">あなたと友達が無料クレジットを獲得</string>
+    <string name="userCode">ユーザーコード：</string>
+    <string name="invite">招待</string>
+    <string name="enterFriendsCode">友達のコードを入力</string>
+    <string name="enterOrPaste">コードを入力または貼り付け</string>
+    <string name="paste">貼り付け</string>
+    <string name="confirm">確認</string>
+
+    <string name="step1">ステップ 1</string>
+    <string name="step2">ステップ 2</string>
+    <string name="step3">ステップ 3</string>
+    <string name="speakAnytextAnytime">いつでもテキストを話す！</string>
+    <string name="uploadYourVoice">声をアップロード</string>
+    <string name="uploadOrRecordYour">声をアップロードまたは録音してください。</string>
+    <string name="letAiDo">AIにお任せ</string>
+    <string name="kotodamaAiIsGoing">Kotodama AIが録音を基にカスタム音声を作成します。</string>
+    <string name="yourUniqueAI">あなた専用のAI音声が完成！</string>
+    <string name="useYourCustom">カスタム音声を使って何でも話しましょう！</string>
+
+    <string name="uploadOrRecords">アップロードまたは録音</string>
+    <string name="goodExamples">良い例</string>
+    <string name="clearSound">クリアな音声</string>
+    <string name="onePerson">1人の声</string>
+    <string name="goodExample1">良い例 1</string>
+    <string name="goodExample2">良い例 2</string>
+    <string name="badExamples">悪い例</string>
+    <string name="noisy">ノイズが多い</string>
+    <string name="twoOrMore">複数の声</string>
+    <string name="badExample1">悪い例 1</string>
+    <string name="badExample2">悪い例 2</string>
+
+
+    <string name="voiceSelection">音声選択</string>
+    <string name="pleaseProvideBetween">30秒から7分間の音声を提供してください。</string>
+    <string name="record">録音</string>
+    <string name="upload">アップロード</string>
+    <string name="sec_30">30秒から7分</string>
+
+    <string name="recordYourVoice">声を録音</string>
+    <string name="script1">Kotodama AIは、未来のテキスト読み上げ技術へのゲートウェイです。Kotodama AIを使えば、声を簡単にクローン化してTTSに利用できます。ストーリーのナレーション、コンテンツ作成、またはテキスト読み上げを楽しむ際に、個性あふれる音声をデジタルコミュニケーションに加えることができます。アプリは音声の細部を捉え、デジタル音声を本物と区別できないほど自然なものにします。書かれた言葉を自分の声で話すという便利さを想像してください。</string>
+    <string name="script2">朝、私は早起きをして犬を連れて近所を散歩します。通りは静かで平和で、鳥のさえずりや涼しい風が感じられます。他のフレンドリーな人々やそのペットに出会うことも多く、日の出を見ながら、美しい色で空が彩られる様子を楽しみます。</string>
+    <string name="script3">日が沈む頃、私は落ち着いた夜の習慣でリラックスします。香りの良いキャンドルを灯し、リビングルームの照明を暗くします。柔らかな光が暖かく居心地の良い雰囲気を作り、一日の疲れを癒すのにぴったりです。ハーブティーをいれてお気に入りの椅子に座り、良い本を読みます。夜の静けさとキャンドルの柔らかな揺らぎが、1日を振り返り、安らかな夜の準備をするのに役立ちます。</string>
+    <string name="PressToStart">録音を開始！</string>
+
+
+    <string name="customize">カスタマイズ</string>
+    <string name="pickAn">アバターを選択</string>
+    <string name="exVoice">例: Voice 1</string>
+
+    <string name="shareKotodama">Kotodama を共有する</string>
+    <string name="yearly">年間</string>
+
+</resources>

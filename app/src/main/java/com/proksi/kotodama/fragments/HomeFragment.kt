@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.nl.languageid.LanguageIdentifier
@@ -43,6 +44,7 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
+import java.security.MessageDigest
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -59,7 +61,7 @@ class HomeFragment : Fragment() {
     private var imageUrl: String? = ""
     private var name: String? = ""
     private var isClone: Boolean? = true
-    private val choices = listOf("en", "es", "fr", "de", "it", "pt", "pl", "tr", "ru", "nl", "cs", "ar", "zh", "hu", "ko", "hi")
+    private val choices = listOf("en", "es", "fr", "de", "it", "pt", "pl", "tr", "ru", "nl", "cs", "ar", "zh", "hu", "ko", "hi","fil","sv","bg","ro","el","ms","hr","sk","da","uk","ta")
     private var isSubscribed:Boolean = false
     private val TAG = HomeFragment::class.java.simpleName
     private var remainingCount = 150
@@ -68,11 +70,13 @@ class HomeFragment : Fragment() {
     private var remainingRights : Number? = null
     private var cloningRights : Number? = null
     private var tokenCounter = 3
+    private var referralCode: String? = ""
     private var initialRemainingCount = 0
     private var hasCloneModel :Boolean = false
     private var isShowSlotPaywall : Boolean= false
     private var saveTextJob: Job? = null
     private var isFirstLoad:Boolean = true
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,15 +85,10 @@ class HomeFragment : Fragment() {
         design = FragmentHomeBinding.inflate(inflater, container, false)
         dataStoreManager = DataStoreManager
 
+        setupVoicesAdapter()
+
         viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
             updateIsShowSlotPaywall(cloneCount)
-        }
-
-
-        val currentView = view
-        if (currentView != null) {
-            val lifecycleOwner = currentView.findViewTreeLifecycleOwner()
-            // Continue with your operations
         }
 
         design.recyclerViewCategories.layoutManager=
@@ -106,6 +105,8 @@ class HomeFragment : Fragment() {
                 viewModel.getVoicesByCategory(category, requireContext())
             }
         })
+
+
 
        // viewModel.fetchVoices("all",requireContext())
         if (isFirstLoad) {
@@ -292,15 +293,17 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.d("burada", "onViewCreated: burada")
         getUidFromDataStore(requireContext())
 
-        // Start collecting the subscription status in a coroutine
-        viewLifecycleOwner.lifecycleScope.launch {
-            // Collect the subscription status from the DataStoreManager
+
+        lifecycleScope.launch {
+            Log.d("1234", "onViewCreated: ")
             dataStoreManager.getSubscriptionStatusKey(this@HomeFragment.requireContext()).collect { isActive ->
-                // Ensure the fragment is still attached and the view exists before updating UI
-                if (isAdded && view != null) {
+                if (isAdded) {
+                    getUidFromDataStore(requireContext())
+                }
+                if (isAdded) {
                     isSubscribed = isActive
                     if (isActive) {
                         design.imageCrown.visibility = View.GONE
@@ -316,6 +319,8 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+
     }
 
     override fun onDestroyView() {
@@ -505,6 +510,26 @@ class HomeFragment : Fragment() {
         viewModel.fetchVoices("all", requireContext())
     }
 
+    fun generateCode(userId: String): String {
+        // Get the current time in milliseconds
+        val currentTime = System.currentTimeMillis()
+        val inputString = "$userId$currentTime"
+
+        // Hash the input string using SHA256
+        val hashedString = sha256(inputString)
+
+        // Get the first 6 characters and make it uppercase
+        val code = hashedString.take(6).uppercase(Locale.getDefault())
+
+        return code
+    }
+
+    // SHA256 hash function
+    fun sha256(input: String): String {
+        val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
+        return bytes.joinToString("") { "%02x".format(it) }
+    }
+
     private fun getUidFromDataStore(context: Context) {
         lifecycleScope.launch {
             DataStoreManager.getUid(context).collect { uid ->
@@ -514,17 +539,18 @@ class HomeFragment : Fragment() {
                     val userDocRef = firestore.collection("users").document(uid)
 
                     // Add SnapshotListener for real-time updates
-                    userDocRef.addSnapshotListener { documentSnapshot, exception ->
+                    userDocRef.addSnapshotListener { snapshot, exception ->
                         if (exception != null) {
                             Log.e("Home Firestore", "Error listening to user document: ", exception)
                             return@addSnapshotListener
                         }
 
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            remainingCharacters = documentSnapshot.getLong("remainingCount")
-                            additionalCount = documentSnapshot.getLong("additionalCount") ?: 0L
-                            remainingRights = documentSnapshot.getLong("remainingRights")
-                            cloningRights = documentSnapshot.getLong("cloningRights")
+                        if (snapshot != null && snapshot.exists()) {
+                            remainingCharacters = snapshot.getLong("remainingCount")
+                            additionalCount = snapshot.getLong("additionalCount") ?: 0L
+                            remainingRights = snapshot.getLong("remainingRights")
+                            cloningRights = snapshot.getLong("cloningRights")
+                            referralCode = snapshot.getString("referralCode")
 
                             if (remainingRights != null) {
                                 if (remainingRights == 0L) {
@@ -550,7 +576,13 @@ class HomeFragment : Fragment() {
                                     design.tokenCounterText.text = remainingRights.toString()
                                 }
                             } else {
-                                // Eğer remainingRights null ise varsayılan değerler
+                                val data = hashMapOf(
+                                    "remainingRights" to 3,
+                                    "remainingCount" to 150,
+                                )
+
+                                userDocRef.set(data,SetOptions.merge())
+
                                 design.tokenCounterText.text = "3"
                                 if (remainingCharacters != null && additionalCount != null) {
                                     remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
@@ -559,17 +591,38 @@ class HomeFragment : Fragment() {
                                 }
                                 design.remaningText.text = remainingCount.toString()
                             }
-                            viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
-                                if (cloneCount != null) {
-                                    updateIsShowSlotPaywall(cloneCount) // cloneCount'u buradan geçiyoruz
+                            if (isAdded && view != null) {
+                                viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
+                                    if (cloneCount != null) {
+                                        updateIsShowSlotPaywall(cloneCount) // cloneCount'u buradan geçiyoruz
+                                    }
+                                }
+                            }
+                            if (referralCode == null) {
+                                val refCode = generateCode(uid)
+
+                                val data = hashMapOf(
+                                    "referralCode" to refCode
+                                 )
+
+                                userDocRef.set(data,SetOptions.merge())
+                            } else {
+                                val code = referralCode ?: ""
+                                lifecycleScope.launch {
+                                    dataStoreManager.saveReferral(requireContext(), code)
                                 }
                             }
 
-
-                            Log.d(TAG, "isShowSlotPaywall: $isShowSlotPaywall, hasClone= $hasCloneModel cloningRights=$cloningRights")
-
                         } else {
-                            // Eğer documentSnapshot yoksa varsayılan değerler
+                            val refCode = generateCode(uid)
+
+                            val data = hashMapOf(
+                                "referralCode" to refCode,
+                                "remainingRights" to 3,
+                                "remainingCount" to 150
+                            )
+                            userDocRef.set(data, SetOptions.merge())
+
                             remainingCount = 150
                             tokenCounter = 3
                             design.remaningText.text = remainingCount.toString()
@@ -621,6 +674,8 @@ class HomeFragment : Fragment() {
         }
         design.remaningText.text = remainingCount.toString()
     }
+
+
 
 
 

@@ -78,11 +78,16 @@ class BoardingOneFragment : Fragment() {
         return view
         }
 
-        override fun onDestroy() {
-            super.onDestroy()
-            player?.release()
-            player = null
-        }
+    override fun onPause() {
+        super.onPause()
+        player?.pause() // Pause the player when the fragment goes into the background
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player?.release()
+        player = null
+    }
 
 
 

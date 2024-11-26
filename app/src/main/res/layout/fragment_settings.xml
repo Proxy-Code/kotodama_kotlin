@@ -23,7 +23,7 @@
             android:fontFamily="@font/bold"
             android:paddingHorizontal="55dp"
             android:paddingVertical="32dp"
-            android:text="Settings"
+            android:text="@string/settings"
             android:textColor="@color/white"
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
-            android:layout_width="407dp"
+            android:layout_width="match_parent"
             android:layout_height="857dp"
             android:paddingHorizontal="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/bold"
-                android:text="Membership"
+                android:text="@string/membership"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="44dp"
                     android:fontFamily="@font/bold"
-                    android:text="Get Premium"
+                    android:text="@string/getPremium"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView11"
@@ -105,7 +105,7 @@
                     android:layout_marginEnd="27dp"
                     android:layout_marginBottom="24dp"
                     android:fontFamily="@font/light"
-                    android:text="Access all the fatures"
+                    android:text="@string/accessAllThe"
                     android:textColor="@color/white"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -124,7 +124,7 @@
                     android:fontFamily="@font/semi_bold"
                     android:paddingHorizontal="13dp"
                     android:paddingVertical="9dp"
-                    android:text="Upgrade"
+                    android:text="@string/upgrade"
                     android:textColor="@color/main_purple"
                     android:textSize="11sp"
                     app:cornerRadius="44dp"
@@ -142,49 +142,50 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="37dp"
                 android:fontFamily="@font/semi_bold"
-                android:text="General"
+                android:text="@string/general"
                 android:textColor="@color/black"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:id="@+id/languageLayout"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:visibility="visible"-->
-<!--                android:layout_marginTop="13dp"-->
-<!--                android:background="@drawable/settings_radius9"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView13">-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/languageLayout"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:visibility="visible"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/settings_radius9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13">
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/languageImg"-->
-<!--                    android:layout_width="27dp"-->
-<!--                    android:layout_height="27dp"-->
-<!--                    android:layout_marginStart="16dp"-->
-<!--                    android:background="@drawable/radius_5"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:src="@drawable/globe"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintVertical_bias="0.5" />-->
+                <ImageView
+                    android:id="@+id/languageImg"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/radius_5"
+                    android:padding="5dp"
+                    android:src="@drawable/globe"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/language"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="15dp"-->
-<!--                    android:fontFamily="@font/medium"-->
-<!--                    android:text="Languages"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/languageImg"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintVertical_bias="0.5" />-->
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+                <TextView
+                    android:id="@+id/language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/medium"
+                    android:text="@string/language"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/languageImg"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/mailSupportLayout"
@@ -195,7 +196,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                app:layout_constraintTop_toBottomOf="@+id/languageLayout">
 
                 <ImageView
                     android:id="@+id/mailSupport"
@@ -216,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/medium"
-                    android:text="E-mail Support"
+                    android:text="@string/emailSupport"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/mailSupport"
@@ -228,12 +229,12 @@
                 android:id="@+id/shareSongLayout"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="72dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/settings_radius9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                app:layout_constraintTop_toBottomOf="@+id/mailSupportLayout">
 
                 <ImageView
                     android:id="@+id/shareImg"
@@ -254,12 +255,49 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/medium"
-                    android:text="Share Kotodama"
+                    android:text="@string/shareKotodama"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/shareImg"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.516" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/referLayout"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/shareSongLayout"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/settings_radius9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="50dp">
+                <ImageView
+                    android:id="@+id/referImg"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/radius_5"
+                    android:src="@drawable/handshake_"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5" />
+
+                <TextView
+                    android:id="@+id/refer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/medium"
+                    android:text="@string/referAnd"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/referImg"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.551" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -268,23 +306,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="37dp"
                 android:fontFamily="@font/semi_bold"
-                android:text="About"
+                android:text="@string/about"
                 android:textColor="@color/black"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/shareSongLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/referLayout" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/termsLayout"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="195dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/settings_radius9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                app:layout_constraintTop_toBottomOf="@+id/textView6">
 
                 <ImageView
                     android:id="@+id/termsImg"
@@ -305,7 +343,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/medium"
-                    android:text="@string/terms_conditions"
+                    android:text="@string/termsAndConditions"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/termsImg"
@@ -317,12 +355,12 @@
                 android:id="@+id/privacyLayout"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="255dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/settings_radius9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                app:layout_constraintTop_toBottomOf="@+id/termsLayout">
 
                 <ImageView
                     android:id="@+id/privacyImg"
@@ -343,7 +381,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/medium"
-                    android:text="Privacy Policy"
+                    android:text="@string/privacyPolicy"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/privacyImg"
@@ -355,12 +393,12 @@
                 android:id="@+id/appVersionLayout"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="315dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/settings_radius9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13">
+                app:layout_constraintTop_toBottomOf="@+id/privacyLayout">
 
                 <TextView
                     android:id="@+id/textView7"
@@ -368,7 +406,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/medium"
-                    android:text="App Version"
+                    android:text="@string/appVersion"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"

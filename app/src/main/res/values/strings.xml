@@ -1,35 +1,180 @@
 <resources>
-    <string name="app_name">Kotodama</string>
     <string name="facebook_app_id" translatable="false">1523115955751601</string>
     <string name="appsflyer_api_key" translatable="false">UkZnkSxPoa24iFJVkbP3Ri</string>
+    <string name="app_name" translatable="false">Kotodama AI</string>
 
+
+
+<string name="language">Language</string>
+<string name="restore">Restore</string>
+<string name="unlockPremium">Unlock Premium</string>
+<string name="generateRealisticVoices">Generate Realistic Voices</string>
+<string name="fasterVoiceProcessing">Faster Voice Processing</string>
+<string name="freeVoiceClones">Free Voice Clones</string>
+<string name="clonesAnyVoice">Clone Any Voice</string>
+<string name="allFamousVoices">All Famous Voices</string>
+<string name="unlockAllPremiumVoices">Unlock All Premium Voice</string>
+<string name="chooseYourPlan">Choose your plan</string>
+<string name="weekly">Weekly</string>
+    <string name="sale_81">81 % Sale</string>
+<string name="annual">Annual</string>
+<string name="popular">Popular</string>
+<string name="unlockAllFeatures">Unlock All Features</string>
+<string name="indistinguishableAiVoices">Indistinguishable AI Voices</string>
+<string name="experienceTheFuture">Experience the Future of Voice Cloning</string>
+<string name="elevateYour">Elevate your audio with our AI voice clning, transforming text into stunningly realistic speech.</string>
+<string name="perfectForEngaging">Perfect for engaging voiceovers, experience unparalleled clarity and verstaility in every narrative</string>
+<string name="feature">Features</string>
+<string name="aiTextToSpeech">AI Text To Speech</string>
+<string name="createNatural">Create natural-sounding speech easily with our advanced text-to-speech technology. Our AI brings emotions to life, making every voice unique and expressive</string>
+<string name="voiceCloning">Voice Cloning</string>
+<string name="createPersonalized">Create personalized voice clones using Kotodama’s advanced voice cloning technology. Our AI Captures unique vocal characteristics, ensuring each clone is as expressive and authentic as the original voice.</string>
+<string name="faq">FAQ</string>
+    <string name="whenWillMulti">When will multilingual service be supported?</string>
+    <string name="support_multiple">Our AI Already supports multiple languages. You can simply type the text and our AI automatically understands and generates the speech for you</string>
+    <string name="howDoI">How do I cancel my subscription</string>
+    <string name="youCanCancelYour">You can cancel your subscription anytime without being subjected to any inquiries. Google Play Store manages all the subscriptions.</string>
+    <string name="howDoIRequest">How do I request a refund?</string>
+    <string name="sinceAllTransactions">Since all transactions for our app are processed through the Google Play Store, we cannot issue refunds directly. However, you can request a refund directly from Google.</string>
+
+
+    <string name="weWillGive">We Will Give You</string>
+    <string name="bestOffer">Best Offer!</string>
+    <string name="theOfferExpires">The Offer expires in:</string>
+    <string name="off_seven">77% Off</string>
+
+    <string name="remaining">Remaining</string>
+    <string name="typeHereFor">Type here for your AI Speech!</string>
+    <string name="serach">Search</string>
     <string name="all">All</string>
-    <string name="trends">Trends</string>
-    <string name="newCtg">New</string>
+    <string name="trend">Trend</string>
     <string name="musicians">Musicians</string>
-    <string name="tvShows">TV-Shows</string>
-    <string name="sports">Sports</string>
-    <string name="rap">Rap</string>
-    <string name="kpop">K-Pop</string>
-    <string name="random">Random</string>
-    <string name="anime">Anime</string>
-    <string name="cartoon">Cartoon</string>
     <string name="actors">Actors</string>
+    <string name="sports">Spoorts</string>
+    <string name="ficitional">Fictional</string>
+    <string name="rap">Rap</string>
     <string name="game">Game</string>
-    <string name="fictional">Fictional</string>
-    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="since_all_transactions">Since all transactions for our app are processed through the Apple App Store, we cannot issue refunds directly. However, you can request a refund directly from Apple.</string>
-    <string name="when_will_multilingual_service_supported">When will multilingual service be supported?</string>
-    <string name="you_can_cancel_your_subscription">You can cancel your subscription anytime without being subjected to any inquiries. Apple\'s App Store manages all the subscriptions.</string>
-    <string name="how_cancel_my_subscription">How do I cancel my subscription?</string>
-    <string name="how_request_refund">How do I request a refund?</string>
-    <string name="it_actually_works">It actually works</string>
-    <string name="just_few_clicks_create_ai_cover">Just few clicks to create ai cover songs. As a 50 year old, I am really surprised how technology has advanced so far.</string>
-    <string name="the_offer_expires_in">The offer expires in:</string>
-    <string name="our_ai_already_supports_multiple_languages">Our AI Already supports multiple languages. You can cover any song with non-native speakers, and it will make perfect covers.</string>
+    <string name="anime">Anime</string>
+    <string name="kPop">K-Pop</string>
+    <string name="random">Random</string>
+    <string name="create">Create</string>
+    <string name="createVoice">Create Voice</string>
+    <string name="new_">New</string>
+    <string name="tvShows">TV-Shows</string>
 
 
-</resources>
+
+<string name="information">Information</string>
+    <string name="pleaseBeAdvised">Please be advised that the characters you are presently acquiring are exclusively accessible while your subscription remains active!</string>
+    <string name="done">Done</string>
+    <string name="doNotShow">Do not show again.</string>
+
+
+    <string name="addotionalCharacters">Additional Characters!</string>
+    <string name="chacters_ten">10,000 Characters</string>
+    <string name="chacters_fifty">50,000 Characters</string>
+    <string name="chacters_hundred">100,000 Characters</string>
+    <string name="buy">Buy</string>
+
+    <string name="youHaveReached">You have reached the maximum number of voice clones allowed. To create a new voice clone, please purchase an additional slot to create more voice clones.</string>
+    <string name="OneTime">One Time</string>
+
+
+    <string name="file">Files</string>
+    <string name="noFiles">No Files</string>
+    <string name="goToHome">Go to home page and try out text to speech!</string>
+
+
+    <string name="home">Home</string>
+    <string name="library">Library</string>
+    <string name="settings">Settings</string>
+
+
+    <string name="membership">Membership</string>
+    <string name="getPremium">Get Premium</string>
+    <string name="accessAllThe">Access all the features</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="general">General</string>
+    <string name="emailSupport">E-mail Support</string>
+    <string name="referAnd">Refer &amp; Earn</string>
+    <string name="about">About</string>
+    <string name="termsAndConditions">Terms &amp; Conditions</string>
+    <string name="privacyPolicy">Privacy Policy</string>
+    <string name="appVersion">App Version</string>
+
+
+    <string name="theBest">The Best</string>
+    <string name="voiceChanger">Voice Changer</string>
+    <string name="cloneYour">Clone Your</string>
+    <string name="ownVoice">Own Voice</string>
+    <string name="soundLike">Sound Like</string>
+    <string name="celebrities">Celebrities</string>
+    <string name="welcomeTo">Welcome To</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">Best Text to Speech, Voice Cloning</string>
+
+
+    <string name="inviteFriends">Invite Friends!</string>
+    <string name="getFreeGenerations">Get Free Generations</string>
+    <string name="share_1">1. Share your code with your friends</string>
+    <string name="they_2">They enter your code in this Page</string>
+    <string name="you_3">You and your Friends receive free credits</string>
+    <string name="userCode">User Code:</string>
+    <string name="invite">Invite</string>
+    <string name="enterFriendsCode">Enter Friend’s Code</string>
+    <string name="enterOrPaste">Enter or paste code</string>
+    <string name="paste">Paste</string>
+    <string name="confirm">Confirm</string>
+
+
+    <string name="step1">Step 1</string>
+    <string name="step2">Step 2</string>
+    <string name="step3">Step 3</string>
+    <string name="speakAnytextAnytime">Speak Any Text, Anytime!</string>
+    <string name="uploadYourVoice">Upload Your Voice</string>
+    <string name="uploadOrRecordYour">Upload or record your voice.</string>
+    <string name="letAiDo">Let AI Do Its Magic</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI is going to create a custom Voice with your recordings.</string>
+    <string name="yourUniqueAI">Your Unique AI Voice is Ready!</string>
+    <string name="useYourCustom">Use your custom voice and say anything!</string>
+
+
+    <string name="uploadOrRecords">Upload or Record</string>
+    <string name="goodExamples">Good Examples</string>
+    <string name="clearSound">Clear sound</string>
+    <string name="onePerson">One person</string>
+    <string name="goodExample1">Good Example 1</string>
+    <string name="goodExample2">Good Example 2</string>
+    <string name="badExamples">Bad Examples</string>
+    <string name="noisy">Noisy</string>
+    <string name="twoOrMore">Two or more people</string>
+    <string name="badExample1">Bad Example 1</string>
+    <string name="badExample2">Bad Example 2</string>
+
+
+    <string name="voiceSelection">Voice Selection</string>
+    <string name="pleaseProvideBetween">Please provide between 30 seconds to 7 minutes of your voice.</string>
+    <string name="record">Record</string>
+    <string name="upload">Upload</string>
+    <string name="sec_30">30 seconds to 7 Minutes</string>
+
+
+    <string name="recordYourVoice">Record Your Voice</string>
+    <string name="script1">Kotodama AI is your gateway to the future of text-to-speech technology. With Kotodama AI, you can easily clone your voice and use it for TTS, bringing a personal touch to your digital communications. Whether you’re narrating a story, creating content, or just having fun with text-to-speech, Kotodama AI ensures that your voice sounds natural, clear, and uniquely yours. The app captures every detail, making your digital voice indistinguishable from your real one. Imagine the convenience of turning written words into spoken ones, all with your own voice.</string>
+    <string name="script2">Morning, I wake up early and walk my dog around the neighborhood. The streets are quiet and peaceful, with birds chirping and a cool breeze blowing. We often meet other friendly people and their pets, and I enjoy watching the sun rise, painting the sky with beautiful colors as the day begins.</string>
+    <string name="script3">As the sun begins to set, I like to unwind with a calming evening ritual. I light a few scented candles and dim the lights in my living room. The soft glow creates a warm and cozy atmosphere, perfect for relaxing after a long day. I often make myself a cup of herbal tea and settle into my favorite chair with a good book. The quietness of the evening, paired with the gentle flicker of the candles, helps me reflect on the day and prepare for a restful night ahead.</string>
+    <string name="PressToStart">Press to start recording!</string>
+
+
+    <string name="customize">Customize</string>
+    <string name="pickAn">Pick An Avatar</string>
+    <string name="exVoice">ex. Voice 1</string>
+
+    <string name="shareKotodama">Share Kotodama</string>
+    <string name="continue_">Continue</string>
+    <string name="yearly">Yearly</string>
+
+
+
+
+    </resources>

@@ -1,2 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+
+    <string name="restore">Khôi phục</string>
+    <string name="unlockPremium">Mở khóa Premium</string>
+    <string name="generateRealisticVoices">Tạo giọng nói chân thực</string>
+    <string name="fasterVoiceProcessing">Xử lý giọng nhanh hơn</string>
+    <string name="freeVoiceClones">Nhân bản giọng miễn phí</string>
+    <string name="clonesAnyVoice">Nhân bản mọi giọng</string>
+    <string name="allFamousVoices">Tất cả giọng nổi tiếng</string>
+    <string name="unlockAllPremiumVoices">Mở khóa mọi giọng Premium</string>
+    <string name="chooseYourPlan">Chọn gói của bạn</string>
+    <string name="weekly">Hàng tuần</string>
+    <string name="sale_81">Giảm 81%</string>
+    <string name="annual">Hàng năm</string>
+    <string name="popular">Phổ biến</string>
+    <string name="unlockAllFeatures">Mở khóa tất cả tính năng</string>
+    <string name="indistinguishableAiVoices">Giọng AI khó phân biệt</string>
+    <string name="experienceTheFuture">Trải nghiệm tương lai của nhân bản giọng</string>
+    <string name="elevateYour">Nâng tầm âm thanh với giọng nói AI của chúng tôi, biến văn bản thành âm thanh sống động như thật.</string>
+    <string name="perfectForEngaging">Hoàn hảo cho lồng tiếng hấp dẫn, trải nghiệm độ rõ nét và linh hoạt vượt trội trong mọi câu chuyện.</string>
+    <string name="feature">Tính năng</string>
+    <string name="aiTextToSpeech">AI Chuyển Văn Bản Thành Giọng Nói</string>
+    <string name="createNatural">Tạo giọng nói tự nhiên dễ dàng với công nghệ tiên tiến của chúng tôi. AI của chúng tôi mang đến cảm xúc sống động, làm mỗi giọng nói trở nên độc đáo và biểu cảm.</string>
+    <string name="voiceCloning">Nhân Bản Giọng Nói</string>
+    <string name="createPersonalized">Tạo nhân bản giọng cá nhân hóa với công nghệ tiên tiến của Kotodama. AI của chúng tôi nắm bắt đặc điểm giọng độc đáo, đảm bảo mỗi bản sao đều sống động và chân thực như giọng gốc.</string>
+    <string name="faq">Hỏi Đáp</string>
+    <string name="whenWillMulti">Khi nào sẽ hỗ trợ đa ngôn ngữ?</string>
+    <string name="support_multiple">AI của chúng tôi đã hỗ trợ đa ngôn ngữ. Chỉ cần nhập văn bản và AI sẽ tự động hiểu và tạo giọng nói cho bạn.</string>
+    <string name="howDoI">Làm sao để hủy gói đăng ký?</string>
+    <string name="youCanCancelYour">Bạn có thể hủy gói đăng ký bất kỳ lúc nào mà không cần trả lời câu hỏi. Cửa hàng Google Play quản lý tất cả các gói đăng ký.</string>
+    <string name="howDoIRequest">Làm sao để yêu cầu hoàn tiền?</string>
+    <string name="sinceAllTransactions">Vì tất cả giao dịch của ứng dụng được xử lý qua Google Play Store, chúng tôi không thể hoàn tiền trực tiếp. Tuy nhiên, bạn có thể yêu cầu hoàn tiền từ Google.</string>
+
+    <string name="weWillGive">Chúng tôi sẽ tặng bạn</string>
+    <string name="bestOffer">Ưu đãi tốt nhất!</string>
+    <string name="theOfferExpires">Ưu đãi sẽ hết hạn sau:</string>
+    <string name="off_seven">Giảm 77%</string>
+
+
+    <string name="remaining">Còn lại</string>
+    <string name="typeHereFor">Nhập tại đây để sử dụng AI!</string>
+    <string name="serach">Tìm kiếm</string>
+    <string name="all">Tất cả</string>
+    <string name="trend">Xu hướng</string>
+    <string name="new_">Mới</string>
+    <string name="musicians">Nhạc sĩ</string>
+    <string name="tvShows">Chương trình TV</string>
+    <string name="actors">Diễn viên</string>
+    <string name="sports">Thể thao</string>
+    <string name="ficitional">Hư cấu</string>
+    <string name="rap">Rap</string>
+    <string name="game">Game</string>
+    <string name="anime">Anime</string>
+    <string name="kPop">K-Pop</string>
+    <string name="random">Ngẫu nhiên</string>
+    <string name="create">Tạo</string>
+    <string name="createVoice">Tạo Giọng</string>
+
+    <string name="information">Thông tin</string>
+    <string name="pleaseBeAdvised">Vui lòng lưu ý rằng các nhân vật bạn đã mua chỉ khả dụng khi đăng ký của bạn còn hiệu lực!</string>
+    <string name="done">Xong</string>
+    <string name="doNotShow">Không hiển thị lại.</string>
+
+    <string name="addotionalCharacters">Thêm Ký Tự!</string>
+    <string name="chacters_ten">10.000 Ký Tự</string>
+    <string name="chacters_fifty">50.000 Ký Tự</string>
+    <string name="chacters_hundred">100.000 Ký Tự</string>
+    <string name="buy">Mua</string>
+
+    <string name="youHaveReached">Bạn đã đạt số lượng nhân bản giọng tối đa. Để tạo nhân bản giọng mới, vui lòng mua thêm một chỗ.</string>
+    <string name="OneTime">Một lần</string>
+
+    <string name="file">Tệp</string>
+    <string name="noFiles">Không có tệp</string>
+    <string name="goToHome">Quay lại trang chính và thử chuyển văn bản thành giọng nói!</string>
+
+    <string name="home">Trang Chủ</string>
+    <string name="library">Thư Viện</string>
+    <string name="settings">Cài Đặt</string>
+
+
+    <string name="membership">Thành Viên</string>
+    <string name="getPremium">Nâng cấp Premium</string>
+    <string name="accessAllThe">Truy cập tất cả các tính năng</string>
+    <string name="upgrade">Nâng cấp</string>
+    <string name="general">Chung</string>
+    <string name="emailSupport">Hỗ Trợ Email</string>
+    <string name="referAnd">Giới Thiệu &amp; Nhận Thưởng</string>
+    <string name="about">Giới Thiệu</string>
+    <string name="termsAndConditions">Điều Khoản &amp; Điều Kiện</string>
+    <string name="privacyPolicy">Chính Sách Bảo Mật</string>
+    <string name="appVersion">Phiên Bản Ứng Dụng</string>
+
+
+    <string name="theBest">Tốt Nhất</string>
+    <string name="voiceChanger">Trình Thay Đổi Giọng</string>
+    <string name="cloneYour">Nhân Bản</string>
+    <string name="ownVoice">Giọng Của Bạn</string>
+    <string name="soundLike">Giống Như</string>
+    <string name="celebrities">Người Nổi Tiếng</string>
+    <string name="continue_">Tiếp Tục</string>
+    <string name="welcomeTo">Chào Mừng Đến Với</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">Chuyển Văn Bản Thành Giọng Nói Tốt Nhất</string>
+
+
+    <string name="inviteFriends">Mời Bạn Bè!</string>
+    <string name="getFreeGenerations">Nhận Chuyển Đổi Miễn Phí</string>
+    <string name="share_1">1. Chia sẻ mã của bạn với bạn bè</string>
+    <string name="they_2">2. Họ nhập mã của bạn vào trang này</string>
+    <string name="you_3">3. Bạn và bạn bè sẽ nhận được tín dụng miễn phí</string>
+    <string name="userCode">Mã Người Dùng:</string>
+    <string name="invite">Mời</string>
+    <string name="enterFriendsCode">Nhập Mã Bạn Bè</string>
+    <string name="enterOrPaste">Nhập hoặc dán mã</string>
+    <string name="paste">Dán</string>
+    <string name="confirm">Xác Nhận</string>
+
+
+
+
+    <string name="step1">Bước 1</string>
+    <string name="step2">Bước 2</string>
+    <string name="step3">Bước 3</string>
+    <string name="speakAnytextAnytime">Nói bất kỳ văn bản nào, bất kỳ lúc nào!</string>
+    <string name="uploadYourVoice">Tải lên giọng của bạn</string>
+    <string name="uploadOrRecordYour">Tải lên hoặc ghi âm giọng của bạn.</string>
+    <string name="letAiDo">Để AI thực hiện điều kỳ diệu</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI sẽ tạo một giọng nói tùy chỉnh từ bản ghi âm của bạn.</string>
+    <string name="yourUniqueAI">Giọng nói AI độc đáo của bạn đã sẵn sàng!</string>
+    <string name="useYourCustom">Sử dụng giọng tùy chỉnh của bạn để nói bất kỳ điều gì!</string>
+
+
+    <string name="uploadOrRecords">Tải lên hoặc Ghi âm</string>
+    <string name="goodExamples">Ví dụ tốt</string>
+    <string name="clearSound">Âm thanh rõ ràng</string>
+    <string name="onePerson">Một người</string>
+    <string name="goodExample1">Ví dụ Tốt 1</string>
+    <string name="goodExample2">Ví dụ Tốt 2</string>
+    <string name="badExamples">Ví dụ không tốt</string>
+    <string name="noisy">Ồn ào</string>
+    <string name="twoOrMore">Hai hoặc nhiều người</string>
+    <string name="badExample1">Ví dụ Không Tốt 1</string>
+    <string name="badExample2">Ví dụ Không Tốt 2</string>
+
+
+    <string name="voiceSelection">Chọn Giọng</string>
+    <string name="pleaseProvideBetween">Vui lòng cung cấp bản ghi từ 30 giây đến 7 phút.</string>
+    <string name="record">Ghi âm</string>
+    <string name="upload">Tải lên</string>
+    <string name="sec_30">30 giây đến 7 phút</string>
+
+
+    <string name="recordYourVoice">Ghi âm giọng của bạn</string>
+    <string name="script1">Kotodama AI là cổng vào tương lai của công nghệ chuyển văn bản thành giọng nói. Với Kotodama AI, bạn có thể dễ dàng nhân bản giọng của mình và sử dụng nó cho TTS, mang đến một sự cá nhân hóa trong giao tiếp kỹ thuật số. Dù bạn đang kể chuyện, tạo nội dung, hay chỉ đơn giản là vui đùa với chuyển văn bản thành giọng nói, Kotodama AI đảm bảo giọng của bạn nghe tự nhiên, rõ ràng và độc đáo. Ứng dụng ghi lại mọi chi tiết, làm cho giọng kỹ thuật số của bạn không thể phân biệt với giọng thực tế. Hãy tưởng tượng sự tiện lợi của việc biến văn bản thành âm thanh, tất cả với giọng của bạn.</string>
+    <string name="script2">Sáng sớm, tôi thức dậy và dắt chó đi dạo quanh khu phố. Đường phố yên tĩnh và thanh bình, chim hót líu lo cùng làn gió mát. Chúng tôi thường gặp những người bạn thân thiện khác và thú cưng của họ. Tôi thích ngắm mặt trời mọc, tô màu bầu trời bằng những gam màu tuyệt đẹp khi ngày mới bắt đầu.</string>
+    <string name="script3">Khi mặt trời bắt đầu lặn, tôi thích thư giãn với một thói quen buổi tối nhẹ nhàng. Tôi thắp vài cây nến thơm và giảm ánh sáng trong phòng khách. Ánh sáng dịu nhẹ tạo nên một không gian ấm cúng, lý tưởng để thư giãn sau một ngày dài. Tôi thường pha cho mình một tách trà thảo mộc và ngồi vào chiếc ghế yêu thích của mình với một cuốn sách hay. Sự yên tĩnh của buổi tối, kết hợp với ánh sáng lung linh của nến, giúp tôi suy ngẫm về ngày đã qua và chuẩn bị cho một đêm ngon giấc.</string>
+    <string name="PressToStart">Nhấn để bắt đầu ghi âm!</string>
+
+
+    <string name="customize">Tùy chỉnh</string>
+    <string name="pickAn">Chọn một hình đại diện</string>
+    <string name="exVoice">Ví dụ: Giọng 1</string>
+
+    <string name="shareKotodama">Chia sẻ Kotodama</string>
+    <string name="yearly">Hàng năm</string>
+    <string name="language">Ngôn ngữ</string> <!-- Vietnamese -->
+
+
+</resources>
+

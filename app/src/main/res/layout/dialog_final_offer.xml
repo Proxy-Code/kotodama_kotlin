@@ -34,7 +34,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:tint="@color/main_purple" />
+                app:tint="@color/christmas_green"
+                />
 
             <ImageView
                 android:id="@+id/closeButton"
@@ -54,7 +55,7 @@
         <TextView
             android:layout_width="match_parent"
             android:textColor="#0F0F0F"
-            android:text="We Will Give You"
+            android:text="@string/weWillGive"
             android:textSize="32sp"
             android:fontFamily="@font/regular"
             android:textAlignment="center"
@@ -63,7 +64,7 @@
         <TextView
             android:layout_width="match_parent"
             android:textColor="@color/black"
-            android:text="Best Offer!"
+            android:text="@string/bestOffer"
             android:textSize="32sp"
             android:fontFamily="@font/bold"
             android:textAlignment="center"
@@ -75,9 +76,10 @@
             android:layout_height="180dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="20dp"
+            android:paddingHorizontal="20dp"
             android:fontFamily="@font/bold"
             android:lineHeight="87dp"
-            android:text="77% OFF"
+            android:text="@string/off_seven"
             android:textSize="80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView6" />
@@ -108,7 +110,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
-                    app:tint="@color/main_purple" />
+                    app:tint="@color/christmas_green" />
 
                 <TextView
                     android:id="@+id/textView14"
@@ -116,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/semi_bold"
-                    android:text="Generate Realistic Voices"
+                    android:text="@string/generateRealisticVoices"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView12"
@@ -128,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:text="Faster Voice Processing"
+                    android:text="@string/fasterVoiceProcessing"
                     android:textColor="#9A9A9A"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -145,7 +147,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="30dp"
-                    app:tint="@color/main_purple"
+                    app:tint="@color/christmas_green"
                     android:padding="10dp"
                     android:src="@drawable/icon_clon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -159,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/semi_bold"
-                    android:text="Free Voice Clones"
+                    android:text="@string/freeVoiceClones"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView122"
@@ -171,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:text="Clone Any Voice"
+                    android:text="@string/clonesAnyVoice"
                     android:textColor="#9A9A9A"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -188,7 +190,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="30dp"
-                    app:tint="@color/main_purple"
+                    app:tint="@color/christmas_green"
                     android:padding="10dp"
                     android:src="@drawable/icon_locked"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -202,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/semi_bold"
-                    android:text="All Famous Voices"
+                    android:text="@string/allFamousVoices"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView123"
@@ -214,7 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:text="Unlock All Premium Voice"
+                    android:text="@string/unlockAllPremiumVoices"
                     android:textColor="#9A9A9A"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
@@ -234,7 +236,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/gradient_border"
+            android:background="@drawable/christmas_gradient_border"
             android:paddingBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -246,7 +248,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/regular"
-                android:text="@string/the_offer_expires_in"
+                android:text="@string/theOfferExpires"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -273,27 +275,50 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <TextView
-            android:id="@+id/pricetextView"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/regular"
+                android:text="@string/yearly"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.395" />
+            <TextView
+            android:id="@+id/priceOldTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:layout_gravity="center"
+            android:layout_gravity="center"
             android:fontFamily="@font/regular"
-            android:text="Lifetime / $129.99"
+            android:text=" $129.99"
             android:textColor="@color/black"
             android:textSize="20sp"
+            android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.395" />
 
+        </LinearLayout>
+
         <TextView
-            android:id="@+id/finalText"
+            android:id="@+id/pricetextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/bold"
             android:gravity="center"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/black"
             android:textSize="28sp" />
 
@@ -303,12 +328,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/radius_13_purple"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/radius_13_chris"
             android:fontFamily="@font/bold"
             android:paddingVertical="20dp"
-            android:text="Continue"
-
+            android:text="@string/continue_"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="17sp" />

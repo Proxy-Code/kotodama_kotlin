@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F4F4F9"
     android:paddingBottom="20dp"
-    tools:context=".fragments.BoardingThreeFragment">
+    tools:context=".fragments.BoardingFourFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.Guideline
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/regular"
-        android:text="Welcome To"
+        android:text="@string/welcomeTo"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="35sp"
@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/regular"
-        android:text="Best Text to Speech, Voice Cloning"
+        android:text="@string/bestTextTo"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="17sp"
@@ -85,7 +85,7 @@
         android:background="@drawable/radius15_gradient"
         android:fontFamily="@font/semi_bold"
         android:paddingVertical="15dp"
-        android:text="Continue"
+        android:text="@string/continue_"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp"

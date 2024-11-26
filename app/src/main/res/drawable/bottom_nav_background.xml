@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<ripple xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:color="#EEEEF3"> &lt;!&ndash; Burada ripple rengini belirtirsiniz &ndash;&gt;-->
+
+<!--    &lt;!&ndash; Normal arka plan rengi &ndash;&gt;-->
+<!--    <item android:drawable="@android:color/white" />-->
+<!--</ripple>-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#EEEEF3"/> <!-- İstediğiniz renk -->
+ <!-- Köşe yuvarlama -->
+</shape>

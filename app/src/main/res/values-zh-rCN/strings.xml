@@ -1,2 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+
+    <string name="restore">恢复</string>
+    <string name="unlockPremium">解锁高级版</string>
+    <string name="generateRealisticVoices">生成逼真语音</string>
+    <string name="fasterVoiceProcessing">更快语音处理</string>
+    <string name="freeVoiceClones">免费语音克隆</string>
+    <string name="clonesAnyVoice">克隆任意语音</string>
+    <string name="allFamousVoices">所有名人语音</string>
+    <string name="unlockAllPremiumVoices">解锁全部高级语音</string>
+    <string name="chooseYourPlan">选择计划</string>
+    <string name="weekly">每周</string>
+    <string name="sale_81">81% 折扣</string>
+    <string name="annual">年度</string>
+    <string name="popular">热门</string>
+    <string name="unlockAllFeatures">解锁全部功能</string>
+    <string name="indistinguishableAiVoices">无法分辨的AI语音</string>
+    <string name="experienceTheFuture">体验语音克隆的未来</string>
+    <string name="elevateYour">提升您的音频效果，让AI语音克隆将文本转化为逼真的语音。</string>
+    <string name="perfectForEngaging">适用于引人入胜的旁白，体验无与伦比的清晰度和多样性。</string>
+    <string name="feature">功能</string>
+    <string name="aiTextToSpeech">AI文本转语音</string>
+    <string name="createNatural">使用我们的高级文本转语音技术轻松生成自然语音。AI赋予语音情感，使每种声音独特且生动。</string>
+    <string name="voiceCloning">语音克隆</string>
+    <string name="createPersonalized">使用Kotodama的高级语音克隆技术创建个性化语音克隆。AI捕捉独特的语音特征，确保每个克隆与原始语音一样真实且有表现力。</string>
+    <string name="faq">常见问题</string>
+    <string name="whenWillMulti">多语言服务何时支持？</string>
+    <string name="support_multiple">我们的AI已支持多种语言。只需输入文本，AI会自动理解并生成语音。</string>
+    <string name="howDoI">如何取消订阅？</string>
+    <string name="youCanCancelYour">您可以随时取消订阅，无需任何解释。所有订阅由Google Play商店管理。</string>
+    <string name="howDoIRequest">如何申请退款？</string>
+    <string name="sinceAllTransactions">由于所有交易通过Google Play商店处理，我们无法直接退款。不过，您可以直接向Google申请退款。</string>
+
+
+    <string name="weWillGive">我们将提供</string>
+    <string name="bestOffer">最佳优惠！</string>
+    <string name="theOfferExpires">优惠截止时间：</string>
+    <string name="off_seven">77% 折扣</string>
+
+
+    <string name="remaining">剩余</string>
+    <string name="typeHereFor">在此输入您的AI语音！</string>
+    <string name="serach">搜索</string>
+    <string name="all">全部</string>
+    <string name="trend">热门</string>
+    <string name="new_">新内容</string>
+    <string name="musicians">音乐人</string>
+    <string name="tvShows">电视节目</string>
+    <string name="actors">演员</string>
+    <string name="sports">体育</string>
+    <string name="ficitional">虚构</string>
+    <string name="rap">说唱</string>
+    <string name="game">游戏</string>
+    <string name="anime">动漫</string>
+    <string name="kPop">韩流</string>
+    <string name="random">随机</string>
+    <string name="create">创建</string>
+    <string name="createVoice">创建语音</string>
+
+
+    <string name="information">信息</string>
+    <string name="pleaseBeAdvised">请注意，您当前获取的角色仅在订阅有效期间可用！</string>
+    <string name="done">完成</string>
+    <string name="doNotShow">不再显示</string>
+
+    <string name="addotionalCharacters">额外字符！</string>
+    <string name="chacters_ten">10,000 字符</string>
+    <string name="chacters_fifty">50,000 字符</string>
+    <string name="chacters_hundred">100,000 字符</string>
+    <string name="buy">购买</string>
+    <string name="language">語言</string> <!-- Chinese Traditional -->
+
+    <string name="youHaveReached">您已达到允许的语音克隆数量上限。如需创建新语音克隆，请购买额外名额。</string>
+    <string name="OneTime">一次性</string>
+
+
+    <string name="file">文件</string>
+    <string name="noFiles">无文件</string>
+    <string name="goToHome">返回主页并试用文本转语音！</string>
+
+
+    <string name="home">首页</string>
+    <string name="library">库</string>
+    <string name="settings">设置</string>
+
+
+    <string name="membership">会员</string>
+    <string name="getPremium">获取高级版</string>
+    <string name="accessAllThe">访问所有功能</string>
+    <string name="upgrade">升级</string>
+    <string name="general">通用</string>
+    <string name="emailSupport">电子邮件支持</string>
+    <string name="referAnd">邀请并赚取</string>
+    <string name="about">关于</string>
+    <string name="termsAndConditions">条款和条件</string>
+    <string name="privacyPolicy">隐私政策</string>
+    <string name="appVersion">应用版本</string>
+
+
+    <string name="theBest">最棒的</string>
+    <string name="voiceChanger">语音变声器</string>
+    <string name="cloneYour">克隆您的</string>
+    <string name="ownVoice">自己的声音</string>
+    <string name="soundLike">模仿</string>
+    <string name="celebrities">名人</string>
+    <string name="continue_">继续</string>
+    <string name="welcomeTo">欢迎使用</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">最佳文本转语音与语音克隆</string>
+
+    <string name="inviteFriends">邀请好友！</string>
+    <string name="getFreeGenerations">获取免费生成次数</string>
+    <string name="share_1">1. 与好友分享您的邀请码</string>
+    <string name="they_2">2. 他们在此页面输入您的邀请码</string>
+    <string name="you_3">3. 您和好友都将获得免费积分</string>
+    <string name="userCode">用户代码：</string>
+    <string name="invite">邀请</string>
+    <string name="enterFriendsCode">输入好友代码</string>
+    <string name="enterOrPaste">输入或粘贴代码</string>
+    <string name="paste">粘贴</string>
+    <string name="confirm">确认</string>
+
+
+    <string name="step1">步骤 1</string>
+    <string name="step2">步骤 2</string>
+    <string name="step3">步骤 3</string>
+    <string name="speakAnytextAnytime">随时说出任何文本！</string>
+    <string name="uploadYourVoice">上传您的声音</string>
+    <string name="uploadOrRecordYour">上传或录制您的声音。</string>
+    <string name="letAiDo">让 AI 展现魔力</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI 将通过您的录音创建一个定制语音。</string>
+    <string name="yourUniqueAI">您的专属 AI 语音已准备好！</string>
+    <string name="useYourCustom">使用您的自定义语音，说出任何内容！</string>
+
+    <string name="uploadOrRecords">上传或录制</string>
+    <string name="goodExamples">好的示例</string>
+    <string name="clearSound">清晰的声音</string>
+    <string name="onePerson">一个人</string>
+    <string name="goodExample1">示例 1</string>
+    <string name="goodExample2">示例 2</string>
+    <string name="badExamples">不好的示例</string>
+    <string name="noisy">嘈杂</string>
+    <string name="twoOrMore">两人或更多</string>
+    <string name="badExample1">错误示例 1</string>
+    <string name="badExample2">错误示例 2</string>
+
+
+    <string name="voiceSelection">语音选择</string>
+    <string name="pleaseProvideBetween">请提供 30 秒到 7 分钟的语音。</string>
+    <string name="record">录音</string>
+    <string name="upload">上传</string>
+    <string name="sec_30">30 秒到 7 分钟</string>
+
+
+    <string name="recordYourVoice">录制您的声音</string>
+    <string name="script1">Kotodama AI 是您通向文本转语音技术未来的门户。通过 Kotodama AI，您可以轻松克隆您的声音并将其用于文本转语音，为您的数字交流增添个人特色。不论是讲述故事、创建内容，还是玩转文本转语音，Kotodama AI 确保您的声音自然、清晰且独一无二。该应用捕捉每一个细节，使您的数字语音与真实声音无法区分。想象一下，将书面文字变成语音，一切都用您自己的声音完成。</string>
+    <string name="script2">每天早晨，我早起并带着我的狗在社区周围散步。街道宁静而祥和，伴随着鸟鸣声和凉爽的微风。我们经常遇到其他友好的人和他们的宠物，我喜欢看着太阳升起，把天空涂满美丽的色彩，迎接新的一天。</string>
+    <string name="script3">当太阳开始落山时，我喜欢通过一场令人平静的晚间仪式来放松。我点燃几支香薰蜡烛，调暗客厅的灯光。柔和的光芒营造出一种温暖而舒适的氛围，非常适合在忙碌一天后放松身心。我经常泡一杯草本茶，坐在我最喜欢的椅子上，读一本好书。夜晚的安静与蜡烛的微光交相辉映，帮助我反思一天的点滴，为即将到来的宁静之夜做好准备。</string>
+    <string name="PressToStart">点击开始录音！</string>
+
+
+    <string name="customize">自定义</string>
+    <string name="pickAn">选择一个头像</string>
+    <string name="exVoice">例如：语音 1</string>
+
+    <string name="shareKotodama">分享言靈</string>
+    <string name="yearly">每年</string>
+
+</resources>
+
+

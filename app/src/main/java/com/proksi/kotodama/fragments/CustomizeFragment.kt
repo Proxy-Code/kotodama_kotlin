@@ -190,6 +190,7 @@ class CustomizeFragment : Fragment() {
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
                 if (response.isSuccessful) {
                     imageUrls = response.body()!!
+                    Log.d("aaa", "onResponse: ${imageUrls.size}")
                     design.uploadPhoto.isEnabled = true
 
                 } else {
@@ -337,9 +338,6 @@ class CustomizeFragment : Fragment() {
             }
         }
     }
-
-
-
 
 }
 

@@ -13,7 +13,7 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
@@ -28,10 +28,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kotodama"
-        tools:replace="android:fullBackupContent"
+        tools:replace="android:dataExtractionRules, android:fullBackupContent"
         tools:targetApi="31">
         <activity
             android:name="com.proksi.kotodama.PaywallActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name="com.proksi.kotodama.OnboardingActivity"
@@ -39,6 +40,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.proksi.kotodama.SplashScreen"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,11 +50,32 @@
         </activity>
         <activity
             android:name="com.proksi.kotodama.MainActivity"
-            android:exported="true"></activity>
+            android:screenOrientation="portrait"
+            android:exported="true" />
+
+        <service
+            android:name="com.proksi.kotodama.FirebaseClass"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icon_kotodama" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/black" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <meta-data
+            android:name="applovin.sdk.key"
+            android:value="@string/appsflyer_api_key" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -171,17 +171,17 @@ class HomeViewModel : ViewModel() {
     fun getCategoryList(): List<Category> {
         val categoryData = listOf(
             Triple("all", R.string.all, R.drawable.micro),
-            Triple("trends", R.string.trends, R.drawable.trends),
-            Triple("new", R.string.newCtg, R.drawable.neww),
+            Triple("trends", R.string.trend, R.drawable.trends),
+            Triple("new", R.string.new_, R.drawable.neww),
             Triple("musicians", R.string.musicians, R.drawable.musicnota),
             Triple("tv-shows", R.string.tvShows, R.drawable.tv),
             Triple("actors", R.string.actors, R.drawable.actor),
             Triple("sports", R.string.sports, R.drawable.sport),
-            Triple("fictional", R.string.fictional, R.drawable.fictional),
+            Triple("fictional", R.string.ficitional, R.drawable.fictional),
             Triple("rap", R.string.rap, R.drawable.rap),
             Triple("games", R.string.game, R.drawable.game),
             Triple("anime", R.string.anime, R.drawable.anime),
-            Triple("kpop", R.string.kpop, R.drawable.kpop),
+            Triple("kpop", R.string.kPop, R.drawable.kpop),
             Triple("random", R.string.random, R.drawable.random)
         )
         return categoryData.map { (id, text, image) ->
@@ -205,16 +205,17 @@ class HomeViewModel : ViewModel() {
                     val db = FirebaseFirestore.getInstance()
                     val userDocRef = db.collection("users").document(uid)
 
-                    // Reference to the clone document
                     val cloneDocRef = userDocRef.collection("clones").document(cloneId)
 
-                    // Delete clone from Firestore
                     cloneDocRef.delete().addOnSuccessListener {
                         Log.d("DeleteClone", "Clone deleted from Firestore")
 
-                        // After deleting from Firestore, update the UI
+                        // Klon silindikten sonra UI güncellemesi
                         val updatedList = _data.value?.filterNot { it.id == cloneId }
                         _data.value = updatedList
+
+                        // Klon sayısını güncelle
+                        _cloneCount.value = updatedList?.filter { it.isClone }?.size ?: 0
                     }.addOnFailureListener { exception ->
                         Log.e("DeleteClone", "Error deleting clone: $exception")
                     }
@@ -222,6 +223,7 @@ class HomeViewModel : ViewModel() {
             }
         }
     }
+
 
     fun updateEnteredText(text: String) {
         Log.d("Observed entered text", "updateEnteredText: $text ")

@@ -1,2 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+
+    <string name="restore">恢復</string>
+    <string name="unlockPremium">解鎖高級版</string>
+    <string name="generateRealisticVoices">生成逼真的語音</string>
+    <string name="fasterVoiceProcessing">更快的語音處理</string>
+    <string name="freeVoiceClones">免費語音克隆</string>
+    <string name="clonesAnyVoice">克隆任何語音</string>
+    <string name="allFamousVoices">所有名人語音</string>
+    <string name="unlockAllPremiumVoices">解鎖所有高級語音</string>
+    <string name="chooseYourPlan">選擇您的方案</string>
+    <string name="weekly">每週</string>
+    <string name="sale_81">81% 折扣</string>
+    <string name="annual">年度</string>
+    <string name="popular">熱門</string>
+    <string name="unlockAllFeatures">解鎖所有功能</string>
+    <string name="indistinguishableAiVoices">無法分辨的 AI 語音</string>
+    <string name="experienceTheFuture">體驗語音克隆的未來</string>
+    <string name="elevateYour">提升您的音頻體驗，讓 AI 語音克隆轉化為令人驚嘆的逼真語音。</string>
+    <string name="perfectForEngaging">適用於吸引人的配音，每個敘述都擁有無與倫比的清晰度和靈活性</string>
+    <string name="feature">功能</string>
+    <string name="aiTextToSpeech">AI 文本轉語音</string>
+    <string name="createNatural">使用先進的文本轉語音技術，輕鬆創建自然語音。AI 賦予語音情感，讓每個語音都獨一無二且富有表現力。</string>
+    <string name="voiceCloning">語音克隆</string>
+    <string name="createPersonalized">使用 Kotodama 的先進技術創建個性化語音克隆。我們的 AI 捕捉獨特聲音特徵，確保每個克隆都像原聲一樣生動。</string>
+    <string name="faq">常見問題</string>
+    <string name="whenWillMulti">多語言支持何時推出？</string>
+    <string name="support_multiple">我們的 AI 已經支持多種語言。只需輸入文字，AI 會自動理解並生成語音。</string>
+    <string name="howDoI">如何取消我的訂閱？</string>
+    <string name="youCanCancelYour">您可以隨時取消訂閱，無需回答任何問題。所有訂閱均由 Google Play 商店管理。</string>
+    <string name="howDoIRequest">如何申請退款？</string>
+    <string name="sinceAllTransactions">由於所有交易均通過 Google Play 商店處理，我們無法直接退款。您可以直接向 Google 提出退款申請。</string>
+
+    <string name="weWillGive">我們將提供</string>
+    <string name="bestOffer">最佳優惠！</string>
+    <string name="theOfferExpires">優惠截止時間：</string>
+    <string name="off_seven">77% 折扣</string>
+
+    <string name="remaining">剩餘</string>
+    <string name="typeHereFor">在此輸入文字生成 AI 語音！</string>
+    <string name="serach">搜索</string>
+    <string name="all">全部</string>
+    <string name="trend">熱門</string>
+    <string name="new_">新上架</string>
+    <string name="musicians">音樂人</string>
+    <string name="tvShows">電視節目</string>
+    <string name="actors">演員</string>
+    <string name="sports">體育</string>
+    <string name="ficitional">虛構</string>
+    <string name="rap">說唱</string>
+    <string name="game">遊戲</string>
+    <string name="anime">動漫</string>
+    <string name="kPop">韓流</string>
+    <string name="random">隨機</string>
+    <string name="create">創建</string>
+    <string name="createVoice">創建語音</string>
+
+
+    <string name="information">信息</string>
+    <string name="pleaseBeAdvised">請注意，您當前獲取的角色僅在您的訂閱有效期間可用！</string>
+    <string name="done">完成</string>
+    <string name="doNotShow">不要再次顯示</string>
+
+    <string name="addotionalCharacters">額外字符！</string>
+    <string name="chacters_ten">10,000 字符</string>
+    <string name="chacters_fifty">50,000 字符</string>
+    <string name="chacters_hundred">100,000 字符</string>
+    <string name="buy">購買</string>
+
+    <string name="youHaveReached">您已達到允許的語音克隆最大數量。如需創建新語音克隆，請購買額外的克隆槽位。</string>
+    <string name="OneTime">一次性</string>
+
+    <string name="file">文件</string>
+    <string name="noFiles">沒有文件</string>
+    <string name="goToHome">前往主頁試試文本轉語音吧！</string>
+
+    <string name="home">主頁</string>
+    <string name="library">庫</string>
+    <string name="settings">設置</string>
+
+    <string name="membership">會員</string>
+    <string name="getPremium">獲取高級版</string>
+    <string name="accessAllThe">訪問所有功能</string>
+    <string name="upgrade">升級</string>
+    <string name="general">常規</string>
+    <string name="emailSupport">電子郵件支持</string>
+    <string name="referAnd">推薦並賺取</string>
+    <string name="about">關於</string>
+    <string name="termsAndConditions">條款和條件</string>
+    <string name="privacyPolicy">隱私政策</string>
+    <string name="appVersion">應用版本</string>
+
+    <string name="theBest">最棒的</string>
+    <string name="voiceChanger">語音變換器</string>
+    <string name="cloneYour">克隆您的</string>
+    <string name="ownVoice">個人語音</string>
+    <string name="soundLike">模仿</string>
+    <string name="celebrities">名人</string>
+    <string name="continue_">繼續</string>
+    <string name="welcomeTo">歡迎來到</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">最佳文本轉語音與語音克隆</string>
+
+    <string name="inviteFriends">邀請好友！</string>
+    <string name="getFreeGenerations">獲取免費生成次數</string>
+    <string name="share_1">1. 與好友分享您的代碼</string>
+    <string name="they_2">2. 他們在此頁面輸入您的代碼</string>
+    <string name="you_3">3. 您和好友都將獲得免費積分</string>
+    <string name="userCode">用戶代碼：</string>
+    <string name="invite">邀請</string>
+    <string name="enterFriendsCode">輸入好友代碼</string>
+    <string name="enterOrPaste">輸入或粘貼代碼</string>
+    <string name="paste">粘貼</string>
+    <string name="confirm">確認</string>
+
+
+    <string name="step1">步驟 1</string>
+    <string name="step2">步驟 2</string>
+    <string name="step3">步驟 3</string>
+    <string name="speakAnytextAnytime">隨時說任何文字！</string>
+    <string name="uploadYourVoice">上傳您的語音</string>
+    <string name="uploadOrRecordYour">上傳或錄製您的語音。</string>
+    <string name="letAiDo">讓 AI 展現魔法</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI 將使用您的錄音創建一個自定義語音。</string>
+    <string name="yourUniqueAI">您的專屬 AI 語音已準備就緒！</string>
+    <string name="useYourCustom">使用您的自定義語音來說任何內容！</string>
+
+
+    <string name="uploadOrRecords">上傳或錄製</string>
+    <string name="goodExamples">良好示例</string>
+    <string name="clearSound">清晰的音質</string>
+    <string name="onePerson">單人語音</string>
+    <string name="goodExample1">良好示例 1</string>
+    <string name="goodExample2">良好示例 2</string>
+    <string name="badExamples">不良示例</string>
+    <string name="noisy">噪音過大</string>
+    <string name="twoOrMore">多人語音</string>
+    <string name="badExample1">不良示例 1</string>
+    <string name="badExample2">不良示例 2</string>
+
+
+    <string name="voiceSelection">語音選擇</string>
+    <string name="pleaseProvideBetween">請提供 30 秒至 7 分鐘的語音。</string>
+    <string name="record">錄製</string>
+    <string name="upload">上傳</string>
+    <string name="sec_30">30 秒至 7 分鐘</string>
+
+    <string name="recordYourVoice">錄製您的語音</string>
+    <string name="script1">Kotodama AI 是您進入文本轉語音技術未來的門戶。通過 Kotodama AI，您可以輕鬆克隆您的語音並用於文本轉語音 (TTS)，為您的數字通信帶來個性化的觸感。無論是講述故事、創作內容還是僅僅是用文本轉語音玩樂，Kotodama AI 都能確保您的語音聽起來自然、清晰且具有獨特性。該應用捕捉每一個細節，使您的數字語音與真實語音無異。想像一下，用自己的聲音將文字變成語音的便利性。</string>
+    <string name="script2">每天早晨，我早起並帶狗狗在社區散步。街道安靜而祥和，鳥兒鳴叫，微風輕拂。我們經常遇到其他友好的人和他們的寵物，我喜歡觀看日出，天邊被美麗的色彩描繪，宣告新一天的開始。</string>
+    <string name="script3">當太陽開始落山時，我喜歡用一個放鬆的晚間儀式來結束一天。我點燃幾支香氛蠟燭，調暗客廳的燈光。柔和的光芒營造出溫暖舒適的氛圍，非常適合在忙碌的一天後放鬆身心。我通常會給自己泡一杯草藥茶，坐在自己喜歡的椅子上讀一本好書。夜晚的寧靜，配上燭光的微微閃爍，讓我能夠反思一天的經歷，為即將到來的安靜夜晚做好準備。</string>
+    <string name="PressToStart">按下開始錄音！</string>
+
+    <string name="customize">自定義</string>
+    <string name="pickAn">選擇一個頭像</string>
+    <string name="exVoice">示例：語音 1</string>
+
+    <string name="shareKotodama">分享言靈</string>
+    <string name="language">語言</string> <!-- Chinese Traditional -->
+
+    <string name="yearly">每年</string>
+
+</resources>
+
+

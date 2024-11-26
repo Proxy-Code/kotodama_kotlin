@@ -44,7 +44,7 @@ interface ApiInterface {
     )
 
     interface ImagesService {
-        @GET("default/new-avatars")
+        @GET("kotodama-avatars")
         fun getImages(): Call<List<String>>
     }
 

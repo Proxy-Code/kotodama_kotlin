@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    android:id="@+id/paywallFragmentContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ECF7FC"
+    android:contentDescription="@string/app_name"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/restoreButtonLayout"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:background="@drawable/radius_5_green"
+                android:gravity="center"
+                android:elevation="5dp"
+
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Restore Button -->
+                <TextView
+                    android:id="@+id/restoreBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/semi_bold"
+                    android:gravity="center"
+                    android:text="@string/restore"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <!-- ProgressBar -->
+                <ProgressBar
+                    android:id="@+id/restoreProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/chris" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="240dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/bold"
+                android:textAlignment="center"
+                android:text="@string/unlockPremium"
+                android:textColor="@color/black"
+                android:textSize="28sp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="10dp"
+                android:layout_gravity="end"
+                android:id="@+id/closeButton"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/circle_grey"
+                android:src="@drawable/icon_close" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:orientation="vertical"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/radius_13_chris"
+                    android:padding="10dp"
+                    android:src="@drawable/icon_realistic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/semi_bold"
+                    android:text="@string/generateRealisticVoices"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView12"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="@string/fasterVoiceProcessing"
+                    android:textColor="#9A9A9A"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/radius_13_chris"
+                    android:padding="10dp"
+                    android:src="@drawable/icon_clon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textView142"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/semi_bold"
+                    android:text="@string/freeVoiceClones"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView122"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView122"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="@string/clonesAnyVoice"
+                    android:textColor="#9A9A9A"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintTop_toBottomOf="@+id/textView142" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/radius_13_chris"
+                    android:padding="10dp"
+                    android:src="@drawable/icon_locked"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textView143"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/semi_bold"
+                    android:text="@string/allFamousVoices"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView123"
+                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView123"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:text="@string/unlockAllPremiumVoices"
+                    android:textColor="#9A9A9A"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/textView143" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/bold"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:layout_marginBottom="20dp"
+            android:text="@string/chooseYourPlan"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:id="@+id/mostLayout"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/radius14_bg_white"
+            android:layout_marginBottom="15dp"
+            android:layout_height="55dp">
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/semi_bold"
+                android:text="@string/annual"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mostPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/bold"
+                android:text="$114.99"
+                android:textColor="@color/christmas_green"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:textSize="10dp"
+                android:background="@drawable/radius_5_green"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:text="@string/sale_81"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:id="@+id/normalLayout"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/radius14_bg_white"
+            android:layout_height="55dp">
+
+            <TextView
+                android:id="@+id/textView152"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/semi_bold"
+                android:text="@string/weekly"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/normal_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/bold"
+                android:text="$44.99"
+                android:textColor="@color/christmas_green"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView152" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/radius_5_green"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:text="@string/popular"
+                android:textSize="10dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/getPremiumButton"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/unlockAllFeatures"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:enabled="false"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/bold"
+            android:paddingVertical="14dp"
+            android:background="@drawable/radius_13_chris"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="30dp"
+            android:textSize="17sp"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/christmas_green"
+            android:text="@string/indistinguishableAiVoices"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="17sp"
+            android:fontFamily="@font/bold"
+            android:textColor="@color/christmas_green"
+            android:layout_marginTop="5dp"
+            android:text="@string/experienceTheFuture"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="@font/regular"
+            android:textColor="#888888"
+            android:layout_marginHorizontal="25dp"
+            android:textAlignment="center"
+            android:lineHeight="24dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/elevateYour"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="@font/regular"
+            android:textColor="#888888"
+            android:layout_marginHorizontal="25dp"
+            android:textAlignment="center"
+            android:lineHeight="24dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/perfectForEngaging"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:text="Reviews"
+            android:lineHeight="47dp"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bold"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/viewPagerReview"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="16dp"/>
+
+
+        <TextView
+            android:lineHeight="47dp"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/feature"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bold"
+            android:textSize="24sp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="17dp"
+            android:text="@string/aiTextToSpeech"
+            android:textColor="#0F0F0F"
+            android:lineHeight="33dp"
+            android:fontFamily="@font/semi_bold"
+            android:textSize="17sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/createNatural"
+            android:textColor="#1A1A1B"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/regular"
+            android:lineHeight="28dp"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/voiceCloning"
+            android:lineHeight="33dp"
+            android:textColor="#0F0F0F"
+            android:fontFamily="@font/semi_bold"
+            android:textSize="17sp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/createPersonalized"
+            android:textColor="#1A1A1B"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/regular"
+            android:lineHeight="28dp"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:lineHeight="47dp"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/faq"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bold"
+            android:textSize="24sp"
+            android:layout_marginBottom="15dp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/faqRv"
+            android:layout_marginBottom="30dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
+

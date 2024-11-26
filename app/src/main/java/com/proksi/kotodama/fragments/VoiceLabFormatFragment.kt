@@ -140,8 +140,6 @@ class VoiceLabFormatFragment : Fragment(),RecordUploadVoices.OnItemClickListener
         }
     }
 
-
-
     private fun deselectButton(button: LinearLayout) {
         button.background = ContextCompat.getDrawable(requireContext(), R.drawable.radius15_bg_c8c8)
     }

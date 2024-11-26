@@ -1,5 +1,6 @@
 package com.proksi.kotodama.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,16 +11,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentLanguageBinding
-
-import com.proksi.kotodama.adapters.LanguageAdapter
+import com.proksi.kotodama.MainActivity
 import com.proksi.kotodama.models.Language
+import com.proksi.kotodama.adapters.LanguageAdapter
+import com.proksi.kotodama.dataStore.LanguagePreferences
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 class LanguageFragment : Fragment() , LanguageAdapter.OnItemClickListener  {
 
     private lateinit var design: FragmentLanguageBinding
     private lateinit var adapter: LanguageAdapter
+    private lateinit var languagePreferences: LanguagePreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +31,7 @@ class LanguageFragment : Fragment() , LanguageAdapter.OnItemClickListener  {
     ): View {
         design = FragmentLanguageBinding.inflate(inflater,container,false)
         design.languageRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        languagePreferences = LanguagePreferences(this.requireContext())
 
 
         val languageList = ArrayList<Language>()
@@ -41,24 +46,11 @@ class LanguageFragment : Fragment() , LanguageAdapter.OnItemClickListener  {
         val k8 =  Language("zh","中文 (简体)", R.drawable.flagchina)
         val k9 =  Language("zh","中文 (繁體)", R.drawable.flagchina)
         val k10 = Language("ru","Русский", R.drawable.flagrussia)
-        val k18 =  Language("ms","Bahasa Melayu", R.drawable.flagmalaysia)
         val k11 =  Language("pt","Português", R.drawable.flagportugal)
         val k12 =  Language("vi","Tiếng Việt", R.drawable.flagvietnam)
         val k13 =  Language("ar","العربية", R.drawable.flagsaudiarabia)
         val k14 =  Language("in","हिन्दी",R.drawable.flagindia)
-       // val k16 =  Language("tr","Türkçe", R.drawable.flagturkey)
-        val k17 =  Language("it","Italiano", R.drawable.flagitaly)
-        val k24 =  Language("el","Ελληνικά", R.drawable.flaggreece)
-        val k25 =  Language("hr","Hrvatski", R.drawable.flagcroatia)
-        val k19 =  Language("nl","Nederlands", R.drawable.flagnetherlands)
-        val k15 =  Language("mc","Bahasa Indonesia",R.drawable.flagindonesia)
-        val k28 =  Language("cs","Čeština", R.drawable.flahcek)
-        val k20 =  Language("no","Norsk", R.drawable.flagnorway)
-        val k21 =  Language("pl","Polski", R.drawable.flagpoland)
-        val k22 =  Language("ro","Română", R.drawable.flagromania)
-        val k23 =  Language("sk","Slovenčina", R.drawable.flagslovakia)
-        val k29 =  Language("fi","Suomi", R.drawable.flagfinland)
-        val k26 =  Language("hu","Magyar", R.drawable.flaghungary)
+        val k16 =  Language("tr","Türkçe", R.drawable.flagturkey)
      //   val k27 =  Language("uk","Українська", R.drawable.flagukraine)
 
 
@@ -76,21 +68,8 @@ class LanguageFragment : Fragment() , LanguageAdapter.OnItemClickListener  {
         languageList.add(k12)
         languageList.add(k13)
         languageList.add(k14)
-        languageList.add(k15)
-       // languageList.add(k16)
-        languageList.add(k17)
-        languageList.add(k18)
-        languageList.add(k19)
-        languageList.add(k20)
-        languageList.add(k21)
-        languageList.add(k22)
-        languageList.add(k23)
-        languageList.add(k24)
-        languageList.add(k25)
-        languageList.add(k26)
-       // languageList.add(k27)
-        languageList.add(k28)
-        languageList.add(k29)
+        languageList.add(k16)
+
 
         adapter = LanguageAdapter(requireContext(), languageList, this)
         design.languageRv.adapter = adapter
@@ -99,8 +78,36 @@ class LanguageFragment : Fragment() , LanguageAdapter.OnItemClickListener  {
         return design.root
     }
 
-    override fun onItemClick(item: Language) {
+
+    override fun onItemClick(item:Language) {
         Log.d("LANGUAGE", "${item.id} ")
+        lifecycleScope.launch {
+            languagePreferences.setLanguage(item.id)
+            updateLanguage(item.id)
+            restartApp()
+        }
+    }
+
+
+    private fun restartApp() {
+        lifecycleScope.launch {
+            //  delay(500) // optional delay to ensure configuration is updated
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+    }
+
+    private fun updateLanguage(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+        config.setLayoutDirection(locale)
+        // Refresh the current fragment to apply the language change
+        parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
 
     }
 }

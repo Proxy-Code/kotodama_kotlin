@@ -47,6 +47,10 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
         }
 
+        design.referLayout.setOnClickListener{
+            findNavController().navigate(R.id.action_settingsFragment_to_referFragment)
+        }
+
         design.textViewUpgrade.setOnClickListener{
             dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner,lifecycleScope,
                 dataStoreManager)
@@ -68,6 +72,25 @@ class SettingsFragment : Fragment() {
 
         design.mailSupportLayout.setOnClickListener(){
             sendEmail()
+        }
+
+        design.languageLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_languageFragment)
+        }
+
+        design.shareSongLayout.setOnClickListener{
+
+
+            val shareLink = "https://play.google.com/store/apps/details?id=com.kotodama.tts"
+
+            val shareIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, shareLink)
+                type = "text/plain"
+            }
+
+            val chooser = Intent.createChooser(shareIntent, "Uygulama ile paylaş")
+            startActivity(chooser)
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}

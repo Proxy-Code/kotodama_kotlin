@@ -7,8 +7,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.LinearGradient
+import android.graphics.Paint
 import android.graphics.Shader
 import android.graphics.drawable.ColorDrawable
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -101,7 +103,8 @@ class DialogUtils {
             Log.d("aaaaaa", "setOnClickListener: set onclikck")
             layout.setOnClickListener {
                 resetBackgrounds()
-                layout.setBackgroundResource(R.drawable.radius14_bg_white_purple)
+               // layout.setBackgroundResource(R.drawable.radius14_bg_white_purple)
+                layout.setBackgroundResource(R.drawable.radius14_bg_christmas)
                 packageType = type
             }
         }
@@ -230,7 +233,6 @@ class DialogUtils {
         val currentTime = System.currentTimeMillis() / 1000
         val timeDiff = currentTime - storedValue
 
-        // Eğer zaman farkı 5 dakikadan fazla ise final offer'ı gösterme
         if (timeDiff > 300) {
             return
         }
@@ -252,10 +254,33 @@ class DialogUtils {
         )
         dialog.show()
 
+        dialog.findViewById<TextView>(R.id.priceOldTextView).paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+
         val price = dialog.findViewById<TextView>(R.id.pricetextView)
-        price.text = "Lifetime/${finalPrice}"
+        val timer = dialog.findViewById<TextView>(R.id.timer)
+        price.text = finalPrice
 
         packageType = "final"
+
+
+        val remainingTime = (300 - timeDiff).coerceAtLeast(0)
+
+        if (remainingTime > 0) {
+            object : CountDownTimer(remainingTime * 1000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val seconds = millisUntilFinished / 1000
+                    val minutes = seconds / 60
+                    val remainingSeconds = seconds % 60
+                    timer.text = String.format("%02d:%02d", minutes, remainingSeconds)
+                }
+
+                override fun onFinish() {
+                    timer.text = "00:00"
+                }
+            }.start()
+        } else {
+            timer.text = "00:00"
+        }
 
         val closeBtn = dialog.findViewById<ImageView>(R.id.closeButton)
         closeBtn.setOnClickListener {
@@ -446,7 +471,7 @@ class DialogUtils {
             onSuccess = { storeTransaction, customerInfo ->
 
                 // Check and log the specific entitlement
-                val entitlement = customerInfo.entitlements["subscription"]
+                val entitlement = customerInfo.entitlements["Subscription"]
                 if (entitlement != null) {
                     Log.d("Entitlement", "Entitlement details: $entitlement")
                 } else {
@@ -484,7 +509,7 @@ class DialogUtils {
     ) {
         Purchases.sharedInstance.restorePurchasesWith(
             onSuccess = { customerInfo ->
-                val entitlement = customerInfo.entitlements["subscription"]
+                val entitlement = customerInfo.entitlements["Subscription"]
                 if (entitlement?.isActive == true) {
 
                     Log.d("Restore", "Subscription restored successfully")

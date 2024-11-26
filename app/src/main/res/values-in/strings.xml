@@ -1,2 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+
+    <string name="restore">रीस्टोर करें</string>
+    <string name="unlockPremium">प्रीमियम अनलॉक करें</string>
+    <string name="generateRealisticVoices">यथार्थवादी आवाज़ें बनाएं</string>
+    <string name="fasterVoiceProcessing">तेज़ वॉइस प्रोसेसिंग</string>
+    <string name="freeVoiceClones">मुफ़्त वॉइस क्लोन</string>
+    <string name="clonesAnyVoice">किसी भी आवाज़ का क्लोन बनाएं</string>
+    <string name="allFamousVoices">सभी प्रसिद्ध आवाज़ें</string>
+    <string name="unlockAllPremiumVoices">सभी प्रीमियम आवाज़ें अनलॉक करें</string>
+    <string name="chooseYourPlan">अपनी योजना चुनें</string>
+    <string name="weekly">साप्ताहिक</string>
+    <string name="sale_81">81% छूट</string>
+    <string name="annual">वार्षिक</string>
+    <string name="popular">लोकप्रिय</string>
+    <string name="unlockAllFeatures">सभी सुविधाएँ अनलॉक करें</string>
+    <string name="indistinguishableAiVoices">अलग पहचान में न आने वाली एआई आवाज़ें</string>
+    <string name="experienceTheFuture">वॉइस क्लोनिंग का भविष्य अनुभव करें</string>
+    <string name="elevateYour">अपनी ऑडियो को एआई वॉइस क्लोनिंग से बेहतर बनाएं</string>
+    <string name="perfectForEngaging">मोहक वॉइसओवर के लिए परिपूर्ण</string>
+    <string name="feature">विशेषताएँ</string>
+    <string name="aiTextToSpeech">एआई टेक्स्ट टू स्पीच</string>
+    <string name="createNatural">प्राकृतिक-ध्वनि वाली स्पीच आसानी से बनाएं</string>
+    <string name="voiceCloning">वॉइस क्लोनिंग</string>
+    <string name="createPersonalized">व्यक्तिगत आवाज़ क्लोन बनाएं</string>
+    <string name="faq">सामान्य प्रश्न</string>
+    <string name="whenWillMulti">बहुभाषी सेवा कब उपलब्ध होगी?</string>
+    <string name="howDoI">मैं अपनी सदस्यता कैसे रद्द कर सकता/सकती हूँ?</string>
+    <string name="youCanCancelYour">आप किसी भी समय अपनी सदस्यता रद्द कर सकते हैं।</string>
+    <string name="howDoIRequest">मैं धनवापसी का अनुरोध कैसे कर सकता/सकती हूँ?</string>
+    <string name="sinceAllTransactions">सभी लेन-देन गूगल प्ले स्टोर द्वारा प्रबंधित होते हैं।</string>
+
+
+    <string name="weWillGive">हम आपको देंगे</string>
+    <string name="bestOffer">सबसे अच्छा ऑफर!</string>
+    <string name="theOfferExpires">ऑफर समाप्त होने में:</string>
+    <string name="off_seven">77% छूट</string>
+
+
+    <string name="remaining">शेष</string>
+    <string name="typeHereFor">यहाँ टाइप करें और अपनी एआई स्पीच पाएं!</string>
+    <string name="serach">खोजें</string>
+    <string name="all">सभी</string>
+    <string name="trend">रुझान</string>
+    <string name="new_">नया</string>
+    <string name="musicians">संगीतकार</string>
+    <string name="tvShows">टीवी शो</string>
+    <string name="actors">अभिनेता</string>
+    <string name="sports">खेल</string>
+    <string name="ficitional">काल्पनिक</string>
+    <string name="rap">रैप</string>
+    <string name="game">खेल</string>
+    <string name="anime">ऐनिमे</string>
+    <string name="kPop">के-पॉप</string>
+    <string name="random">यादृच्छिक</string>
+    <string name="create">बनाएं</string>
+    <string name="createVoice">वॉइस बनाएं</string>
+
+
+    <string name="information">जानकारी</string>
+    <string name="pleaseBeAdvised">कृपया ध्यान दें कि आपके द्वारा प्राप्त किए गए कैरेक्टर केवल आपकी सदस्यता सक्रिय रहते तक उपलब्ध हैं!</string>
+    <string name="done">हो गया</string>
+    <string name="doNotShow">फिर से न दिखाएं</string>
+
+
+    <string name="addotionalCharacters">अतिरिक्त कैरेक्टर्स!</string>
+    <string name="chacters_ten">10,000 कैरेक्टर्स</string>
+    <string name="chacters_fifty">50,000 कैरेक्टर्स</string>
+    <string name="chacters_hundred">100,000 कैरेक्टर्स</string>
+    <string name="buy">खरीदें</string>
+
+    <string name="youHaveReached">आप अधिकतम वॉइस क्लोन सीमा पर पहुँच चुके हैं। नया वॉइस क्लोन बनाने के लिए कृपया अतिरिक्त स्लॉट खरीदें।</string>
+    <string name="OneTime">एक बार</string>
+
+
+    <string name="file">फाइलें</string>
+    <string name="noFiles">कोई फाइलें नहीं</string>
+    <string name="goToHome">होम पेज पर जाएँ और टेक्स्ट-टू-स्पीच आज़माएँ!</string>
+
+
+    <string name="home">होम</string>
+    <string name="library">लाइब्रेरी</string>
+    <string name="settings">सेटिंग्स</string>
+
+
+    <string name="membership">सदस्यता</string>
+    <string name="getPremium">प्रीमियम प्राप्त करें</string>
+    <string name="accessAllThe">सभी सुविधाओं का उपयोग करें</string>
+    <string name="upgrade">अपग्रेड करें</string>
+    <string name="general">सामान्य</string>
+    <string name="emailSupport">ई-मेल सहायता</string>
+    <string name="referAnd">रेफर करें और कमाएँ</string>
+    <string name="about">जानकारी</string>
+    <string name="termsAndConditions">नियम और शर्तें</string>
+    <string name="privacyPolicy">गोपनीयता नीति</string>
+    <string name="appVersion">ऐप संस्करण</string>
+
+
+    <string name="theBest">सबसे अच्छा</string>
+    <string name="voiceChanger">वॉइस चेंजर</string>
+    <string name="cloneYour">अपनी</string>
+    <string name="ownVoice">आवाज़ क्लोन करें</string>
+    <string name="soundLike">ऐसा सुनें जैसे</string>
+    <string name="celebrities">सेलिब्रिटी</string>
+    <string name="continue_">जारी रखें</string>
+    <string name="welcomeTo">में स्वागत है</string>
+    <string name="kotodamaAi">कोटोडामा एआई</string>
+    <string name="bestTextTo">सर्वश्रेष्ठ टेक्स्ट-टू-स्पीच और वॉइस क्लोनिंग</string>
+
+
+    <string name="inviteFriends">मित्रों को आमंत्रित करें!</string>
+    <string name="getFreeGenerations">फ्री जेनरेशन प्राप्त करें</string>
+    <string name="share_1">1. अपने मित्रों के साथ अपना कोड साझा करें</string>
+    <string name="they_2">2. वे इस पेज पर आपका कोड दर्ज करें</string>
+    <string name="you_3">3. आप और आपके मित्र मुफ्त क्रेडिट प्राप्त करेंगे</string>
+    <string name="userCode">उपयोगकर्ता कोड:</string>
+    <string name="invite">आमंत्रण भेजें</string>
+    <string name="enterFriendsCode">मित्र का कोड दर्ज करें</string>
+    <string name="enterOrPaste">कोड दर्ज करें या पेस्ट करें</string>
+    <string name="paste">पेस्ट करें</string>
+    <string name="confirm">पुष्टि करें</string>
+
+
+
+    <string name="step1">चरण 1</string>
+    <string name="step2">चरण 2</string>
+    <string name="step3">चरण 3</string>
+    <string name="speakAnytextAnytime">किसी भी पाठ को बोलें, कभी भी!</string>
+    <string name="uploadYourVoice">अपनी आवाज़ अपलोड करें</string>
+    <string name="uploadOrRecordYour">अपलोड करें या अपनी आवाज़ रिकॉर्ड करें।</string>
+    <string name="letAiDo">एआई को इसका जादू करने दें</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI आपकी रिकॉर्डिंग के साथ एक कस्टम आवाज़ तैयार कर रहा है।</string>
+    <string name="yourUniqueAI">आपकी यूनिक एआई आवाज़ तैयार है!</string>
+    <string name="useYourCustom">अपनी कस्टम आवाज़ का उपयोग करें और कुछ भी बोलें!</string>
+
+
+    <string name="uploadOrRecords">अपलोड करें या रिकॉर्ड करें</string>
+    <string name="goodExamples">अच्छे उदाहरण</string>
+    <string name="clearSound">साफ आवाज़</string>
+    <string name="onePerson">एक व्यक्ति</string>
+    <string name="goodExample1">अच्छा उदाहरण 1</string>
+    <string name="goodExample2">अच्छा उदाहरण 2</string>
+    <string name="badExamples">खराब उदाहरण</string>
+    <string name="noisy">शोरगुल</string>
+    <string name="twoOrMore">दो या अधिक लोग</string>
+    <string name="badExample1">खराब उदाहरण 1</string>
+    <string name="badExample2">खराब उदाहरण 2</string>
+
+
+    <string name="voiceSelection">आवाज़ चयन</string>
+    <string name="pleaseProvideBetween">कृपया अपनी आवाज़ का 30 सेकंड से 7 मिनट तक का हिस्सा प्रदान करें।</string>
+    <string name="record">रिकॉर्ड करें</string>
+    <string name="upload">अपलोड करें</string>
+    <string name="sec_30">30 सेकंड से 7 मिनट</string>
+
+    <string name="language">भाषा</string> <!-- Hindi -->
+
+    <string name="recordYourVoice">अपनी आवाज़ रिकॉर्ड करें</string>
+    <string name="script1">Kotodama AI भविष्य की टेक्स्ट-टू-स्पीच तकनीक का प्रवेश द्वार है। Kotodama AI के साथ, आप आसानी से अपनी आवाज़ को क्लोन कर सकते हैं और इसे TTS के लिए उपयोग कर सकते हैं, जिससे आपकी डिजिटल संचार में व्यक्तिगत स्पर्श जुड़ जाता है। चाहे आप कहानी सुना रहे हों, सामग्री बना रहे हों, या टेक्स्ट-टू-स्पीच का मज़ा ले रहे हों, Kotodama AI यह सुनिश्चित करता है कि आपकी आवाज़ स्वाभाविक, स्पष्ट, और अद्वितीय लगे।</string>
+    <string name="script2">सुबह मैं जल्दी उठता हूँ और अपने कुत्ते के साथ पड़ोस में टहलता हूँ। सड़कों पर शांति होती है, पक्षी चहचहाते हैं और हल्की ठंडी हवा चलती है। हम अक्सर अन्य दोस्ताना लोगों और उनके पालतू जानवरों से मिलते हैं। मैं सूरज को उगते हुए देखना पसंद करता हूँ, जो आकाश को खूबसूरत रंगों से रंग देता है।</string>
+    <string name="script3">जैसे ही सूरज डूबने लगता है, मैं एक शांत शाम की रस्म से आराम करना पसंद करता हूँ। मैं कुछ सुगंधित मोमबत्तियाँ जलाता हूँ और अपने लिविंग रूम की रोशनी मंद कर देता हूँ। नरम प्रकाश एक गर्म और आरामदायक माहौल बनाता है, जो एक लंबे दिन के बाद आराम करने के लिए उपयुक्त है।</string>
+    <string name="PressToStart">रिकॉर्डिंग शुरू करने के लिए दबाएँ!</string>
+    <string name="support_multiple">हमारी एआई पहले से ही कई भाषाओं का समर्थन करती है। आपको केवल पाठ टाइप करना है, और हमारी एआई स्वचालित रूप से उसे समझकर आपके लिए आवाज़ उत्पन्न करती है।</string>
+
+
+    <string name="customize">कस्टमाइज़ करें</string>
+    <string name="pickAn">एक अवतार चुनें</string>
+    <string name="exVoice">उदा. आवाज़ 1</string>
+
+    <string name="shareKotodama">कोटोडामा साझा करें</string>
+    <string name="yearly">वार्षिक</string>
+
+</resources>
+
+

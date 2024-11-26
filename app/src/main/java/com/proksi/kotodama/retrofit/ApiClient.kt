@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
     private const val BASE_URL = "https://api.kotodama.app"
-    private const val BASE_URL_IMAGES = "https://ftrmnba3p0.execute-api.eu-central-1.amazonaws.com/"
+    private const val BASE_URL_IMAGES = "https://de6hm0frk8.execute-api.eu-central-1.amazonaws.com/"
 
 
     private val retrofit: Retrofit by lazy {

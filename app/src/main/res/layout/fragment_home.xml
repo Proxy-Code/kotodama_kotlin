@@ -39,7 +39,7 @@
                android:layout_marginStart="9dp"
                android:layout_marginTop="4dp"
                android:fontFamily="@font/medium"
-               android:text="Remaining"
+               android:text="@string/remaining"
                android:textColor="@color/main_purple"
                android:textSize="11sp"
                app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +146,7 @@
                    android:textSize="12sp"
                    android:textColorHint="#C1C1C1"
                    android:fontFamily="@font/regular"
-                   android:hint="Type here for your AI speech!"
+                   android:hint="@string/typeHereFor"
                    android:background="@null"
                    android:scrollHorizontally="false"
                    android:minLines="3"
@@ -222,6 +222,7 @@
        </FrameLayout>
 
        <SearchView
+           android:visibility="gone"
            android:layout_below="@+id/textFrameLayout"
            android:id="@+id/searchVoice"
            android:layout_width="match_parent"
@@ -267,7 +268,7 @@
        android:layout_marginHorizontal="30dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="120dp"
-        android:text="Create"
+        android:text="@string/create"
 
         android:textSize="18sp"
         android:fontFamily="@font/bold"

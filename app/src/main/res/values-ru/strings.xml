@@ -1,2 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+   <string name="restore">Восстановить</string>
+   <string name="unlockPremium">Открыть Премиум</string>
+   <string name="generateRealisticVoices">Создавайте реалистичные голоса</string>
+   <string name="fasterVoiceProcessing">Быстрая обработка голоса</string>
+   <string name="freeVoiceClones">Бесплатные голосовые клоны</string>
+   <string name="clonesAnyVoice">Клонировать любой голос</string>
+   <string name="allFamousVoices">Все знаменитые голоса</string>
+   <string name="unlockAllPremiumVoices">Открыть все премиум-голоса</string>
+   <string name="chooseYourPlan">Выберите тариф</string>
+   <string name="weekly">Еженедельно</string>
+   <string name="sale_81">Скидка 81%</string>
+   <string name="annual">Годовой</string>
+   <string name="popular">Популярный</string>
+   <string name="unlockAllFeatures">Открыть все функции</string>
+   <string name="indistinguishableAiVoices">Неотличимые AI голоса</string>
+   <string name="experienceTheFuture">Ощутите будущее голосового клонирования</string>
+   <string name="elevateYour">Повышайте качество аудио с помощью нашей AI-технологии, создавая невероятно реалистичную речь.</string>
+   <string name="perfectForEngaging">Идеально для увлекательных озвучек. Испытайте непревзойденную четкость и универсальность в каждом проекте.</string>
+   <string name="feature">Функции</string>
+   <string name="aiTextToSpeech">AI Текст в Речь</string>
+   <string name="createNatural">Легко создавайте естественно звучащую речь с помощью нашей продвинутой технологии текста в речь. Наша AI делает каждую речь уникальной и выразительной.</string>
+   <string name="voiceCloning">Голосовое клонирование</string>
+   <string name="createPersonalized">Создавайте персонализированные голосовые клоны с помощью передовой технологии Kotodama AI. Наша AI передает уникальные характеристики голоса, создавая клон, который звучит так же выразительно и аутентично, как оригинал.</string>
+   <string name="faq">Часто задаваемые вопросы</string>
+   <string name="whenWillMulti">Когда будет поддержка мультиязычного сервиса?</string>
+   <string name="support_multiple">Наш AI уже поддерживает несколько языков. Просто введите текст, и AI автоматически сгенерирует речь.</string>
+   <string name="howDoI">Как отменить подписку?</string>
+   <string name="youCanCancelYour">Вы можете отменить подписку в любое время. Управление подписками осуществляется через Google Play Store.</string>
+   <string name="howDoIRequest">Как запросить возврат средств?</string>
+   <string name="sinceAllTransactions">Так как все транзакции проходят через Google Play Store, мы не можем вернуть деньги напрямую. Однако вы можете запросить возврат средств через Google.</string>
+
+
+   <string name="weWillGive">Мы предлагаем</string>
+   <string name="bestOffer">Лучшее предложение!</string>
+   <string name="theOfferExpires">Предложение истекает через:</string>
+   <string name="off_seven">Скидка 77%</string>
+
+
+   <string name="remaining">Осталось</string>
+   <string name="typeHereFor">Введите текст для AI-озвучки!</string>
+   <string name="serach">Поиск</string>
+   <string name="all">Все</string>
+   <string name="trend">Популярное</string>
+   <string name="new_">Новое</string>
+   <string name="musicians">Музыканты</string>
+   <string name="tvShows">ТВ-шоу</string>
+   <string name="actors">Актеры</string>
+   <string name="sports">Спорт</string>
+   <string name="ficitional">Вымышленные</string>
+   <string name="rap">Рэп</string>
+   <string name="game">Игры</string>
+   <string name="anime">Аниме</string>
+   <string name="kPop">K-Pop</string>
+   <string name="random">Случайное</string>
+   <string name="create">Создать</string>
+   <string name="createVoice">Создать голос</string>
+
+
+   <string name="information">Информация</string>
+   <string name="pleaseBeAdvised">Обратите внимание, что персонажи, которых вы получаете, доступны только при активной подписке!</string>
+   <string name="done">Готово</string>
+   <string name="doNotShow">Больше не показывать</string>
+
+
+   <string name="addotionalCharacters">Дополнительные символы!</string>
+   <string name="chacters_ten">10 000 символов</string>
+   <string name="chacters_fifty">50 000 символов</string>
+   <string name="chacters_hundred">100 000 символов</string>
+   <string name="buy">Купить</string>
+   <string name="language">Язык</string> <!-- Russian -->
+
+   <string name="youHaveReached">Вы достигли максимального количества голосовых клонов. Чтобы создать новый, приобретите дополнительное место для клонирования голосов.</string>
+   <string name="OneTime">Одноразово</string>
+
+
+   <string name="file">Файлы</string>
+   <string name="noFiles">Нет файлов</string>
+   <string name="goToHome">Перейдите на главную страницу и попробуйте преобразование текста в речь!</string>
+
+
+   <string name="home">Главная</string>
+   <string name="library">Библиотека</string>
+   <string name="settings">Настройки</string>
+
+
+   <string name="membership">Подписка</string>
+   <string name="getPremium">Получить Премиум</string>
+   <string name="accessAllThe">Доступ ко всем функциям</string>
+   <string name="upgrade">Обновить</string>
+   <string name="general">Общие</string>
+   <string name="emailSupport">Поддержка по электронной почте</string>
+   <string name="referAnd">Пригласите и заработайте</string>
+   <string name="about">О приложении</string>
+   <string name="termsAndConditions">Условия и положения</string>
+   <string name="privacyPolicy">Политика конфиденциальности</string>
+   <string name="appVersion">Версия приложения</string>
+
+
+   <string name="theBest">Лучший</string>
+   <string name="voiceChanger">Изменитель голоса</string>
+   <string name="cloneYour">Клонируйте свой</string>
+   <string name="ownVoice">Собственный голос</string>
+   <string name="soundLike">Звучите как</string>
+   <string name="celebrities">Знаменитости</string>
+   <string name="continue_">Продолжить</string>
+   <string name="welcomeTo">Добро пожаловать в</string>
+   <string name="kotodamaAi">Kotodama AI</string>
+   <string name="bestTextTo">Лучшее преобразование текста в речь и клонирование голоса</string>
+
+
+   <string name="inviteFriends">Пригласите друзей!</string>
+   <string name="getFreeGenerations">Получите бесплатные генерации</string>
+   <string name="share_1">1. Поделитесь своим кодом с друзьями</string>
+   <string name="they_2">2. Они вводят ваш код на этой странице</string>
+   <string name="you_3">3. Вы и ваши друзья получаете бесплатные кредиты</string>
+   <string name="userCode">Ваш код:</string>
+   <string name="invite">Пригласить</string>
+   <string name="enterFriendsCode">Введите код друга</string>
+   <string name="enterOrPaste">Введите или вставьте код</string>
+   <string name="paste">Вставить</string>
+   <string name="confirm">Подтвердить</string>
+
+
+
+   <string name="step1">Шаг 1</string>
+   <string name="step2">Шаг 2</string>
+   <string name="step3">Шаг 3</string>
+   <string name="speakAnytextAnytime">Говорите любой текст в любое время!</string>
+   <string name="uploadYourVoice">Загрузите свой голос</string>
+   <string name="uploadOrRecordYour">Загрузите или запишите свой голос.</string>
+   <string name="letAiDo">Дайте ИИ сделать своё волшебство</string>
+   <string name="kotodamaAiIsGoing">Kotodama AI создаст персональный голос на основе ваших записей.</string>
+   <string name="yourUniqueAI">Ваш уникальный голос ИИ готов!</string>
+   <string name="useYourCustom">Используйте свой персональный голос, чтобы сказать всё, что захотите!</string>
+
+
+   <string name="uploadOrRecords">Загрузить или записать</string>
+   <string name="goodExamples">Хорошие примеры</string>
+   <string name="clearSound">Чистый звук</string>
+   <string name="onePerson">Один человек</string>
+   <string name="goodExample1">Пример 1</string>
+   <string name="goodExample2">Пример 2</string>
+   <string name="badExamples">Плохие примеры</string>
+   <string name="noisy">Шумный</string>
+   <string name="twoOrMore">Два или более человека</string>
+   <string name="badExample1">Плохой пример 1</string>
+   <string name="badExample2">Плохой пример 2</string>
+
+
+   <string name="voiceSelection">Выбор голоса</string>
+   <string name="pleaseProvideBetween">Предоставьте от 30 секунд до 7 минут вашего голоса.</string>
+   <string name="record">Записать</string>
+   <string name="upload">Загрузить</string>
+   <string name="sec_30">30 секунд - 7 минут</string>
+
+   <string name="recordYourVoice">Запишите свой голос</string>
+   <string name="script1">Kotodama AI - ваш путь в будущее технологий преобразования текста в речь. С помощью Kotodama AI вы можете легко клонировать свой голос и использовать его для TTS, добавляя индивидуальность вашим цифровым коммуникациям. Будь то рассказ истории, создание контента или просто развлечение с текстом, преобразованным в речь, Kotodama AI обеспечивает естественное, четкое и уникальное звучание вашего голоса. Приложение фиксирует все детали, делая ваш цифровой голос неотличимым от настоящего. Представьте себе удобство превращения написанных слов в сказанные, причём с вашим собственным голосом.</string>
+   <string name="script2">Утром я рано просыпаюсь и выгуливаю свою собаку по окрестностям. Улицы тихие и спокойные, птицы щебечут, а прохладный ветерок приятно освежает. Мы часто встречаем других дружелюбных людей и их питомцев. Я наслаждаюсь рассветом, наблюдая, как солнце раскрашивает небо в красивые цвета, знаменуя начало нового дня.</string>
+   <string name="script3">Когда солнце начинает заходить, я люблю расслабляться с помощью вечернего ритуала. Я зажигаю несколько ароматизированных свечей и приглушаю свет в гостиной. Мягкое свечение создаёт уютную атмосферу, идеальную для отдыха после долгого дня. Часто я завариваю себе чашку травяного чая и устраиваюсь в своём любимом кресле с хорошей книгой. Тишина вечера, в сочетании с мягким мерцанием свечей, помогает мне обдумать прошедший день и настроиться на спокойную ночь.</string>
+   <string name="PressToStart">Нажмите, чтобы начать запись!</string>
+
+
+   <string name="customize">Настроить</string>
+   <string name="pickAn">Выберите аватар</string>
+   <string name="exVoice">Пример: Голос 1</string>
+
+    <string name="shareKotodama">Поделиться Kotodama</string>
+    <string name="yearly">Ежегодный</string>
+</resources>

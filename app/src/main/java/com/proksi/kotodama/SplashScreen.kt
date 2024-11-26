@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
@@ -91,11 +92,31 @@ class SplashScreen : AppCompatActivity() {
 
     private fun proceedWithUser(user: FirebaseUser) {
         Log.d(TAG, "Sign in 7 : ${user.uid}")
+
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users").document(user.uid).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+
+                    val referralCode = document.getString("referralCode")
+                    if (!referralCode.isNullOrEmpty()) {
+                        Log.d(TAG, "User has a referral code: $referralCode")
+                    } else {
+                        Log.d(TAG, "No referral code for this user")
+                        // referralCode yoksa yapılacak işlemler
+                    }
+                } else {
+                    Log.d(TAG, "No such document for user")
+                }
+            }
+
         lifecycleScope.launch {
             DataStoreManager.savedUid(this@SplashScreen, user.uid)
         }
             setupPurchases(user.uid)
     }
+
 
     private fun setupPurchases(userId: String) {
 
@@ -120,18 +141,24 @@ class SplashScreen : AppCompatActivity() {
 
     private fun handleCustomerInfo(customerInfo: CustomerInfo) {
         val isActive = customerInfo.entitlements["Subscription"]?.isActive ?: false
-        Log.d("isSubscribed SPLASH", "$isActive")
+        Log.d(TAG, "handleCustomerInfo:isactive $isActive")
         lifecycleScope.launch {
-            dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
-          //  dataStoreManager.saveSubscriptionStatus(this@SplashScreen, true)
+          dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
 
         }
         isSubscribed = isActive
-        if (isActive) {
-            startMainActivity()
-        } else {
-            startPaywallActivity()
+        lifecycleScope.launch {
+            if (dataStoreManager.isOnboardingCompleted(this@SplashScreen)) {
+                if (isActive) {
+                    startMainActivity()
+                } else {
+                    startPaywallActivity()
+                }
+            } else {
+                startOnboardingActivity()
+            }
         }
+
     }
 
     private fun startMainActivity() {
@@ -143,6 +170,14 @@ class SplashScreen : AppCompatActivity() {
 
     private fun startPaywallActivity() {
         Intent(this, PaywallActivity::class.java).also {
+            startActivity(it)
+        }
+        finish()
+    }
+
+    private fun startOnboardingActivity() {
+
+        Intent(this, OnboardingActivity::class.java).also {
             startActivity(it)
         }
         finish()

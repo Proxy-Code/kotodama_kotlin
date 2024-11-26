@@ -1,2 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+
+    <string name="restore">Geri Yükle</string>
+    <string name="unlockPremium">Premium’u Aç</string>
+    <string name="generateRealisticVoices">Gerçekçi Sesler Üret</string>
+    <string name="fasterVoiceProcessing">Daha Hızlı Ses İşleme</string>
+    <string name="freeVoiceClones">Ücretsiz Ses Klonları</string>
+    <string name="clonesAnyVoice">Herhangi Bir Sesi Klonla</string>
+    <string name="allFamousVoices">Tüm Ünlü Sesler</string>
+    <string name="unlockAllPremiumVoices">Tüm Premium Sesleri Aç</string>
+    <string name="chooseYourPlan">Planını Seç</string>
+    <string name="weekly">Haftalık</string>
+    <string name="sale_81">%81 İndirim</string>
+    <string name="annual">Yıllık</string>
+    <string name="popular">Popüler</string>
+    <string name="unlockAllFeatures">Tüm Özellikleri Aç</string>
+    <string name="indistinguishableAiVoices">Ayırt Edilemeyen AI Sesleri</string>
+    <string name="experienceTheFuture">Ses Klonlamanın Geleceğini Keşfet</string>
+    <string name="elevateYour">Sesinizi geliştirin ve AI teknolojimizle gerçekçi konuşmalar yaratın.</string>
+    <string name="perfectForEngaging">Etkileyici seslendirmeler için mükemmel. Her hikayede eşsiz netlik ve esneklik.</string>
+    <string name="feature">Özellikler</string>
+    <string name="aiTextToSpeech">AI Metinden Sese</string>
+    <string name="createNatural">Gelişmiş metinden ses teknolojimizle doğal sesler oluşturun. AI’mız duyguları canlandırır ve her sesi benzersiz kılar.</string>
+    <string name="voiceCloning">Ses Klonlama</string>
+    <string name="createPersonalized">Kotodama’nın gelişmiş teknolojisiyle kişiselleştirilmiş ses klonları oluşturun. AI, her klonu orijinali kadar doğal ve ifadeli hale getirir.</string>
+    <string name="faq">SSS</string>
+    <string name="whenWillMulti">Çok dilli hizmet ne zaman desteklenecek?</string>
+    <string name="support_multiple">AI’mız zaten birden fazla dili destekliyor. Metni yazmanız yeterlidir, AI’mız otomatik olarak anlar ve sesi oluşturur.</string>
+    <string name="howDoI">Aboneliğimi nasıl iptal ederim?</string>
+    <string name="youCanCancelYour">Aboneliğinizi istediğiniz zaman iptal edebilirsiniz. Tüm işlemleri Google Play Store yönetir.</string>
+    <string name="howDoIRequest">Para iadesi nasıl talep edebilirim?</string>
+    <string name="sinceAllTransactions">Tüm işlemler Google Play Store üzerinden yapıldığından, doğrudan iade yapamıyoruz. Ancak, Google üzerinden iade talebinde bulunabilirsiniz.</string>
+
+    <string name="weWillGive">Size Sunuyoruz</string>
+    <string name="bestOffer">En İyi Teklif!</string>
+    <string name="theOfferExpires">Teklif sona eriyor:</string>
+    <string name="off_seven">%77 İndirim</string>
+
+    <string name="remaining">Kalan</string>
+    <string name="typeHereFor">AI Sesinizi Buraya Yazın!</string>
+    <string name="serach">Ara</string>
+    <string name="all">Tümü</string>
+    <string name="trend">Trend</string>
+    <string name="new_">Yeni</string>
+    <string name="musicians">Müzisyenler</string>
+    <string name="tvShows">TV Şovları</string>
+    <string name="actors">Oyuncular</string>
+    <string name="sports">Spor</string>
+    <string name="ficitional">Kurgusal</string>
+    <string name="rap">Rap</string>
+    <string name="game">Oyun</string>
+    <string name="anime">Anime</string>
+    <string name="kPop">K-Pop</string>
+    <string name="random">Rastgele</string>
+    <string name="create">Oluştur</string>
+    <string name="createVoice">Ses Oluştur</string>
+
+    <string name="information">Bilgi</string>
+    <string name="pleaseBeAdvised">Satın aldığınız karakterler yalnızca aboneliğiniz aktif olduğu sürece erişilebilir!</string>
+    <string name="done">Tamam</string>
+    <string name="doNotShow">Bir daha gösterme.</string>
+
+    <string name="addotionalCharacters">Ek Karakterler!</string>
+    <string name="chacters_ten">10.000 Karakter</string>
+    <string name="chacters_fifty">50.000 Karakter</string>
+    <string name="chacters_hundred">100.000 Karakter</string>
+    <string name="buy">Satın Al</string>
+
+    <string name="youHaveReached">Maksimum ses klonu sınırına ulaştınız. Yeni bir ses klonu oluşturmak için ek bir slot satın alın.</string>
+    <string name="OneTime">Tek Seferlik</string>
+
+    <string name="file">Dosyalar</string>
+    <string name="noFiles">Dosya Yok</string>
+    <string name="goToHome">Ana sayfaya gidin ve metinden sese özelliğini deneyin!</string>
+    <string name="language">Dil</string> <!-- Turkish -->
+
+
+    <string name="home">Ana Sayfa</string>
+    <string name="library">Kütüphane</string>
+    <string name="settings">Ayarlar</string>
+
+
+    <string name="membership">Üyelik</string>
+    <string name="getPremium">Premium’a Geç</string>
+    <string name="accessAllThe">Tüm özelliklere erişim sağlayın</string>
+    <string name="upgrade">Yükselt</string>
+    <string name="general">Genel</string>
+    <string name="emailSupport">E-posta Desteği</string>
+    <string name="referAnd">Tavsiye Et &amp; Kazan</string>
+    <string name="about">Hakkında</string>
+    <string name="termsAndConditions">Şartlar ve Koşullar</string>
+    <string name="privacyPolicy">Gizlilik Politikası</string>
+    <string name="appVersion">Uygulama Sürümü</string>
+
+
+    <string name="theBest">En İyisi</string>
+    <string name="voiceChanger">Ses Değiştirici</string>
+    <string name="cloneYour">Kendi</string>
+    <string name="ownVoice">Sesini Klonla</string>
+    <string name="soundLike">Şunun Gibi Konuş</string>
+    <string name="celebrities">Ünlüler</string>
+    <string name="continue_">Devam Et</string>
+    <string name="welcomeTo">Hoş Geldiniz</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">En İyi Metinden Sese, Ses Klonlama</string>
+
+    <string name="inviteFriends">Arkadaşlarını Davet Et!</string>
+    <string name="getFreeGenerations">Ücretsiz Üretimler Kazan</string>
+    <string name="share_1">1. Kodunu arkadaşlarınla paylaş</string>
+    <string name="they_2">2. Onlar bu sayfada kodunu girsin</string>
+    <string name="you_3">3. Sen ve arkadaşların ücretsiz kredi kazanın</string>
+    <string name="userCode">Kullanıcı Kodu:</string>
+    <string name="invite">Davet Et</string>
+    <string name="enterFriendsCode">Arkadaş Kodunu Gir</string>
+    <string name="enterOrPaste">Kodu gir veya yapıştır</string>
+    <string name="paste">Yapıştır</string>
+    <string name="confirm">Onayla</string>
+
+    <string name="step1">Adım 1</string>
+    <string name="step2">Adım 2</string>
+    <string name="step3">Adım 3</string>
+    <string name="speakAnytextAnytime">Herhangi bir metni, istediğiniz zaman konuşun!</string>
+    <string name="uploadYourVoice">Sesinizi Yükleyin</string>
+    <string name="uploadOrRecordYour">Sesinizi yükleyin veya kaydedin.</string>
+    <string name="letAiDo">Bırakın AI Sihir Yapsın</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI, kayıtlarınızla size özel bir ses oluşturuyor.</string>
+    <string name="yourUniqueAI">Benzersiz AI Sesiniz Hazır!</string>
+    <string name="useYourCustom">Özel sesinizi kullanın ve istediğinizi söyleyin!</string>
+
+
+    <string name="uploadOrRecords">Yükle veya Kaydet</string>
+    <string name="goodExamples">İyi Örnekler</string>
+    <string name="clearSound">Net Ses</string>
+    <string name="onePerson">Tek Kişi</string>
+    <string name="goodExample1">İyi Örnek 1</string>
+    <string name="goodExample2">İyi Örnek 2</string>
+    <string name="badExamples">Kötü Örnekler</string>
+    <string name="noisy">Gürültülü</string>
+    <string name="twoOrMore">İki veya Daha Fazla Kişi</string>
+    <string name="badExample1">Kötü Örnek 1</string>
+    <string name="badExample2">Kötü Örnek 2</string>
+
+
+    <string name="voiceSelection">Ses Seçimi</string>
+    <string name="pleaseProvideBetween">Lütfen 30 saniye ile 7 dakika arasında ses sağlayın.</string>
+    <string name="record">Kaydet</string>
+    <string name="upload">Yükle</string>
+    <string name="sec_30">30 saniye - 7 dakika</string>
+
+    <string name="recordYourVoice">Sesinizi Kaydedin</string>
+    <string name="script1">Kotodama AI, metinden sese teknolojisinin geleceğine açılan kapınızdır. Kotodama AI ile sesinizi kolayca klonlayabilir ve TTS için kullanabilirsiniz. Hikaye anlatımı yaparken, içerik üretirken ya da sadece eğlenirken sesiniz doğal, net ve tamamen size özgü olur. Uygulama, her ayrıntıyı yakalayarak dijital sesinizi gerçek sesinizden ayırt edilemez hale getirir. Yazılı kelimeleri, kendi sesinizle söylenmiş hale getirme rahatlığını hayal edin.</string>
+    <string name="script2">Sabahları erken kalkar ve köpeğimi mahallede gezdiririm. Sokaklar sessiz ve huzurlu olur, kuşlar cıvıldar ve serin bir esinti eser. Genellikle diğer dost canlısı insanlarla ve evcil hayvanlarıyla karşılaşırız. Gün başlarken, gökyüzünü boyayan güzel renklerle güneşin doğuşunu izlemekten keyif alırım.</string>
+    <string name="script3">Güneş batmaya başlarken, sakin bir akşam rutini ile rahatlamayı severim. Birkaç kokulu mum yakar ve oturma odamdaki ışıkları kısarım. Hafif bir parıltı, uzun bir günün ardından dinlenmek için mükemmel, sıcak ve rahat bir atmosfer yaratır. Genellikle kendime bir fincan bitki çayı hazırlar ve sevdiğim koltuğuma, güzel bir kitapla yerleşirim. Akşamın sessizliği ve mumların hafif titrek ışığı, günü düşünmeme ve huzurlu bir geceye hazırlanmama yardımcı olur.</string>
+    <string name="PressToStart">Kaydı Başlatmak İçin Tıklayın!</string>
+
+    <string name="customize">Özelleştir</string>
+    <string name="pickAn">Bir Avatar Seç</string>
+    <string name="exVoice">Ör. Ses 1</string>
+
+    <string name="shareKotodama">Kotodama\'yı Paylaş</string>
+    <string name="yearly">Yıllık</string>
+
+</resources>
+
+

@@ -1,2 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+
+<resources>
+    <string name="restore">복원</string>
+    <string name="unlockPremium">프리미엄 해제</string>
+    <string name="generateRealisticVoices">현실적인 음성 생성</string>
+    <string name="fasterVoiceProcessing">더 빠른 음성 처리</string>
+    <string name="freeVoiceClones">무료 음성 복제</string>
+    <string name="clonesAnyVoice">모든 음성 복제</string>
+    <string name="allFamousVoices">유명 음성 전체</string>
+    <string name="unlockAllPremiumVoices">프리미엄 음성 전체 해제</string>
+    <string name="chooseYourPlan">요금제 선택</string>
+    <string name="weekly">주간</string>
+    <string name="sale_81">81% 할인</string>
+    <string name="annual">연간</string>
+    <string name="popular">인기</string>
+    <string name="unlockAllFeatures">모든 기능 해제</string>
+    <string name="indistinguishableAiVoices">구분할 수 없는 AI 음성</string>
+    <string name="experienceTheFuture">음성 복제의 미래를 경험하세요</string>
+    <string name="elevateYour">AI 음성으로 생생한 오디오를 만드세요</string>
+    <string name="perfectForEngaging">매력적인 나레이션에 완벽합니다</string>
+    <string name="feature">기능</string>
+    <string name="aiTextToSpeech">AI 텍스트 음성 변환</string>
+    <string name="createNatural">자연스러운 음성을 쉽게 생성</string>
+    <string name="voiceCloning">음성 복제</string>
+    <string name="createPersonalized">맞춤 음성 복제 생성</string>
+    <string name="faq">FAQ</string>
+    <string name="whenWillMulti">다국어 서비스는 언제 지원되나요?</string>
+    <string name="support_multiple">이미 다국어를 지원합니다</string>
+    <string name="howDoI">구독 취소 방법</string>
+    <string name="youCanCancelYour">언제든지 구독을 취소할 수 있습니다</string>
+    <string name="howDoIRequest">환불 요청 방법</string>
+    <string name="sinceAllTransactions">환불은 Google Play 스토어에서 처리됩니다</string>
+
+    <string name="weWillGive">제공합니다</string>
+    <string name="bestOffer">최고의 할인!</string>
+    <string name="theOfferExpires">할인 종료까지:</string>
+    <string name="off_seven">77% 할인</string>
+
+
+    <string name="remaining">남은 시간</string>
+    <string name="typeHereFor">여기에 텍스트를 입력하세요</string>
+    <string name="serach">검색</string>
+    <string name="all">전체</string>
+    <string name="trend">인기</string>
+    <string name="new_">최신</string>
+    <string name="musicians">뮤지션</string>
+    <string name="tvShows">TV 프로그램</string>
+    <string name="actors">배우</string>
+    <string name="sports">스포츠</string>
+    <string name="ficitional">가상</string>
+    <string name="rap">랩</string>
+    <string name="game">게임</string>
+    <string name="anime">애니메이션</string>
+    <string name="kPop">K-Pop</string>
+    <string name="random">랜덤</string>
+    <string name="create">생성</string>
+    <string name="createVoice">음성 생성</string>
+
+    <string name="information">정보</string>
+    <string name="pleaseBeAdvised">구독이 활성화된 동안에만 이용 가능합니다!</string>
+    <string name="done">완료</string>
+    <string name="doNotShow">다시 보지 않기</string>
+
+    <string name="addotionalCharacters">추가 문자!</string>
+    <string name="chacters_ten">10,000 문자</string>
+    <string name="chacters_fifty">50,000 문자</string>
+    <string name="chacters_hundred">100,000 문자</string>
+    <string name="buy">구매</string>
+
+    <string name="youHaveReached">최대 음성 복제 수에 도달했습니다. 새로운 음성 복제를 생성하려면 추가 슬롯을 구매하세요.</string>
+    <string name="OneTime">1회용</string>
+
+    <string name="file">파일</string>
+    <string name="noFiles">파일 없음</string>
+    <string name="goToHome">홈으로 이동하여 텍스트 음성을 사용해 보세요!</string>
+
+    <string name="home">홈</string>
+    <string name="library">라이브러리</string>
+    <string name="settings">설정</string>
+
+    <string name="membership">멤버십</string>
+    <string name="getPremium">프리미엄 사용</string>
+    <string name="accessAllThe">모든 기능 액세스</string>
+    <string name="upgrade">업그레이드</string>
+    <string name="general">일반</string>
+    <string name="emailSupport">이메일 지원</string>
+    <string name="referAnd">추천 및 적립</string>
+    <string name="about">정보</string>
+    <string name="termsAndConditions">이용 약관</string>
+    <string name="privacyPolicy">개인정보 처리방침</string>
+    <string name="appVersion">앱 버전</string>
+
+
+    <string name="theBest">최고</string>
+    <string name="voiceChanger">음성 변환기</string>
+    <string name="cloneYour">복제하기</string>
+    <string name="ownVoice">자신의 음성</string>
+    <string name="soundLike">처럼 말하기</string>
+    <string name="celebrities">유명인</string>
+    <string name="continue_">계속</string>
+    <string name="welcomeTo">환영합니다</string>
+    <string name="kotodamaAi">Kotodama AI</string>
+    <string name="bestTextTo">최고의 텍스트 음성 변환, 음성 복제</string>
+
+
+    <string name="inviteFriends">친구 초대!</string>
+    <string name="getFreeGenerations">무료 생성 받기</string>
+    <string name="share_1">1. 친구와 코드를 공유하세요</string>
+    <string name="they_2">2. 친구가 이 페이지에서 코드를 입력합니다</string>
+    <string name="you_3">3. 여러분과 친구 모두 무료 크레딧을 받습니다</string>
+    <string name="userCode">사용자 코드:</string>
+    <string name="invite">초대</string>
+    <string name="enterFriendsCode">친구 코드 입력</string>
+    <string name="enterOrPaste">코드 입력 또는 붙여넣기</string>
+    <string name="paste">붙여넣기</string>
+    <string name="confirm">확인</string>
+
+    <string name="step1">1단계</string>
+    <string name="step2">2단계</string>
+    <string name="step3">3단계</string>
+    <string name="speakAnytextAnytime">언제든 텍스트로 말하기!</string>
+    <string name="uploadYourVoice">음성 업로드</string>
+    <string name="uploadOrRecordYour">음성을 업로드하거나 녹음하세요.</string>
+    <string name="letAiDo">AI에게 맡겨보세요</string>
+    <string name="kotodamaAiIsGoing">Kotodama AI가 녹음을 바탕으로 맞춤 음성을 생성합니다.</string>
+    <string name="yourUniqueAI">당신만의 AI 음성이 준비되었습니다!</string>
+    <string name="useYourCustom">맞춤 음성을 사용하여 원하는 말을 해보세요!</string>
+
+
+    <string name="uploadOrRecords">업로드 또는 녹음</string>
+    <string name="goodExamples">좋은 예</string>
+    <string name="clearSound">깨끗한 음질</string>
+    <string name="onePerson">한 사람</string>
+    <string name="goodExample1">좋은 예 1</string>
+    <string name="goodExample2">좋은 예 2</string>
+    <string name="badExamples">나쁜 예</string>
+    <string name="noisy">소음</string>
+    <string name="twoOrMore">두 명 이상</string>
+    <string name="badExample1">나쁜 예 1</string>
+    <string name="badExample2">나쁜 예 2</string>
+
+
+    <string name="voiceSelection">음성 선택</string>
+    <string name="pleaseProvideBetween">30초에서 7분 사이의 음성을 제공하세요.</string>
+    <string name="record">녹음</string>
+    <string name="upload">업로드</string>
+    <string name="sec_30">30초 ~ 7분</string>
+
+
+    <string name="recordYourVoice">음성을 녹음하세요</string>
+    <string name="script1">Kotodama AI는 텍스트 음성 변환 기술의 미래를 여는 게이트웨이입니다. Kotodama AI를 통해 자신의 음성을 쉽게 복제하고 TTS에 사용할 수 있습니다. 스토리 내레이션, 콘텐츠 제작, 텍스트 음성 변환을 재미로 활용하든, Kotodama AI는 자연스럽고 선명하며 독특한 음성을 보장합니다. 앱은 모든 디테일을 포착해 디지털 음성을 실제 음성처럼 만들어 줍니다. 글을 자신의 음성으로 말로 전환하는 편리함을 상상해 보세요.</string>
+    <string name="script2">아침에 일찍 일어나 동네를 산책하며 강아지를 걷습니다. 길은 조용하고 평화롭고, 새들이 지저귀며 시원한 바람이 불어옵니다. 종종 다른 친절한 사람들과 그들의 애완동물을 만나고, 떠오르는 해가 하늘을 아름다운 색으로 물들이는 모습을 즐깁니다.</string>
+    <string name="script3">해가 지기 시작할 때, 저는 마음을 가라앉히는 저녁 의식을 즐깁니다. 향초 몇 개를 켜고 거실의 불빛을 낮춥니다. 부드러운 빛은 따뜻하고 아늑한 분위기를 만들어 하루를 마무리하기에 완벽합니다. 종종 허브차 한 잔을 만들어 좋아하는 의자에 앉아 좋은 책을 읽습니다. 조용한 저녁과 촛불의 부드러운 깜빡임은 하루를 돌아보고 평화로운 밤을 준비하는 데 도움을 줍니다.</string>
+    <string name="PressToStart">녹음을 시작하려면 누르세요!</string>
+    <string name="language">언어</string> <!-- Korean -->
+
+
+    <string name="customize">커스터마이즈</string>
+    <string name="pickAn">아바타 선택</string>
+    <string name="exVoice">예: 음성 1</string>
+    <string name="shareKotodama">Kotodama 공유</string>
+    <string name="yearly">연간</string>
+</resources>
+
+
+
+
