@@ -10,6 +10,11 @@
         android:id="@+id/cover_bottom"
         android:icon="@drawable/files_bottom"/>
     <item
+        android:title="Studio"
+        android:id="@+id/studio_bottom"
+        android:icon="@drawable/studio"/>
+
+    <item
         android:title="@string/settings"
         android:id="@+id/settings_bottom"
         android:icon="@drawable/settings_bottom"/>

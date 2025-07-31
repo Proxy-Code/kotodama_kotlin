@@ -2,12 +2,12 @@
   "project_info": {
     "project_number": "328007600023",
     "project_id": "kotodama-ai",
-    "storage_bucket": "kotodama-ai.appspot.com"
+    "storage_bucket": "kotodama-ai.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:328007600023:android:1462fa3a9af66da091e6d2",
+        "mobilesdk_app_id": "1:328007600023:android:0fdd23f510d383ea91e6d2",
         "android_client_info": {
           "package_name": "com.kotodama.tts"
         }

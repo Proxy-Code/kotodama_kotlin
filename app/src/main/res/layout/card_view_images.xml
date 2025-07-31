@@ -21,9 +21,6 @@
             android:id="@+id/cardImgView"
             android:layout_width="105dp"
             android:layout_height="105dp"
-            android:src="@drawable/fotow22"
-
-
             android:background="@android:color/transparent"
             app:shapeAppearanceOverlay="@style/roundedImgView"
             app:strokeColor="@android:color/transparent" />

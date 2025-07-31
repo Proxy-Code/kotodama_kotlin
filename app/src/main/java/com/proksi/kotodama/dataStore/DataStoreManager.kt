@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +20,22 @@ object DataStoreManager {
     private val USER_TEXT_KEY = stringPreferencesKey("user_text")
     private val REFERRAL_CODE = stringPreferencesKey("refferal_code")
     private const val ONBOARDING_COMPLETED_KEY = "onboarding_completed"
+    private const val FEEDBACK_SHOWN_KEY = "feedback_shown_key"
+    private val PLAN_TYPE = booleanPreferencesKey("plan_type")
+    private val LAUNCH_COUNT_KEY = intPreferencesKey("launch_count")
+
+
+    suspend fun incrementLaunchCount(context: Context) {
+        context.dataStore.edit { preferences ->
+            val currentCount = preferences[LAUNCH_COUNT_KEY] ?: 0
+            preferences[LAUNCH_COUNT_KEY] = currentCount + 1
+        }
+    }
+
+    suspend fun getLaunchCount(context: Context): Flow<Int> = context.dataStore.data
+        .map { preferences ->
+            preferences[LAUNCH_COUNT_KEY] ?: 0 // Provide default value
+        }
 
     suspend fun saveOnboardingCompleted(context: Context, isCompleted: Boolean) {
         context.dataStore.edit { preferences ->
@@ -30,6 +47,32 @@ object DataStoreManager {
         val preferences = context.dataStore.data.first()
         return preferences[booleanPreferencesKey(ONBOARDING_COMPLETED_KEY)] ?: false
     }
+
+    suspend fun saveFeedbackShown(context: Context, isShown: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[booleanPreferencesKey(FEEDBACK_SHOWN_KEY)] = isShown
+        }
+    }
+
+    suspend fun savePlanType(context: Context, planType: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[SUBSCRIPTION_STATUS_KEY] = planType
+        }
+    }
+
+    fun getPlanType(context:Context):Flow<Boolean> {
+        return context.dataStore.data.map { preferences ->
+            preferences[PLAN_TYPE]?: false
+        }
+    }
+
+
+    suspend fun isFeedbackShown(context: Context): Boolean {
+        val preferences = context.dataStore.data.first()
+        return preferences[booleanPreferencesKey(FEEDBACK_SHOWN_KEY)] ?: false
+    }
+
+
 
     suspend fun savedUid(context: Context,uid:String){
         context.dataStore.edit { preferences ->

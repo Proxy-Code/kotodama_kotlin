@@ -4,18 +4,20 @@ plugins {
     id("com.google.gms.google-services")
     id ("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.compose.compiler)
+
 }
 
 android {
     namespace = "com.kotodama.tts"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.kotodama.tts"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 28
-        versionName = "1.28"
+        targetSdk = 35
+        versionCode = 44
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "ar-rAE", "de",  "es", "fr", "in",
@@ -42,8 +44,10 @@ android {
 
     buildFeatures{
         viewBinding = true
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
         buildConfig = true
+        compose = true
     }
 
     bundle {
@@ -62,15 +66,13 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.analytics)
     implementation(libs.androidx.datastore.core.android)
     implementation(libs.androidx.datastore.preferences.core.jvm)
+    implementation(libs.androidx.ui.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
@@ -92,7 +94,11 @@ dependencies {
     implementation("com.google.firebase:firebase-functions")
 
     //reveneu cat
-    implementation ("com.revenuecat.purchases:purchases:7.0.0")
+    implementation ("com.revenuecat.purchases:purchases:8.17.1")
+    implementation ("com.revenuecat.purchases:purchases-ui:8.17.1")
+
+    //compose view
+    implementation ("androidx.compose.ui:ui-viewbinding:1.7.8")
 
     // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -107,5 +113,12 @@ dependencies {
 
     //appsflyer
     implementation ("com.appsflyer:af-android-sdk:6.15.2")
+
+    //in-app reviews
+    implementation("com.google.android.play:review:2.0.2")
+    implementation("com.google.android.play:review-ktx:2.0.2")
+
+    //lotie
+    implementation ("com.airbnb.android:lottie:6.4.0")
 
 }

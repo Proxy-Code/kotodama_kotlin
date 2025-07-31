@@ -5,15 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
-<!--    <fragment-->
-<!--        android:id="@+id/coverFragment"-->
-<!--        android:name="com.proksi.kotodama.fragments.homeFragment"-->
-<!--        android:label="fragment_cover"-->
-<!--        tools:layout="@layout/fragment_cover" >-->
-<!--        <action-->
-<!--            android:id="@+id/action_coverFragment_to_homeFragment"-->
-<!--            app:destination="@id/homeFragment" />-->
-<!--    </fragment>-->
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -50,6 +41,12 @@
         <action
             android:id="@+id/action_homeFragment_to_libraryFragment"
             app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_referFragment"
+            app:destination="@id/referFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_fragmentIntro"
+            app:destination="@id/fragmentIntro" />
     </fragment>
     <fragment
         android:id="@+id/nullFilesFragment"
@@ -151,5 +148,55 @@
         <action
             android:id="@+id/action_referFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_referFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentIntro"
+        android:name="com.proksi.kotodama.fragments.Studio.FragmentIntro"
+        android:label="fragment_intro"
+        tools:layout="@layout/fragment_intro" >
+        <action
+            android:id="@+id/action_fragmentIntro_to_studioAddLineFragment"
+            app:destination="@id/studioAddLineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/studioAddLineFragment"
+        android:name="com.proksi.kotodama.fragments.Studio.StudioAddLineFragment"
+        android:label="StudioAddLineFragment" >
+        <action
+            android:id="@+id/action_studioAddLineFragment_to_fragmentIntro"
+            app:destination="@id/fragmentIntro" />
+            <action
+            android:id="@+id/action_studioAddLineFragment_to_studioTextFragment"
+            app:destination="@id/studioTextFragment" />
+        <action
+            android:id="@+id/action_studioAddLineFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/studioTextFragment"
+        android:name="com.proksi.kotodama.fragments.Studio.StudioTextFragment"
+        android:label="fragment_studio_text"
+        tools:layout="@layout/fragment_studio_text" >
+        <action
+            android:id="@+id/action_studioTextFragment_to_studioAddLineFragment"
+            app:destination="@id/studioAddLineFragment" />
+        <action
+            android:id="@+id/action_studioTextFragment_to_studioCharacterFragment"
+            app:destination="@id/studioCharacterFragment" />
+          <action
+            android:id="@+id/action_studioTextFragment_self"
+            app:destination="@id/studioTextFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/studioCharacterFragment"
+        android:name="com.proksi.kotodama.fragments.Studio.StudioCharacterFragment"
+        android:label="fragment_studio_character"
+        tools:layout="@layout/fragment_studio_character" >
+        <action
+            android:id="@+id/action_studioCharacterFragment_to_studioTextFragment"
+            app:destination="@id/studioTextFragment" />
     </fragment>
 </navigation>

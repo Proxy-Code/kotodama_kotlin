@@ -154,20 +154,23 @@
 
 
     <string name="recordYourVoice">Ghi âm giọng của bạn</string>
-    <string name="script1">Kotodama AI là cổng vào tương lai của công nghệ chuyển văn bản thành giọng nói. Với Kotodama AI, bạn có thể dễ dàng nhân bản giọng của mình và sử dụng nó cho TTS, mang đến một sự cá nhân hóa trong giao tiếp kỹ thuật số. Dù bạn đang kể chuyện, tạo nội dung, hay chỉ đơn giản là vui đùa với chuyển văn bản thành giọng nói, Kotodama AI đảm bảo giọng của bạn nghe tự nhiên, rõ ràng và độc đáo. Ứng dụng ghi lại mọi chi tiết, làm cho giọng kỹ thuật số của bạn không thể phân biệt với giọng thực tế. Hãy tưởng tượng sự tiện lợi của việc biến văn bản thành âm thanh, tất cả với giọng của bạn.</string>
-    <string name="script2">Sáng sớm, tôi thức dậy và dắt chó đi dạo quanh khu phố. Đường phố yên tĩnh và thanh bình, chim hót líu lo cùng làn gió mát. Chúng tôi thường gặp những người bạn thân thiện khác và thú cưng của họ. Tôi thích ngắm mặt trời mọc, tô màu bầu trời bằng những gam màu tuyệt đẹp khi ngày mới bắt đầu.</string>
-    <string name="script3">Khi mặt trời bắt đầu lặn, tôi thích thư giãn với một thói quen buổi tối nhẹ nhàng. Tôi thắp vài cây nến thơm và giảm ánh sáng trong phòng khách. Ánh sáng dịu nhẹ tạo nên một không gian ấm cúng, lý tưởng để thư giãn sau một ngày dài. Tôi thường pha cho mình một tách trà thảo mộc và ngồi vào chiếc ghế yêu thích của mình với một cuốn sách hay. Sự yên tĩnh của buổi tối, kết hợp với ánh sáng lung linh của nến, giúp tôi suy ngẫm về ngày đã qua và chuẩn bị cho một đêm ngon giấc.</string>
     <string name="PressToStart">Nhấn để bắt đầu ghi âm!</string>
 
-
+    <string name="step4ReceiveFreeVoiceSlot">3. Bạn sẽ nhận được một khe giọng nói miễn phí</string>
     <string name="customize">Tùy chỉnh</string>
     <string name="pickAn">Chọn một hình đại diện</string>
     <string name="exVoice">Ví dụ: Giọng 1</string>
+    <string name="rateTheApp">Đánh giá ứng dụng</string>
 
     <string name="shareKotodama">Chia sẻ Kotodama</string>
     <string name="yearly">Hàng năm</string>
     <string name="language">Ngôn ngữ</string> <!-- Vietnamese -->
 
+    <string name="script1">Với Kotodama AI, bạn có thể dễ dàng sao chép giọng nói của mình và sử dụng nó để chuyển văn bản thành giọng nói. Hãy tưởng tượng bạn có thể nghe cuốn sách yêu thích của mình với giọng nói của chính mình, hoặc gửi tin nhắn thoại mà không cần phải ghi âm mỗi lần. Giống như có một phiên bản kỹ thuật số của giọng nói mình, luôn sẵn sàng và vẫn giữ được âm sắc tự nhiên. Với Kotodama, giọng nói của bạn luôn có sẵn khi bạn cần.</string>
+
+    <string name="script2">Kotodama AI cung cấp cho bạn nhiều cách để sử dụng giọng nói của mình. Bạn có thể dùng nó để đọc bài báo, trả lời câu hỏi hoặc thậm chí tạo ra câu chuyện riêng của mình. Điều tuyệt vời nhất là giọng nói của bạn luôn tự nhiên, giống như bạn đang tự nói vậy. Giờ đây, bạn có thể nghe thấy giọng nói của chính mình trong một ứng dụng một cách dễ dàng, và tất cả đều nằm trong tay bạn – bạn quyết định khi nào và làm thế nào để sử dụng nó.</string>
+
+    <string name="script3">Hãy tưởng tượng bạn có một trợ lý cá nhân nói bằng giọng của chính bạn. Với Kotodama AI, điều đó không còn là giấc mơ, mà là thực tế! Bạn có thể sử dụng giọng nói của mình để trả lời câu hỏi, đọc thông tin hoặc chỉ đơn giản là vui vẻ với “bản sao giọng nói” của mình. Điều này không chỉ thú vị mà còn rất tiện lợi, vì bạn có thể sử dụng giọng nói của mình bất cứ lúc nào mà không cần ghi âm lại từng câu. Với Kotodama AI, giọng nói của bạn luôn bên bạn.</string>
 
 </resources>
 

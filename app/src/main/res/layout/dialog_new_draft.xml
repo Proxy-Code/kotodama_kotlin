@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/radius_12_white"
+    android:layout_marginHorizontal="30dp"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:paddingHorizontal="20dp"
+    android:paddingBottom="20dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/circle_grey"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:layout_width="70dp">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:paddingTop="2dp"
+            android:layout_height="35dp"
+            android:src="@drawable/baseline_folder_24"
+            app:tint="@color/main_purple" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:textAlignment="textStart"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/semi_bold"
+        android:textColor="@color/black"
+        android:justificationMode="inter_word"
+        android:layout_marginBottom="10dp"
+        android:text="Project Name"
+        />
+
+    <EditText
+        android:id="@+id/inputField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:textColorHint="#7B7B7B"
+        android:textColor="@color/black"
+        android:paddingVertical="12dp"
+        android:fontFamily="@font/regular"
+        android:textSize="14sp"
+        android:background="@drawable/radius15_bg_c8c8"
+        android:hint="Enter Project Name"/>
+
+    <TextView
+        android:id="@+id/createBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        android:background="@drawable/radius15_bg_gradient"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/semi_bold"
+        android:paddingVertical="15dp"
+        android:text="@string/create"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        />
+
+</LinearLayout>

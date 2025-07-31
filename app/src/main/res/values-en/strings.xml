@@ -1,6 +1,7 @@
 <resources>
     <string name="language">Language</string> <!-- German -->
-
+    <string name="rateTheApp">Rate the App</string>
+    <string name="step4ReceiveFreeVoiceSlot">3. You will receive a free voice slot.</string>
     <string name="restore">Restore</string>
     <string name="unlockPremium">Unlock Premium</string>
     <string name="generateRealisticVoices">Generate Realistic Voices</string>
@@ -112,8 +113,8 @@
     <string name="inviteFriends">Invite Friends!</string>
     <string name="getFreeGenerations">Get Free Generations</string>
     <string name="share_1">1. Share your code with your friends</string>
-    <string name="they_2">They enter your code in this Page</string>
-    <string name="you_3">You and your Friends receive free credits</string>
+    <string name="they_2">2. They enter your code in this Page</string>
+    <string name="you_3">3. You and your Friends receive free credits</string>
     <string name="userCode">User Code:</string>
     <string name="invite">Invite</string>
     <string name="enterFriendsCode">Enter Friend’s Code</string>

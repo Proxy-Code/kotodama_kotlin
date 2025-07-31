@@ -19,6 +19,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentPaywallBinding
 import com.kotodama.tts.databinding.FragmentPaywallChristmasBinding
@@ -28,6 +31,7 @@ import com.proksi.kotodama.adapters.ReviewAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.models.Faqs
 import com.proksi.kotodama.models.Review
+import com.proksi.kotodama.objects.EventLogger
 import com.revenuecat.purchases.Offerings
 import com.revenuecat.purchases.Package
 import com.revenuecat.purchases.PurchaseParams
@@ -40,19 +44,21 @@ import kotlinx.coroutines.launch
 
 class PaywallFragment : Fragment() {
 
-    private lateinit var design: FragmentPaywallChristmasBinding
+    private lateinit var design: FragmentPaywallBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var prevButton: ImageButton
-    private lateinit var nextButton: ImageButton
     private lateinit var mostPackage: Package
     private lateinit var normalPackage: Package
-    private lateinit var lifetimePackage: Package
     private lateinit var finalPackage: Package
     private val TAG = PaywallFragment::class.java.simpleName
     private lateinit var mostPopularButton:TextView
     private lateinit var normalPlanButton:TextView
     private lateinit var dataStoreManager: DataStoreManager
     private var packageType: String = ""
+    private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
+    private var planType=false
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
+
 
     private val reviews = listOf(
         Review(R.drawable.boy, "sdfsf","fsfsfs","Great app, I love it!"),
@@ -66,13 +72,26 @@ class PaywallFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        design = FragmentPaywallChristmasBinding.inflate(inflater, container, false)
+        design = FragmentPaywallBinding.inflate(inflater, container, false)
         recyclerView = design.viewPagerReview
         dataStoreManager = DataStoreManager
 
+        EventLogger.logEvent(requireContext(), "paywall_first_screen_shown")
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        val eventBundle = Bundle().apply {
+            putString("paywall_first_screen_shown", "paywall_first_screen_shown")
+        }
+        firebaseAnalytics.logEvent("paywall_first_screen_shown", eventBundle)
+
+
+        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
         mostPopularButton=design.textView15
         normalPlanButton=design.textView152
 
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(3600) // 1 saat
+            .build()
+        firebaseRemoteConfig.setConfigSettingsAsync(configSettings)
 
         val adapter = ReviewAdapter(reviews)
         recyclerView.adapter = adapter
@@ -114,8 +133,8 @@ class PaywallFragment : Fragment() {
         fun setOnClickListener(layout: ConstraintLayout, type: String) {
             layout.setOnClickListener {
                 resetBackgrounds() // Tüm arka planları sıfırla
-              //  layout.setBackgroundResource(R.drawable.radius14_bg_white_purple) // Seçili arka planı ayarla
-                layout.setBackgroundResource(R.drawable.radius14_bg_christmas)
+                layout.setBackgroundResource(R.drawable.radius14_bg_white_purple) // Seçili arka planı ayarla
+            //    layout.setBackgroundResource(R.drawable.radius14_bg_christmas)
 
                 packageType = type // Package type'ı ayarla
             }
@@ -127,14 +146,23 @@ class PaywallFragment : Fragment() {
         design.getPremiumButton.isEnabled = packageType != ""
 
         design.getPremiumButton.setOnClickListener(){
+           // EventLogger.logEvent(requireContext(), "rc_initial_purchase_event")
+            EventLogger.logEvent(requireContext(), "paywallFirst_getPremium_click")
+            firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+            val eventBundle = Bundle().apply {
+                putString("paywallFirst_getPremium_click", "paywallFirst_getPremium_click")
+            }
+            firebaseAnalytics.logEvent("paywallFirst_getPremium_click", eventBundle)
             selectPackage(packageType)
         }
 
         design.closeButton.setOnClickListener{
             navigateToHomeFragment()
         }
+//
+       fetchAndDisplayOfferings()
 
-        fetchAndDisplayOfferings()
+ //       fetchRemoteConfig()
 
         normalLayout.performClick()
 
@@ -151,20 +179,19 @@ class PaywallFragment : Fragment() {
 
                     lifecycleScope.launch {
                         for (pkg in availablePackages) {
-
                             when (pkg.product.id) {
 
                                 "subscription_annual:subs" -> {
-
                                     normalPackage = pkg
-                                    normalPlanButton.text = pkg.product.title.split("(")[0].trim()
-                                    design.normalPrice.text = pkg.product.price.formatted
-                                    Log.d(TAG, "normal: normal $normalPackage")
+                                     //   mostPopularButton.text = pkg.product.title.split("(")[0].trim()
+                                        design.mostPrice.text = pkg.product.price.formatted
+
                                 }
                                 "subscription_weekly:subs" -> {
                                     mostPackage = pkg
-                                    mostPopularButton.text = pkg.product.title.split("(")[0].trim()
-                                    design.mostPrice.text = pkg.product.price.formatted
+                                  //  normalPlanButton.text = pkg.product.title.split("(")[0].trim()
+                                    design.normalPrice.text = pkg.product.price.formatted
+
                                 }
                                 "subscription_final_offer:subs" -> {
                                     finalPackage = pkg
@@ -173,7 +200,6 @@ class PaywallFragment : Fragment() {
                             }
                         }
                         design.getPremiumButton.isEnabled = true
-                        Log.d(TAG, "getPremium clicked ")
 
                     }
                 } else {
@@ -188,44 +214,35 @@ class PaywallFragment : Fragment() {
     }
 
     private fun selectPackage(packageType: String) {
-        Log.d("PaywallFragment", "Selecting package: $packageType")
+        Log.d("PaywallFragment", "Selecting package: $packageType $planType" )
 
         when (packageType) {
+
             "normal" -> {
-                handleSelectedPackage(normalPackage)
+                    handleSelectedPackage(mostPackage) //yearly
             }
-//            "lifetime" -> {
-//                handleSelectedPackage(lifetimePackage)
-//            }
             "most" -> {
-                handleSelectedPackage(mostPackage)
+                handleSelectedPackage(normalPackage)  //weekly
             }
         }
     }
 
     private fun handleSelectedPackage(selectedPackage: Package) {
-        Log.d("TAG", selectedPackage.identifier)
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(requireActivity(), selectedPackage).build(),
             onError = { error, userCancelled ->
                 Log.e("PurchaseError", "Purchase failed: $error, userCancelled: $userCancelled")
-
             },
             onSuccess = { storeTransaction, customerInfo ->
-                Log.d("onSuccess burada 111", "handleSelectedPackage: 1 ")
-
+                Log.d(TAG, "handleSelectedPackage: $storeTransaction ")
+                Log.d(TAG, "handleSelectedPackage: $customerInfo ")
                 if (customerInfo.entitlements["Subscription"]?.isActive == true) {
-                    Log.d("onSuccess burada 222", "handleSelectedPackage: 1 ")
                     lifecycleScope.launch {
-                        Log.d("onSuccess burada 333", "handleSelectedPackage: 1 ")
                         dataStoreManager.saveSubscriptionStatus(requireContext(), true)
                         navigateToHomeFragment()
                     }
-
                 }
-
-                }
-
+            }
         )
     }
 
@@ -288,5 +305,23 @@ class PaywallFragment : Fragment() {
             .create()
             .show()
     }
+
+    private fun fetchRemoteConfig() {
+        firebaseRemoteConfig.fetchAndActivate()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val planVariation = firebaseRemoteConfig.getBoolean("show_yearly")
+                    planType = planVariation
+                    lifecycleScope.launch {
+                        dataStoreManager.savePlanType(requireContext(),planVariation)
+                    }
+                    Log.d(TAG, "fetchRemoteConfig: $planVariation")
+                //    fetchAndDisplayOfferings(planVariation)
+                } else {
+                    Log.e("RemoteConfig", "Failed to fetch Remote Config")
+                }
+            }
+    }
+
 
 }

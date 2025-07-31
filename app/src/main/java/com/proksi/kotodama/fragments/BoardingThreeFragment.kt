@@ -16,73 +16,56 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.navigation.fragment.findNavController
 import com.kotodama.tts.R
+import com.kotodama.tts.databinding.FragmentOnboardingThreeBinding
+import com.proksi.kotodama.objects.EventLogger
 
 
 class BoardingThreeFragment : Fragment() {
 
-    private var player: ExoPlayer? = null
+    private lateinit var design:FragmentOnboardingThreeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        val view = inflater.inflate(R.layout.fragment_onboarding_three, container, false)
+        design = FragmentOnboardingThreeBinding.inflate(inflater, container, false)
 
-        val playerView = view.findViewById<PlayerView>(R.id.videoView)
+        EventLogger.logEvent(requireContext(), "onboardingv3_screen_shown")
 
-        // Initialize ExoPlayer
-        player = ExoPlayer.Builder(requireContext()).build()
-        playerView.player = player
-
-        // Prepare the media item
-        val videoUri = "android.resource://" + requireContext().packageName + "/" + R.raw.video3
-        val mediaItem = MediaItem.fromUri(videoUri)
-        player?.setMediaItem(mediaItem)
-
-        // Prepare and play the video
-        player?.prepare()
-        player?.play()
-
-
-        val textView = view.findViewById<TextView>(R.id.voiceChanger)
-
-        // Gradient colors
-        val colors = intArrayOf(
-            Color.parseColor("#D192D7"),
-            Color.parseColor("#D29996"),
-            Color.parseColor("#A475E1")
-        )
-
-        val positions = floatArrayOf(0.0f, 0.5f, 1.0f)
-
-        val paint = textView.paint
-        val width = paint.measureText(textView.text.toString())
-
-        val textShader = LinearGradient(
-            0f, 0f, width, textView.textSize,
-            colors, positions, Shader.TileMode.CLAMP
-        )
-
-        textView.paint.shader = textShader
-
-        view.findViewById<TextView>(R.id.continueBtn).setOnClickListener{
+        design.continueBtn.setOnClickListener{
             findNavController().navigate(R.id.action_boardingThreeFragment_to_boardingFourFragment)
         }
-        return view
+
+        animateViewsSequentially()
+
+        return design.root
     }
 
-    override fun onPause() {
-        super.onPause()
-        player?.pause() // Pause the player when the fragment goes into the background
+    private fun animateViewsSequentially() {
+        val views = listOf(
+            design.box1,
+            design.box2,
+            design.box3,
+            design.box4,
+            design.box5,
+            design.box6,
+            design.continueBtn,
+            design.textLast
+        )
+
+        for ((index, view) in views.withIndex()) {
+            view.alpha = 0f
+            view.translationY = 200f
+            view.visibility = View.VISIBLE
+
+            view.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay((index * 300).toLong()) // sırayla gecikme
+                .setDuration(400)
+                .start()
+        }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        player?.release()
-        player = null
-    }
-
-
 
 }

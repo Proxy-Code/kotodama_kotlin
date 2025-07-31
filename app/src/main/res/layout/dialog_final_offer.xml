@@ -34,7 +34,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:tint="@color/christmas_green"
+                app:tint="@color/main_purple"
                 />
 
             <ImageView
@@ -110,7 +110,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
-                    app:tint="@color/christmas_green" />
+                    app:tint="@color/main_purple" />
 
                 <TextView
                     android:id="@+id/textView14"
@@ -147,7 +147,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="30dp"
-                    app:tint="@color/christmas_green"
+                    app:tint="@color/main_purple"
                     android:padding="10dp"
                     android:src="@drawable/icon_clon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -190,7 +190,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="30dp"
-                    app:tint="@color/christmas_green"
+                    app:tint="@color/main_purple"
                     android:padding="10dp"
                     android:src="@drawable/icon_locked"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -236,7 +236,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/christmas_gradient_border"
+            android:background="@drawable/gradient_border"
             android:paddingBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -329,7 +329,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="30dp"
-            android:background="@drawable/radius_13_chris"
+            android:background="@drawable/radius_13_purple"
             android:fontFamily="@font/bold"
             android:paddingVertical="20dp"
             android:text="@string/continue_"

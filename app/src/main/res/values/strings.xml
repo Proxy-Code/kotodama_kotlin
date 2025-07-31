@@ -3,40 +3,43 @@
     <string name="appsflyer_api_key" translatable="false">UkZnkSxPoa24iFJVkbP3Ri</string>
     <string name="app_name" translatable="false">Kotodama AI</string>
 
+    <string name="client_token_facebook" translatable="false">b6d878f2dc98bbc23dc5e08866b78d1e</string>
 
 
-<string name="language">Language</string>
-<string name="restore">Restore</string>
-<string name="unlockPremium">Unlock Premium</string>
-<string name="generateRealisticVoices">Generate Realistic Voices</string>
-<string name="fasterVoiceProcessing">Faster Voice Processing</string>
-<string name="freeVoiceClones">Free Voice Clones</string>
-<string name="clonesAnyVoice">Clone Any Voice</string>
-<string name="allFamousVoices">All Famous Voices</string>
-<string name="unlockAllPremiumVoices">Unlock All Premium Voice</string>
-<string name="chooseYourPlan">Choose your plan</string>
-<string name="weekly">Weekly</string>
+    <string name="language">Language</string>
+    <string name="restore">Restore</string>
+    <string name="unlockPremium">Unlock Premium</string>
+    <string name="generateRealisticVoices">Generate Realistic Voices</string>
+    <string name="fasterVoiceProcessing">Faster Voice Processing</string>
+    <string name="freeVoiceClones">Free Voice Clones</string>
+    <string name="clonesAnyVoice">Clone Any Voice</string>
+    <string name="allFamousVoices">All Famous Voices</string>
+    <string name="unlockAllPremiumVoices">Unlock All Premium Voice</string>
+    <string name="chooseYourPlan">Choose your plan</string>
+    <string name="weekly">Weekly</string>
     <string name="sale_81">81 % Sale</string>
-<string name="annual">Annual</string>
-<string name="popular">Popular</string>
-<string name="unlockAllFeatures">Unlock All Features</string>
-<string name="indistinguishableAiVoices">Indistinguishable AI Voices</string>
-<string name="experienceTheFuture">Experience the Future of Voice Cloning</string>
-<string name="elevateYour">Elevate your audio with our AI voice clning, transforming text into stunningly realistic speech.</string>
-<string name="perfectForEngaging">Perfect for engaging voiceovers, experience unparalleled clarity and verstaility in every narrative</string>
-<string name="feature">Features</string>
-<string name="aiTextToSpeech">AI Text To Speech</string>
-<string name="createNatural">Create natural-sounding speech easily with our advanced text-to-speech technology. Our AI brings emotions to life, making every voice unique and expressive</string>
-<string name="voiceCloning">Voice Cloning</string>
-<string name="createPersonalized">Create personalized voice clones using Kotodama’s advanced voice cloning technology. Our AI Captures unique vocal characteristics, ensuring each clone is as expressive and authentic as the original voice.</string>
-<string name="faq">FAQ</string>
+    <string name="annual">Annual</string>
+    <string name="popular">Popular</string>
+    <string name="unlockAllFeatures">Unlock All Features</string>
+    <string name="indistinguishableAiVoices">Indistinguishable AI Voices</string>
+    <string name="experienceTheFuture">Experience the Future of Voice Cloning</string>
+    <string name="elevateYour">Elevate your audio with our AI voice clning, transforming text into stunningly realistic speech.</string>
+    <string name="perfectForEngaging">Perfect for engaging voiceovers, experience unparalleled clarity and verstaility in every narrative</string>
+    <string name="feature">Features</string>
+    <string name="aiTextToSpeech">AI Text To Speech</string>
+    <string name="createNatural">Create natural-sounding speech easily with our advanced text-to-speech technology. Our AI brings emotions to life, making every voice unique and expressive</string>
+    <string name="voiceCloning">Voice Cloning</string>
+    <string name="createPersonalized">Create personalized voice clones using Kotodama’s advanced voice cloning technology. Our AI Captures unique vocal characteristics, ensuring each clone is as expressive and authentic as the original voice.</string>
+    <string name="faq">FAQ</string>
     <string name="whenWillMulti">When will multilingual service be supported?</string>
     <string name="support_multiple">Our AI Already supports multiple languages. You can simply type the text and our AI automatically understands and generates the speech for you</string>
     <string name="howDoI">How do I cancel my subscription</string>
     <string name="youCanCancelYour">You can cancel your subscription anytime without being subjected to any inquiries. Google Play Store manages all the subscriptions.</string>
     <string name="howDoIRequest">How do I request a refund?</string>
     <string name="sinceAllTransactions">Since all transactions for our app are processed through the Google Play Store, we cannot issue refunds directly. However, you can request a refund directly from Google.</string>
+    <string name="rateTheApp">Rate the App</string>
 
+    <string name="step4ReceiveFreeVoiceSlot">3. You will receive a free voice slot.</string>
 
     <string name="weWillGive">We Will Give You</string>
     <string name="bestOffer">Best Offer!</string>
@@ -63,8 +66,7 @@
     <string name="tvShows">TV-Shows</string>
 
 
-
-<string name="information">Information</string>
+    <string name="information">Information</string>
     <string name="pleaseBeAdvised">Please be advised that the characters you are presently acquiring are exclusively accessible while your subscription remains active!</string>
     <string name="done">Done</string>
     <string name="doNotShow">Do not show again.</string>
@@ -117,8 +119,8 @@
     <string name="inviteFriends">Invite Friends!</string>
     <string name="getFreeGenerations">Get Free Generations</string>
     <string name="share_1">1. Share your code with your friends</string>
-    <string name="they_2">They enter your code in this Page</string>
-    <string name="you_3">You and your Friends receive free credits</string>
+    <string name="they_2">2. They enter your code in this Page</string>
+    <string name="you_3">3. You and your Friends receive free credits</string>
     <string name="userCode">User Code:</string>
     <string name="invite">Invite</string>
     <string name="enterFriendsCode">Enter Friend’s Code</string>
@@ -137,7 +139,11 @@
     <string name="kotodamaAiIsGoing">Kotodama AI is going to create a custom Voice with your recordings.</string>
     <string name="yourUniqueAI">Your Unique AI Voice is Ready!</string>
     <string name="useYourCustom">Use your custom voice and say anything!</string>
+    <string name="script1">With Kotodama AI, you can easily clone your voice and use it to turn text into speech. Imagine listening to your favorite book in your own voice, or sending voice messages without needing to record every time. It\'s like having a digital version of your voice that’s always ready to go, and it still sounds natural and familiar. With Kotodama, your voice is always available when you need it, anytime, anywhere.</string>
 
+    <string name="script2">Kotodama AI gives you multiple ways to use your voice. You can read articles, answer questions, or even create your own stories. The best part is that your voice always sounds natural, just like you’re speaking yourself. It’s never been easier to hear your own voice in an app, and the best part is, you’re in control. You decide when and how to use it, and Kotodama will make it sound just right.</string>
+
+    <string name="script3">Imagine having a personal assistant that speaks with your own voice. With Kotodama AI, this is no longer a dream, it’s a reality! You can use your voice for responses, reading information, or simply having fun with your “voice clone.” It’s not just fun, it’s also practical, because you can use your voice anytime without recording every single sentence. With Kotodama AI, your voice is always by your side, ready to help.</string>
 
     <string name="uploadOrRecords">Upload or Record</string>
     <string name="goodExamples">Good Examples</string>
@@ -160,9 +166,6 @@
 
 
     <string name="recordYourVoice">Record Your Voice</string>
-    <string name="script1">Kotodama AI is your gateway to the future of text-to-speech technology. With Kotodama AI, you can easily clone your voice and use it for TTS, bringing a personal touch to your digital communications. Whether you’re narrating a story, creating content, or just having fun with text-to-speech, Kotodama AI ensures that your voice sounds natural, clear, and uniquely yours. The app captures every detail, making your digital voice indistinguishable from your real one. Imagine the convenience of turning written words into spoken ones, all with your own voice.</string>
-    <string name="script2">Morning, I wake up early and walk my dog around the neighborhood. The streets are quiet and peaceful, with birds chirping and a cool breeze blowing. We often meet other friendly people and their pets, and I enjoy watching the sun rise, painting the sky with beautiful colors as the day begins.</string>
-    <string name="script3">As the sun begins to set, I like to unwind with a calming evening ritual. I light a few scented candles and dim the lights in my living room. The soft glow creates a warm and cozy atmosphere, perfect for relaxing after a long day. I often make myself a cup of herbal tea and settle into my favorite chair with a good book. The quietness of the evening, paired with the gentle flicker of the candles, helps me reflect on the day and prepare for a restful night ahead.</string>
     <string name="PressToStart">Press to start recording!</string>
 
 
@@ -173,8 +176,8 @@
     <string name="shareKotodama">Share Kotodama</string>
     <string name="continue_">Continue</string>
     <string name="yearly">Yearly</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
-
-    </resources>
+</resources>

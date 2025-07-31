@@ -50,6 +50,7 @@ class MainActivity : BaseActivity() {
                 R.id.cover_bottom -> {
                     navController.navigate(R.id.libraryFragment)
                 }
+                R.id.studio_bottom -> navController.navigate(R.id.fragmentIntro)
                 R.id.settings_bottom -> navController.navigate(R.id.settingsFragment)
             }
             true
@@ -64,6 +65,9 @@ class MainActivity : BaseActivity() {
                 R.id.customizeFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.voiceLabLoadingFragment -> binding.bottomNavigationView.visibility = View.GONE
                 R.id.referFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.studioTextFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.studioAddLineFragment -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.studioCharacterFragment -> binding.bottomNavigationView.visibility = View.GONE
 
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
@@ -95,6 +99,9 @@ class MainActivity : BaseActivity() {
         val apiKey = getString(R.string.appsflyer_api_key)
         appsFlyer.init(apiKey, null, this)
         appsFlyer.start(this)
+
+        MyFirebaseMessagingService.getToken()
+
 
     }
 

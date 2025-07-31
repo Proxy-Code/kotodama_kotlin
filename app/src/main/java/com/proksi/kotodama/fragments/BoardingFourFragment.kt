@@ -10,7 +10,8 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.kotodama.tts.R
 import com.proksi.kotodama.MainActivity
-
+import com.proksi.kotodama.PaywallActivity
+import com.proksi.kotodama.objects.EventLogger
 
 class BoardingFourFragment : Fragment() {
 
@@ -20,10 +21,11 @@ class BoardingFourFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_boarding_four, container, false)
-        view.findViewById<TextView>(R.id.continueBtn).setOnClickListener{
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
+        EventLogger.logEvent(requireContext(), "welcome_screen_shown")
 
+        view.findViewById<TextView>(R.id.continueBtn).setOnClickListener{
+            val intent = Intent(requireContext(), PaywallActivity::class.java)
+            startActivity(intent)
             requireActivity().finish()
         }
         return view

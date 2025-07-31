@@ -10,21 +10,44 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.play.core.review.ReviewException
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.review.model.ReviewErrorCode
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentSettingsBinding
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.utils.DialogUtils
+import com.proksi.kotodama.viewmodel.PaywallViewModel
+import com.revenuecat.purchases.CustomerInfo
+import com.revenuecat.purchases.Offering
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.getOfferingsWith
+import com.revenuecat.purchases.models.StoreTransaction
+import com.revenuecat.purchases.ui.revenuecatui.PaywallDialog
+import com.revenuecat.purchases.ui.revenuecatui.PaywallDialogOptions
+import com.revenuecat.purchases.ui.revenuecatui.PaywallListener
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 
 class SettingsFragment : Fragment() {
 
     private lateinit var design: FragmentSettingsBinding
-    private val dialogUtils = DialogUtils()
     private lateinit var dataStoreManager: DataStoreManager
+    private var uid: String? = null
+    private val viewModelPaywall: PaywallViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +56,12 @@ class SettingsFragment : Fragment() {
 
         design = FragmentSettingsBinding.inflate(inflater, container, false)
         dataStoreManager = DataStoreManager
+
+        setupUi()
+
+        lifecycleScope.launch {
+            uid = dataStoreManager.getUid(requireContext()).firstOrNull()
+        }
 
         lifecycleScope.launch {
             dataStoreManager.getSubscriptionStatusKey(this@SettingsFragment.requireContext()).collect { isActive ->
@@ -43,24 +72,125 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        design.settingsBackBtn.setOnClickListener(){
-            findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
-        }
-
-        design.referLayout.setOnClickListener{
-            findNavController().navigate(R.id.action_settingsFragment_to_referFragment)
-        }
+        EventLogger.logEvent(requireContext(), "settings_screen_shown")
 
         design.textViewUpgrade.setOnClickListener{
-            dialogUtils.showPremiumDialogBox(requireContext(), viewLifecycleOwner,lifecycleScope,
-                dataStoreManager)
+            callPaywall()
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
+        return design.root
+    }
+    private fun showFeedbackDialog(){
+
+
+        val manager = ReviewManagerFactory.create(requireContext())
+        EventLogger.logEvent(requireContext(), "settings_screen_shown")
+
+
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val reviewInfo = task.result
+                manager.launchReviewFlow(requireActivity(),reviewInfo)
+                Log.d("showFeedbackDialog settings", "success $reviewInfo ")
+
+            } else {
+                @ReviewErrorCode val reviewErrorCode = (task.getException() as ReviewException).errorCode
+                Log.d("showFeedbackDialog settings", "success $reviewErrorCode")
+
+            }
+        }
+    }
+    private fun sendEmail() {
+        val recipient = "support@kotodama.app" // Alıcı e-posta adresi
+        val subject = "Support Request - $uid" // E-posta konusu
+        val message = "Email message text" // E-posta içeriği
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "message/rfc822"
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, message)
+        }
+
+        try {
+            startActivity(Intent.createChooser(intent, "Send Email"))
+        } catch (ex: android.content.ActivityNotFoundException) {
+            Toast.makeText(requireContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun callPaywall() {
+        design.paywallComposeView.disposeComposition()
+        Purchases.sharedInstance.getOfferingsWith(
+
+            onError = { error -> Log.e("Reneucat", "Error: $error") },
+            onSuccess = { offerings ->
+
+                val offering = offerings["second_paywall_yearly_weekly"] // Offering ID
+                design.paywallComposeView.apply {
+                    setContent {
+                        val paywallState by viewModelPaywall.paywallState.collectAsState()
+
+                        if (paywallState is PaywallViewModel.PaywallState.Visible) {
+                            if (offering != null) {
+                                RevenueCatPaywall(
+                                    offering,
+                                    onDismiss = {
+                                        viewModelPaywall.hidePaywall()
+                                        design.paywallComposeView.visibility= View.GONE
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+                viewModelPaywall.showPaywall()
+            }
+        )
+
+
+    }
+
+    @Composable
+    private fun RevenueCatPaywall(offering: Offering, onDismiss: () -> Unit) {
+        Log.d("rcp", "rct paywall ")
+
+        val listener = remember {
+            object : PaywallListener {
+                override fun onPurchaseCompleted(customerInfo: CustomerInfo, transaction: StoreTransaction) {
+                    lifecycleScope.launch {
+                        dataStoreManager.saveSubscriptionStatus(requireContext(), true)
+                    }
+                    onDismiss()
+                }
+                override fun onRestoreCompleted(customerInfo: CustomerInfo) {
+                    if (customerInfo.entitlements["Subscription"]?.isActive == true) {
+                        lifecycleScope.launch {
+                            dataStoreManager.saveSubscriptionStatus(requireContext(), true)
+                        }
+                        onDismiss()
+                    }
+                }
+            }
+        }
+
+        Log.d("offering", "RevenueCatPaywall: $offering")
+        PaywallDialog(
+            PaywallDialogOptions.Builder()
+                .setRequiredEntitlementIdentifier("Subscription")
+                .setOffering(offering)
+                .setListener(listener)
+                .build()
+        )
+    }
+    private fun setupUi(){
         design.privacyLayout.setOnClickListener{
-                val url = "https://www.kotodama.app/privacy"
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(url)
-                startActivity(intent)
+            val url = "https://www.kotodama.app/privacy"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
         }
 
         design.termsLayout.setOnClickListener{
@@ -78,6 +208,10 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_languageFragment)
         }
 
+        design.rateLayout.setOnClickListener{
+            showFeedbackDialog()
+        }
+
         design.shareSongLayout.setOnClickListener{
 
 
@@ -93,26 +227,15 @@ class SettingsFragment : Fragment() {
             startActivity(chooser)
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
-        return design.root
-    }
 
-    private fun sendEmail() {
-        val recipient = "singai@proksiyazilim.com" // Alıcı e-posta adresi
-        val subject = "Subject Text" // E-posta konusu
-        val message = "Email message text" // E-posta içeriği
-
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "message/rfc822"
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-            putExtra(Intent.EXTRA_TEXT, message)
+        design.settingsBackBtn.setOnClickListener(){
+            findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
         }
 
-        try {
-            startActivity(Intent.createChooser(intent, "Send Email"))
-        } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(requireContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show()
+        design.referLayout.setOnClickListener{
+            EventLogger.logEvent(requireContext(), "friends_settings_screen_shown")
+
+            findNavController().navigate(R.id.action_settingsFragment_to_referFragment)
         }
     }
 

@@ -149,18 +149,22 @@
 
 
     <string name="recordYourVoice">음성을 녹음하세요</string>
-    <string name="script1">Kotodama AI는 텍스트 음성 변환 기술의 미래를 여는 게이트웨이입니다. Kotodama AI를 통해 자신의 음성을 쉽게 복제하고 TTS에 사용할 수 있습니다. 스토리 내레이션, 콘텐츠 제작, 텍스트 음성 변환을 재미로 활용하든, Kotodama AI는 자연스럽고 선명하며 독특한 음성을 보장합니다. 앱은 모든 디테일을 포착해 디지털 음성을 실제 음성처럼 만들어 줍니다. 글을 자신의 음성으로 말로 전환하는 편리함을 상상해 보세요.</string>
-    <string name="script2">아침에 일찍 일어나 동네를 산책하며 강아지를 걷습니다. 길은 조용하고 평화롭고, 새들이 지저귀며 시원한 바람이 불어옵니다. 종종 다른 친절한 사람들과 그들의 애완동물을 만나고, 떠오르는 해가 하늘을 아름다운 색으로 물들이는 모습을 즐깁니다.</string>
-    <string name="script3">해가 지기 시작할 때, 저는 마음을 가라앉히는 저녁 의식을 즐깁니다. 향초 몇 개를 켜고 거실의 불빛을 낮춥니다. 부드러운 빛은 따뜻하고 아늑한 분위기를 만들어 하루를 마무리하기에 완벽합니다. 종종 허브차 한 잔을 만들어 좋아하는 의자에 앉아 좋은 책을 읽습니다. 조용한 저녁과 촛불의 부드러운 깜빡임은 하루를 돌아보고 평화로운 밤을 준비하는 데 도움을 줍니다.</string>
     <string name="PressToStart">녹음을 시작하려면 누르세요!</string>
     <string name="language">언어</string> <!-- Korean -->
 
-
+    <string name="rateTheApp">앱 평가하기</string>
+    <string name="step4ReceiveFreeVoiceSlot">3. 무료 음성 슬롯을 받게 됩니다</string>
     <string name="customize">커스터마이즈</string>
     <string name="pickAn">아바타 선택</string>
     <string name="exVoice">예: 음성 1</string>
     <string name="shareKotodama">Kotodama 공유</string>
     <string name="yearly">연간</string>
+    <string name="script1">Kotodama AI를 사용하면 자신의 목소리를 쉽게 클론하고 텍스트를 음성으로 변환할 수 있습니다. 좋아하는 책을 내 목소리로 들을 수 있다면 어떨까요? 혹은 매번 녹음하지 않고 음성 메시지를 보낼 수 있다면 더 편리하겠죠. 자신만의 디지털 버전이 생긴 것 같지만, 여전히 자연스럽고 친숙한 목소리가 그대로 유지됩니다. Kotodama와 함께라면 언제든지 자신의 목소리를 사용할 수 있어요.</string>
+
+    <string name="script2">Kotodama AI는 다양한 방법으로 나만의 목소리를 활용할 수 있는 기능을 제공합니다. 기사를 읽거나, 질문에 답하거나, 자신만의 이야기를 만들 때도 목소리를 사용할 수 있어요. 무엇보다 중요한 건, 내 목소리가 항상 자연스럽게 들린다는 점입니다. 이제 앱에서 내 목소리를 듣는 것은 더 이상 어려운 일이 아니에요. 언제든지 내가 원하는 대로 목소리를 사용해보세요.</string>
+
+    <string name="script3">자신의 목소리를 클론해서 개인 비서를 만드는 것은 이제 꿈이 아닙니다. Kotodama AI를 사용하면 내 목소리로 답변을 주거나 정보를 읽어주거나, 그냥 내 "음성 클론"과 함께 놀 수 있습니다. 재미있을 뿐만 아니라 실용적이기도 해요. 매번 새로운 녹음을 하지 않아도 되고, 내 목소리를 언제든지 사용할 수 있기 때문에 아주 편리합니다. Kotodama AI와 함께라면 내 목소리가 항상 내 곁에 있습니다.</string>
+
 </resources>
 
 

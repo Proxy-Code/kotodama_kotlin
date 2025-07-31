@@ -10,7 +10,6 @@ class CloudFunction {
     fun callEnterReferral(data: Map<String, Any>, completion: (Result<Unit>) -> Unit) {
         val functions = FirebaseFunctions.getInstance()
 
-
         Log.d("cloud", "callEnterReferral: called $data  ")
         functions
             .getHttpsCallable("enterReferral")

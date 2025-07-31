@@ -30,6 +30,7 @@ import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentVoiceLabFormatBinding
 import com.proksi.kotodama.adapters.RecordUploadVoices
 import com.proksi.kotodama.models.AudioRecord
+import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.viewmodel.CloneViewModel
 
 
@@ -61,6 +62,8 @@ class VoiceLabFormatFragment : Fragment(),RecordUploadVoices.OnItemClickListener
         design = FragmentVoiceLabFormatBinding.inflate(inflater, container, false)
 
         design.recordBtn.setOnClickListener {
+            EventLogger.logEvent(requireContext(), "cloneRecord_screen_shown")
+
             findNavController().navigate(R.id.action_voiceLabFormatFragment_to_recordVoiceFragment)
         }
 
@@ -69,6 +72,8 @@ class VoiceLabFormatFragment : Fragment(),RecordUploadVoices.OnItemClickListener
         }
 
         design.uploadBtn.setOnClickListener {
+            EventLogger.logEvent(requireContext(), "cloneUpload_screen_shown")
+
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                 openFilePicker()
             } else {

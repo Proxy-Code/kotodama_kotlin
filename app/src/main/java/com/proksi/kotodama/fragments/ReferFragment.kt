@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,8 @@ class ReferFragment : Fragment() {
     private lateinit var design: FragmentReferBinding
     private lateinit var dataStoreManager: DataStoreManager
     private val cloudFunction = CloudFunction()
+    private var isSubscribed:Boolean = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +52,23 @@ class ReferFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            dataStoreManager.getSubscriptionStatusKey(this@ReferFragment.requireContext()).collect { isActive ->
+
+                if (isAdded) {
+                    isSubscribed = isActive
+                    if (isActive) {
+                        design.test3.text=getString(R.string.step4ReceiveFreeVoiceSlot)
+                    } else{
+                        design.test3.text=getString(R.string.you_3)
+                    }
+                } else {
+                    Log.d("REFER FRAGMENT", "Fragment not added or view is null, skipping UI update")
+                }
+            }
+        }
+
+
         Glide.with(this)
             .asGif()
             .load(R.drawable.hands)
@@ -70,7 +90,7 @@ class ReferFragment : Fragment() {
         })
 
         design.backButton.setOnClickListener{
-            findNavController().navigate(R.id.action_referFragment_to_settingsFragment)
+            findNavController().popBackStack()
         }
 
 

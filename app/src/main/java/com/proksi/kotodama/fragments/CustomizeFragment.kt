@@ -41,6 +41,7 @@ import com.kotodama.tts.databinding.FragmentCustomizeBinding
 import com.kotodama.tts.databinding.FragmentVoiceLabFormatBinding
 import com.proksi.kotodama.adapters.ImagesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiClient.imagesService
 import com.proksi.kotodama.retrofit.ApiInterface
@@ -71,8 +72,6 @@ class CustomizeFragment : Fragment() {
     private lateinit var dataStoreManager: DataStoreManager
     private var uid: String? = null
 
-
-
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +81,8 @@ class CustomizeFragment : Fragment() {
         name = design.nameInput.text.toString()
 
         dataStoreManager = DataStoreManager
+        EventLogger.logEvent(requireContext(), "clonePicture_screen_shown")
+
 
         design.continueButton.setOnClickListener{
             lifecycleScope.launch {

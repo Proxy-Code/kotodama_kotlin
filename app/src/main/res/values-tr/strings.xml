@@ -32,12 +32,11 @@
     <string name="youCanCancelYour">Aboneliğinizi istediğiniz zaman iptal edebilirsiniz. Tüm işlemleri Google Play Store yönetir.</string>
     <string name="howDoIRequest">Para iadesi nasıl talep edebilirim?</string>
     <string name="sinceAllTransactions">Tüm işlemler Google Play Store üzerinden yapıldığından, doğrudan iade yapamıyoruz. Ancak, Google üzerinden iade talebinde bulunabilirsiniz.</string>
-
+    <string name="step4ReceiveFreeVoiceSlot">3. Ücretsiz bir ses alanı alacaksınız</string>
     <string name="weWillGive">Size Sunuyoruz</string>
     <string name="bestOffer">En İyi Teklif!</string>
     <string name="theOfferExpires">Teklif sona eriyor:</string>
     <string name="off_seven">%77 İndirim</string>
-
     <string name="remaining">Kalan</string>
     <string name="typeHereFor">AI Sesinizi Buraya Yazın!</string>
     <string name="serach">Ara</string>
@@ -75,13 +74,18 @@
     <string name="noFiles">Dosya Yok</string>
     <string name="goToHome">Ana sayfaya gidin ve metinden sese özelliğini deneyin!</string>
     <string name="language">Dil</string> <!-- Turkish -->
+    <string name="rateTheApp">Uygulamayı Değerlendir</string>
 
 
     <string name="home">Ana Sayfa</string>
     <string name="library">Kütüphane</string>
     <string name="settings">Ayarlar</string>
 
+    <string name="script1">Kotodama AI ile sesinizi kolayca klonlayabilir ve metni sese dönüştürmek için kullanabilirsiniz. Favori kitabınızı kendi sesinizle dinlediğinizi hayal edin ya da her seferinde kaydetmek zorunda kalmadan sesli mesajlar gönderin. Kendi sesinizin dijital bir versiyonuna sahip olmanız gibi bir şey, hem de her zaman doğal ve tanıdık bir sesle. Kotodama ile sesiniz her zaman kullanılmaya hazır!</string>
 
+    <string name="script2">Kotodama AI, sesinizi farklı şekillerde kullanmanıza olanak tanır. Makaleleri sesli okuyabilir, sorulara cevap verebilir ya da kendi hikayelerinizi oluşturabilirsiniz. En güzel yanı ise sesinizin her zaman doğal bir şekilde duyulması, tıpkı kendinizin konuşuyor gibi. Artık sesinizi bir uygulamada duymak hiç bu kadar kolay olmamıştı ve her şey sizin kontrolünüzde. Ne zaman ve nasıl kullanacağınızı siz belirlersiniz.</string>
+
+    <string name="script3">Kendi sesinizle bir kişisel asistanınız olduğunu hayal edin. Kotodama AI ile bu artık bir hayal değil, gerçek! Sesinizi cevaplar vermek, bilgileri okumak veya sadece "klonlanmış" versiyonunuzla eğlenmek için kullanabilirsiniz. Bu sadece eğlenceli değil, aynı zamanda çok pratik; çünkü her seferinde yeni bir şey kaydetmek zorunda kalmazsınız. Kotodama AI ile sesiniz her zaman yanınızda.</string>
     <string name="membership">Üyelik</string>
     <string name="getPremium">Premium’a Geç</string>
     <string name="accessAllThe">Tüm özelliklere erişim sağlayın</string>
@@ -150,9 +154,6 @@
     <string name="sec_30">30 saniye - 7 dakika</string>
 
     <string name="recordYourVoice">Sesinizi Kaydedin</string>
-    <string name="script1">Kotodama AI, metinden sese teknolojisinin geleceğine açılan kapınızdır. Kotodama AI ile sesinizi kolayca klonlayabilir ve TTS için kullanabilirsiniz. Hikaye anlatımı yaparken, içerik üretirken ya da sadece eğlenirken sesiniz doğal, net ve tamamen size özgü olur. Uygulama, her ayrıntıyı yakalayarak dijital sesinizi gerçek sesinizden ayırt edilemez hale getirir. Yazılı kelimeleri, kendi sesinizle söylenmiş hale getirme rahatlığını hayal edin.</string>
-    <string name="script2">Sabahları erken kalkar ve köpeğimi mahallede gezdiririm. Sokaklar sessiz ve huzurlu olur, kuşlar cıvıldar ve serin bir esinti eser. Genellikle diğer dost canlısı insanlarla ve evcil hayvanlarıyla karşılaşırız. Gün başlarken, gökyüzünü boyayan güzel renklerle güneşin doğuşunu izlemekten keyif alırım.</string>
-    <string name="script3">Güneş batmaya başlarken, sakin bir akşam rutini ile rahatlamayı severim. Birkaç kokulu mum yakar ve oturma odamdaki ışıkları kısarım. Hafif bir parıltı, uzun bir günün ardından dinlenmek için mükemmel, sıcak ve rahat bir atmosfer yaratır. Genellikle kendime bir fincan bitki çayı hazırlar ve sevdiğim koltuğuma, güzel bir kitapla yerleşirim. Akşamın sessizliği ve mumların hafif titrek ışığı, günü düşünmeme ve huzurlu bir geceye hazırlanmama yardımcı olur.</string>
     <string name="PressToStart">Kaydı Başlatmak İçin Tıklayın!</string>
 
     <string name="customize">Özelleştir</string>

@@ -60,23 +60,20 @@
 
             </RelativeLayout>
 
-
-
-
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
+                android:layout_height="260dp"
                 android:layout_marginTop="0dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/paywall_bg" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_marginTop="240dp"
+                android:layout_marginTop="200dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/bold"
                 android:textAlignment="center"
-                android:text="Unlock Premium"
+                android:text="@string/unlockPremium"
                 android:textColor="@color/black"
                 android:textSize="28sp" />
 
@@ -97,7 +94,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:orientation="vertical"
             >
@@ -126,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/semi_bold"
-                    android:text="Generate Realistic Voices"
+                    android:text="@string/generateRealisticVoices"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView12"
@@ -138,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:text="Faster Voice Processing"
+                    android:text="@string/fasterVoiceProcessing"
                     android:textColor="#9A9A9A"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -169,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/semi_bold"
-                    android:text="Free Voice Clones"
+                    android:text="@string/freeVoiceClones"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView122"
@@ -181,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:text="Clone Any Voice"
+                    android:text="@string/clonesAnyVoice"
                     android:textColor="#9A9A9A"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -212,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/semi_bold"
-                    android:text="All Famous Voices"
+                    android:text="@string/allFamousVoices"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView123"
@@ -224,7 +220,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
-                    android:text="Unlock All Premium Voice"
+                    android:text="@string/unlockAllPremiumVoices"
                     android:textColor="#9A9A9A"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
@@ -244,7 +240,7 @@
             android:textAlignment="center"
             android:textColor="@color/black"
             android:layout_marginBottom="20dp"
-            android:text="Choose your plan"/>
+            android:text="@string/chooseYourPlan"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -261,7 +257,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
                 android:fontFamily="@font/semi_bold"
-                android:text="Annual"
+                android:text="@string/annual"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -273,7 +269,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/bold"
-                android:text="$114.99"
+                android:text=""
                 android:textColor="@color/main_purple"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -311,7 +307,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
                 android:fontFamily="@font/semi_bold"
-                android:text="Weekly"
+                android:text="@string/weekly"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -323,7 +319,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/bold"
-                android:text="$44.99"
+                android:text=""
                 android:textColor="@color/main_purple"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -350,7 +346,7 @@
             android:id="@+id/getPremiumButton"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="20dp"
-            android:text="Unlock All Features"
+            android:text="@string/unlockAllFeatures"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:enabled="false"
@@ -367,7 +363,7 @@
             android:textSize="17sp"
             android:fontFamily="@font/medium"
             android:textColor="@color/main_purple"
-            android:text="Indistinguishable AI Voices"
+            android:text="@string/indistinguishableAiVoices"
             android:textAlignment="center"
             android:layout_height="wrap_content"/>
         <TextView
@@ -376,7 +372,7 @@
             android:fontFamily="@font/bold"
             android:textColor="@color/main_purple"
             android:layout_marginTop="5dp"
-            android:text="Experience the Future of Voice Cloning"
+            android:text="@string/experienceTheFuture"
             android:textAlignment="center"
             android:layout_height="wrap_content"/>
         <TextView
@@ -388,18 +384,18 @@
             android:textAlignment="center"
             android:lineHeight="24dp"
             android:layout_marginTop="10dp"
-            android:text="Elevate your audio with our AI voice cloning, transforming text into stunningly realistic speech. Perfect for engaging voiceovers, experience unparalleled clarity and versatility in every narrative."
+            android:text="@string/elevateYour"
             android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="match_parent"
             android:textAlignment="center"
-            android:layout_marginTop="20dp"
-            android:text="Reviews"
-            android:lineHeight="47dp"
-            android:visibility="gone"
-            android:textColor="@color/black"
-            android:fontFamily="@font/bold"
-            android:textSize="24sp"
+            android:layout_marginTop="10dp"
+            android:text="@string/perfectForEngaging"
+            android:lineHeight="24dp"
+            android:layout_marginHorizontal="25dp"
+            android:textColor="#888888"
+            android:fontFamily="@font/regular"
+            android:textSize="14sp"
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -416,7 +412,7 @@
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:layout_marginTop="20dp"
-            android:text="Features"
+            android:text="@string/feature"
             android:textColor="@color/black"
             android:fontFamily="@font/bold"
             android:textSize="24sp"
@@ -426,7 +422,7 @@
             android:layout_width="match_parent"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="17dp"
-            android:text="AI Text To Speech"
+            android:text="@string/aiTextToSpeech"
             android:textColor="#0F0F0F"
             android:lineHeight="33dp"
             android:fontFamily="@font/semi_bold"
@@ -435,7 +431,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_marginHorizontal="20dp"
-            android:text="Create natural-sounding speech easily with our advanced text-to-speech technology. Our AI brings emotions to life, making every voice unique and expressive."
+            android:text="@string/createNatural"
             android:textColor="#1A1A1B"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/regular"
@@ -446,7 +442,7 @@
             android:layout_width="match_parent"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="22dp"
-            android:text="Voice Cloning"
+            android:text="@string/voiceCloning"
             android:lineHeight="33dp"
             android:textColor="#0F0F0F"
             android:fontFamily="@font/semi_bold"
@@ -455,7 +451,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_marginHorizontal="20dp"
-            android:text="Create personalized voice clones using Kotodama's advanced voice cloning technology. Our AI captures unique vocal characteristics, ensuring each clone is as expressive and authentic as the original voice."
+            android:text="@string/createPersonalized"
             android:textColor="#1A1A1B"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/regular"

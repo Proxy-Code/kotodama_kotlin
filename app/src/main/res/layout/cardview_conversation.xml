@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/layout"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/radius11_bg_white"
+    android:layout_marginBottom="10dp"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="12dp"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_conversation"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/on_girl"
+        app:shapeAppearanceOverlay="@style/roundedImgViewLibrary"
+         />
+
+    <TextView
+        android:id="@+id/converstaion_text"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/semi_bold"
+        android:paddingEnd="12dp"
+        android:maxLines="1"
+        android:text="kdjfklsjf"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/play_btn"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:src="@drawable/baseline_play_circle_24"
+        android:layout_height="wrap_content"
+        app:tint="@color/main_purple" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:visibility="gone"
+        android:id="@+id/ltAnimation"
+        android:layout_gravity="center"
+        app:lottie_rawRes="@raw/lottie"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_width="30dp"
+        android:layout_height="55dp"
+        />
+
+
+
+</LinearLayout>

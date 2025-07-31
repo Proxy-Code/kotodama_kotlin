@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout4"
@@ -9,7 +10,6 @@
     android:background="#F4F4F9"
     >
 
-    <!-- TODO: Update blank fragment layout -->
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="wrap_content"
@@ -21,82 +21,90 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:gravity="center"
+    app:layout_constraintTop_toBottomOf="@id/imageView8"
+    android:layout_height="wrap_content">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/images"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8"
+        android:layout_marginTop="45dp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        android:layout_height="wrap_content">
 
-        <!-- Placeholder view -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/onb_2"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/onb_1"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/on_girl"
+            android:layout_height="wrap_content"/>
 
-        <!-- VideoView for displaying the video -->
-
-        <androidx.media3.ui.PlayerView
-            android:background="@android:color/transparent"
-            android:id="@+id/videoView"
-            app:use_controller="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView8"
-            app:layout_constraintVertical_bias="0.5"
-            tools:ignore="MissingClass" />
-
-
-
-
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/thin"
-            android:text="@string/theBest"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/videoView" />
-
-        <TextView
-            android:id="@+id/voiceChanger"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/medium"
-            android:text="@string/voiceChanger"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView19" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_box"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:background="@drawable/radius15_bg_white"
+        android:elevation="10dp"
+        android:layout_marginTop="40dp"
+        android:padding="12dp"
+        android:layout_marginHorizontal="40dp"
+        android:text="You can type any text and it will generate amazing text to speech for you!"
+        android:fontFamily="@font/semi_bold"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/images"
+        />
 
 
     <TextView
         android:id="@+id/continueBtn"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="45dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/radius15_gradient"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        android:background="@drawable/radius15_bg_gradient"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="40dp"
         android:fontFamily="@font/semi_bold"
         android:paddingVertical="15dp"
-        android:text="@string/continue_"
+        android:text="@string/create"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/text_last"
+        android:visibility="gone"
+        android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginHorizontal="40dp"
+        android:fontFamily="@font/bold"
+        android:textSize="28sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="40dp"
+        android:textAlignment="center"
+        android:text="Best Text To Speech app for creative minds."
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

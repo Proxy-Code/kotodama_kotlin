@@ -38,8 +38,7 @@
     <string name="bestOffer">最佳优惠！</string>
     <string name="theOfferExpires">优惠截止时间：</string>
     <string name="off_seven">77% 折扣</string>
-
-
+    <string name="rateTheApp">评价应用</string>
     <string name="remaining">剩余</string>
     <string name="typeHereFor">在此输入您的AI语音！</string>
     <string name="serach">搜索</string>
@@ -75,7 +74,7 @@
     <string name="youHaveReached">您已达到允许的语音克隆数量上限。如需创建新语音克隆，请购买额外名额。</string>
     <string name="OneTime">一次性</string>
 
-
+    <string name="step4ReceiveFreeVoiceSlot">3. 您將獲得一個免費語音插槽</string>
     <string name="file">文件</string>
     <string name="noFiles">无文件</string>
     <string name="goToHome">返回主页并试用文本转语音！</string>
@@ -84,7 +83,11 @@
     <string name="home">首页</string>
     <string name="library">库</string>
     <string name="settings">设置</string>
+    <string name="script1">使用 Kotodama AI，您可以輕鬆地複製自己的聲音，並將文字轉換成語音。想像一下，您可以聽到自己最喜愛的書籍，用自己的聲音來朗讀，或者發送語音訊息，而不需要每次都重新錄音。這就像擁有一個數位版本的自己，隨時都能使用，而且聽起來既自然又親切。通過 Kotodama，您的聲音隨時待命，讓您隨時使用。</string>
 
+    <string name="script2">Kotodama AI 讓您可以以各種方式使用您的聲音。您可以用它來朗讀文章、回答問題，甚至創作自己的故事。最棒的是，您的聲音聽起來總是那麼自然，就像是您親自說出來的一樣。現在，在應用程式中聽到自己的聲音從來沒有這麼簡單過，而且一切都在您的掌控之中，您可以隨時決定何時和如何使用它。</string>
+
+    <string name="script3">想像一下，擁有一個與您自己聲音相同的個人助手。使用 Kotodama AI，這不再是夢想，而是現實！您可以利用自己的聲音來提供回應、朗讀資訊，或是與您的「聲音複製品」一起玩樂。這不僅有趣，而且非常實用，因為您可以隨時使用您的聲音，而不需要每次都重新錄製。通過 Kotodama AI，您的聲音永遠在您身邊。</string>
 
     <string name="membership">会员</string>
     <string name="getPremium">获取高级版</string>
@@ -155,10 +158,7 @@
 
 
     <string name="recordYourVoice">录制您的声音</string>
-    <string name="script1">Kotodama AI 是您通向文本转语音技术未来的门户。通过 Kotodama AI，您可以轻松克隆您的声音并将其用于文本转语音，为您的数字交流增添个人特色。不论是讲述故事、创建内容，还是玩转文本转语音，Kotodama AI 确保您的声音自然、清晰且独一无二。该应用捕捉每一个细节，使您的数字语音与真实声音无法区分。想象一下，将书面文字变成语音，一切都用您自己的声音完成。</string>
-    <string name="script2">每天早晨，我早起并带着我的狗在社区周围散步。街道宁静而祥和，伴随着鸟鸣声和凉爽的微风。我们经常遇到其他友好的人和他们的宠物，我喜欢看着太阳升起，把天空涂满美丽的色彩，迎接新的一天。</string>
-    <string name="script3">当太阳开始落山时，我喜欢通过一场令人平静的晚间仪式来放松。我点燃几支香薰蜡烛，调暗客厅的灯光。柔和的光芒营造出一种温暖而舒适的氛围，非常适合在忙碌一天后放松身心。我经常泡一杯草本茶，坐在我最喜欢的椅子上，读一本好书。夜晚的安静与蜡烛的微光交相辉映，帮助我反思一天的点滴，为即将到来的宁静之夜做好准备。</string>
-    <string name="PressToStart">点击开始录音！</string>
+     <string name="PressToStart">点击开始录音！</string>
 
 
     <string name="customize">自定义</string>

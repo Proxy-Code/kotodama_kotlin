@@ -8,9 +8,6 @@
     android:background="#ECF7FC"
     tools:context="com.proksi.kotodama.PaywallActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/paywallFragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

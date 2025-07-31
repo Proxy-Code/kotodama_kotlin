@@ -21,6 +21,7 @@ import com.kotodama.tts.R
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.fragments.RecordVoiceFragment
 import com.revenuecat.purchases.*
+import com.revenuecat.purchases.interfaces.LogInCallback
 import com.revenuecat.purchases.interfaces.ReceiveCustomerInfoCallback
 import com.revenuecat.purchases.interfaces.ReceiveOfferingsCallback
 
@@ -55,21 +56,14 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun checkUserAndProceed() {
-        Log.d(TAG, "checkUserAndProceed: 2")
         val currentUser = auth.currentUser
-        Log.d(TAG, "checkUserAndProceed: 3 $currentUser")
         if (currentUser != null) {
-            Log.d(TAG, "checkUserAndProceed: oturum aciksa 4")
             proceedWithUser(currentUser)
         } else {
-            
-            Log.d(TAG, "checkUserAndProceed: oturumn acik degilse  4")
             signInAnonymously { user ->
                 user?.let {
-                    Log.d(TAG, "checkUserAndProceed: 5 $it")
                     proceedWithUser(it)
                 } ?: run {
-                    Log.d(TAG, "checkUserAndProceed: 5 anonim giris basairiiz")
                     Toast.makeText(this, "Failed to authenticate.", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -77,21 +71,17 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun signInAnonymously(callback: (FirebaseUser?) -> Unit) {
-        Log.d(TAG, "signInAnonymously: 6")
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.d("SplashScreen", "signInAnonymously:success")
                     callback(auth.currentUser)
                 } else {
-                    Log.w("SplashScreen", "signInAnonymously:failure", task.exception)
                     callback(null)
                 }
             }
     }
 
     private fun proceedWithUser(user: FirebaseUser) {
-        Log.d(TAG, "Sign in 7 : ${user.uid}")
 
         val db = FirebaseFirestore.getInstance()
 
@@ -114,39 +104,47 @@ class SplashScreen : AppCompatActivity() {
         lifecycleScope.launch {
             DataStoreManager.savedUid(this@SplashScreen, user.uid)
         }
-            setupPurchases(user.uid)
+        configureRevenueCat(user.uid)
     }
 
-
-    private fun setupPurchases(userId: String) {
-
+    private fun configureRevenueCat(userId: String) {
         Purchases.logLevel = LogLevel.DEBUG
-        Purchases.configure(
-            PurchasesConfiguration.Builder(this, REVENUE_CAT_KEY)
-                .appUserID(userId)
-                .build()
-        )
-        Purchases.sharedInstance.collectDeviceIdentifiers()
 
-        Purchases.sharedInstance.getCustomerInfo(object : ReceiveCustomerInfoCallback {
-            override fun onReceived(customerInfo: CustomerInfo) {
+        // Sadece bir kere configure et
+        if (!Purchases.isConfigured) {
+            Purchases.configure(
+                PurchasesConfiguration.Builder(this, REVENUE_CAT_KEY)
+                    .appUserID(userId)
+                    .build()
+            )
+            Purchases.sharedInstance.collectDeviceIdentifiers()
+        }
+
+        // opsiyonel ama iyi: .logIn ile tekrar eşle
+        Purchases.sharedInstance.logIn(userId, object : LogInCallback {
+            override fun onReceived(customerInfo: CustomerInfo, created: Boolean) {
+                Log.d(TAG, "RevenueCat logIn success")
                 handleCustomerInfo(customerInfo)
             }
 
             override fun onError(error: PurchasesError) {
-                Log.e("CustomerInfoError", "Error fetching customer info: ${error.message}")
+                Log.e(TAG, "RevenueCat logIn failed: ${error.message}")
             }
         })
     }
 
+
+
     private fun handleCustomerInfo(customerInfo: CustomerInfo) {
         val isActive = customerInfo.entitlements["Subscription"]?.isActive ?: false
         Log.d(TAG, "handleCustomerInfo:isactive $isActive")
+
         lifecycleScope.launch {
           dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
-
         }
+
         isSubscribed = isActive
+
         lifecycleScope.launch {
             if (dataStoreManager.isOnboardingCompleted(this@SplashScreen)) {
                 if (isActive) {

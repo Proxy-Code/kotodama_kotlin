@@ -1,8 +1,10 @@
 package com.proksi.kotodama.adapters
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Environment
@@ -12,16 +14,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import androidx.core.view.marginStart
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.play.core.review.ReviewException
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.review.model.ReviewErrorCode
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.CardViewLibraryBinding
 import com.kotodama.tts.databinding.FaqsCardViewBinding
+import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.dataStore.DataStoreManager.getUid
 import com.proksi.kotodama.models.Faqs
 import com.proksi.kotodama.models.UserLibrary
@@ -37,7 +49,11 @@ import okio.sink
 import java.io.File
 import java.io.IOException
 
-class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>, private val lifecycleScope: LifecycleCoroutineScope,) :
+class LibraryAdapter(var mContext: Context,
+                     private val activity: Activity,
+                     private val dataStoreManager:DataStoreManager,
+                     val items: MutableList<UserLibrary>,
+                     private val lifecycleScope: LifecycleCoroutineScope,) :
     RecyclerView.Adapter<LibraryAdapter.Viewholder>() {
 
     private var expandedPosition = -1  // Genişletilmiş item'ın pozisyonunu takip eder
@@ -72,11 +88,44 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
         holder.design.name.text = item.name
         holder.design.descriptionText.text = item.text
 
-        Glide.with(holder.itemView.context)
-            .load(item.image)
-            .into(holder.design.cardImgView)
 
-        // Accordion layout'un görünürlüğünü kontrol et
+
+        if(item.type=="studio"){
+
+            val marginBetweenImages = -20
+
+            holder.design.images.removeAllViews()
+            holder.design.cardImgView.visibility = View.GONE
+            holder.design.images.visibility = View.VISIBLE
+
+            item.images?.take(3)?.forEachIndexed { index, imageUrl ->
+
+                val imageView = ImageView(holder.itemView.context).apply {
+                    layoutParams = LinearLayout.LayoutParams(48.dp, 48.dp).apply {
+                        if (index != 0) {
+                            marginStart = marginBetweenImages.dp
+                        }
+                    }
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    clipToOutline = true
+
+                    translationZ = (item.images!!.size - index).toFloat() // Öndeki resim daha yüksek Z-index'te olur
+                }
+                Glide.with(holder.itemView.context)
+                    .load(imageUrl)
+                    .transform(RoundedCorners(16))
+                    .into(imageView)
+
+                holder.design.images.addView(imageView)
+            }
+        }else{
+            holder.design.cardImgView.visibility = View.VISIBLE
+            holder.design.images.visibility = View.GONE
+            Glide.with(holder.itemView.context)
+                .load(item.image)
+                .into(holder.design.cardImgView)
+        }
+
         if (position == expandedPosition) {
             holder.design.accordionLayout.visibility = View.VISIBLE
         } else {
@@ -85,28 +134,18 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
 
         holder.design.layout.setOnClickListener {
             if(!item.isGenerating){
-                if (expandedPosition == position) {
-                    expandedPosition = -1
-                    notifyItemChanged(position)
-
-                    if (currentlyPlayingPosition == position) {
-                        stopPlaying()
-                        currentlyPlayingPosition = null
-                        holder.design.seekbar.progress = 0
-                        holder.design.startTime.text = formatTime(0)
-                    }
-                } else {
-                    val previousExpandedPosition = expandedPosition
-                    expandedPosition = position
-                    notifyItemChanged(previousExpandedPosition)
-                    notifyItemChanged(position)
-
-                    if (currentlyPlayingPosition != -1 && currentlyPlayingPosition != position) {
-                        stopPlaying()
-                        currentlyPlayingPosition?.let { it1 -> notifyItemChanged(it1) }  // Artık null kontrolüne gerek yok
-                        currentlyPlayingPosition = -1
-                    }
+                lifecycleScope.launch {
+                if (dataStoreManager.isFeedbackShown(mContext)){
+                    handleLayoutClick(position, holder)
+                    Log.d("showFeedbackDialog", "${dataStoreManager.isFeedbackShown(mContext)} ")
+                }else{
+                    Log.d("showFeedbackDialog", "${dataStoreManager.isFeedbackShown(mContext)} ")
+                    showFeedbackDialog ()
+                    handleLayoutClick(position, holder)
                 }
+
+                }
+
             }
 
         }
@@ -160,14 +199,11 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
             }
         }
 
-
-        // SeekBar ve süreyi sıfırla (eğer bu item oynatılmıyorsa)
         if (currentlyPlayingPosition != position) {
             holder.design.seekbar.progress = 0
             holder.design.startTime.text = formatTime(0)
         }
 
-        // Şarkı oluşturuluyorsa progress bar'ı göster
         if (item.isGenerating) {
             holder.design.progressBar.visibility = View.VISIBLE
             holder.design.progressBar.isIndeterminate = true
@@ -176,7 +212,14 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
             holder.design.progressBar.visibility = View.GONE
             holder.design.sendButton.visibility=View.VISIBLE
         }
+
+
     }
+
+
+    val Int.dp: Int
+        get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
 
     override fun getItemCount(): Int {
         return items.size
@@ -304,6 +347,52 @@ class LibraryAdapter(var mContext: Context, val items: MutableList<UserLibrary>,
         }
 
         mContext.startActivity(Intent.createChooser(shareIntent, "Share song"))
+    }
+
+    private fun showFeedbackDialog(){
+        val manager = ReviewManagerFactory.create(mContext)
+        lifecycleScope.launch {
+            dataStoreManager.saveFeedbackShown(activity, true)
+        }
+
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val reviewInfo = task.result
+                manager.launchReviewFlow(activity,reviewInfo)
+                Log.d("showFeedbackDialog", "success $reviewInfo ")
+
+            } else {
+                @ReviewErrorCode val reviewErrorCode = (task.getException() as ReviewException).errorCode
+                Log.d("showFeedbackDialog", "success $reviewErrorCode")
+
+            }
+        }
+    }
+
+    private fun handleLayoutClick(position: Int, holder: Viewholder) {
+        if (expandedPosition == position) {
+            expandedPosition = -1
+            notifyItemChanged(position)
+
+            if (currentlyPlayingPosition == position) {
+                stopPlaying()
+                currentlyPlayingPosition = null
+                holder.design.seekbar.progress = 0
+                holder.design.startTime.text = formatTime(0)
+            }
+        } else {
+            val previousExpandedPosition = expandedPosition
+            expandedPosition = position
+            notifyItemChanged(previousExpandedPosition)
+            notifyItemChanged(position)
+
+            if (currentlyPlayingPosition != -1 && currentlyPlayingPosition != position) {
+                stopPlaying()
+                currentlyPlayingPosition?.let { notifyItemChanged(it) }
+                currentlyPlayingPosition = -1
+            }
+        }
     }
 
 }

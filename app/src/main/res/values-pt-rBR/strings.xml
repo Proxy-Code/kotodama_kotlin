@@ -144,16 +144,19 @@
     <string name="sec_30">30 segundos a 7 minutos</string>
 
     <string name="recordYourVoice">Grave Sua Voz</string>
-    <string name="script1">Kotodama AI é seu portal para o futuro da tecnologia de texto para fala. Com o Kotodama AI, você pode facilmente clonar sua voz e usá-la para TTS, trazendo um toque pessoal às suas comunicações digitais. Seja narrando uma história, criando conteúdo ou apenas se divertindo com texto para fala, o Kotodama AI garante que sua voz soe natural, clara e exclusivamente sua. O app captura cada detalhe, tornando sua voz digital indistinguível da real. Imagine a conveniência de transformar palavras escritas em faladas, tudo com sua própria voz.</string>
-    <string name="script2">De manhã, acordo cedo e passeio com meu cachorro pelo bairro. As ruas estão calmas e pacíficas, com pássaros cantando e uma brisa fresca soprando. Frequentemente encontramos outras pessoas amigáveis e seus animais de estimação, e eu gosto de assistir ao nascer do sol, pintando o céu com belas cores enquanto o dia começa.</string>
-    <string name="script3">Quando o sol começa a se pôr, gosto de relaxar com um ritual tranquilo à noite. Acendo algumas velas perfumadas e diminuo as luzes na minha sala de estar. O brilho suave cria uma atmosfera acolhedora, perfeita para relaxar após um longo dia. Costumo preparar uma xícara de chá de ervas e me acomodo na minha poltrona favorita com um bom livro. O silêncio da noite, combinado com o brilho suave das velas, me ajuda a refletir sobre o dia e me preparar para uma noite de descanso.</string>
-    <string name="PressToStart">Pressione para começar a gravar!</string>
-
+     <string name="PressToStart">Pressione para começar a gravar!</string>
+    <string name="step4ReceiveFreeVoiceSlot">3. Você receberá um espaço de voz gratuito</string>
 
     <string name="customize">Personalizar</string>
     <string name="pickAn">Escolha um Avatar</string>
     <string name="exVoice">ex. Voz 1</string>
+    <string name="rateTheApp">Avaliar o aplicativo</string>
 
+    <string name="script1">Com o Kotodama AI, você pode facilmente clonar sua voz e usá-la para transformar texto em fala. Imagine ouvir seu livro favorito com sua própria voz, ou enviar mensagens de áudio sem precisar gravar toda vez. É como ter uma versão digital de sua voz, disponível sempre que precisar, e ainda soa natural e familiar. Com o Kotodama, sua voz estará sempre pronta para uso, quando você precisar dela.</string>
+
+    <string name="script2">O Kotodama AI oferece várias maneiras de usar sua voz. Você pode usá-la para ler artigos, responder perguntas ou até mesmo criar histórias personalizadas. O melhor de tudo é que sua voz soa sempre natural, como se fosse você falando. Nunca foi tão fácil ouvir sua própria voz em um aplicativo, e o melhor de tudo, você tem o controle total de quando e como usá-la.</string>
+
+    <string name="script3">Imagine ter um assistente pessoal que fala com sua própria voz. Com o Kotodama AI, isso não é mais um sonho, é realidade! Você pode usar sua voz para dar respostas, ler informações ou simplesmente se divertir com seu "clone" de voz. Isso não é só divertido, também é prático, porque você pode usar sua voz sempre que quiser, sem precisar gravar cada frase novamente. Com o Kotodama AI, sua voz está sempre ao seu alcance.</string>
     <string name="shareKotodama">Compartilhar Kotodama</string>
     <string name="yearly">Anual</string>
     <string name="language">Idioma</string> <!-- Portuguese (Brazil) -->

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F4F9"
+    android:paddingTop="50dp"
+    >
+
+    <ImageView
+        android:id="@+id/close_btn"
+        android:layout_marginStart="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ree_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/radius11_bg_white"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
+        android:text="Re"
+        app:layout_constraintEnd_toStartOf="@id/play_all_btn"
+        android:textColor="@color/black"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_marginEnd="20dp"
+        android:id="@+id/play_all_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/radius11_purple"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
+        android:text="Play all"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/editTextContainer"
+        app:layout_constraintTop_toBottomOf="@id/play_all_btn"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/radius11_bg_white"
+        android:elevation="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:strokeWidth="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/file_name"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/semi_bold"
+            android:textSize="16sp"
+            android:text="dklsjklsdjg"
+            android:textColor="@color/black"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp"
+            android:drawableEnd="@drawable/edit"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addAnotherLine"
+        app:layout_constraintTop_toBottomOf="@id/editTextContainer"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/radius11_bg_white"
+        android:elevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:strokeWidth="0dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:fontFamily="@font/semi_bold"
+            android:textSize="16sp"
+            android:text="Add another line"
+            android:drawableStart="@drawable/icon_plus"
+            android:drawableTint="#C1C1C1"
+            android:drawablePadding="10dp"
+            android:textColor="#C1C1C1"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="20dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintTop_toBottomOf="@id/addAnotherLine"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/rv_conversation"
+        app:layout_constraintBottom_toTopOf="@id/export_btn"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_height="0dp"/>
+
+    <LinearLayout
+        android:id="@+id/export_btn"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/radius15_bg_gradient"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:elevation="15dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="40dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_btn"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/semi_bold"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Export"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="20dp"
+            android:layout_height="wrap_content"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/ltAnimation"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            app:lottie_rawRes="@raw/lottie"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

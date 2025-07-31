@@ -1,348 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:fillViewport="true"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:background="@color/main_bg"-->
-<!--    android:contentDescription="@string/app_name"-->
-<!--    >-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:orientation="vertical"-->
-<!--        >-->
-
-<!--        <FrameLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <RelativeLayout-->
-<!--                android:id="@+id/restoreButtonLayout"-->
-<!--                android:layout_width="80dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:background="@drawable/radius_5"-->
-<!--                android:gravity="center"-->
-<!--                android:elevation="5dp"-->
-
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_marginStart="15dp"-->
-
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent">-->
-
-<!--                &lt;!&ndash; Restore Button &ndash;&gt;-->
-<!--                <TextView-->
-<!--                    android:id="@+id/restoreBtn"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:fontFamily="@font/semi_bold"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="Restore"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="13sp" />-->
-
-<!--                &lt;!&ndash; ProgressBar &ndash;&gt;-->
-<!--                <ProgressBar-->
-<!--                    android:id="@+id/restoreProgressBar"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_centerInParent="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:visibility="gone" />-->
-
-<!--            </RelativeLayout>-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="280dp"-->
-<!--                android:layout_marginTop="0dp"-->
-<!--                android:scaleType="fitXY"-->
-<!--                android:src="@drawable/paywall_bg" />-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_marginTop="240dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:fontFamily="@font/bold"-->
-<!--                android:textAlignment="center"-->
-<!--                android:text="Unlock Premium"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="28sp" />-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="30dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:padding="10dp"-->
-<!--                android:layout_gravity="end"-->
-<!--                android:id="@+id/closeButton"-->
-<!--                android:layout_marginRight="20dp"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:background="@drawable/circle_grey"-->
-<!--                android:src="@drawable/icon_close" />-->
-<!--        </FrameLayout>-->
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/linearLayout5"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="50dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:layout_marginEnd="50dp"-->
-<!--            android:orientation="vertical"-->
-<!--            >-->
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="12dp">-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/imageView"-->
-<!--                    android:layout_width="42dp"-->
-<!--                    android:layout_height="42dp"-->
-<!--                    android:layout_marginStart="30dp"-->
-<!--                    android:background="@drawable/radius_13_purple"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:src="@drawable/icon_realistic"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintVertical_bias="0.0" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textView14"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="25dp"-->
-<!--                    android:fontFamily="@font/semi_bold"-->
-<!--                    android:text="Generate Realistic Voices"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:layout_constraintBottom_toTopOf="@+id/textView12"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/imageView"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textView12"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="25dp"-->
-<!--                    android:text="Faster Voice Processing"-->
-<!--                    android:textColor="#9A9A9A"-->
-<!--                    android:textSize="14sp"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/imageView"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/textView14" />-->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="12dp">-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/imageView2"-->
-<!--                    android:layout_width="42dp"-->
-<!--                    android:layout_height="42dp"-->
-<!--                    android:layout_marginStart="30dp"-->
-<!--                    android:background="@drawable/radius_13_purple"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:src="@drawable/icon_clon"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintVertical_bias="0.0" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textView142"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="25dp"-->
-<!--                    android:fontFamily="@font/semi_bold"-->
-<!--                    android:text="Free Voice Clones"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:layout_constraintBottom_toTopOf="@+id/textView122"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/imageView2"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textView122"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="25dp"-->
-<!--                    android:text="Clone Any Voice"-->
-<!--                    android:textColor="#9A9A9A"-->
-<!--                    android:textSize="14sp"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/imageView2"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/textView142" />-->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="12dp">-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/imageView3"-->
-<!--                    android:layout_width="42dp"-->
-<!--                    android:layout_height="42dp"-->
-<!--                    android:layout_marginStart="30dp"-->
-<!--                    android:background="@drawable/radius_13_purple"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:src="@drawable/icon_locked"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintVertical_bias="0.0" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textView143"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="25dp"-->
-<!--                    android:fontFamily="@font/semi_bold"-->
-<!--                    android:text="All Famous Voices"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:layout_constraintBottom_toTopOf="@+id/textView123"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/imageView3"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textView123"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="25dp"-->
-<!--                    android:text="Unlock All Premium Voice"-->
-<!--                    android:textColor="#9A9A9A"-->
-<!--                    android:textSize="14sp"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/imageView3"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/textView143" />-->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-
-<!--        </LinearLayout>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textSize="20sp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:fontFamily="@font/bold"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            android:text="Choose your plan"/>-->
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_marginHorizontal="30dp"-->
-<!--            android:background="@drawable/radius14_bg_white"-->
-<!--            android:layout_marginBottom="15dp"-->
-<!--            android:id="@+id/mostLayout"-->
-<!--            android:layout_height="55dp">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textView15"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:layout_marginTop="7dp"-->
-<!--                android:fontFamily="@font/bold"-->
-<!--                android:text="Weekly"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="14sp"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/mostPrice"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:fontFamily="@font/bold"-->
-<!--                android:text="$114.99"-->
-<!--                android:textColor="@color/main_purple"-->
-<!--                android:textSize="14sp"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView15" />-->
-
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:id="@+id/normalLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_marginHorizontal="30dp"-->
-<!--            android:layout_marginBottom="15dp"-->
-<!--            android:background="@drawable/radius14_bg_white"-->
-<!--            android:layout_height="55dp">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/textView152"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:layout_marginTop="7dp"-->
-<!--                android:fontFamily="@font/bold"-->
-<!--                android:text="Annual"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="14sp"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/normalPrice"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:fontFamily="@font/bold"-->
-<!--                android:text="$44.99"-->
-<!--                android:textColor="@color/main_purple"-->
-<!--                android:textSize="14sp"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/textView152" />-->
-
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-
-<!--        <TextView-->
-<!--            android:id="@+id/getPremiumButton"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_marginHorizontal="20dp"-->
-<!--            android:text="Continue"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="17sp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:textAlignment="center"-->
-<!--            android:fontFamily="@font/bold"-->
-<!--            android:paddingVertical="20dp"-->
-<!--            android:enabled="false"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            android:background="@drawable/radius_13_purple"-->
-<!--            android:layout_height="wrap_content"/>-->
-
-<!--    </LinearLayout>-->
-
-<!--</androidx.core.widget.NestedScrollView>-->
-
-<androidx.core.widget.NestedScrollView
-    android:id="@+id/paywallFragmentContainer"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ECF7FC"
+    android:background="@color/main_bg"
     android:contentDescription="@string/app_name"
     >
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -358,7 +24,7 @@
                 android:id="@+id/restoreButtonLayout"
                 android:layout_width="80dp"
                 android:layout_height="30dp"
-                android:background="@drawable/radius_5_green"
+                android:background="@drawable/radius_5"
                 android:gravity="center"
                 android:elevation="5dp"
 
@@ -376,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/semi_bold"
                     android:gravity="center"
-                    android:text="@string/restore"
+                    android:text="Restore"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
 
@@ -391,14 +57,12 @@
 
             </RelativeLayout>
 
-
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
                 android:layout_marginTop="0dp"
-                android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@drawable/chris" />
+                android:src="@drawable/paywall_bg" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -442,7 +106,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="30dp"
-                    android:background="@drawable/radius_13_chris"
+                    android:background="@drawable/radius_13_purple"
                     android:padding="10dp"
                     android:src="@drawable/icon_realistic"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -485,7 +149,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="30dp"
-                    android:background="@drawable/radius_13_chris"
+                    android:background="@drawable/radius_13_purple"
                     android:padding="10dp"
                     android:src="@drawable/icon_clon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -528,7 +192,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="30dp"
-                    android:background="@drawable/radius_13_chris"
+                    android:background="@drawable/radius_13_purple"
                     android:padding="10dp"
                     android:src="@drawable/icon_locked"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -545,7 +209,7 @@
                     android:text="@string/allFamousVoices"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/textView123"
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -575,13 +239,12 @@
             android:textColor="@color/black"
             android:layout_marginBottom="20dp"
             android:text="@string/chooseYourPlan"/>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:id="@+id/mostLayout"
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/radius14_bg_white"
             android:layout_marginBottom="15dp"
+            android:id="@+id/mostLayout"
             android:layout_height="55dp">
 
             <TextView
@@ -590,10 +253,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/semi_bold"
+                android:fontFamily="@font/bold"
                 android:text="@string/annual"
                 android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -603,32 +266,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/bold"
-                android:text="$114.99"
-                android:textColor="@color/christmas_green"
+                android:text=""
+                android:textColor="@color/main_purple"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:textSize="10dp"
-                android:background="@drawable/radius_5_green"
-                android:paddingHorizontal="7dp"
-                android:paddingVertical="2dp"
-                android:text="@string/sale_81"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/normalLayout"
+            android:layout_width="match_parent"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/radius14_bg_white"
@@ -640,10 +288,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/semi_bold"
+                android:fontFamily="@font/bold"
                 android:text="@string/weekly"
                 android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -653,25 +301,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/bold"
-                android:text="$44.99"
-                android:textColor="@color/christmas_green"
+                android:text=""
+                android:textColor="@color/main_purple"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView152" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/radius_5_green"
-                android:paddingHorizontal="7dp"
-                android:paddingVertical="2dp"
-                android:text="@string/popular"
-                android:textSize="10dp"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -683,17 +317,383 @@
             android:text="@string/continue_"
             android:textColor="@color/white"
             android:textSize="17sp"
-            android:enabled="false"
             android:layout_marginTop="10dp"
             android:textAlignment="center"
             android:fontFamily="@font/bold"
-            android:paddingVertical="14dp"
+            android:paddingVertical="20dp"
+            android:enabled="false"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/radius_13_chris"
+            android:background="@drawable/radius_13_purple"
             android:layout_height="wrap_content"/>
-
 
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
+
+<!--<androidx.core.widget.NestedScrollView-->
+<!--    android:id="@+id/paywallFragmentContainer"-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:fillViewport="true"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:background="#ECF7FC"-->
+<!--    android:contentDescription="@string/app_name"-->
+<!--    >-->
+
+<!--    &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        >-->
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/restoreButtonLayout"-->
+<!--                android:layout_width="80dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:background="@drawable/radius_5_green"-->
+<!--                android:gravity="center"-->
+<!--                android:elevation="5dp"-->
+
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:layout_marginStart="15dp"-->
+
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
+
+<!--                &lt;!&ndash; Restore Button &ndash;&gt;-->
+<!--                <TextView-->
+<!--                    android:id="@+id/restoreBtn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/semi_bold"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/restore"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="13sp" />-->
+
+<!--                &lt;!&ndash; ProgressBar &ndash;&gt;-->
+<!--                <ProgressBar-->
+<!--                    android:id="@+id/restoreProgressBar"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:padding="5dp"-->
+<!--                    android:visibility="gone" />-->
+
+<!--            </RelativeLayout>-->
+
+
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="0dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:scaleType="fitXY"-->
+<!--                android:src="@drawable/chris" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginTop="240dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/bold"-->
+<!--                android:textAlignment="center"-->
+<!--                android:text="@string/unlockPremium"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="28sp" />-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:id="@+id/closeButton"-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:background="@drawable/circle_grey"-->
+<!--                android:src="@drawable/icon_close" />-->
+<!--        </FrameLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linearLayout5"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="50dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginEnd="50dp"-->
+<!--            android:orientation="vertical"-->
+<!--            >-->
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="12dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView"-->
+<!--                    android:layout_width="42dp"-->
+<!--                    android:layout_height="42dp"-->
+<!--                    android:layout_marginStart="30dp"-->
+<!--                    android:background="@drawable/radius_13_chris"-->
+<!--                    android:padding="10dp"-->
+<!--                    android:src="@drawable/icon_realistic"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintVertical_bias="0.0" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView14"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="25dp"-->
+<!--                    android:fontFamily="@font/semi_bold"-->
+<!--                    android:text="@string/generateRealisticVoices"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="16sp"-->
+<!--                    app:layout_constraintBottom_toTopOf="@+id/textView12"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/imageView"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView12"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="25dp"-->
+<!--                    android:text="@string/fasterVoiceProcessing"-->
+<!--                    android:textColor="#9A9A9A"-->
+<!--                    android:textSize="14sp"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/imageView"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textView14" />-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="12dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView2"-->
+<!--                    android:layout_width="42dp"-->
+<!--                    android:layout_height="42dp"-->
+<!--                    android:layout_marginStart="30dp"-->
+<!--                    android:background="@drawable/radius_13_chris"-->
+<!--                    android:padding="10dp"-->
+<!--                    android:src="@drawable/icon_clon"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintVertical_bias="0.0" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView142"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="25dp"-->
+<!--                    android:fontFamily="@font/semi_bold"-->
+<!--                    android:text="@string/freeVoiceClones"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="16sp"-->
+<!--                    app:layout_constraintBottom_toTopOf="@+id/textView122"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/imageView2"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView122"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="25dp"-->
+<!--                    android:text="@string/clonesAnyVoice"-->
+<!--                    android:textColor="#9A9A9A"-->
+<!--                    android:textSize="14sp"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/imageView2"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textView142" />-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="12dp">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/imageView3"-->
+<!--                    android:layout_width="42dp"-->
+<!--                    android:layout_height="42dp"-->
+<!--                    android:layout_marginStart="30dp"-->
+<!--                    android:background="@drawable/radius_13_chris"-->
+<!--                    android:padding="10dp"-->
+<!--                    android:src="@drawable/icon_locked"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintVertical_bias="0.0" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView143"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="25dp"-->
+<!--                    android:fontFamily="@font/semi_bold"-->
+<!--                    android:text="@string/allFamousVoices"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="16sp"-->
+<!--                    app:layout_constraintBottom_toTopOf="@id/textView123"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/imageView3"-->
+<!--                    />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textView123"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="25dp"-->
+<!--                    android:text="@string/unlockAllPremiumVoices"-->
+<!--                    android:textColor="#9A9A9A"-->
+<!--                    android:textSize="14sp"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/imageView3"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textView143" />-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<!--        </LinearLayout>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="20sp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:fontFamily="@font/bold"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:text="@string/chooseYourPlan"/>-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:id="@+id/mostLayout"-->
+<!--            android:layout_marginHorizontal="30dp"-->
+<!--            android:background="@drawable/radius14_bg_white"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:layout_height="55dp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textView15"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:fontFamily="@font/semi_bold"-->
+
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="12sp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/mostPrice"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:fontFamily="@font/bold"-->
+<!--                android:text=""-->
+<!--                android:textColor="@color/christmas_green"-->
+<!--                android:textSize="14sp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView15" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginEnd="4dp"-->
+<!--                android:textSize="10dp"-->
+<!--                android:background="@drawable/radius_5_green"-->
+<!--                android:paddingHorizontal="7dp"-->
+<!--                android:paddingVertical="2dp"-->
+<!--                android:text="@string/sale_81"-->
+<!--                android:textColor="@color/white"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:id="@+id/normalLayout"-->
+<!--            android:layout_marginHorizontal="30dp"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:background="@drawable/radius14_bg_white"-->
+<!--            android:layout_height="55dp">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textView152"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:fontFamily="@font/semi_bold"-->
+<!--                android:text="@string/weekly"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="12sp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/normalPrice"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:fontFamily="@font/bold"-->
+<!--                android:text=""-->
+<!--                android:textColor="@color/christmas_green"-->
+<!--                android:textSize="14sp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView152" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginEnd="4dp"-->
+<!--                android:background="@drawable/radius_5_green"-->
+<!--                android:paddingHorizontal="7dp"-->
+<!--                android:paddingVertical="2dp"-->
+<!--                android:text="@string/popular"-->
+<!--                android:textSize="10dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/getPremiumButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:text="@string/continue_"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="17sp"-->
+<!--            android:enabled="false"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:textAlignment="center"-->
+<!--            android:fontFamily="@font/bold"-->
+<!--            android:paddingVertical="14dp"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:background="@drawable/radius_13_chris"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+
+<!--    </LinearLayout>-->
+
+<!--</androidx.core.widget.NestedScrollView>-->
 

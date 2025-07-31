@@ -52,7 +52,6 @@
                android:layout_marginStart="9dp"
                android:layout_marginBottom="7dp"
                android:fontFamily="@font/semi_bold"
-               android:text="150"
                android:textColor="@color/black"
                android:textSize="11sp"
                app:layout_constraintBottom_toBottomOf="parent"
@@ -82,8 +81,24 @@
            android:paddingVertical="8dp"
            android:src="@drawable/crown_white" />
 
+       <ImageView
+           android:visibility="gone"
+           android:id="@+id/referButton"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="8dp"
+           android:layout_alignParentEnd="true"
+           android:background="@drawable/radius_12_white"
+           android:contentDescription="@string/app_name"
+           android:paddingHorizontal="8dp"
+           android:paddingVertical="8dp"
+           android:src="@drawable/handshake_2"
+           app:tint="@color/main_purple" />
+
        <LinearLayout
+
            android:id="@+id/counterLayout"
+           android:enabled="false"
            android:layout_width="53dp"
            android:layout_height="43dp"
            android:layout_alignParentEnd="true"
@@ -93,14 +108,13 @@
            android:gravity="center"
            android:orientation="horizontal">
 
-
            <TextView
                android:id="@+id/tokenCounterText"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:fontFamily="@font/bold"
-               android:text="3"
                android:paddingStart="10dp"
+               android:text="3"
                android:textColor="@color/main_purple"
                android:textSize="20dp" />
 
@@ -110,7 +124,8 @@
                android:layout_height="35dp"
                android:layout_weight="1"
                android:paddingEnd="5dp"
-               android:src="@drawable/icon_counter" />
+               android:src="@drawable/icon_counter"
+               app:tint="@color/main_purple" />
        </LinearLayout>
 
        <FrameLayout
@@ -132,7 +147,6 @@
                    android:scaleType="centerCrop"
                  android:visibility="gone"
                    android:layout_height="45dp"
-                   android:src="@drawable/fotow22"
                    android:layout_gravity="center_vertical"/>
 
                <EditText
@@ -288,4 +302,10 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:visibility="gone" />
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/paywallComposeView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -12,7 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -32,10 +37,20 @@ import com.proksi.kotodama.adapters.CategoryAdapter
 import com.proksi.kotodama.adapters.VoicesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.models.VoiceModel
+import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiInterface
 import com.proksi.kotodama.utils.DialogUtils
 import com.proksi.kotodama.viewmodel.HomeViewModel
+import com.proksi.kotodama.viewmodel.PaywallViewModel
+import com.revenuecat.purchases.CustomerInfo
+import com.revenuecat.purchases.Offering
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.getOfferingsWith
+import com.revenuecat.purchases.models.StoreTransaction
+import com.revenuecat.purchases.ui.revenuecatui.PaywallDialog
+import com.revenuecat.purchases.ui.revenuecatui.PaywallDialogOptions
+import com.revenuecat.purchases.ui.revenuecatui.PaywallListener
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -52,7 +67,7 @@ import kotlin.coroutines.resumeWithException
 class HomeFragment : Fragment() {
 
     private lateinit var design: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var adapterVoice: VoicesAdapter
     private val dialogUtils = DialogUtils()
     private lateinit var dataStoreManager: DataStoreManager
@@ -76,6 +91,7 @@ class HomeFragment : Fragment() {
     private var isShowSlotPaywall : Boolean= false
     private var saveTextJob: Job? = null
     private var isFirstLoad:Boolean = true
+    private val viewModelPaywall: PaywallViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -86,6 +102,8 @@ class HomeFragment : Fragment() {
         dataStoreManager = DataStoreManager
 
         setupVoicesAdapter()
+
+        EventLogger.logEvent(requireContext(), "home_screen_shown")
 
         viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
             updateIsShowSlotPaywall(cloneCount)
@@ -107,18 +125,14 @@ class HomeFragment : Fragment() {
         })
 
 
-
-       // viewModel.fetchVoices("all",requireContext())
         if (isFirstLoad) {
-            isFirstLoad = false // İlk yüklemeden sonra false yapıyoruz
+            isFirstLoad = false
             design.progressBar.visibility = View.VISIBLE
             design.loadingOverlay.visibility = View.VISIBLE
             (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
 
             viewModel.data.observe(viewLifecycleOwner) { voicesList ->
                 if (voicesList != null && voicesList.isNotEmpty()) {
-                    Log.d(TAG, "Data changed, updating adapter with size: ${voicesList.size}")
-
                     design.progressBar.visibility = View.GONE
                     design.loadingOverlay.visibility = View.GONE
                     (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
@@ -131,9 +145,7 @@ class HomeFragment : Fragment() {
         } else {
 
             val voicesList = viewModel.data.value
-            if (voicesList != null && voicesList.isNotEmpty()) {
-                Log.d(TAG, "Updating adapter with cached data, size: ${voicesList.size}")
-
+            if (!voicesList.isNullOrEmpty()) {
                 adapterVoice.updateData(voicesList)
             } else {
                 Log.d(TAG, "Voices List is null or empty")
@@ -142,27 +154,49 @@ class HomeFragment : Fragment() {
 
         viewModel.fetchVoices("all", requireContext())
 
-        design.imageCrown.setOnClickListener {
-            dialogUtils.showPremiumDialogBox(
-                requireContext(),
-                viewLifecycleOwner,
-                lifecycleScope,
-                dataStoreManager )
-        }
 
+        setupUI()
+
+
+        return design.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getUidFromDataStore(requireContext())
+
+        lifecycleScope.launch {
+            dataStoreManager.getSubscriptionStatusKey(this@HomeFragment.requireContext()).collect { isActive ->
+                if (isAdded) {
+                    getUidFromDataStore(requireContext())
+                }
+                if (isAdded) {
+                    isSubscribed = isActive
+
+                    if (isActive) {
+                        design.imageCrown.visibility = View.GONE
+                        design.counterLayout.visibility = View.GONE
+                        design.referButton.visibility = View.VISIBLE
+                    } else{
+                        design.imageCrown.visibility = View.VISIBLE
+                        design.counterLayout.visibility = View.VISIBLE
+                        design.referButton.visibility = View.GONE
+                    }
+                    // Only set up the voices adapter if the fragment is still attached
+                    setupVoicesAdapter()
+                } else {
+                    Log.d(TAG, "Fragment not added or view is null, skipping UI update")
+                }
+            }
+        }
+    }
+
+    private fun setupUI(){
         design.remaningCounterLayout.setOnClickListener{
             if (isSubscribed){
-               dialogUtils.showAddCharacterDialogBox( requireContext(),
-                   viewLifecycleOwner,
-                   lifecycleScope,
-                   dataStoreManager)
+                callPaywall("character")
             } else {
-                dialogUtils.showPremiumDialogBox(
-                    requireContext(),
-                    viewLifecycleOwner,
-                    lifecycleScope,
-                    dataStoreManager )
-
+                callPaywall("subs")
             }
         }
 
@@ -184,9 +218,7 @@ class HomeFragment : Fragment() {
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     val languageCode = recognizeLanguage(enteredText)
-
                 }
-
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -200,9 +232,7 @@ class HomeFragment : Fragment() {
                     design.doneLayout.visibility = View.VISIBLE
                     design.deleteLayout.visibility = View.VISIBLE
                 }
-
                 updateCreateButtonState()
-
             }
         })
 
@@ -219,6 +249,15 @@ class HomeFragment : Fragment() {
             updateCreateButtonState()
         }
 
+        design.counterLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_referFragment)
+        }
+
+        design.referButton.setOnClickListener{
+            EventLogger.logEvent(requireContext(), "friends_home_screen_shown")
+            findNavController().navigate(R.id.action_homeFragment_to_referFragment)
+        }
+
 
         design.searchVoice.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -226,37 +265,25 @@ class HomeFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
                 val query = newText ?: ""
-
                 viewModel.filterVoices(query)
-
-
                 return true
             }
-
         })
 
         design.buttonCreate.setOnClickListener {
+            EventLogger.logEvent(requireContext(), "home_create_click")
 
-            if (remainingCount < 0 ){
+            if (remainingCount <= 0 ){
                 if (isSubscribed){
-                    dialogUtils.showAddCharacterDialogBox(requireContext(),
-                                                          viewLifecycleOwner,
-                                                          lifecycleScope,
-                                                          dataStoreManager )
+                   callPaywall("character")
                 } else{
-                    dialogUtils.showPremiumDialogBox(requireContext(),
-                                                     viewLifecycleOwner,
-                                                     lifecycleScope,
-                                                     dataStoreManager )
+                    callPaywall("subs")
                 }
             }else {
-
                 design.progressBar.visibility = View.VISIBLE
                 design.loadingOverlay.visibility = View.VISIBLE
                 (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
-
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
@@ -288,45 +315,79 @@ class HomeFragment : Fragment() {
             }
         }
 
-        return design.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.d("burada", "onViewCreated: burada")
-        getUidFromDataStore(requireContext())
-
-
-        lifecycleScope.launch {
-            Log.d("1234", "onViewCreated: ")
-            dataStoreManager.getSubscriptionStatusKey(this@HomeFragment.requireContext()).collect { isActive ->
-                if (isAdded) {
-                    getUidFromDataStore(requireContext())
-                }
-                if (isAdded) {
-                    isSubscribed = isActive
-                    if (isActive) {
-                        design.imageCrown.visibility = View.GONE
-                        design.counterLayout.visibility = View.GONE
-                    } else{
-                        design.imageCrown.visibility = View.VISIBLE
-                        design.counterLayout.visibility = View.VISIBLE
-                    }
-                    // Only set up the voices adapter if the fragment is still attached
-                    setupVoicesAdapter()
-                } else {
-                    Log.d(TAG, "Fragment not added or view is null, skipping UI update")
-                }
-            }
+        design.imageCrown.setOnClickListener {
+            callPaywall("subs")
         }
 
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        lifecycleScope.coroutineContext.cancelChildren()  // Cancels any coroutines launched in the scope
+    private fun callPaywall(item: String){
+        design.paywallComposeView.disposeComposition()
+        Purchases.sharedInstance.getOfferingsWith(
+            onError = { error -> Log.e("Paywall", "Error: $error") },
+            onSuccess = { offerings ->
+
+                val offeringId = when (item) {
+                    "subs" -> "second_paywall_yearly_weekly"
+                    "character" -> "extra-characters"
+                    "slot" -> "Voice_Clone"
+                    else -> null
+                }
+                val offering = offeringId?.let { offerings[offeringId] }
+
+                design.paywallComposeView.apply {
+
+                    setContent {
+                        val paywallState by viewModelPaywall.paywallState.collectAsState()
+
+                        if (paywallState is PaywallViewModel.PaywallState.Visible) {
+                            if (offering != null) {
+                                RevenueCatPaywall(
+                                    offering,
+                                    onDismiss = { viewModelPaywall.hidePaywall()
+                                        design.paywallComposeView.visibility= View.GONE
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+                viewModelPaywall.showPaywall()
+            }
+        )
     }
+
+    @Composable
+    private fun RevenueCatPaywall(offering: Offering, onDismiss: () -> Unit) {
+        val listener = remember {
+            object : PaywallListener {
+                override fun onPurchaseCompleted(customerInfo: CustomerInfo, transaction: StoreTransaction) {
+                    lifecycleScope.launch {
+                        dataStoreManager.saveSubscriptionStatus(requireContext(), true)
+                    }
+                    onDismiss()
+                }
+                override fun onRestoreCompleted(customerInfo: CustomerInfo) {
+                    if (customerInfo.entitlements["Subscription"]?.isActive == true) {
+                        lifecycleScope.launch {
+                            dataStoreManager.saveSubscriptionStatus(requireContext(), true)
+                        }
+                        onDismiss()
+                    }
+                }
+            }
+        }
+
+        PaywallDialog(
+            PaywallDialogOptions.Builder()
+                .setRequiredEntitlementIdentifier("Subscription")
+                .setOffering(offering)
+                .setListener(listener)
+                .build()
+        )
+    }
+
 
 
     private fun updateIsShowSlotPaywall(cloneCount: Int) {
@@ -336,8 +397,6 @@ class HomeFragment : Fragment() {
         } else {
             isShowSlotPaywall = false
         }
-        Log.d(TAG, "rights: $rights clonecount: $cloneCount")
-        Log.d("111113", "updateIsShowSlotPaywall: $isShowSlotPaywall, hasClone= $hasCloneModel cloningRights=$cloningRights")
     }
 
 
@@ -420,20 +479,12 @@ class HomeFragment : Fragment() {
             idToken = idToken
         )
 
-        Log.d(TAG, "Payload: $payload")
-
         ApiClient.apiService.processRequest(payload).enqueue(object : retrofit2.Callback<ApiInterface.ProcessResponse> {
             override fun onResponse(
                 call: Call<ApiInterface.ProcessResponse>,
                 response: retrofit2.Response<ApiInterface.ProcessResponse>) {
 
                 if (response.isSuccessful) {
-                    val processResponse = response.body()
-                    Log.d(TAG, "onResponse: isscuesss")
-                    Log.d(TAG, "Process Response: ${processResponse}")
-                    Log.d(TAG, "Process Response Result: ${processResponse?.data?.result}")
-                    Log.d(TAG, "Success: ${processResponse?.success}")
-                    Log.d(TAG, "Message: ${processResponse?.data?.message}")
                     design.progressBar.visibility = View.GONE
                     design.loadingOverlay.visibility = View.GONE
                     (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
@@ -458,27 +509,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupVoicesAdapter() {
-        Log.d(TAG, "setupVoicesAdapter: $isShowSlotPaywall")
-      
+
         adapterVoice = VoicesAdapter(requireContext(), emptyList(), design.selectedImg, isSubscribed, false,dataStoreManager, viewLifecycleOwner,object : VoicesAdapter.OnVoiceSelectedListener {
             override fun onVoiceSelected(voice: VoiceModel) {
                 if (voice.id == "create_voice" && isSubscribed) {
                     if (isShowSlotPaywall){
-                        dialogUtils.showAddSlotDialogBox(
-                            requireContext(),
-                            viewLifecycleOwner,
-                            lifecycleScope,
-                            dataStoreManager )
+                        callPaywall("slot")
                     }else {
                         findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
-
                     }
-                } else if (voice.id == "create_voice" && !isSubscribed) {
-                    dialogUtils.showPremiumDialogBox(
-                        requireContext(),
-                        viewLifecycleOwner,
-                        lifecycleScope,
-                        dataStoreManager )
+                } else if (voice.id == "create_voice") {
+                    callPaywall("subs")
                 }
                 else {
                     selectedVoiceId = voice.id
@@ -486,7 +527,6 @@ class HomeFragment : Fragment() {
                     name = voice.name
                     isClone = voice.isClone
                     updateCreateButtonState()
-                    Log.d("111111", "$name $isClone")
                 }
             }
             override fun deleteClone(cloneId: String, context: Context) {
@@ -499,11 +539,8 @@ class HomeFragment : Fragment() {
 
 
         viewModel.data.observe(viewLifecycleOwner) { voicesList ->
-            Log.d(TAG, "Data changed, updating adapter with size: ${voicesList!!.size}")
             if (voicesList != null) {
                 adapterVoice.updateData(voicesList)
-            } else {
-                Log.d("Observer", "Voices List is null")
             }
         }
 
@@ -534,10 +571,9 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             DataStoreManager.getUid(context).collect { uid ->
                 if (uid != null) {
-                    Log.d("uid", "UID from DataStore: $uid")
                     val firestore = FirebaseFirestore.getInstance()
                     val userDocRef = firestore.collection("users").document(uid)
-
+                    Log.d("uid", "getUidFromDataStore: $uid")
                     // Add SnapshotListener for real-time updates
                     userDocRef.addSnapshotListener { snapshot, exception ->
                         if (exception != null) {
@@ -560,17 +596,24 @@ class HomeFragment : Fragment() {
                                         Log.d(TAG, "getUidFromDataStore: Token sıfır -> remainingCount: $remainingCount")
                                         design.remaningText.text = remainingCount.toString()
                                         design.tokenCounterText.text = tokenCounter.toString()
+                                        design.tokenCounterText.visibility = View.GONE
+                                        design.imageView3.setImageResource(R.drawable.handshake_2)
+                                        design.counterLayout.isEnabled=true
                                     }else{
                                         remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
                                         design.remaningText.text = remainingCount.toString()
                                         design.tokenCounterText.text = tokenCounter.toString()
+                                        design.tokenCounterText.visibility = View.VISIBLE
+                                        design.imageView3.setImageResource(R.drawable.icon_counter)
+                                        design.counterLayout.isEnabled=false
                                     }
 
                                 } else {
-                                    if (remainingCharacters != null) {
-                                        remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
+                                    design.counterLayout.isEnabled=false
+                                    remainingCount = if (remainingCharacters != null) {
+                                        remainingCharacters!!.toInt() + additionalCount!!.toInt()
                                     } else {
-                                        remainingCount = 150
+                                        150
                                     }
                                     design.remaningText.text = remainingCount.toString()
                                     design.tokenCounterText.text = remainingRights.toString()
@@ -584,6 +627,7 @@ class HomeFragment : Fragment() {
                                 userDocRef.set(data,SetOptions.merge())
 
                                 design.tokenCounterText.text = "3"
+                                design.counterLayout.isEnabled=false
                                 if (remainingCharacters != null && additionalCount != null) {
                                     remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
                                 } else {
@@ -594,7 +638,7 @@ class HomeFragment : Fragment() {
                             if (isAdded && view != null) {
                                 viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
                                     if (cloneCount != null) {
-                                        updateIsShowSlotPaywall(cloneCount) // cloneCount'u buradan geçiyoruz
+                                        updateIsShowSlotPaywall(cloneCount)
                                     }
                                 }
                             }
@@ -608,9 +652,15 @@ class HomeFragment : Fragment() {
                                 userDocRef.set(data,SetOptions.merge())
                             } else {
                                 val code = referralCode ?: ""
-                                lifecycleScope.launch {
-                                    dataStoreManager.saveReferral(requireContext(), code)
+                                if (isAdded) {
+                                    lifecycleScope.launch {
+                                        context.let { ctx ->
+                                            dataStoreManager.saveReferral(ctx, code)
+                                        }
+                                    }
                                 }
+
+
                             }
 
                         } else {
@@ -627,22 +677,26 @@ class HomeFragment : Fragment() {
                             tokenCounter = 3
                             design.remaningText.text = remainingCount.toString()
                             design.tokenCounterText.text = tokenCounter.toString()
+                            design.counterLayout.isEnabled=false
                         }
                         initialRemainingCount = remainingCount
                         lifecycleScope.launchWhenStarted {
-                            dataStoreManager.getText(requireContext()).collect { text ->
+                            if (isAdded) {
+                                context.let { ctx ->
+                                    dataStoreManager.getText(ctx).collect { text ->
+                                        Log.d("aaaaaaa", "onCreateView: $text")
+                                        design.editTextLayout.setText(text)
 
-                                Log.d("aaaaaaa", "onCreateView: $text")
-                                design.editTextLayout.setText(text)
-
-                                // Trigger remaining count update when text is loaded from DataStore
-                                if (text != null) {
-                                    remainingCount = initialRemainingCount - text.length
-                                    updateRemainingCountUI(remainingCount)
-                                    design.editTextLayout.setSelection(text.length)
+                                        if (text != null) {
+                                            remainingCount = initialRemainingCount - text.length
+                                            updateRemainingCountUI(remainingCount)
+                                            design.editTextLayout.setSelection(text.length)
+                                        }
+                                    }
                                 }
                             }
                         }
+
                     }
                 } else {
                     Log.d("HomeFragment", "No UID found in DataStore")
@@ -651,19 +705,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    override fun onPause() {
-        super.onPause()
 
-        saveTextJob = GlobalScope.launch(Dispatchers.IO) {
-            try {
-                Log.d("SaveText", "onPause: Saving entered text: $enteredText")
-                dataStoreManager.saveText(requireContext(), enteredText)
-            } catch (e: Exception) {
-                Log.e("SaveText Error", "Error saving text: ${e.message}")
-            }
-        }
-    }
 
 
     private fun updateRemainingCountUI(remainingCount: Int) {
@@ -675,8 +717,23 @@ class HomeFragment : Fragment() {
         design.remaningText.text = remainingCount.toString()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        lifecycleScope.coroutineContext.cancelChildren()  // Cancels any coroutines launched in the scope
+    }
 
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun onPause() {
+        super.onPause()
 
+        saveTextJob = GlobalScope.launch(Dispatchers.IO) {
+            try {
+                dataStoreManager.saveText(requireContext(), enteredText)
+            } catch (e: Exception) {
+                Log.e("SaveText Error", "Error saving text: ${e.message}")
+            }
+        }
+    }
 
 
 

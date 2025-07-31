@@ -19,13 +19,12 @@ import androidx.navigation.fragment.findNavController
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentRecordVoiceBinding
 import com.proksi.kotodama.models.AudioRecord
+import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.viewmodel.CloneViewModel
 import java.io.File
 import java.io.IOException
 
 class RecordVoiceFragment : Fragment() {
-
-
 
         private lateinit var design: FragmentRecordVoiceBinding
         private val TAG = RecordVoiceFragment::class.java.simpleName
@@ -48,6 +47,7 @@ class RecordVoiceFragment : Fragment() {
 
             design = FragmentRecordVoiceBinding.inflate(inflater,container,false)
 
+            EventLogger.logEvent(requireContext(), "cloneRecord_screen_shown")
 
             if (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

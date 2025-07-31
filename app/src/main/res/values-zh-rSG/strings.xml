@@ -148,18 +148,21 @@
     <string name="sec_30">30 秒至 7 分鐘</string>
 
     <string name="recordYourVoice">錄製您的語音</string>
-    <string name="script1">Kotodama AI 是您進入文本轉語音技術未來的門戶。通過 Kotodama AI，您可以輕鬆克隆您的語音並用於文本轉語音 (TTS)，為您的數字通信帶來個性化的觸感。無論是講述故事、創作內容還是僅僅是用文本轉語音玩樂，Kotodama AI 都能確保您的語音聽起來自然、清晰且具有獨特性。該應用捕捉每一個細節，使您的數字語音與真實語音無異。想像一下，用自己的聲音將文字變成語音的便利性。</string>
-    <string name="script2">每天早晨，我早起並帶狗狗在社區散步。街道安靜而祥和，鳥兒鳴叫，微風輕拂。我們經常遇到其他友好的人和他們的寵物，我喜歡觀看日出，天邊被美麗的色彩描繪，宣告新一天的開始。</string>
-    <string name="script3">當太陽開始落山時，我喜歡用一個放鬆的晚間儀式來結束一天。我點燃幾支香氛蠟燭，調暗客廳的燈光。柔和的光芒營造出溫暖舒適的氛圍，非常適合在忙碌的一天後放鬆身心。我通常會給自己泡一杯草藥茶，坐在自己喜歡的椅子上讀一本好書。夜晚的寧靜，配上燭光的微微閃爍，讓我能夠反思一天的經歷，為即將到來的安靜夜晚做好準備。</string>
-    <string name="PressToStart">按下開始錄音！</string>
+      <string name="PressToStart">按下開始錄音！</string>
+
+    <string name="script1">为了获得最佳的语音克隆效果，请清晰地朗读以下句子：“你好，我叫[你的名字]，我正在测试语音克隆技术。”确保你的声音自然且舒适，尽量放松并享受这个过程。深呼吸，慢慢读。</string>
+
+    <string name="script2">为了创建准确的语音副本，请慢速且清晰地读出以下句子：“语音克隆是一项技术，它能够将人类的声音转化为可以在许多应用中使用的数字版本。”尽量保持语速一致，以获得最佳效果。</string>
+
+    <string name="script3">为了生成逼真的语音副本，请仔细阅读以下文本：“我喜欢使用新技术，它们让我们的生活更加便捷和互动。”确保你的语调和情感变化自然，尽量像平常说话一样，这样效果会更好。</string>
 
     <string name="customize">自定義</string>
     <string name="pickAn">選擇一個頭像</string>
     <string name="exVoice">示例：語音 1</string>
-
+    <string name="step4ReceiveFreeVoiceSlot">3. 您将获得一个免费语音插槽</string>
     <string name="shareKotodama">分享言靈</string>
     <string name="language">語言</string> <!-- Chinese Traditional -->
-
+    <string name="rateTheApp">評價應用程式</string>
     <string name="yearly">每年</string>
 
 </resources>

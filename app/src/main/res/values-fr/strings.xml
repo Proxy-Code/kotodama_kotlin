@@ -77,6 +77,8 @@
    <string name="home">Accueil</string>
    <string name="library">Bibliothèque</string>
    <string name="settings">Paramètres</string>
+   <string name="rateTheApp">Évaluer l\'application</string>
+   <string name="PressToStart">Appuyez pour commencer l\'enregistrement !</string>
 
 
    <string name="membership">Abonnement</string>
@@ -150,7 +152,7 @@
    <string name="script1">Kotodama AI est votre portail vers  texte-parole. Avec Kotodama AI, vous pouvez facilement cloner votre voix e, ajoutant une touche personnelle à vos communications numériques. Que vous racontiez une histoire, créiez du contenu ou vous amusiez avec le texte-parole, Kotodama AI garantit que votre voix sonne naturelle, claire et uni détail, rendant votre voix numérique indistinguable de votre vraie voix. Imaginez la commodité de transformer des mots écrits en paroles, tout cela avec votre propre voix.</string>
    <string name="script2">Le matin, je me lève tôt et promène mon chien dans le quartier. Les rues sont calmes et paisibles, avec le chant des oiseaux et une brise fraîche qui souffle. Nous rencontrons souvees amicales et leurs animaux de compagnie,eil se lever, peignant le ciel de belles couleurs alors que la journée commence.</string>
    <string name="script3">Quand le soleil commence à se coucher,me quelques bougies parfumées et tamise les lumières de mon salon. La douce lueur crée une atmosphère chaleureuse et confortable, parfaite pour se relaxer après une longue journée. Je me prépare souvent une tasse de tisane dans mon fauteuil préféré avec un bon livre. Le calme du soir, associé au doux scintillement des bougjournée et à me préparer pour une nuit de repos.</string>
-
+   <string name="step4ReceiveFreeVoiceSlot">3. Vous recevrez un espace vocal gratuit</string>
    <string name="language">Langue</string> <!-- French -->
 
    <string name="customize">Personnaliser</string>

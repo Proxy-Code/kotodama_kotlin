@@ -112,15 +112,19 @@
     <string name="inviteFriends">友達を招待！</string>
     <string name="getFreeGenerations">無料クレジットをゲット</string>
     <string name="share_1">1. 友達にコードを共有</string>
-    <string name="they_2">友達がこのページでコードを入力</string>
-    <string name="you_3">あなたと友達が無料クレジットを獲得</string>
+    <string name="they_2">2. 友達がこのページでコードを入力</string>
+    <string name="you_3">3. あなたと友達が無料クレジットを獲得</string>
     <string name="userCode">ユーザーコード：</string>
     <string name="invite">招待</string>
     <string name="enterFriendsCode">友達のコードを入力</string>
     <string name="enterOrPaste">コードを入力または貼り付け</string>
     <string name="paste">貼り付け</string>
     <string name="confirm">確認</string>
+    <string name="script1">Kotodama AIで声をクローンするのはとても簡単です。自分の声を使ってテキストを読み上げることで、まるで本物の自分が話しているかのような感覚を味わえます。例えば、音声メッセージを送るときや、アプリ内で簡単な指示を出すときに便利です。自分の声がそのまま使えるので、まるで新しいアシスタントができたような感覚になります。</string>
 
+    <string name="script2">音声のクローン技術を使えば、さまざまなシーンで役立ちます。例えば、忙しい時にテキストを声で読み上げてもらったり、好きな本を自分の声で聞いたりすることができます。また、Kotodama AIを使って、声を使った新しい体験を楽しむことができるので、毎日の生活にちょっとした楽しみが加わります。</string>
+
+    <string name="script3">自分の声をクローンすることで、日常生活の中で役立つ場面が増えます。例えば、声でメモを取ったり、リマインダーを設定したりできます。声を使うことで、作業がスムーズに進み、毎日の生活がもっと楽しくなること間違いなしです。Kotodama AIを使うことで、AIがより身近に感じられ、さらに便利になります。</string>
     <string name="step1">ステップ 1</string>
     <string name="step2">ステップ 2</string>
     <string name="step3">ステップ 3</string>
@@ -152,15 +156,13 @@
     <string name="sec_30">30秒から7分</string>
 
     <string name="recordYourVoice">声を録音</string>
-    <string name="script1">Kotodama AIは、未来のテキスト読み上げ技術へのゲートウェイです。Kotodama AIを使えば、声を簡単にクローン化してTTSに利用できます。ストーリーのナレーション、コンテンツ作成、またはテキスト読み上げを楽しむ際に、個性あふれる音声をデジタルコミュニケーションに加えることができます。アプリは音声の細部を捉え、デジタル音声を本物と区別できないほど自然なものにします。書かれた言葉を自分の声で話すという便利さを想像してください。</string>
-    <string name="script2">朝、私は早起きをして犬を連れて近所を散歩します。通りは静かで平和で、鳥のさえずりや涼しい風が感じられます。他のフレンドリーな人々やそのペットに出会うことも多く、日の出を見ながら、美しい色で空が彩られる様子を楽しみます。</string>
-    <string name="script3">日が沈む頃、私は落ち着いた夜の習慣でリラックスします。香りの良いキャンドルを灯し、リビングルームの照明を暗くします。柔らかな光が暖かく居心地の良い雰囲気を作り、一日の疲れを癒すのにぴったりです。ハーブティーをいれてお気に入りの椅子に座り、良い本を読みます。夜の静けさとキャンドルの柔らかな揺らぎが、1日を振り返り、安らかな夜の準備をするのに役立ちます。</string>
-    <string name="PressToStart">録音を開始！</string>
+     <string name="PressToStart">録音を開始！</string>
 
-
+    <string name="step4ReceiveFreeVoiceSlot">3. 無料の音声スロットを受け取ります</string>
     <string name="customize">カスタマイズ</string>
     <string name="pickAn">アバターを選択</string>
     <string name="exVoice">例: Voice 1</string>
+    <string name="rateTheApp">アプリを評価する</string>
 
     <string name="shareKotodama">Kotodama を共有する</string>
     <string name="yearly">年間</string>

@@ -19,7 +19,9 @@ import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentLibraryBinding
 import com.kotodama.tts.databinding.FragmentNullFilesBinding
 import com.proksi.kotodama.adapters.LibraryAdapter
+import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.models.SwipeGesture
+import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.viewmodel.UserLibraryViewModel
 
 
@@ -29,6 +31,8 @@ class LibraryFragment : Fragment() {
     private lateinit var design: FragmentLibraryBinding
     private lateinit var adapter: LibraryAdapter
     private lateinit var navController: NavController
+    private lateinit var dataStoreManager: DataStoreManager
+
 
 
     override fun onCreateView(
@@ -38,15 +42,22 @@ class LibraryFragment : Fragment() {
 
         design = FragmentLibraryBinding.inflate(inflater, container, false)
         navController = findNavController()
+        dataStoreManager = DataStoreManager
+
+        EventLogger.logEvent(requireContext(), "files_screen_shown")
 
         design.rvLibrary.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        adapter = LibraryAdapter(requireContext(), mutableListOf(), lifecycleScope )
+        adapter = LibraryAdapter(
+            requireContext(),
+            requireActivity(),
+            dataStoreManager,
+            mutableListOf(),
+            lifecycleScope )
 
         design.rvLibrary.adapter = adapter
 
         viewModel.libraryItems.observe(viewLifecycleOwner, Observer { libraryItems ->
-            Log.d("fetch items", "onCreateView: ")
             if (libraryItems.isEmpty()) {
                 navController.navigate(R.id.nullFilesFragment)
             } else {
@@ -59,8 +70,6 @@ class LibraryFragment : Fragment() {
         val swipeGesture = object : SwipeGesture(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.LEFT) {
-
-
                     adapter.deleteItem(viewHolder.adapterPosition)
                 }
             }

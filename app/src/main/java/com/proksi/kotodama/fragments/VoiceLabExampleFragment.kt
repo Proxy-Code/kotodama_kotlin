@@ -29,6 +29,7 @@ import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentVoiceLabPhotoBinding
+import com.proksi.kotodama.objects.EventLogger
 
 
 class VoiceLabExampleFragment : Fragment() {
@@ -53,6 +54,9 @@ class VoiceLabExampleFragment : Fragment() {
         design.backBtn.setOnClickListener(){
             findNavController().navigate(R.id.action_voiceLabPhotoFragment_to_voiceLabNameFragment)
         }
+
+        EventLogger.logEvent(requireContext(), "cloneExample_screen_shown")
+
 
         design.continueButton.setOnClickListener{
             findNavController().navigate(R.id.action_voiceLabPhotoFragment_to_voiceLabFormatFragment)

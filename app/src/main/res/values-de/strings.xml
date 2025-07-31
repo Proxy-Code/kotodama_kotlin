@@ -149,14 +149,17 @@
     <string name="record">Aufnehmen</string>
     <string name="upload">Hochladen</string>
     <string name="sec_30">30 Sekunden bis 7 Minuten</string>
-
+    <string name="step4ReceiveFreeVoiceSlot">3. Sie erhalten einen kostenlosen Stimmen-Slot</string>
 
     <string name="recordYourVoice">Nimm deine Stimme auf</string>
-    <string name="script1">Kotodama AI ist dein Zugang zur Zukunft der Text-zu-Sprache-Technologie. Mit Kotodama AI kannst du deine Stimme einfach klonen und für TTS verwenden, was deinen digitalen Kommunikationen eine persönliche Note verleiht. Ob beim Erzählen einer Geschichte, Erstellen von Inhalten oder einfach nur beim Spaß mit Text-to-Speech – Kotodama AI sorgt dafür, dass deine Stimme natürlich, klar und einzigartig klingt. Die App erfasst jedes Detail und macht deine digitale Stimme von der echten nicht unterscheidbar. Stell dir vor, wie praktisch es ist, geschriebene Worte in gesprochene zu verwandeln – und das alles mit deiner eigenen Stimme.</string>
-    <string name="script2">Morgens stehe ich früh auf und gehe mit meinem Hund in der Nachbarschaft spazieren. Die Straßen sind ruhig und friedlich, Vögel zwitschern und eine kühle Brise weht. Wir treffen oft andere freundliche Menschen und ihre Haustiere, und ich genieße es, die Sonne aufgehen zu sehen, die den Himmel mit wunderschönen Farben bemalt, wenn der Tag beginnt.</string>
-    <string name="script3">Wenn die Sonne untergeht, entspanne ich mich gerne mit einem beruhigenden Abendritual. Ich zünde ein paar Duftkerzen an und dimme die Lichter in meinem Wohnzimmer. Das sanfte Leuchten schafft eine warme und gemütliche Atmosphäre, perfekt, um nach einem langen Tag zu entspannen. Oft mache ich mir eine Tasse Kräutertee und setze mich mit einem guten Buch in meinen Lieblingssessel. Die Stille des Abends, gepaart mit dem sanften Flackern der Kerzen, hilft mir, über den Tag nachzudenken und mich auf eine erholsame Nacht vorzubereiten.</string>
     <string name="PressToStart">Drücke, um die Aufnahme zu starten!</string>
+    <string name="rateTheApp">App bewerten</string>
 
+    <string name="script1">Mit Kotodama AI kannst du deine eigene Stimme klonen und sie für Text-to-Speech nutzen. Stell dir vor, du hörst dein Lieblingsbuch in deiner eigenen Stimme oder verschickst Sprachnachrichten, ohne jedes Mal etwas aufnehmen zu müssen. Es fühlt sich an, als hättest du eine digitale Version deiner Stimme, die immer verfügbar ist, aber trotzdem natürlich und vertraut klingt. Mit Kotodama ist deine Stimme jederzeit da, wenn du sie brauchst.</string>
+
+    <string name="script2">Kotodama AI bietet dir viele Möglichkeiten, deine Stimme zu nutzen. Du kannst sie verwenden, um Artikel vorzulesen, Fragen zu beantworten oder sogar eigene Geschichten zu erstellen. Das Beste daran ist, dass deine Stimme immer natürlich klingt, als würdest du selbst sprechen. Es war noch nie so einfach, deine eigene Stimme in einer App zu hören, und du kontrollierst, wann und wie du sie verwendest.</string>
+
+    <string name="script3">Stell dir vor, du hättest einen persönlichen Assistenten, der mit deiner eigenen Stimme spricht. Mit Kotodama AI ist das kein Traum, sondern Realität! Du kannst deine Stimme verwenden, um Antworten zu geben, Informationen vorzulesen oder einfach mit deinem „Klon“ Spaß zu haben. Es macht nicht nur Spaß, sondern ist auch praktisch, weil du deine Stimme jederzeit nutzen kannst, ohne jedes Mal etwas neu aufnehmen zu müssen. Mit Kotodama AI ist deine Stimme immer bereit, dir zu helfen.</string>
 
     <string name="customize">Anpassen</string>
     <string name="pickAn">Wähle einen Avatar</string>

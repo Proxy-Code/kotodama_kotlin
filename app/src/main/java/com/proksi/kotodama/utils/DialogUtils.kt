@@ -28,6 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kotodama.tts.R
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.objects.EventLogger
 import com.revenuecat.purchases.Offerings
 import com.revenuecat.purchases.Package
 import com.revenuecat.purchases.PurchaseParams
@@ -37,6 +38,7 @@ import com.revenuecat.purchases.interfaces.ReceiveOfferingsCallback
 import com.revenuecat.purchases.purchaseWith
 import com.revenuecat.purchases.restorePurchasesWith
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class DialogUtils {
@@ -60,6 +62,7 @@ class DialogUtils {
     private lateinit var slotPrice: TextView
     private lateinit var tenKTitle: TextView
     private lateinit var fiftyKTitle: TextView
+    private lateinit var textView15: TextView
     private lateinit var hundredKTitle: TextView
     private var isPremium:Boolean = true
     private var isSlot: Boolean = false
@@ -76,6 +79,9 @@ class DialogUtils {
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.show()
 
+        EventLogger.logEvent(context, "paywall_second_screen_shown")
+
+
         isPremium=true
         isSlot = false
 
@@ -83,14 +89,16 @@ class DialogUtils {
         normalPlanButton = dialog.findViewById(R.id.textView152)
         normalPlanPrice = dialog.findViewById(R.id.normalPrice)
         mostPopularPrice = dialog.findViewById(R.id.mostPrice)
+        textView15 = dialog.findViewById(R.id.textView15)
         val restoreButtonLayout:RelativeLayout = dialog.findViewById(R.id.restoreButtonLayout)
         val normalLayout: ConstraintLayout = dialog.findViewById(R.id.normalLayout)
         val mostLayout: ConstraintLayout = dialog.findViewById(R.id.mostLayout)
         val progressBar: ProgressBar = dialog.findViewById(R.id.restoreProgressBar)
         val restoreText: TextView = dialog.findViewById(R.id.restoreBtn)
 
-
         val layouts = listOf( normalLayout, mostLayout)
+
+
 
         fun resetBackgrounds() {
             layouts.forEach { layout ->
@@ -103,8 +111,7 @@ class DialogUtils {
             Log.d("aaaaaa", "setOnClickListener: set onclikck")
             layout.setOnClickListener {
                 resetBackgrounds()
-               // layout.setBackgroundResource(R.drawable.radius14_bg_white_purple)
-                layout.setBackgroundResource(R.drawable.radius14_bg_christmas)
+                layout.setBackgroundResource(R.drawable.radius14_bg_white_purple)
                 packageType = type
             }
         }
@@ -117,7 +124,7 @@ class DialogUtils {
         setOnClickListener(normalLayout, "normal")
         setOnClickListener(mostLayout, "most")
 
-        fetchAndDisplayOfferings(viewLifecycleOwner, getPremiumButton)
+        fetchAndDisplayOfferings(viewLifecycleOwner, getPremiumButton,dataStoreManager,lifecycleScope,context)
 
         val closeBtnPremium = dialog.findViewById<ImageView>(R.id.closeButton)
         closeBtnPremium.setOnClickListener {
@@ -126,6 +133,7 @@ class DialogUtils {
         }
 
         dialog.findViewById<TextView>(R.id.getPremiumButton).setOnClickListener{
+            EventLogger.logEvent(context, "paywallSecond_getPremium_click")
             selectPackage(context, packageType, lifecycleScope, dataStoreManager, dialog)
         }
     }
@@ -165,6 +173,7 @@ class DialogUtils {
 
 
         fun setOnClickListener(layout: ConstraintLayout, type: String) {
+            EventLogger.logEvent(context, "paywallCredit_buy_click")
             layout.setOnClickListener {
                 resetBackgrounds()
                 layout.setBackgroundResource(R.drawable.radius14_bg_white_purple)
@@ -187,7 +196,7 @@ class DialogUtils {
         }
 
         if (getPremiumButton != null) {
-            fetchAndDisplayOfferings(viewLifecycleOwner, getPremiumButton)
+            fetchAndDisplayOfferings(viewLifecycleOwner, getPremiumButton,dataStoreManager,lifecycleScope,context)
         }
 
 
@@ -210,13 +219,15 @@ class DialogUtils {
         slotPrice = dialog.findViewById<TextView>(R.id.priceText)!!
         val getPremiumButton: TextView? = dialog.findViewById(R.id.buyButton)
 
+        EventLogger.logEvent(context, "paywall_credit_screen_shown")
 
         dialog.findViewById<TextView>(R.id.buyButton)!!.setOnClickListener{
+            EventLogger.logEvent(context, "paywallClone_buy_click")
             selectPackage(context, "slot", lifecycleScope, dataStoreManager, dialog)
         }
 
         if (getPremiumButton != null) {
-            fetchAndDisplayOfferings(viewLifecycleOwner, getPremiumButton)
+            fetchAndDisplayOfferings(viewLifecycleOwner, getPremiumButton, dataStoreManager,lifecycleScope,context)
         }
 
     }
@@ -253,6 +264,8 @@ class DialogUtils {
             ), null, Shader.TileMode.REPEAT
         )
         dialog.show()
+        EventLogger.logEvent(context, "paywall_final_screen_shown")
+
 
         dialog.findViewById<TextView>(R.id.priceOldTextView).paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
@@ -288,6 +301,7 @@ class DialogUtils {
         }
 
         dialog.findViewById<TextView>(R.id.getPremiumButton).setOnClickListener{
+            EventLogger.logEvent(context, "paywallFinal_getPremium_click")
             selectPackage(context, packageType , lifecycleScope, dataStoreManager,dialog)
         }
 
@@ -299,88 +313,98 @@ class DialogUtils {
         imm.hideSoftInputFromWindow(currentFocus.windowToken, 0)
     }
 
-    fun fetchAndDisplayOfferings(lifecycleOwner: LifecycleOwner, getPremiumButton: TextView) {
-        Purchases.sharedInstance.getOfferings(object : ReceiveOfferingsCallback {
-            @SuppressLint("SetTextI18n")
-            override fun onReceived(offerings: Offerings) {
-                val currentOfferings = offerings.current
-                if (currentOfferings != null) {
-                    val availablePackages = currentOfferings.availablePackages
+    fun fetchAndDisplayOfferings(lifecycleOwner: LifecycleOwner,
+                                 getPremiumButton: TextView,
+                                 dataStoreManager:DataStoreManager,
+                                 lifecycleScope: CoroutineScope,
+                                 context: Context) {
+        lifecycleScope.launch {
+            val planType = dataStoreManager.getPlanType(context).first()
 
-                    lifecycleOwner.lifecycleScope.launch {
-                        for (pkg in availablePackages) {
-                            Log.d("1111", "onReceived: ${pkg.product.id}")
-                            if (isPremium){
-                                when (pkg.product.id) {
-                                    "subscription_annual:subs" -> {
-                                        normalPackage = pkg
-                                        normalPlanButton.text = pkg.product.title.split("(")[0].trim()
 
-                                        normalPlanPrice.text = pkg.product.price.formatted
-                                    }
+            Purchases.sharedInstance.getOfferings(object : ReceiveOfferingsCallback {
+                @SuppressLint("SetTextI18n")
+                override fun onReceived(offerings: Offerings) {
+                    val currentOfferings = offerings.current
+                    if (currentOfferings != null) {
+                        val availablePackages = currentOfferings.availablePackages
 
-                                    "life_time_offer" -> {
-                                        lifetimePackage = pkg
+                        lifecycleOwner.lifecycleScope.launch {
+                            for (pkg in availablePackages) {
+                                Log.d("onemli", "${pkg.product.id} $planType")
 
-                                        lifetimePrice.text = pkg.product.price.formatted
-                                    }
-
-                                    "subscription_weekly:subs" -> {
-                                        mostPackage = pkg
-                                        mostPopularPrice.text = pkg.product.price.formatted
-                                    }
-
-                                    "subscription_final_offer:subs" -> {
-                                        finalPackage = pkg
-                                        finalPrice = pkg.product.price.formatted
-                                    }
-                                }
-                            } else{
-                                if(isSlot){
-                                    when((pkg.product.id)){
-                                        "kt_voice_slot" -> {
-                                            slotPackage = pkg
-                                            slotPrice.text = "One time / ${pkg.product.price.formatted}"
-                                        }
-                                    }
-                                }else{
+                                if (isPremium) {
                                     when (pkg.product.id) {
 
-                                        "add_character_100k" -> {
-                                            hundredKPackage = pkg
-                                            hundredKPrice.text = pkg.product.price.formatted
-                                            hundredKTitle.text = pkg.product.title.split("(")[0].trim()
-                                        }
-                                        "add_character_10k" -> {
-                                            tenKPackage = pkg
-                                            tenKPrice.text = pkg.product.price.formatted
-                                            tenKTitle.text = pkg.product.title.split("(")[0].trim()
-                                        }
-                                        "add_character_50k" -> {
-                                            fiftyKPackage = pkg
-                                            fiftyKPrice.text = pkg.product.price.formatted
-                                            fiftyKTitle.text = pkg.product.title.split("(")[0].trim()
+                                        "subscription_annual:subs" -> {
+                                            normalPackage = pkg
+                                         //       textView15.text = pkg.product.title.split("(")[0].trim()
+                                                mostPopularPrice.text = pkg.product.price.formatted
                                         }
 
+                                        "subscription_weekly:subs" -> {
+                                            mostPackage = pkg
+                                            normalPlanPrice.text = pkg.product.price.formatted //weekly
+                                        }
+
+                                        "subscription_final_offer:subs" -> {
+                                            finalPackage = pkg
+                                            finalPrice = pkg.product.price.formatted
+                                        }
                                     }
-                                }
+                                } else {
+                                    if (isSlot) {
+                                        when ((pkg.product.id)) {
+                                            "kt_voice_slot" -> {
+                                                slotPackage = pkg
+                                                slotPrice.text =
+                                                    "One time / ${pkg.product.price.formatted}"
+                                            }
+                                        }
+                                    } else {
+                                        when (pkg.product.id) {
 
-                            }
+                                            "add_character_100k" -> {
+                                                hundredKPackage = pkg
+                                                hundredKPrice.text = pkg.product.price.formatted
+                                                hundredKTitle.text =
+                                                    pkg.product.title.split("(")[0].trim()
+                                            }
+
+                                            "add_character_10k" -> {
+                                                tenKPackage = pkg
+                                                tenKPrice.text = pkg.product.price.formatted
+                                                tenKTitle.text =
+                                                    pkg.product.title.split("(")[0].trim()
+                                            }
+
+                                            "add_character_50k" -> {
+                                                fiftyKPackage = pkg
+                                                fiftyKPrice.text = pkg.product.price.formatted
+                                                fiftyKTitle.text =
+                                                    pkg.product.title.split("(")[0].trim()
+                                            }
+
+                                        }
+                                    }
+
+                                }
 
                                 getPremiumButton.isEnabled = true
 
 
+                            }
                         }
+                    } else {
+                        Log.d("Offerings", "No offerings available")
                     }
-                } else {
-                    Log.d("Offerings", "No offerings available")
                 }
-            }
 
-            override fun onError(error: PurchasesError) {
-                Log.e("Offerings", "Error fetching offerings: ${error.message}")
-            }
-        })
+                override fun onError(error: PurchasesError) {
+                    Log.e("Offerings", "Error fetching offerings: ${error.message}")
+                }
+            })
+        }
     }
 
     private fun selectPackage(
@@ -393,11 +417,11 @@ class DialogUtils {
         Log.d("aaaaaa", packageType)
 
         when (packageType) {
-            "normal" -> {
-                handleSelectedPackage(context,lifecycleScope,normalPackage,dataStoreManager,dialog)
+            "most" -> {
+                 handleSelectedPackage(context,lifecycleScope,normalPackage,dataStoreManager,dialog) //yearly
             }
 
-            "most" -> {
+            "normal" -> {
                 handleSelectedPackage(context,lifecycleScope,mostPackage,dataStoreManager,dialog)
             }
             "10k" -> {
@@ -455,10 +479,6 @@ class DialogUtils {
         dataStoreManager: DataStoreManager,
         dialog: Dialog
     ) {
-        Log.d("TAG", selectedPackage.product.id)
-        Log.d("TAG", selectedPackage.packageType.name)
-        Log.d("TAG", "handleSelectedPackage: $dialog")
-
 
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(context as Activity, selectedPackage).build(),
@@ -480,11 +500,15 @@ class DialogUtils {
 
                 if (entitlement?.isActive == true) {
 
+//                    lifecycleScope.launch {
+//                        dataStoreManager.saveSubscriptionStatus(context as Activity, true)
+//                        (context as? Activity)?.runOnUiThread {
+//                            dialog.dismiss()
+//                        }
+//                    }
                     lifecycleScope.launch {
-                        dataStoreManager.saveSubscriptionStatus(context as Activity, true)
-                        (context as? Activity)?.runOnUiThread {
-                            dialog.dismiss()
-                        }
+                        dataStoreManager.saveSubscriptionStatus(context, true)
+                        dialog.dismiss()
                     }
 
                 } else {
