@@ -2,6 +2,7 @@ package com.proksi.kotodama
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -32,27 +33,28 @@ class SplashScreen : AppCompatActivity() {
 
     private lateinit var dataStoreManager: DataStoreManager
     private lateinit var auth: FirebaseAuth
-    private lateinit var remoteConfig: FirebaseRemoteConfig
-    private var isSubscribed: Boolean = false
     private val TAG = SplashScreen::class.java.simpleName
+    private lateinit var reveneuCatKey:String
 
 
-    companion object {
-        private const val SPLASH_DELAY = 2000L
-        private const val RC_FETCH_INTERVAL = 3600L
-        private const val REVENUE_CAT_KEY = "goog_ZFxhttuGLirLABneJJhRTbkNOst"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_splash_screen)
+        
+      reveneuCatKey = this.packageManager
+             .getApplicationInfo(this.packageName, PackageManager.GET_META_DATA)
+             .metaData.getString("REVENEUCAT_KEY").orEmpty()
+        
+             dataStoreManager = DataStoreManager
+             auth = Firebase.auth
 
-        dataStoreManager = DataStoreManager
-        auth = Firebase.auth
-        Log.d(TAG, "onCreate: 1")
+        Log.d("rvcat", "ilk  $reveneuCatKey ")
 
-        checkUserAndProceed()
+
+        checkUserAndProceed() 
+      
     }
 
     private fun checkUserAndProceed() {
@@ -83,67 +85,55 @@ class SplashScreen : AppCompatActivity() {
 
     private fun proceedWithUser(user: FirebaseUser) {
 
-        val db = FirebaseFirestore.getInstance()
-
-        db.collection("users").document(user.uid).get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-
-                    val referralCode = document.getString("referralCode")
-                    if (!referralCode.isNullOrEmpty()) {
-                        Log.d(TAG, "User has a referral code: $referralCode")
-                    } else {
-                        Log.d(TAG, "No referral code for this user")
-                        // referralCode yoksa yapılacak işlemler
-                    }
-                } else {
-                    Log.d(TAG, "No such document for user")
-                }
-            }
-
         lifecycleScope.launch {
             DataStoreManager.savedUid(this@SplashScreen, user.uid)
         }
         configureRevenueCat(user.uid)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun configureRevenueCat(userId: String) {
         Purchases.logLevel = LogLevel.DEBUG
 
-        // Sadece bir kere configure et
+        Log.d("rvcat", "configureRevenueCat: $reveneuCatKey ")
+
         if (!Purchases.isConfigured) {
             Purchases.configure(
-                PurchasesConfiguration.Builder(this, REVENUE_CAT_KEY)
+                PurchasesConfiguration.Builder(this, reveneuCatKey)
                     .appUserID(userId)
                     .build()
             )
             Purchases.sharedInstance.collectDeviceIdentifiers()
         }
 
-        // opsiyonel ama iyi: .logIn ile tekrar eşle
-        Purchases.sharedInstance.logIn(userId, object : LogInCallback {
-            override fun onReceived(customerInfo: CustomerInfo, created: Boolean) {
-                Log.d(TAG, "RevenueCat logIn success")
-                handleCustomerInfo(customerInfo)
-            }
+        Purchases.sharedInstance.getCustomerInfoWith(
+            onError = { error ->
+                Toast.makeText(this, "There is an issue with your configuration.", Toast.LENGTH_SHORT).show()
+            },
+            onSuccess = { customerInfo ->
+                customerInfo.entitlements["Subscription"]?.let { entitlement ->
+                val isActive = entitlement.isActive
+                    lifecycleScope.launch {
+                        dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
+                    }
+                    FirebaseFirestore.getInstance().collection("users").document(userId)
+                    .update(mapOf("subscriptionActive" to isActive))
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "Abonelik durumu başarıyla güncellendi")
+                            handleCustomerInfo(isActive)
+                        } else {
+                            Log.e(TAG, "Abonelik durumu güncellenemedi: ${task.exception}")
+                        }
+                    }
+            } },
+        )
 
-            override fun onError(error: PurchasesError) {
-                Log.e(TAG, "RevenueCat logIn failed: ${error.message}")
-            }
-        })
     }
 
 
 
-    private fun handleCustomerInfo(customerInfo: CustomerInfo) {
-        val isActive = customerInfo.entitlements["Subscription"]?.isActive ?: false
-        Log.d(TAG, "handleCustomerInfo:isactive $isActive")
-
-        lifecycleScope.launch {
-          dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
-        }
-
-        isSubscribed = isActive
+    private fun handleCustomerInfo(isActive: Boolean) {
 
         lifecycleScope.launch {
             if (dataStoreManager.isOnboardingCompleted(this@SplashScreen)) {

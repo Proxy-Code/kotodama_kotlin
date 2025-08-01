@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -8,6 +10,13 @@ plugins {
 
 }
 
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+
 android {
     namespace = "com.kotodama.tts"
     compileSdk = 35
@@ -16,13 +25,17 @@ android {
         applicationId = "com.kotodama.tts"
         minSdk = 24
         targetSdk = 35
-        versionCode = 44
+        versionCode = 48
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "ar-rAE", "de",  "es", "fr", "in",
             "ja", "ko", "pt-rBR",
             "ru",  "tr",  "vi", "zh-rCN","zh-rSG")
+
+        defaultConfig {
+            manifestPlaceholders["REVENEUCAT_KEY"] = localProperties["REVENEUCAT_KEY"] ?: ""
+        }
     }
 
     buildTypes {

@@ -28,7 +28,8 @@
             android:paddingTop="45dp"
             android:paddingBottom="20dp"
             android:fontFamily="@font/bold"
-            android:text="Files"/>
+            android:text="@string/library"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
 

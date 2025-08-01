@@ -48,8 +48,8 @@ class CharacterAdapter(private var mContext: Context,
 
         Glide.with(holder.itemView.context)
             .load(item.imageUrl)
-            .placeholder(R.drawable.icon_kotodama) // Eğer resim yüklenemezse, bir placeholder göster
-            .error(R.drawable.icon_kotodama)
+            .placeholder(R.drawable.plus_frame_subs)
+            .error(R.drawable.plus_frame_subs)
             .into(holder.design.cardImgView)
 
         holder.design.root.setOnClickListener {

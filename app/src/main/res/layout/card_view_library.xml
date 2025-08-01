@@ -55,28 +55,45 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toStartOf="@id/text_type"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:fontFamily="@font/medium"
-        android:text="Name"
+        android:fontFamily="@font/regular"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/black"
+        android:paddingEnd="6dp"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/imgContainer"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.473" />
 
+    <TextView
+        android:id="@+id/text_type"
+        android:layout_width="wrap_content"
+        android:textColor="@color/main_purple"
+        android:fontFamily="@font/regular"
+        android:textSize="12sp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/send_button"
+        android:layout_height="wrap_content"/>
 
     <ImageView
+        android:background="@drawable/circle_purple"
+        android:padding="5dp"
         android:id="@+id/send_button"
-        android:layout_width="23dp"
-        android:layout_height="23dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/send_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
@@ -107,7 +124,6 @@
             android:fontFamily="@font/regular"
             android:lineHeight="21dp"
             android:paddingHorizontal="20dp"
-            android:text="Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible."
             android:textColor="#4D4A4A"
             android:textSize="15sp" />
         <TextView

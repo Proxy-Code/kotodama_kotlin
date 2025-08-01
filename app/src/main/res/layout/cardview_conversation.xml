@@ -44,16 +44,13 @@
         app:tint="@color/main_purple" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:visibility="gone"
+       android:visibility="gone"
         android:id="@+id/ltAnimation"
         android:layout_gravity="center"
         app:lottie_rawRes="@raw/lottie"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        android:layout_width="30dp"
-        android:layout_height="55dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         />
-
-
-
 </LinearLayout>

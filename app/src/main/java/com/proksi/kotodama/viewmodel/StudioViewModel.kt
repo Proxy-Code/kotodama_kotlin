@@ -40,7 +40,7 @@ class StudioViewModel: ViewModel() {
         return _studioId.value
     }
 
-    fun setConversation(item:ConversationModel) {
+    fun setConversation(item: ConversationModel?) {
         _conversation.value = item
     }
 
@@ -56,7 +56,7 @@ class StudioViewModel: ViewModel() {
         return _draft.value
     }
 
-    fun setVoice(item:VoiceModel) {
+    fun setVoice(item: VoiceModel?) {
         _voice.value = item
     }
 

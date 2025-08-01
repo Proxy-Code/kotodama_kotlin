@@ -198,5 +198,8 @@
         <action
             android:id="@+id/action_studioCharacterFragment_to_studioTextFragment"
             app:destination="@id/studioTextFragment" />
+        <action
+            android:id="@+id/action_studioCharacterFragment_to_voiceLabNameFragment"
+            app:destination="@id/voiceLabNameFragment" />
     </fragment>
 </navigation>

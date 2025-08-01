@@ -2,6 +2,7 @@ package com.proksi.kotodama.adapters.studio
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.model.KeyPath
+import com.airbnb.lottie.value.LottieValueCallback
 import com.bumptech.glide.Glide
 import com.google.api.LogDescriptor
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,6 +37,8 @@ class ConversationAdapter(private var mContext: Context,
     @OptIn(DelicateCoroutinesApi::class)
     inner class ViewHolder(var design: CardviewConversationBinding) : RecyclerView.ViewHolder(design.root){
        init {
+           Log.d("isgenerete", "init")
+
            GlobalScope.launch {
                DataStoreManager.getUid(mContext).collect { uidValue ->
                    uid = uidValue
@@ -41,12 +47,12 @@ class ConversationAdapter(private var mContext: Context,
        }
     }
 
-
     private var playingPosition = -1
     private var currentMediaPlayer: MediaPlayer? = null
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(list:MutableList<ConversationModel>) {
+        Log.d("isgenerete", "updatedata called}")
         this.list = list
         playingPosition = -1
         notifyDataSetChanged()
@@ -60,10 +66,19 @@ class ConversationAdapter(private var mContext: Context,
     }
 
     override fun getItemCount(): Int {
+
         return list.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val lottieView = holder.design.ltAnimation
+        lottieView.addValueCallback(
+            KeyPath("**", "Fill 1"),
+            LottieProperty.COLOR,
+            LottieValueCallback(Color.parseColor("#6A29CF"))
+        )
+        lottieView.playAnimation()
 
         val item = list[position]
 
@@ -88,9 +103,10 @@ class ConversationAdapter(private var mContext: Context,
         if(item.isGenerating){
             holder.design.ltAnimation.visibility = View.VISIBLE
             holder.design.playBtn.visibility = View.GONE
+
         }else{
-            holder.design.ltAnimation.visibility = View.GONE
             holder.design.playBtn.visibility = View.VISIBLE
+            holder.design.ltAnimation.visibility = View.GONE
         }
 
         holder.design.playBtn.setOnClickListener {
@@ -188,5 +204,5 @@ class ConversationAdapter(private var mContext: Context,
 
     }
 
-
+    fun getList(): MutableList<ConversationModel> = list
 }

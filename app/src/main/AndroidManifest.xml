@@ -75,6 +75,10 @@
             android:name="applovin.sdk.key"
             android:value="@string/appsflyer_api_key" />
 
+        <meta-data
+            android:name="REVENEUCAT_KEY"
+            android:value="${REVENEUCAT_KEY}" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

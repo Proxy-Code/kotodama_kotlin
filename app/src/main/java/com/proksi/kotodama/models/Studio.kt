@@ -20,10 +20,10 @@ data class DraftFileModel(
 
 @Parcelize
 data class ConversationModel(
-    val id: String="",
+    var id: String="",
     val createdAt: Timestamp? = null,
     val imageUrl: String? = null,
-    val isGenerating: Boolean = false,
+    var isGenerating: Boolean = false,
     val order: Int = 0,
     val processedAt: Timestamp? = null,
     val requestIds: List<String> = emptyList(),

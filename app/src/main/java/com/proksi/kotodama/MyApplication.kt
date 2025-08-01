@@ -32,7 +32,6 @@ class MyApplication : Application() {
         FacebookSdk.sdkInitialize(this)
 
         FirebaseApp.initializeApp(this)
-      //  Purchases.configure(PurchasesConfiguration.Builder(this, "goog_eeDwptXJEvGAUloteeRtTognxZr").build())
 
         val firebaseAnalytics = Firebase.analytics
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
