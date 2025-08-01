@@ -188,5 +188,8 @@ class ConversationAdapter(private var mContext: Context,
 
     }
 
+    fun getList(): MutableList<ConversationModel> = list
+
+
 
 }

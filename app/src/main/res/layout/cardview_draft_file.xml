@@ -16,14 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_height="78dp">
+        android:layout_height="50dp">
 
         <ImageView
             android:id="@+id/img_folder"
-            android:layout_width="78dp"
+            android:layout_width="50dp"
             android:visibility="gone"
             android:src="@drawable/folder"
-            android:layout_height="78dp"
+            android:layout_height="50dp"
             app:tint="@color/main_purple" />
 
         <LinearLayout
@@ -32,7 +32,7 @@
             android:gravity="center"
             android:visibility="gone"
             android:src="@drawable/folder"
-            android:layout_height="78dp"
+            android:layout_height="50dp"
             android:layout_width="wrap_content"
             app:tint="@color/main_purple"/>
 
@@ -46,7 +46,7 @@
         android:layout_height="30dp"
         android:drawableEnd="@drawable/baseline_arrow_forward_ios_24"
         android:fontFamily="@font/regular"
-        android:text="sezgi"
+        android:text=""
         android:textColor="@color/black"
         android:drawableTint="@color/main_purple"
         android:textSize="16sp"

@@ -135,20 +135,19 @@ class LibraryAdapter(var mContext: Context,
         holder.design.layout.setOnClickListener {
             if(!item.isGenerating){
                 lifecycleScope.launch {
-                if (dataStoreManager.isFeedbackShown(mContext)){
-                    handleLayoutClick(position, holder)
-                    Log.d("showFeedbackDialog", "${dataStoreManager.isFeedbackShown(mContext)} ")
-                }else{
-                    Log.d("showFeedbackDialog", "${dataStoreManager.isFeedbackShown(mContext)} ")
-                    showFeedbackDialog ()
-                    handleLayoutClick(position, holder)
+                    if (dataStoreManager.isFeedbackShown(mContext)){
+                        handleLayoutClick(position, holder)
+                        Log.d("showFeedbackDialog", "${dataStoreManager.isFeedbackShown(mContext)} ")
+                    }else{
+                        Log.d("showFeedbackDialog", "${dataStoreManager.isFeedbackShown(mContext)} ")
+                        showFeedbackDialog ()
+                        handleLayoutClick(position, holder)
+                    }
                 }
-
-                }
-
             }
-
         }
+
+        holder.design.textType.text = item.type
 
         holder.design.sendButton.setOnClickListener {
             lifecycleScope.launch {
@@ -208,9 +207,11 @@ class LibraryAdapter(var mContext: Context,
             holder.design.progressBar.visibility = View.VISIBLE
             holder.design.progressBar.isIndeterminate = true
             holder.design.sendButton.visibility = View.GONE
+            holder.design.textType.visibility = View.GONE
         } else {
             holder.design.progressBar.visibility = View.GONE
             holder.design.sendButton.visibility=View.VISIBLE
+            holder.design.textType.visibility = View.VISIBLE
         }
 
 

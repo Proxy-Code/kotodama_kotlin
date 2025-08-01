@@ -22,13 +22,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,8 +34,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentStudioTextBinding
-import com.proksi.kotodama.adapters.studio.ConversationAdapter
-import com.proksi.kotodama.adapters.studio.DraftFileAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.models.ConversationModel
 import com.proksi.kotodama.models.VoiceModel
@@ -84,7 +80,6 @@ class StudioTextFragment : Fragment() {
     private var userId:String = ""
     private val viewModelPaywall: PaywallViewModel by activityViewModels()
 
-
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,6 +92,8 @@ class StudioTextFragment : Fragment() {
         dataStoreManager = DataStoreManager
 
         item = viewModel.getVoice()
+
+        updateCreateButtonState()
 
         conversation = viewModel.getConversation()
 
@@ -155,6 +152,9 @@ class StudioTextFragment : Fragment() {
 
 
         design.closeBtn.setOnClickListener {
+            viewModel.setText("")
+            viewModel.setVoice(null)
+            viewModel.setConversation(null)
             findNavController().navigate(R.id.action_studioTextFragment_to_studioAddLineFragment)
         }
 
@@ -200,19 +200,27 @@ class StudioTextFragment : Fragment() {
 
             }
         }
+        updateCreateButtonState()
 
     }
 
     private fun updateCreateButtonState() {
 
-        val isButtonActive = enteredText.isNotBlank()  && item?.imageUrl != ""
+        val currentText = design.editTextLayout.text.toString().trim()
+        val savedText = viewModel.getText()
+        val currentVoice = viewModel.getVoice()
 
+        val isButtonActive = (currentText.isNotBlank() || savedText!="" ) && currentVoice != null
         design.createBtn.isEnabled = isButtonActive
 
-        val backgroundResource = if (isButtonActive) R.drawable.create_btn_active else R.drawable.create_btn_inactive
+        val backgroundResource = if (isButtonActive) {
+            R.drawable.create_btn_active
+        } else {
+            R.drawable.create_btn_inactive
+        }
         design.createBtn.setBackgroundResource(backgroundResource)
-
     }
+
 
     private fun setupInfoList(){
         val infoList = listOf(
@@ -345,6 +353,7 @@ class StudioTextFragment : Fragment() {
             enteredText= it.text.toString()
         }?: run {
             enteredText  = viewModel.getText().toString()
+            updateCreateButtonState()
             if(enteredText == "null" ){
                 design.editTextLayout.setText("")
             }else{
@@ -363,16 +372,15 @@ class StudioTextFragment : Fragment() {
                 enteredText = s.toString().trim()
                 remainingCount = initialRemainingCount - (enteredText.length * 2)
                 updateRemainingCountUI(remainingCount)
+                updateCreateButtonState()
             }
 
             override fun afterTextChanged(s: Editable?) {
                 enteredText = s.toString().trim()
                 if (enteredText.isEmpty()) {
-                    design.langCodeLayout.visibility = View.GONE
                     design.doneLayout.visibility = View.GONE
                     design.deleteLayout.visibility = View.GONE
                 } else {
-                    design.langCodeLayout.visibility = View.VISIBLE
                     design.doneLayout.visibility = View.VISIBLE
                     design.deleteLayout.visibility = View.VISIBLE
                 }
@@ -401,7 +409,6 @@ class StudioTextFragment : Fragment() {
         design.deleteLayout.setOnClickListener {
 
             design.editTextLayout.setText("")
-            viewModel.setText("")
 
             remainingCount = initialRemainingCount
             updateRemainingCountUI(remainingCount)
@@ -409,11 +416,14 @@ class StudioTextFragment : Fragment() {
             design.langCodeLayout.visibility = View.GONE
             design.doneLayout.visibility = View.GONE
 
+            viewModel.setVoice(null)
+
             updateCreateButtonState()
         }
     }
 
     private fun updateRemainingCountUI(remainingCount: Int) {
+
         if (remainingCount < 0) {
             design.remaningCount.setTextColor(ContextCompat.getColor(this.requireContext(), R.color.progress_red))
         } else {

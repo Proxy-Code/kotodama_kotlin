@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:paddingTop="50dp"
     android:background="@color/main_bg"
-
     tools:context="com.proksi.kotodama.fragments.Studio.StudioCharacterFragment">
 
     <LinearLayout
@@ -36,6 +35,12 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="160dp"
             android:layout_height="wrap_content"/>
+
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/paywallComposeView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
+
 
 </androidx.core.widget.NestedScrollView>

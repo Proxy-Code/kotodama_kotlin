@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#F4F4F9"
+    android:background="@color/main_bg"
     android:paddingTop="50dp"
     tools:context="com.proksi.kotodama.fragments.Studio.StudioTextFragment">
 
@@ -326,7 +326,7 @@
         android:layout_height="wrap_content"
         android:maxHeight="60dp"
         android:elevation="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="55dp"
         android:background="@drawable/create_btn_inactive"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginHorizontal="20dp"

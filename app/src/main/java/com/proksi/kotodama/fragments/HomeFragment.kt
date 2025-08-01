@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,7 +25,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
@@ -36,6 +39,8 @@ import com.proksi.kotodama.MainActivity
 import com.proksi.kotodama.adapters.CategoryAdapter
 import com.proksi.kotodama.adapters.VoicesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.dialogs.DialogNewDraft
+import com.proksi.kotodama.dialogs.DialogV2
 import com.proksi.kotodama.models.VoiceModel
 import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.retrofit.ApiClient
@@ -319,8 +324,52 @@ class HomeFragment : Fragment() {
             callPaywall("subs")
         }
 
+        val v1Btn = design.v1Btn
+        val v2Btn = design.v2Btn
+
+        v1Btn.setOnClickListener {
+            setActiveButton(v1Btn, v2Btn,"v1")
+        }
+
+        v2Btn.setOnClickListener {
+            setActiveButton(v2Btn, v1Btn,"v2")
+        }
+
+        v1Btn.performClick()
+
+        design.infoBtn.setOnClickListener {
+                val dialog = DialogV2(requireContext())
+                dialog.show()
+        }
+    }
+
+    private fun setActiveButton(active: TextView, inactive: TextView, type:String) {
+        active.setBackgroundResource(R.drawable.radius11_purple)
+        active.setTextColor(ContextCompat.getColor(active.context, R.color.white))
+
+        inactive.setBackgroundResource(R.drawable.radius11_bg_white)
+        inactive.setTextColor(ContextCompat.getColor(inactive.context, R.color.main_purple))
+
+        if(type=="v1"){
+            design.infoBtn.visibility=View.GONE
+            design.editTextLayout.isEnabled = true
+            design.editTextLayout.isFocusable = true
+            design.editTextLayout.isFocusableInTouchMode = true
+            design.editTextLayout.isCursorVisible = true
+            design.editTextLayout.hint = "Type anything you want"
+
+        }else{
+            design.infoBtn.visibility=View.VISIBLE
+            design.editTextLayout.isEnabled = false
+            design.editTextLayout.isFocusable = false
+            design.editTextLayout.isFocusableInTouchMode = false
+            design.editTextLayout.isCursorVisible = false
+            design.editTextLayout.hint = "Multi-language coming soon"
+        }
+
 
     }
+
 
     private fun callPaywall(item: String){
         design.paywallComposeView.disposeComposition()
