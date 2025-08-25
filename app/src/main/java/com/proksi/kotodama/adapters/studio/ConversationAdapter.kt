@@ -72,13 +72,13 @@ class ConversationAdapter(private var mContext: Context,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val lottieView = holder.design.ltAnimation
-        lottieView.addValueCallback(
-            KeyPath("**", "Fill 1"),
-            LottieProperty.COLOR,
-            LottieValueCallback(Color.parseColor("#6A29CF"))
-        )
-        lottieView.playAnimation()
+//        val lottieView = holder.design.ltAnimation
+//        lottieView.addValueCallback(
+//            KeyPath("**", "Fill 1"),
+//            LottieProperty.COLOR,
+//            LottieValueCallback(Color.parseColor("#6A29CF"))
+//        )
+//        lottieView.playAnimation()
 
         val item = list[position]
 
@@ -102,6 +102,7 @@ class ConversationAdapter(private var mContext: Context,
 
         if(item.isGenerating){
             holder.design.ltAnimation.visibility = View.VISIBLE
+            holder.design.ltAnimation.isIndeterminate = true
             holder.design.playBtn.visibility = View.GONE
 
         }else{

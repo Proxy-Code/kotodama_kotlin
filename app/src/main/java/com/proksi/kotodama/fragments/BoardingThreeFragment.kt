@@ -1,5 +1,6 @@
 package com.proksi.kotodama.fragments
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -11,18 +12,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.VideoView
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.navigation.fragment.findNavController
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentOnboardingThreeBinding
+import com.proksi.kotodama.PaywallActivity
+import com.proksi.kotodama.dataStore.DataStoreManager
 import com.proksi.kotodama.objects.EventLogger
+import kotlinx.coroutines.launch
 
 
 class BoardingThreeFragment : Fragment() {
 
     private lateinit var design:FragmentOnboardingThreeBinding
+    private lateinit var dataStoreManager: DataStoreManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +37,16 @@ class BoardingThreeFragment : Fragment() {
     ): View {
 
         design = FragmentOnboardingThreeBinding.inflate(inflater, container, false)
+        dataStoreManager = DataStoreManager
+
 
         EventLogger.logEvent(requireContext(), "onboardingv3_screen_shown")
 
         design.continueBtn.setOnClickListener{
-            findNavController().navigate(R.id.action_boardingThreeFragment_to_boardingFourFragment)
+                lifecycleScope.launch {
+                    dataStoreManager.saveOnboardingCompleted(requireContext(), true)
+                }
+                navigateMain()
         }
 
         animateViewsSequentially()
@@ -66,6 +78,12 @@ class BoardingThreeFragment : Fragment() {
                 .setDuration(400)
                 .start()
         }
+    }
+
+    private fun navigateMain(){
+        val intent = Intent(requireContext(), PaywallActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
 }

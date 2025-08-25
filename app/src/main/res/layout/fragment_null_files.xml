@@ -23,6 +23,7 @@
             android:layout_marginTop="24dp"
             android:fontFamily="@font/extra_bold"
             android:text="@string/library"
+            android:textColor="@color/black"
             android:textSize="34sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +65,7 @@
                 android:layout_gravity="center_horizontal|top"
                 android:fontFamily="@font/semi_bold"
                 android:text="@string/noFiles"
-                android:paddingTop="25dp"
+                android:paddingTop="20dp"
                 android:textColor="@color/black"
                 android:textSize="25sp" />
 
@@ -73,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
                 android:paddingBottom="20dp"
+                android:paddingHorizontal="20dp"
                 android:text="@string/goToHome"
                 android:textAlignment="center"
                 android:textColor="@color/gray_dark"

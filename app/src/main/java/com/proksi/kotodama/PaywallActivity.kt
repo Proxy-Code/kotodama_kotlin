@@ -40,7 +40,6 @@ class PaywallActivity : AppCompatActivity(), PaywallResultHandler {
 
         dataStoreManager = DataStoreManager
 
-
         paywallActivityLauncher = PaywallActivityLauncher(this, this)
 
 
@@ -105,8 +104,6 @@ class PaywallActivity : AppCompatActivity(), PaywallResultHandler {
 
         }
     }
-
-
     private fun navigateToMain() {
         lifecycleScope.launch {
             if (launchCount < 3) {

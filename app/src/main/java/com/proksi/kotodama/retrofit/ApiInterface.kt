@@ -49,7 +49,6 @@ interface ApiInterface {
     }
 
     interface CloneService {
-
         @Multipart
         @POST("/clone")
         fun cloneRequest(
@@ -62,7 +61,7 @@ interface ApiInterface {
 
     data class CloneResponse(
         val status: String,
-        val data: Any // Bu alanı API'den dönen yanıtın yapısına göre ayarlayın
+        val data: Any 
     )
 
 

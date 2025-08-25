@@ -25,8 +25,8 @@ android {
         applicationId = "com.kotodama.tts"
         minSdk = 24
         targetSdk = 35
-        versionCode = 48
-        versionName = "1.0.0"
+        versionCode = 52
+        versionName = "1.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "ar-rAE", "de",  "es", "fr", "in",
@@ -133,5 +133,8 @@ dependencies {
 
     //lotie
     implementation ("com.airbnb.android:lottie:6.4.0")
+
+    implementation ("com.android.billingclient:billing:6.1.0")
+
 
 }

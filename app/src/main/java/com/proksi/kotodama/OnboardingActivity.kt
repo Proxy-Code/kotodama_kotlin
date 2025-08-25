@@ -16,7 +16,7 @@ class OnboardingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_onboarding)
         enableEdgeToEdge()
         dataStoreManager = DataStoreManager
-        completeOnboarding()
+       // completeOnboarding()
     }
 
     private fun completeOnboarding() {

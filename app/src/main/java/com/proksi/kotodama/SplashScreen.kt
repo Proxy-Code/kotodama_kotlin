@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -33,10 +34,8 @@ class SplashScreen : AppCompatActivity() {
 
     private lateinit var dataStoreManager: DataStoreManager
     private lateinit var auth: FirebaseAuth
-    private val TAG = SplashScreen::class.java.simpleName
+    private val TAG = "Splash Screen"
     private lateinit var reveneuCatKey:String
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +49,15 @@ class SplashScreen : AppCompatActivity() {
              dataStoreManager = DataStoreManager
              auth = Firebase.auth
 
-        Log.d("rvcat", "ilk  $reveneuCatKey ")
-
-
         checkUserAndProceed() 
       
     }
 
     private fun checkUserAndProceed() {
+        Log.d(TAG, "checkUserAndProceed: burda 1 ")
         val currentUser = auth.currentUser
         if (currentUser != null) {
+            Log.d(TAG, "checkUserAndProceed: burda 2 ")
             proceedWithUser(currentUser)
         } else {
             signInAnonymously { user ->
@@ -73,6 +71,8 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun signInAnonymously(callback: (FirebaseUser?) -> Unit) {
+        Log.d(TAG, "checkUserAndProceed: burda 3 ")
+
         auth.signInAnonymously()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -84,6 +84,8 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun proceedWithUser(user: FirebaseUser) {
+        Log.d(TAG, "checkUserAndProceed: burda 4 ")
+
 
         lifecycleScope.launch {
             DataStoreManager.savedUid(this@SplashScreen, user.uid)
@@ -93,47 +95,56 @@ class SplashScreen : AppCompatActivity() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun configureRevenueCat(userId: String) {
+        Log.d(TAG, "checkUserAndProceed: burda 5 ")
+
         Purchases.logLevel = LogLevel.DEBUG
 
         Log.d("rvcat", "configureRevenueCat: $reveneuCatKey ")
 
         if (!Purchases.isConfigured) {
+            Log.d(TAG, "checkUserAndProceed: burda 6 ")
+
             Purchases.configure(
                 PurchasesConfiguration.Builder(this, reveneuCatKey)
                     .appUserID(userId)
                     .build()
             )
+            Log.d(TAG, "checkUserAndProceed: burda 7 ")
             Purchases.sharedInstance.collectDeviceIdentifiers()
         }
 
-        Purchases.sharedInstance.getCustomerInfoWith(
-            onError = { error ->
-                Toast.makeText(this, "There is an issue with your configuration.", Toast.LENGTH_SHORT).show()
-            },
-            onSuccess = { customerInfo ->
-                customerInfo.entitlements["Subscription"]?.let { entitlement ->
-                val isActive = entitlement.isActive
-                    lifecycleScope.launch {
-                        dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
-                    }
-                    FirebaseFirestore.getInstance().collection("users").document(userId)
-                    .update(mapOf("subscriptionActive" to isActive))
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d(TAG, "Abonelik durumu başarıyla güncellendi")
-                            handleCustomerInfo(isActive)
-                        } else {
-                            Log.e(TAG, "Abonelik durumu güncellenemedi: ${task.exception}")
-                        }
-                    }
-            } },
-        )
+
+
+        Purchases.sharedInstance.getCustomerInfo(object : ReceiveCustomerInfoCallback {
+
+            override fun onReceived(customerInfo: CustomerInfo) {
+                Log.d("paywall 2", "custome info $customerInfo")
+                Log.d(TAG, "onError: burda 9 $customerInfo")
+
+
+                lifecycleScope.launch {
+                    val isActive = customerInfo.entitlements["subscription"]?.isActive ?: false
+
+                    dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
+
+                    handleCustomerInfo(isActive)
+
+                }
+            }
+
+            override fun onError(error: PurchasesError) {
+                Log.d(TAG, "onError: burda 10")
+
+                Log.e("Subscription", "Error: ${error.message}")
+            }
+        })
 
     }
 
 
 
     private fun handleCustomerInfo(isActive: Boolean) {
+        Log.d(TAG, "handleCustomerInfo da")
 
         lifecycleScope.launch {
             if (dataStoreManager.isOnboardingCompleted(this@SplashScreen)) {

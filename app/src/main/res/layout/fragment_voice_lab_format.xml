@@ -6,7 +6,7 @@
     android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main"
+    android:background="@color/main_bg"
     android:paddingTop="40dp"
     android:layout_above="@+id/bottomNavigationView"
     android:paddingHorizontal="20dp">
