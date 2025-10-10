@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     implementation(libs.androidx.datastore.preferences.core.jvm)
     implementation(libs.androidx.ui.android)
+    implementation(libs.ads.mobile.sdk)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -135,6 +136,18 @@ dependencies {
     implementation ("com.airbnb.android:lottie:6.4.0")
 
     implementation ("com.android.billingclient:billing:6.1.0")
+
+    implementation ("androidx.compose.ui:ui:1.7.8")
+    implementation ("androidx.compose.material:material:1.7.8")
+    implementation ("androidx.compose.ui:ui-tooling:1.7.8")
+    implementation("androidx.compose.runtime:runtime:1.7.8")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.7.8")
+    implementation("androidx.activity:activity-compose:1.10.1") // Bu sürümü güncelleyin
+    // Compose View
+    implementation ("androidx.compose.ui:ui-viewbinding:1.7.8")
+
+    implementation("androidx.compose.foundation:foundation:1.7.8")
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
 
 
 }

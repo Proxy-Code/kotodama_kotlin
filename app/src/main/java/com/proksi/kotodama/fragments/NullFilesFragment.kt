@@ -16,7 +16,7 @@ import com.proksi.kotodama.BaseFragment
 import com.proksi.kotodama.viewmodel.UserLibraryViewModel
 
 
-class NullFilesFragment : BaseFragment() {
+class NullFilesFragment :Fragment() {
 
     private lateinit var design: FragmentNullFilesBinding
     private val viewModel: UserLibraryViewModel by viewModels()

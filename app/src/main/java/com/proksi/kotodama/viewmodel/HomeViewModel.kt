@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.kotodama.tts.R
@@ -19,28 +20,130 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class HomeViewModel : ViewModel() {
-    private val _data = MutableLiveData<List<VoiceModel>?>() // Filtrelenmiş ses listesini tutar
+    val data: LiveData<List<VoiceModel>> get() = _allVoices
     private val _allVoices = MutableLiveData<List<VoiceModel>>() // Tüm ses listesini tutar
     val allVoices: LiveData<List<VoiceModel>> get() = _allVoices
     private val _hasClone = MutableLiveData<Boolean>().apply { value = false }  // Clone durumunu tutar
-    val hasClone: LiveData<Boolean> get() = _hasClone
+    private val _loadingState = MutableLiveData<LoadingState>()
+    val loadingState: LiveData<LoadingState> get() = _loadingState
+    private var lastDocument: DocumentSnapshot? = null
+    private val pageSize = 15 // Sayfa başına item sayısı
+    private var _isLoading = false
+    private var _isLastPage = false
+    val isLoading: Boolean get() = _isLoading
+    val isLastPage: Boolean get() = _isLastPage
+
     private lateinit var dataStoreManager: DataStoreManager
-    private val _text =MutableLiveData<String>()
+    private val _text = MutableLiveData<String>()
     val text: LiveData<String> get() = _text
     private val _enteredText = MutableLiveData<String>()
     val enteredText: LiveData<String> get() = _enteredText
-    val data: MutableLiveData<List<VoiceModel>?> get() = _data
-    private val _cloneCount =MutableLiveData<Int>()
+    private val _cloneCount = MutableLiveData<Int>()
     val cloneCount: LiveData<Int> get() = _cloneCount
 
+    sealed class LoadingState {
+        object Loading : LoadingState()
+        object LoadingMore : LoadingState()
+        object Success : LoadingState()
+        data class Error(val message: String) : LoadingState()
+    }
 
-    fun fetchVoices(category: String, context: Context) {
-        Log.d("category", "fetchVoices: $category")
+    fun fetchVoices(category: String, context: Context, isInitialLoad: Boolean = true) {
+        if (_isLoading) return
+
+        _isLoading = true
+
+        if (isInitialLoad) {
+            _loadingState.value = LoadingState.Loading
+            lastDocument = null
+            _isLastPage = false
+            _allVoices.value = emptyList()
+        } else {
+            _loadingState.value = LoadingState.LoadingMore
+        }
 
         val firestore = FirebaseFirestore.getInstance().collection("all-voices")
+        var query = firestore
+            .orderBy("allTimeCounter", Query.Direction.DESCENDING)
+            .limit(pageSize.toLong())
+
+        lastDocument?.let { document ->
+            query = query.startAfter(document)
+        }
+
+        query.get()
+            .addOnSuccessListener { querySnapshot ->
+                _isLoading = false
+
+                if (querySnapshot.isEmpty) {
+                    _isLastPage = true
+                    _loadingState.value = LoadingState.Success
+                    return@addOnSuccessListener
+                }
+
+                lastDocument = querySnapshot.documents[querySnapshot.size() - 1]
+
+                val voiceList = mutableListOf<VoiceModel>()
+                for (document in querySnapshot) {
+                    val voiceItem = document.toObject(VoiceModel::class.java)
+                    voiceItem?.id = document.id
+                    voiceItem?.let { voiceList.add(it) }
+                }
+
+                // İlk eleman olarak createVoiceItem ekle
+                val createVoiceItem = createVoiceItem()
+                val voicesWithCreateItem = mutableListOf<VoiceModel>().apply {
+                    add(createVoiceItem) // İlk eleman olarak ekle
+                    addAll(voiceList)
+                }
+
+                val currentList = if (isInitialLoad) {
+                    voicesWithCreateItem
+                } else {
+                    // Daha fazla yükleme yaparken, createVoiceItem'ı koru
+                    val existingList = _allVoices.value ?: emptyList()
+                    val existingWithoutCreate = existingList.filter { it.id != "create_voice" }
+                    val newList = mutableListOf<VoiceModel>().apply {
+                        add(createVoiceItem)
+                        addAll(existingWithoutCreate)
+                        addAll(voiceList)
+                    }
+                    newList
+                }
+
+                _allVoices.value = currentList
+                _loadingState.value = LoadingState.Success
+
+                Log.d("Pagination", "Loaded ${voiceList.size} items, Total: ${currentList.size}")
+
+                // İlk yüklemede clone kontrolü yap
+                if (isInitialLoad) {
+                    checkForCloneData(context, currentList.toMutableList(), createVoiceItem)
+                }
+
+                if (voiceList.size < pageSize) {
+                    _isLastPage = true
+                    Log.d("Pagination", "Last page reached")
+                }
+            }
+            .addOnFailureListener { exception ->
+                _isLoading = false
+                _loadingState.value = LoadingState.Error(exception.message ?: "Unknown error")
+                Log.e("Pagination", "Error: ${exception.message}")
+            }
+    }
+
+    fun loadMoreVoices(context: Context) {
+        if (!_isLoading && !_isLastPage) {
+            Log.d("Pagination", "Loading more voices...")
+            fetchVoices("all", context, false)
+        }
+    }
+
+    private fun createVoiceItem(): VoiceModel {
         val date = Date()
         val timestamp = Timestamp(date)
-        val createVoiceItem = VoiceModel(
+        return VoiceModel(
             name = "Create Voice",
             id = "create_voice",
             imageUrl = "R.drawable.sing_ai",
@@ -52,55 +155,7 @@ class HomeViewModel : ViewModel() {
             charUsedCount = 0,
             isClone = true
         )
-
-        firestore
-            .orderBy("allTimeCounter", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                val voiceList = mutableListOf<VoiceModel>()
-                for (document in querySnapshot) {
-                    var voiceItem = document.toObject(VoiceModel::class.java)
-                    voiceItem.id = document.id
-                    voiceList.add(voiceItem)
-                }
-                _allVoices.value = voiceList
-
-                Log.d("allvoices", "getVoicesByCategory: ${allVoices.value?.size} ")
-
-                checkForCloneData(context, voiceList, createVoiceItem)
-            }
     }
-
-    fun getVoicesByCategory(category: String, context: Context): List<VoiceModel> {
-        Log.d("getbyctg", "getVoicesByCategory: ${allVoices.value?.size} ")
-        val voicesList = allVoices.value ?: emptyList()
-        val date = Date()
-        val timestamp = Timestamp(date)
-        val createVoiceItem = VoiceModel(
-            name = "Create Voice",
-            id = "create_voice",
-            imageUrl = "R.drawable.sing_ai",
-            createdAt = timestamp,
-            model_name = "Create Voice",
-            category = listOf("all", "trends"),
-            allTimeCounter = 0,
-            weeklyCounter = 0,
-            charUsedCount = 0,
-
-        )
-
-        val filteredVoices = when (category) {
-            "trends" -> voicesList.sortedByDescending { it.weeklyCounter }
-            "new" -> voicesList.sortedByDescending { it.createdAt }
-            "all" -> voicesList.sortedByDescending { it.allTimeCounter }
-            else -> voicesList.filter { it.category.contains(category) }
-        }
-
-        checkForCloneData(context, filteredVoices.toMutableList(), createVoiceItem)
-
-        return filteredVoices
-    }
-
 
     private fun checkForCloneData(
         context: Context,
@@ -118,23 +173,21 @@ class HomeViewModel : ViewModel() {
                     clonesRef.addSnapshotListener { cloneDocumentSnapshot, exception ->
                         if (exception != null) {
                             _hasClone.value = false
-                            Log.e("CLONE", "Error listening for clone document changes: $exception")
-
-                            voiceList.add(0, createVoiceItem)
-                            _data.value = voiceList
+                            // Create voice item zaten eklendi, sadece cloneCount'u güncelle
+                            _cloneCount.value = 0
                             return@addSnapshotListener
                         }
 
-                        voiceList.removeAll { it.isClone }
+                        // Mevcut listeden klonları temizle (create_voice hariç)
+                        voiceList.removeAll { it.isClone && it.id != "create_voice" }
 
                         val cloneCount = cloneDocumentSnapshot?.size() ?: 0
-                        voiceList.add(0, createVoiceItem)  // "Create Voice" itemini en üste ekle
+                        _cloneCount.value = cloneCount
 
                         if (cloneCount > 0) {
                             _hasClone.value = true
-                            _cloneCount.value= cloneCount
 
-                            // Klon dökümanlarını listeye ekleyin
+                            // Klon dökümanlarını listeye ekleyin (create_voice'tan sonra)
                             for (document in cloneDocumentSnapshot!!.documents) {
                                 val cloneData = document.data
                                 val id = document.id
@@ -154,38 +207,21 @@ class HomeViewModel : ViewModel() {
                                     isClone = true  // Klon olarak işaretle
                                 )
 
-                                voiceList.add(1, cloneVoiceModel)
+                                // Create voice item'ından sonra ekle
+                                val createVoiceIndex = voiceList.indexOfFirst { it.id == "create_voice" }
+                                if (createVoiceIndex != -1) {
+                                    voiceList.add(createVoiceIndex + 1, cloneVoiceModel)
+                                } else {
+                                    voiceList.add(0, cloneVoiceModel)
+                                }
                             }
-                        }else{
+                        } else {
                             _hasClone.value = false
                         }
-
-                        _data.value = voiceList
+                        _allVoices.value = voiceList
                     }
                 }
             }
-        }
-    }
-
-
-    fun getCategoryList(): List<Category> {
-        val categoryData = listOf(
-            Triple("all", R.string.all, R.drawable.micro),
-            Triple("trends", R.string.trend, R.drawable.trends),
-            Triple("new", R.string.new_, R.drawable.neww),
-            Triple("musicians", R.string.musicians, R.drawable.musicnota),
-            Triple("tv-shows", R.string.tvShows, R.drawable.tv),
-            Triple("actors", R.string.actors, R.drawable.actor),
-            Triple("sports", R.string.sports, R.drawable.sport),
-            Triple("fictional", R.string.ficitional, R.drawable.fictional),
-            Triple("rap", R.string.rap, R.drawable.rap),
-            Triple("games", R.string.game, R.drawable.game),
-            Triple("anime", R.string.anime, R.drawable.anime),
-            Triple("kpop", R.string.kPop, R.drawable.kpop),
-            Triple("random", R.string.random, R.drawable.random)
-        )
-        return categoryData.map { (id, text, image) ->
-            Category(id, text, image)
         }
     }
 
@@ -193,9 +229,8 @@ class HomeViewModel : ViewModel() {
         val filteredVoices = _allVoices.value?.filter { voiceModel ->
             voiceModel.name.contains(query, ignoreCase = true)
         } ?: emptyList()
-
-        // Filtrelenmiş veriyi _data ile güncelle
-        _data.value = filteredVoices
+        // Filtrelenmiş verileri göstermek için ayrı bir LiveData kullanabilirsiniz
+        // _filteredVoices.value = filteredVoices
     }
 
     fun deleteClone(cloneId: String, context: Context) {
@@ -204,18 +239,30 @@ class HomeViewModel : ViewModel() {
                 if (uid != null) {
                     val db = FirebaseFirestore.getInstance()
                     val userDocRef = db.collection("users").document(uid)
-
                     val cloneDocRef = userDocRef.collection("clones").document(cloneId)
 
                     cloneDocRef.delete().addOnSuccessListener {
                         Log.d("DeleteClone", "Clone deleted from Firestore")
 
-                        // Klon silindikten sonra UI güncellemesi
-                        val updatedList = _data.value?.filterNot { it.id == cloneId }
-                        _data.value = updatedList
+                        // Mevcut listeyi al
+                        val currentList = _allVoices.value?.toMutableList() ?: mutableListOf()
 
-                        // Klon sayısını güncelle
-                        _cloneCount.value = updatedList?.filter { it.isClone }?.size ?: 0
+                        // Silinecek klonu bul
+                        val cloneToRemove = currentList.find { it.id == cloneId }
+
+                        if (cloneToRemove != null) {
+                            // Klonu listeden kaldır
+                            currentList.remove(cloneToRemove)
+                            _allVoices.value = currentList
+
+                            // Klon sayısını güncelle
+                            val cloneCount = currentList.count { it.isClone && it.id != "create_voice" }
+                            _cloneCount.value = cloneCount
+
+                            Log.d("DeleteClone", "Clone removed. Total items: ${currentList.size}, Clones: $cloneCount")
+                        } else {
+                            Log.d("DeleteClone", "Clone not found in current list")
+                        }
                     }.addOnFailureListener { exception ->
                         Log.e("DeleteClone", "Error deleting clone: $exception")
                     }
@@ -224,11 +271,8 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-
     fun updateEnteredText(text: String) {
         Log.d("Observed entered text", "updateEnteredText: $text ")
         _enteredText.value = text
     }
-
-
 }

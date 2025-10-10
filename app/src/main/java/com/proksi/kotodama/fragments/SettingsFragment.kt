@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -25,7 +26,9 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.android.play.core.review.model.ReviewErrorCode
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentSettingsBinding
+import com.proksi.kotodama.BaseFragment
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.models.RCPlacement
 import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.utils.DialogUtils
 import com.proksi.kotodama.viewmodel.PaywallViewModel
@@ -41,12 +44,15 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseFragment() {
 
     private lateinit var design: FragmentSettingsBinding
     private lateinit var dataStoreManager: DataStoreManager
     private var uid: String? = null
     private val viewModelPaywall: PaywallViewModel by activityViewModels()
+
+    override val paywallComposeView: ComposeView
+        get() = design.paywallComposeView
 
 
     override fun onCreateView(
@@ -75,7 +81,7 @@ class SettingsFragment : Fragment() {
         EventLogger.logEvent(requireContext(), "settings_screen_shown")
 
         design.textViewUpgrade.setOnClickListener{
-            callPaywall()
+            showPaywall(RCPlacement.SETTING)
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
@@ -121,70 +127,8 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun callPaywall() {
-        design.paywallComposeView.disposeComposition()
-        Purchases.sharedInstance.getOfferingsWith(
-
-            onError = { error -> Log.e("Reneucat", "Error: $error") },
-            onSuccess = { offerings ->
-
-                val offering = offerings["second_paywall_yearly_weekly"] // Offering ID
-                design.paywallComposeView.apply {
-                    setContent {
-                        val paywallState by viewModelPaywall.paywallState.collectAsState()
-
-                        if (paywallState is PaywallViewModel.PaywallState.Visible) {
-                            if (offering != null) {
-                                RevenueCatPaywall(
-                                    offering,
-                                    onDismiss = {
-                                        viewModelPaywall.hidePaywall()
-                                        design.paywallComposeView.visibility= View.GONE
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-                viewModelPaywall.showPaywall()
-            }
-        )
 
 
-    }
-
-    @Composable
-    private fun RevenueCatPaywall(offering: Offering, onDismiss: () -> Unit) {
-        Log.d("rcp", "rct paywall ")
-
-        val listener = remember {
-            object : PaywallListener {
-                override fun onPurchaseCompleted(customerInfo: CustomerInfo, transaction: StoreTransaction) {
-                    lifecycleScope.launch {
-                        dataStoreManager.saveSubscriptionStatus(requireContext(), true)
-                    }
-                    onDismiss()
-                }
-                override fun onRestoreCompleted(customerInfo: CustomerInfo) {
-                    if (customerInfo.entitlements["Subscription"]?.isActive == true) {
-                        lifecycleScope.launch {
-                            dataStoreManager.saveSubscriptionStatus(requireContext(), true)
-                        }
-                        onDismiss()
-                    }
-                }
-            }
-        }
-
-        Log.d("offering", "RevenueCatPaywall: $offering")
-        PaywallDialog(
-            PaywallDialogOptions.Builder()
-                .setRequiredEntitlementIdentifier("Subscription")
-                .setOffering(offering)
-                .setListener(listener)
-                .build()
-        )
-    }
     private fun setupUi(){
         design.privacyLayout.setOnClickListener{
             val url = "https://www.kotodama.app/privacy"

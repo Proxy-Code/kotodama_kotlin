@@ -65,7 +65,6 @@ class StudioCharacterFragment : Fragment() {
             }
         }
 
-
         design.recyclerViewCategories.layoutManager=
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         design.recyclerViewVoices.layoutManager=
@@ -76,18 +75,6 @@ class StudioCharacterFragment : Fragment() {
         }
 
         setupVoicesAdapter()
-
-        val categoryList = viewModel.getCategoryList()
-        val adapterCategory = CategoryAdapter(this.requireContext(),categoryList)
-        design.recyclerViewCategories.adapter=adapterCategory
-
-        adapterCategory.setOnCategoryClickListener(object : CategoryAdapter.OnCategoryClickListener {
-            override fun onCategoryClick(category: String) {
-                viewModel.getVoicesByCategory(category, requireContext())
-            }
-        })
-
-
 
         return design.root
     }

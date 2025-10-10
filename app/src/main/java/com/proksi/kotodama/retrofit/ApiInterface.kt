@@ -1,5 +1,6 @@
 package com.proksi.kotodama.retrofit
 
+import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -14,6 +15,18 @@ interface ApiInterface {
         @POST("/process")
         fun processRequest(@Body payload: ProcessRequest): Call<ProcessResponse>
 
+    @Multipart
+    @POST("transcribe_preview")
+    suspend fun transcribePreview(
+        @Part("idToken") idToken: RequestBody,
+        @Part files: MultipartBody.Part
+    ): TranscribePreviewResponse
+
+
+    data class TranscribePreviewResponse(
+        val text: String,
+        @SerializedName("audio_hash") val audioHash: String
+    )
     data class ProcessRequest(
         val text: String,
         val name: String,

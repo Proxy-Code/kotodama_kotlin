@@ -8,6 +8,7 @@
     <item
         android:title="Studio"
         android:id="@+id/studio_bottom"
+        android:visible="false"
         android:icon="@drawable/studio"/>
     <item
         android:title="@string/library"

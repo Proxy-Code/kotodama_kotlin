@@ -15,18 +15,16 @@
     android:layout_height="match_parent"
     android:contentDescription="homePage"
     android:fillViewport="true"
-    android:paddingHorizontal="24dp"
+    android:paddingHorizontal="15dp"
     android:background="@color/main_bg"
 
     tools:context=".fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
 
        <androidx.constraintlayout.widget.ConstraintLayout
-
            android:layout_width="100dp"
            android:id="@+id/remaningCounterLayout"
            android:layout_height="42dp"
@@ -129,52 +127,42 @@
                app:tint="@color/main_purple" />
        </LinearLayout>
 
-       <androidx.constraintlayout.widget.ConstraintLayout
+       <com.google.android.material.button.MaterialButtonToggleGroup
            android:id="@+id/type_buttons"
            android:layout_width="match_parent"
+           android:layout_height="wrap_content"
            android:layout_marginTop="60dp"
-           android:orientation="horizontal"
-           android:layout_height="wrap_content">
-           <TextView
-               android:id="@+id/v1_btn"
-               app:layout_constraintStart_toStartOf="parent"
-               android:background="@drawable/radius11_purple"
-               android:layout_width="wrap_content"
-               android:text="v1.0"
-               android:layout_marginEnd="8dp"
-               android:textSize="14sp"
-               app:layout_constraintTop_toTopOf="parent"
-               app:layout_constraintBottom_toBottomOf="parent"
-               android:textColor="@color/white"
-               android:fontFamily="@font/regular"
-               android:paddingHorizontal="16dp"
-               android:paddingVertical="8dp"
-               android:layout_height="wrap_content"/>
-           <TextView
-               android:id="@+id/v2_btn"
-               android:layout_marginStart="8dp"
-               app:layout_constraintStart_toEndOf="@id/v1_btn"
-               android:background="@drawable/radius11_bg_white"
-               android:layout_width="wrap_content"
-               android:text="v2.0"
-               app:layout_constraintTop_toTopOf="parent"
-               app:layout_constraintBottom_toBottomOf="parent"
-               android:textSize="14sp"
-               android:textColor="@color/main_purple"
-               android:fontFamily="@font/regular"
-               android:paddingHorizontal="16dp"
-               android:paddingVertical="8dp"
-               android:layout_height="wrap_content"/>
-           <ImageView
-               android:id="@+id/info_btn"
-               app:layout_constraintEnd_toEndOf="parent"
-               android:visibility="gone"
-               app:layout_constraintTop_toTopOf="parent"
-               app:layout_constraintBottom_toBottomOf="parent"
-               android:layout_width="wrap_content"
-               android:src="@drawable/baseline_info_24"
-               android:layout_height="wrap_content"/>
-       </androidx.constraintlayout.widget.ConstraintLayout>
+           android:padding="1dp"
+           app:singleSelection="true"
+           app:selectionRequired="true"
+           android:background="@drawable/bg_toggle_container">
+
+           <com.google.android.material.button.MaterialButton
+               android:id="@+id/btn_tts"
+               style="@style/Widget.Material3.Button.OutlinedButton"
+               android:layout_width="0dp"
+               app:strokeWidth="0dp"
+               app:strokeColor="@android:color/transparent"
+               android:layout_height="40dp"
+               android:layout_weight="1"
+               android:text="Text To Speech"
+               app:shapeAppearanceOverlay="@style/Shape.Capsule"
+           />
+
+           <com.google.android.material.button.MaterialButton
+               android:id="@+id/btn_sts"
+               app:strokeWidth="0dp"
+               app:strokeColor="@android:color/transparent"
+               style="@style/Widget.Material3.Button.OutlinedButton"
+               android:layout_width="0dp"
+               android:layout_height="40dp"
+               android:layout_weight="1"
+               android:text="Speech To Speech"
+               app:shapeAppearanceOverlay="@style/Shape.Capsule"
+                />
+
+       </com.google.android.material.button.MaterialButtonToggleGroup>
+
 
 
        <FrameLayout
@@ -216,9 +204,28 @@
                    android:minLines="3"
                    android:singleLine="false"
                    android:paddingStart="8dp"/>
+
+               <EditText
+                   android:id="@+id/editTextSpeechLayout"
+                   android:visibility="gone"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:layout_gravity="center_vertical"
+                   android:inputType="textMultiLine"
+                   android:textColor="@color/black"
+                   android:textSize="12sp"
+                   android:textColorHint="#C1C1C1"
+                   android:fontFamily="@font/regular"
+                   android:hint="Upload or record audio too transcribe (STS mode)."
+                   android:background="@null"
+                   android:scrollHorizontally="false"
+                   android:minLines="3"
+                   android:singleLine="false"
+                   android:paddingStart="8dp"/>
            </LinearLayout>
            <LinearLayout
-                android:visibility="gone"
+               android:visibility="gone"
                android:id="@+id/langCodeLayout"
                android:layout_width="wrap_content"
                android:background="@drawable/radius11_purple"
@@ -241,6 +248,67 @@
                    android:fontFamily="@font/medium"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"/>
+           </LinearLayout>
+
+           <LinearLayout
+               android:id="@+id/sts_buttons_layout"
+                android:visibility="gone"
+               android:layout_width="wrap_content"
+               android:layout_gravity="bottom|end"
+               android:orientation="horizontal"
+               android:layout_height="wrap_content">
+
+               <LinearLayout
+                   android:id="@+id/upload_btn"
+                   android:layout_width="30dp"
+                   android:background="@drawable/circle_purple"
+                   android:layout_marginEnd="8dp"
+                   android:gravity="center"
+                   android:layout_height="30dp"
+                   >
+                   <ImageView
+                       android:id="@+id/upload_img"
+                       android:layout_width="15dp"
+                       android:src="@drawable/icon_upload"
+                       android:background="@drawable/circle_purple"
+                       android:layout_height="14dp" />
+                   <ProgressBar
+                       android:visibility="gone"
+                       style="@style/WhiteProgressBar"
+                       android:id="@+id/upload_progress_bar"
+                       android:layout_width="15dp"
+                       android:layout_height="15dp"/>
+               </LinearLayout>
+
+               <LinearLayout
+                   android:id="@+id/record_btn"
+                   android:layout_width="30dp"
+                   android:background="@drawable/circle_purple"
+                   android:layout_marginEnd="8dp"
+                   android:gravity="center"
+                   android:layout_height="30dp"
+                  >
+                   <ImageView
+                       android:id="@+id/record_img"
+                       android:layout_width="16dp"
+                       android:layout_height="16dp"
+                       android:src="@drawable/micro"
+                       />
+                   <ProgressBar
+                       android:visibility="gone"
+                       style="@style/WhiteProgressBar"
+                       android:id="@+id/record_progress_bar"
+                       android:layout_width="15dp"
+                       android:layout_height="15dp"/>
+               </LinearLayout>
+               <ImageView
+                   android:id="@+id/delete_btn_sts"
+                   android:layout_width="30dp"
+                   android:src="@drawable/deletetrash"
+                   android:background="@drawable/circle_purple"
+                   android:padding="6dp"
+                   android:layout_height="30dp" />
+
            </LinearLayout>
            <LinearLayout
                android:visibility="gone"
@@ -305,6 +373,7 @@
            app:layout_constraintEnd_toEndOf="parent"
            />
        <androidx.recyclerview.widget.RecyclerView
+           android:visibility="gone"
            android:id="@+id/recycler_view_categories"
            android:layout_below="@+id/searchVoice"
            android:layout_marginTop="20dp"
