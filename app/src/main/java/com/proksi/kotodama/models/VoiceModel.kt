@@ -15,7 +15,7 @@ data class VoiceModel (
     val allTimeCounter: Int = 0,
     val weeklyCounter: Int = 0,
     val charUsedCount: Int = 0,
-    val isClone: Boolean = false
+    var isClone: Boolean = false
 
 ): Parcelable {
     constructor() : this("", "", "", Timestamp.now(), "",listOf(),0,0,0,false,)

@@ -15,14 +15,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
-
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import android.database.Cursor
+import android.media.MediaRecorder
 import android.os.Build
 import androidx.annotation.RequiresApi
-
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -68,13 +66,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import retrofit2.Call
-import retrofit2.HttpException
-import java.io.IOException
-import java.net.ConnectException
-import java.net.SocketTimeoutException
 import java.security.MessageDigest
 import java.util.Locale
-import javax.net.ssl.SSLHandshakeException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -102,16 +95,28 @@ class HomeFragment : BaseFragment() {
 
     override val paywallComposeView: ComposeView
         get() = design.paywallComposeView
-    private var remainingCount: Int? = null
-    private var remainingCharacters : Number? = null
+
+    private var serverRemaining: Int = 150
+    private var remainingCharacters : Int? = null
     private var additionalCount: Number? = null
     private var remainingRights : Number? = null
     private var cloningRights : Number? = null
     private var tokenCounter = 3
     private var referralCode: String? = ""
-    private var initialRemainingCount = 0
+    private var initialRemainingCount = 150
     private var isShowSlotPaywall : Boolean= false
     private var saveTextJob: Job? = null
+
+    private var isRecording = false
+    private var recorder: MediaRecorder? = null
+    private var recordedFile: File? = null
+
+    private val requestMicPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) startRecording() else {
+                Toast.makeText(requireContext(), "Microphone permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
     override fun onCreateView(
@@ -136,6 +141,7 @@ class HomeFragment : BaseFragment() {
         setupObservers()
         setupUI() // senin fonksiyonun
         setupSts()
+        setupRecordButton()
 
         viewModel.fetchVoices("all", requireContext(), true)
 
@@ -201,13 +207,20 @@ class HomeFragment : BaseFragment() {
             viewLifecycleOwner,
             object : VoicesAdapter.OnVoiceSelectedListener {
                 override fun onVoiceSelected(voice: VoiceModel) {
+                    Log.d("adapterr", "ses: ${voice.id}")
                     if (voice.id == "create_voice" && isSubscribed) {
+                        Log.d("adapterr", "onVoiceSelected: burda1" )
                         if (isShowSlotPaywall) {
                             showPaywall(RCPlacement.CLONE)
+                            Log.d("adapterr", "onVoiceSelected: burda12" )
+
                         } else {
                             findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
+                            Log.d("adapterr", "onVoiceSelected: burda13" )
+
                         }
                     } else if (voice.id == "create_voice") {
+                        Log.d("adapterr", "bureda 3 home ")
                         showPaywall(RCPlacement.HOME)
                     } else {
                         selectedVoiceId = voice.id
@@ -229,15 +242,12 @@ class HomeFragment : BaseFragment() {
             setHasFixedSize(true)
         }
 
-        // NestedScrollView için scroll listener
         design.homeScroll.setOnScrollChangeListener { v: NestedScrollView, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) { // Aşağı kaydırma
                 val view = v.getChildAt(v.childCount - 1)
                 val diff = (view.bottom - (v.height + v.scrollY))
 
-                // Alt kısıma yaklaşıldığında yükle
                 if (diff < 100 && !viewModel.isLoading && !viewModel.isLastPage) {
-                    Log.d("Pagination", "NestedScrollView - Loading more data...")
                     viewModel.loadMoreVoices(requireContext())
                 }
             }
@@ -246,20 +256,17 @@ class HomeFragment : BaseFragment() {
 
     private fun setupObservers() {
         viewModel.allVoices.observe(viewLifecycleOwner) { voicesList ->
-            Log.d("Pagination", "allVoices updated with ${voicesList?.size ?: 0} items")
 
             if (!voicesList.isNullOrEmpty()) {
                 showLoading(false)
                 adapterVoice.updateData(voicesList)
                 (requireActivity() as? MainActivity)?.setBottomNavigationVisibility(true)
 
-                // Debug için recyclerView item sayısını logla
                 design.recyclerViewVoices.post {
                     Log.d("Pagination", "RecyclerView item count: ${adapterVoice.itemCount}")
                 }
             } else {
                 showLoading(false)
-                Log.d("Pagination", "Voices List is null or empty")
             }
         }
 
@@ -271,17 +278,13 @@ class HomeFragment : BaseFragment() {
                     }
                 }
                 is HomeViewModel.LoadingState.LoadingMore -> {
-                    Log.d("Pagination", "Loading more data...")
-                    // Burada bir bottom progress bar gösterebilirsiniz
+
                 }
                 is HomeViewModel.LoadingState.Success -> {
                     showLoading(false)
-                    Log.d("Pagination", "Load successful")
                 }
                 is HomeViewModel.LoadingState.Error -> {
                     showLoading(false)
-                    Log.e("Pagination", "Error: ${state.message}")
-                    // Kullanıcıya hata mesajı gösterebilirsiniz
                     Toast.makeText(requireContext(), "Error: ${state.message}", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -311,174 +314,12 @@ class HomeFragment : BaseFragment() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setupSts(){
-
-
         design.uploadBtn.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                 openFilePicker()
             } else {
                 requestAudioPermissionLauncher.launch(Manifest.permission.READ_MEDIA_AUDIO)
             }
-        }
-    }
-
-    private val requestAudioPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                openFilePicker()
-            } else {
-                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    private fun openFilePicker() {
-        design.uploadImg.visibility = View.GONE
-        design.uploadProgressBar.visibility = View.VISIBLE
-        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "audio/*"
-        }
-        audioPickerLauncher.launch(intent)
-    }
-
-    private val audioPickerLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val audioUri = result.data?.data ?: return@registerForActivityResult
-
-                viewLifecycleOwner.lifecycleScope.launch {
-                    try {
-                        // 1) Firebase idToken
-                        val token = getFirebaseIdToken()
-                        if (token.isNullOrEmpty()) {
-                            Log.e("lelelele", "Firebase ID Token is null/empty")
-                            return@launch
-                        }
-
-                        // 2) Dosya bilgilerini logla
-                        logFileDetails(audioUri)
-
-                        // 3) Multipart parçaları oluştur (IO thread)
-                        val tokenPart = idTokenPart(token)
-                        val filePart = withContext(Dispatchers.IO) {
-                            uriToAudioPart(requireContext(), audioUri)
-                        }
-
-                        Log.d("lelelele", "=== API CALL STARTING ===")
-
-                        // 4) API çağrısı (IO thread'de)
-                        val startTime = System.currentTimeMillis()
-                        val resp = withContext(Dispatchers.IO) {
-                            ApiClient.apiService.transcribePreview(tokenPart, filePart)
-                        }
-                        val endTime = System.currentTimeMillis()
-                        val duration = endTime - startTime
-
-                        Log.d("lelelele", "=== API CALL COMPLETED ===")
-                        Log.d("lelelele", "Response received after: ${duration}ms")
-
-                        // 5) UI güncelleme - MAIN THREAD'DE!
-                        withContext(Dispatchers.Main) {
-                            // Null ve boyut kontrolü
-                            val displayText = resp.text?.takeIf { it.isNotEmpty() } ?: "No transcription available"
-
-                            // Büyük metinleri kısalt
-                            val finalText = if (displayText.length > 5000) {
-                                displayText.substring(0, 5000) + "\n\n...[text truncated]..."
-                            } else {
-                                displayText
-                            }
-
-                            design.editTextSpeechLayout.setText(finalText)
-                            this@HomeFragment.audioHash = resp.audioHash
-
-                            Log.d("lelelele", "Transcribed: ${finalText.length} chars, hash=${resp.audioHash}")
-                        }
-
-                    } catch (t: Throwable) {
-                        Log.e("lelelele", "=== API CALL FAILED ===", t)
-                        logDetailedError(t)
-
-                        // Hata mesajını da main thread'de göster
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(requireContext(), "Upload failed: ${t.message}", Toast.LENGTH_LONG).show()
-                        }
-                    } finally {
-                        // UI güncellemesi main thread'de
-                        withContext(Dispatchers.Main) {
-                            design.uploadImg.visibility = View.VISIBLE
-                            design.uploadProgressBar.visibility = View.GONE
-                        }
-                    }
-                }
-            }
-        }
-    private suspend fun logFileDetails(uri: Uri) {
-        withContext(Dispatchers.IO) {
-            try {
-                val fileSize = getFileSizeFromUri(uri)
-                val mimeType = requireContext().contentResolver.getType(uri) ?: "unknown"
-
-                Log.d("FILE_DETAILS", "=== FILE INFO ===")
-                Log.d("FILE_DETAILS", "URI: $uri")
-                Log.d("FILE_DETAILS", "MIME Type: $mimeType")
-                Log.d("FILE_DETAILS", "File Size: $fileSize bytes (${fileSize / 1024} KB)")
-                Log.d("FILE_DETAILS", "File Size MB: ${fileSize / (1024 * 1024)} MB")
-
-                // Dosya uzantısı
-                val extension = when (mimeType) {
-                    "audio/mpeg" -> "mp3"
-                    "audio/wav" -> "wav"
-                    "audio/aac" -> "aac"
-                    "audio/ogg" -> "ogg"
-                    "audio/x-wav" -> "wav"
-                    else -> "unknown"
-                }
-                Log.d("FILE_DETAILS", "File Extension: $extension")
-
-            } catch (e: Exception) {
-                Log.e("FILE_DETAILS", "Error getting file details", e)
-            }
-        }
-    }
-
-    private fun logDetailedError(t: Throwable) {
-        when (t) {
-            is SocketTimeoutException -> {
-                Log.e("lelele ERROR_DETAILS", "SocketTimeoutException - Bağlantı zaman aşımına uğradı")
-                Log.e("lelele ERROR_DETAILS", "Sunucu belirlenen sürede yanıt vermedi")
-            }
-            is ConnectException -> {
-                Log.e("lelele ERROR_DETAILS", "ConnectException - Sunucuya bağlanılamadı")
-                Log.e("lelele ERROR_DETAILS", "Ağ bağlantısı veya sunucu problemi")
-            }
-            is SSLHandshakeException -> {
-                Log.e("lelele ERROR_DETAILS", "SSLHandshakeException - SSL hatası")
-            }
-            is HttpException -> {
-                Log.e("lelele ERROR_DETAILS", "HTTP Exception: ${t.code()}")
-                Log.e("lelele ERROR_DETAILS", "Response: ${t.response()?.errorBody()?.string()}")
-            }
-            is IOException -> {
-                Log.e("lelele ERROR_DETAILS", "IO Exception - Ağ hatası")
-                Log.e("lelele ERROR_DETAILS", "Message: ${t.message}")
-            }
-            else -> {
-                Log.e("lelele ERROR_DETAILS", "Unknown error type: ${t.javaClass.simpleName}")
-            }
-        }
-
-        // Stack trace'i detaylı logla
-        Log.e("lelele ERROR_STACKTRACE", "Stack trace:", t)
-    }
-
-    private fun getFileSizeFromUri(uri: Uri): Long {
-        return try {
-            requireContext().contentResolver.openFileDescriptor(uri, "r")?.use { parcel ->
-                parcel.statSize
-            } ?: 0L
-        } catch (e: Exception) {
-            Log.e("FILE_SIZE", "Error getting file size", e)
-            0L
         }
     }
 
@@ -502,17 +343,19 @@ class HomeFragment : BaseFragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val enteredText = s.toString().trim()
-                remainingCount = initialRemainingCount - enteredText.length
-                updateRemainingCountUI(remainingCount)
-
+//                val enteredText = s.toString().trim()
+//                remainingCount = remainingCount?.minus(enteredText.length)
+//                updateRemainingCountUI(remainingCount)
+//
                 viewLifecycleOwner.lifecycleScope.launch {
                     val languageCode = recognizeLanguage(enteredText)
                     // languageCode’u UI’da gösteriyorsan burada set edebilirsin
                 }
-
-                // metin her değiştiğinde kurala göre güncelle
+//
+//                // metin her değiştiğinde kurala göre güncelle
                 updateAuxLayoutsVisibility()
+                applyRemainingUI()
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -526,10 +369,6 @@ class HomeFragment : BaseFragment() {
         design.deleteLayout.setOnClickListener {
 
             design.editTextLayout.setText("")
-
-            remainingCount = initialRemainingCount
-            updateRemainingCountUI(remainingCount)
-
             design.langCodeLayout.visibility = View.GONE
             design.doneLayout.visibility = View.GONE
 
@@ -545,63 +384,58 @@ class HomeFragment : BaseFragment() {
             findNavController().navigate(R.id.action_homeFragment_to_referFragment)
         }
 
-
-        design.searchVoice.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                val query = newText ?: ""
-                viewModel.filterVoices(query)
-                return true
-            }
-        })
-
         design.buttonCreate.setOnClickListener {
             EventLogger.logEvent(requireContext(), "home_create_click")
 
-            remainingCount?.let { it1 ->
-                if (it1 <= 0 ){
-                    if (isSubscribed){
-                        showPaywall(RCPlacement.CHARACTER)
-                    } else{
+            remainingCharacters.let { it1 ->
+                it1?.let { it2 ->
+                    if (it2 <= 0 ){
+                        if (isSubscribed){
+                            showPaywall(RCPlacement.CHARACTER)
+                        } else{
+                            showPaywall(RCPlacement.HOME)
+                        }
+                    } else if (tokenCounter == 0){
                         showPaywall(RCPlacement.HOME)
                     }
-                } else {
-                    design.progressBar.visibility = View.VISIBLE
-                    design.loadingOverlay.visibility = View.VISIBLE
-                    (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
+                    else {
+                        design.progressBar.visibility = View.VISIBLE
+                        design.loadingOverlay.visibility = View.VISIBLE
+                        (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
 
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        try {
-                            val idToken = getFirebaseIdToken()
-                            if (idToken != null) {
-                                val languageCode = recognizeLanguage(enteredText)
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            try {
+                                val idToken = getFirebaseIdToken()
+                                if (idToken != null) {
+                                    val languageCode = recognizeLanguage(enteredText)
 
-                                isClone?.let { it1 ->
-                                    sendProcessRequest(
-                                        idToken,
-                                        enteredText,
-                                        selectedVoiceId,
-                                        languageCode,
-                                        imageUrl,
-                                        name,
-                                        it1
-                                    )
+                                    isClone?.let { it1 ->
+                                        sendProcessRequest(
+                                            idToken,
+                                            enteredText,
+                                            selectedVoiceId,
+                                            languageCode,
+                                            imageUrl,
+                                            name,
+                                            it1
+                                        )
+                                    }
+                                } else {
+                                    Log.e(TAG, "Firebase ID Token is null")
                                 }
-                            } else {
-                                Log.e(TAG, "Firebase ID Token is null")
+                            } catch (e: Exception) {
+                                design.loadingOverlay.visibility = View.GONE
+                                (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
+                                Log.e(TAG, "Error fetching Firebase ID token", e)
                             }
-                        } catch (e: Exception) {
-                            design.progressBar.visibility = View.GONE
-                            design.loadingOverlay.visibility = View.GONE
-                            (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
-                            Log.e(TAG, "Error fetching Firebase ID token", e)
                         }
                     }
                 }
             }
+            design.progressBar.visibility = View.VISIBLE
+            design.loadingOverlay.visibility = View.VISIBLE
+            (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
+
         }
 
         design.imageCrown.setOnClickListener {
@@ -609,6 +443,14 @@ class HomeFragment : BaseFragment() {
         }
 
     }
+
+    private fun applyRemainingUI() {
+        val len = design.editTextLayout.text?.length ?: 0
+        val remaining = (serverRemaining - len).coerceAtLeast(0)
+        remainingCharacters = remaining
+        updateRemainingCountUI(remaining)
+    }
+
 
     private fun updateIsShowSlotPaywall(cloneCount: Int) {
         val rights = cloningRights?.toInt()
@@ -779,14 +621,15 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun handleSnapshotData(snapshot: DocumentSnapshot, uid: String, userDocRef: DocumentReference) {
-        remainingCharacters = snapshot.getLong("remainingCount")
         additionalCount = snapshot.getLong("additionalCount") ?: 0L
         remainingRights = snapshot.getLong("remainingRights")
         cloningRights = snapshot.getLong("cloningRights")
         referralCode = snapshot.getString("referralCode")
+        serverRemaining = snapshot.getLong("remainingCount")?.toInt() ?: 150
+        applyRemainingUI()
 
-        updateUIBasedOnRights()
-
+        design.tokenCounterText.text = remainingRights.toString()
+        tokenCounter = remainingRights?.toInt() ?: 3
         // Referral code kontrolü - sadece bir kere yap
         if (referralCode == null) {
             val refCode = generateCode(uid)
@@ -799,67 +642,11 @@ class HomeFragment : BaseFragment() {
         setupCloneCountObserver()
     }
 
-    private fun updateUIBasedOnRights() {
-        if (remainingRights != null) {
-            if (remainingRights == 0L) {
-                if (!isSubscribed) {
-                    setupNonSubscribedUI()
-                } else {
-                    setupSubscribedUI()
-                }
-            } else {
-                setupHasRightsUI()
-            }
-        } else {
-            setupDefaultUI()
-        }
-    }
-
-    private fun setupNonSubscribedUI() {
-        remainingCount = 0
-        tokenCounter = 0
-        design.remaningText.text = remainingCount.toString()
-        design.tokenCounterText.text = tokenCounter.toString()
-        design.tokenCounterText.visibility = View.GONE
-        design.imageView3.setImageResource(R.drawable.handshake_2)
-        design.counterLayout.isEnabled = true
-    }
-
-    private fun setupSubscribedUI() {
-        remainingCount = remainingCharacters!!.toInt() + additionalCount!!.toInt()
-        design.remaningText.text = remainingCount.toString()
-        design.tokenCounterText.text = tokenCounter.toString()
-        design.tokenCounterText.visibility = View.VISIBLE
-        design.imageView3.setImageResource(R.drawable.icon_counter)
-        design.counterLayout.isEnabled = false
-    }
-
-    private fun setupHasRightsUI() {
-        design.counterLayout.isEnabled = false
-        remainingCount = remainingCharacters?.toInt()?.plus(additionalCount!!.toInt()) ?: 150
-        design.remaningText.text = remainingCount.toString()
-        design.tokenCounterText.text = remainingRights.toString()
-    }
-
-    private fun setupDefaultUI() {
-        design.tokenCounterText.text = "3"
-        design.counterLayout.isEnabled = false
-        remainingCount = remainingCharacters?.toInt()?.plus(additionalCount!!.toInt()) ?: 150
-        design.remaningText.text = remainingCount.toString()
-    }
 
     private fun createInitialUserData(uid: String, userDocRef: DocumentReference) {
-        val refCode = generateCode(uid)
-        val data = mapOf(
-            "referralCode" to refCode,
-            "remainingRights" to 3,
-            "remainingCount" to 150
-        )
-        userDocRef.set(data, SetOptions.merge())
-
-        remainingCount = 150
+        serverRemaining = 150
+        applyRemainingUI()
         tokenCounter = 3
-        design.remaningText.text = remainingCount.toString()
         design.tokenCounterText.text = tokenCounter.toString()
         design.counterLayout.isEnabled = false
     }
@@ -876,7 +663,6 @@ class HomeFragment : BaseFragment() {
 
     private fun setupCloneCountObserver() {
         if (isAdded && view != null) {
-            // Observe'ı sadece bir kere başlat
             viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
                 if (cloneCount != null) {
                     updateIsShowSlotPaywall(cloneCount)
@@ -885,30 +671,11 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    // DataStore'dan text okuma işlemini ayrı yap
-    private fun setupDataStoreTextObserver() {
-        lifecycleScope.launchWhenStarted {
-            context?.let { ctx ->
-                dataStoreManager.getText(ctx).collect { text ->
-                    if (!text.isNullOrEmpty()) {
-                        design.editTextLayout.setText(text)
-                        design.editTextLayout.setSelection(text.length)
-
-                        // Remaining count'u güncelle
-                        val textLength = text.length
-                        remainingCount = initialRemainingCount - textLength
-                        updateRemainingCountUI(remainingCount)
-                    }
-                }
-            }
-        }
-    }
-
-
     private fun updateRemainingCountUI(remainingCount: Int?) {
         if (remainingCount != null) {
-            if (remainingCount < 0) {
+            if (remainingCount <= 0) {
                 design.remaningText.setTextColor(ContextCompat.getColor(this@HomeFragment.requireContext(), R.color.progress_red))
+
             } else {
                 design.remaningText.setTextColor(ContextCompat.getColor(this@HomeFragment.requireContext(), R.color.black))
             }
@@ -918,7 +685,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Listener'ı temizle
         snapshotListener?.remove()
     }
 
@@ -934,6 +700,83 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
+
+    private val requestAudioPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openFilePicker()
+            } else {
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private fun openFilePicker() {
+
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "audio/*"
+        }
+        audioPickerLauncher.launch(intent)
+    }
+
+    private val audioPickerLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val audioUri = result.data?.data ?: return@registerForActivityResult
+                design.uploadImg.visibility = View.GONE
+                design.uploadProgressBar.visibility = View.VISIBLE
+                viewLifecycleOwner.lifecycleScope.launch {
+                    try {
+                        // 1) Firebase idToken
+                        val token = getFirebaseIdToken()
+                        if (token.isNullOrEmpty()) {
+                            Log.e("lelelele", "Firebase ID Token is null/empty")
+                            return@launch
+                        }
+
+                        // 3) Multipart parçaları oluştur (IO thread)
+                        val tokenPart = idTokenPart(token)
+                        val filePart = withContext(Dispatchers.IO) {
+                            uriToAudioPart(requireContext(), audioUri)
+                        }
+
+                        // 4) API çağrısı (IO thread'de)
+                        val startTime = System.currentTimeMillis()
+                        val resp = withContext(Dispatchers.IO) {
+                            ApiClient.apiService.transcribePreview(tokenPart, filePart)
+                        }
+                        val endTime = System.currentTimeMillis()
+                        val duration = endTime - startTime
+
+                        // 5) UI güncelleme - MAIN THREAD'DE!
+                        withContext(Dispatchers.Main) {
+                            // Null ve boyut kontrolü
+                            val displayText = resp.text?.takeIf { it.isNotEmpty() } ?: "No transcription available"
+
+                            // Büyük metinleri kısalt
+                            val finalText = if (displayText.length > 5000) {
+                                displayText.substring(0, 5000) + "\n\n...[text truncated]..."
+                            } else {
+                                displayText
+                            }
+
+                            design.editTextSpeechLayout.setText(finalText)
+                            design.editTextLayout.setText(finalText)
+                            this@HomeFragment.audioHash = resp.audioHash
+                        }
+
+                    } catch (t: Throwable) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), "Upload failed: ${t.message}", Toast.LENGTH_LONG).show()
+                        }
+                    } finally {
+                        withContext(Dispatchers.Main) {
+                            design.uploadImg.visibility = View.VISIBLE
+                            design.uploadProgressBar.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
 
     fun idTokenPart(token: String): RequestBody =
         token.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -952,10 +795,8 @@ class HomeFragment : BaseFragment() {
             if (idx != -1 && c.moveToFirst()) fileName = c.getString(idx) ?: fileName
         }
 
-        // MIME
         val mime = cr.getType(uri) ?: "audio/mpeg"
 
-        // Geçici dosyaya kopyala (stream ederek bellek şişmesini önler)
         val input = cr.openInputStream(uri)!!
         val temp = File.createTempFile("upload_", "_audio", context.cacheDir)
         FileOutputStream(temp).use { out -> input.copyTo(out) }
@@ -967,10 +808,8 @@ class HomeFragment : BaseFragment() {
 
     private fun setupToggle(){
         val toggleGroup = design.typeButtons
-        val btnTts = design.btnTts
-        val btnSts = design.btnSts
 
-        toggleGroup.check(btnTts.id)
+        toggleGroup.check( design.btnTts.id)
 
         toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) return@addOnButtonCheckedListener
@@ -981,24 +820,180 @@ class HomeFragment : BaseFragment() {
                     design.editTextLayout.visibility = View.VISIBLE
                     design.editTextSpeechLayout.visibility = View.GONE
                     design.stsButtonsLayout.visibility = View.GONE
-                    // STS'ten TTS'ye dönünce varsa metinle beraber alanlar geri gelsin
                     updateAuxLayoutsVisibility()
-                    Log.d("HomeFragment", "TTS selected")
+                    design.editTextSpeechLayout.setText("")
                 }
                 R.id.btn_sts -> {
                     isStsMode = true
                     design.langCodeLayout.visibility = View.GONE
                     design.deleteLayout.visibility = View.GONE
                     design.doneLayout.visibility = View.GONE
-
+                    design.editTextLayout.setText("")
                     design.stsButtonsLayout.visibility = View.VISIBLE
                     design.editTextLayout.visibility = View.GONE
                     design.editTextSpeechLayout.visibility = View.VISIBLE
-                    Log.d("HomeFragment", "STS selected")
                 }
             }
         }
     }
+
+    private fun setupRecordButton() {
+        design.recordBtn.setOnClickListener {
+            if (!isRecording) {
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO)
+                    == PackageManager.PERMISSION_GRANTED
+                ) {
+                    startRecording()
+                } else {
+                    requestMicPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                }
+            } else {
+                stopRecordingAndUpload()
+            }
+        }
+    }
+
+    private fun startRecording() {
+        try {
+            toggleRecordUi(isRecording = true)
+
+            recordedFile = File.createTempFile("rec_", ".m4a", requireContext().cacheDir)
+
+            recorder = MediaRecorder().apply {
+                setAudioSource(MediaRecorder.AudioSource.MIC)
+                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                setAudioSamplingRate(44100)
+                setAudioEncodingBitRate(128000)
+                setOutputFile(recordedFile!!.absolutePath)
+                prepare()
+                start()
+            }
+            isRecording = true
+        } catch (t: Throwable) {
+            toggleRecordUi(isRecording = false)
+            isRecording = false
+            Toast.makeText(requireContext(), "Recording failed: ${t.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun stopRecordingAndUpload() {
+        try {
+            recorder?.run {
+                try { stop() } catch (_: Throwable) {}
+                reset()
+                release()
+            }
+            recorder = null
+            isRecording = false
+            toggleRecordUi(isRecording = false)
+
+            val file = recordedFile
+            if (file == null || !file.exists() || file.length() == 0L) {
+                Toast.makeText(requireContext(), "Empty recording", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            design.recordImg.visibility = View.GONE
+            design.recordPauseImg.visibility = View.GONE
+            design.recordProgressBar.visibility = View.VISIBLE
+
+            // Aynı transcribePreview hattı
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val token = getFirebaseIdToken()
+                    if (token.isNullOrEmpty()) {
+                        return@launch
+                    }
+
+                    val tokenPart = idTokenPart(token)
+                    val filePart = withContext(Dispatchers.IO) {
+                        fileToAudioPart(file, mime = "audio/m4a", partName = "files")
+                    }
+
+                    val start = System.currentTimeMillis()
+
+                    val resp = withContext(Dispatchers.IO) {
+                        ApiClient.apiService.transcribePreview(tokenPart, filePart)
+                    }
+
+                    val dur = System.currentTimeMillis() - start
+
+                    withContext(Dispatchers.Main) {
+                        val displayText = resp.text?.takeIf { it.isNotEmpty() } ?: "No transcription available"
+                        val finalText = if (displayText.length > 5000)
+                            displayText.substring(0, 5000) + "\n\n...[text truncated]..."
+                        else displayText
+
+                        design.recordImg.visibility = View.VISIBLE
+                        design.recordPauseImg.visibility = View.GONE
+                        design.recordProgressBar.visibility = View.GONE
+
+                        design.editTextSpeechLayout.setText(finalText)
+                        design.editTextLayout.setText(finalText)
+                        this@HomeFragment.audioHash = resp.audioHash
+                    }
+                } catch (t: Throwable) {
+                    Log.e("REC", "Upload failed", t)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "Upload failed: ${t.message}", Toast.LENGTH_LONG).show()
+                    }
+                    design.recordImg.visibility = View.VISIBLE
+                    design.recordPauseImg.visibility = View.GONE
+                    design.recordProgressBar.visibility = View.GONE
+                } finally {
+                    withContext(Dispatchers.IO) {
+                        try { recordedFile?.delete() } catch (_: Throwable) {}
+                        recordedFile = null
+                    }
+                    design.recordImg.visibility = View.VISIBLE
+                    design.recordPauseImg.visibility = View.GONE
+                    design.recordProgressBar.visibility = View.GONE
+                }
+            }
+
+        } catch (t: Throwable) {
+            Toast.makeText(requireContext(), "Stop failed: ${t.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun toggleRecordUi(isRecording: Boolean) {
+        if (isRecording) {
+            design.recordImg.visibility = View.GONE
+            design.recordPauseImg.visibility = View.VISIBLE
+            design.recordProgressBar.visibility = View.GONE
+        } else {
+            design.recordPauseImg.visibility = View.GONE
+            design.recordImg.visibility = View.VISIBLE
+            design.recordProgressBar.visibility = View.GONE
+        }
+    }
+
+    fun fileToAudioPart(
+        file: File,
+        mime: String = "audio/m4a",
+        partName: String = "files"
+    ): MultipartBody.Part {
+        val body = file.asRequestBody(mime.toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData(partName, file.name, body)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (isRecording) {
+            try {
+                recorder?.stop()
+            } catch (_: Throwable) {}
+            recorder?.release()
+            recorder = null
+            isRecording = false
+            toggleRecordUi(isRecording = false)
+        }
+    }
+
+
+
+
 
 
 

@@ -123,7 +123,9 @@ class SplashScreen : AppCompatActivity() {
 
 
                 lifecycleScope.launch {
-                    val isActive = customerInfo.entitlements["subscription"]?.isActive ?: false
+                    val isActive = customerInfo.entitlements["Subscription"]?.isActive ?: false
+
+                    Log.d("issubs", "onReceived: $isActive")
 
                     dataStoreManager.saveSubscriptionStatus(this@SplashScreen, isActive)
 

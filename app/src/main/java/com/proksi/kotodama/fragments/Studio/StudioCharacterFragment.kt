@@ -112,13 +112,13 @@ class StudioCharacterFragment : Fragment() {
         design.recyclerViewVoices.adapter = adapterVoice
 
 
-        viewModel.data.observe(viewLifecycleOwner) { voicesList ->
-            if (voicesList != null) {
-                adapterVoice.updateData(voicesList)
-            } else {
-                Log.d("Observer", "Voices List is null")
-            }
-        }
+//        viewModel.data.observe(viewLifecycleOwner) { voicesList ->
+//            if (voicesList != null) {
+//                adapterVoice.updateData(voicesList)
+//            } else {
+//                Log.d("Observer", "Voices List is null")
+//            }
+//        }
 
         viewModel.fetchVoices("all", requireContext())
     }

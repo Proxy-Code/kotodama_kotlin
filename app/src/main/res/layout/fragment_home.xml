@@ -224,6 +224,7 @@
                    android:singleLine="false"
                    android:paddingStart="8dp"/>
            </LinearLayout>
+
            <LinearLayout
                android:visibility="gone"
                android:id="@+id/langCodeLayout"
@@ -252,7 +253,7 @@
 
            <LinearLayout
                android:id="@+id/sts_buttons_layout"
-                android:visibility="gone"
+               android:visibility="gone"
                android:layout_width="wrap_content"
                android:layout_gravity="bottom|end"
                android:orientation="horizontal"
@@ -288,6 +289,13 @@
                    android:gravity="center"
                    android:layout_height="30dp"
                   >
+                   <ImageView
+                       android:id="@+id/record_pause_img"
+                       android:layout_width="16dp"
+                       android:layout_height="16dp"
+                       android:visibility="gone"
+                       android:src="@drawable/pause_record"
+                       />
                    <ImageView
                        android:id="@+id/record_img"
                        android:layout_width="16dp"

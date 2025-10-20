@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.kotodama.tts.R
 import com.proksi.kotodama.dataStore.DataStoreManager
@@ -20,26 +21,23 @@ import kotlinx.coroutines.launch
 import java.util.Date
 
 class HomeViewModel : ViewModel() {
-    val data: LiveData<List<VoiceModel>> get() = _allVoices
-    private val _allVoices = MutableLiveData<List<VoiceModel>>() // Tüm ses listesini tutar
+    private val _allVoices = MutableLiveData<List<VoiceModel>>(emptyList())
     val allVoices: LiveData<List<VoiceModel>> get() = _allVoices
-    private val _hasClone = MutableLiveData<Boolean>().apply { value = false }  // Clone durumunu tutar
+
     private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState> get() = _loadingState
+
+    private val _cloneCount = MutableLiveData<Int>(0)
+    val cloneCount: LiveData<Int> get() = _cloneCount
+
     private var lastDocument: DocumentSnapshot? = null
-    private val pageSize = 15 // Sayfa başına item sayısı
+    private val pageSize = 14
     private var _isLoading = false
     private var _isLastPage = false
     val isLoading: Boolean get() = _isLoading
     val isLastPage: Boolean get() = _isLastPage
 
-    private lateinit var dataStoreManager: DataStoreManager
-    private val _text = MutableLiveData<String>()
-    val text: LiveData<String> get() = _text
-    private val _enteredText = MutableLiveData<String>()
-    val enteredText: LiveData<String> get() = _enteredText
-    private val _cloneCount = MutableLiveData<Int>()
-    val cloneCount: LiveData<Int> get() = _cloneCount
+    private var cloneSnapshotListener: ListenerRegistration? = null
 
     sealed class LoadingState {
         object Loading : LoadingState()
@@ -48,6 +46,7 @@ class HomeViewModel : ViewModel() {
         data class Error(val message: String) : LoadingState()
     }
 
+    // Ana ses verilerini yükle
     fun fetchVoices(category: String, context: Context, isInitialLoad: Boolean = true) {
         if (_isLoading) return
 
@@ -57,6 +56,7 @@ class HomeViewModel : ViewModel() {
             _loadingState.value = LoadingState.Loading
             lastDocument = null
             _isLastPage = false
+            // Sadece initial load'da listeyi temizle
             _allVoices.value = emptyList()
         } else {
             _loadingState.value = LoadingState.LoadingMore
@@ -87,39 +87,30 @@ class HomeViewModel : ViewModel() {
                 for (document in querySnapshot) {
                     val voiceItem = document.toObject(VoiceModel::class.java)
                     voiceItem?.id = document.id
-                    voiceItem?.let { voiceList.add(it) }
-                }
-
-                // İlk eleman olarak createVoiceItem ekle
-                val createVoiceItem = createVoiceItem()
-                val voicesWithCreateItem = mutableListOf<VoiceModel>().apply {
-                    add(createVoiceItem) // İlk eleman olarak ekle
-                    addAll(voiceList)
-                }
-
-                val currentList = if (isInitialLoad) {
-                    voicesWithCreateItem
-                } else {
-                    // Daha fazla yükleme yaparken, createVoiceItem'ı koru
-                    val existingList = _allVoices.value ?: emptyList()
-                    val existingWithoutCreate = existingList.filter { it.id != "create_voice" }
-                    val newList = mutableListOf<VoiceModel>().apply {
-                        add(createVoiceItem)
-                        addAll(existingWithoutCreate)
-                        addAll(voiceList)
+                    voiceItem?.let {
+                        it.isClone = false // Firestore'dan gelenler klon değil
+                        voiceList.add(it)
                     }
-                    newList
                 }
 
-                _allVoices.value = currentList
-                _loadingState.value = LoadingState.Success
-
-                Log.d("Pagination", "Loaded ${voiceList.size} items, Total: ${currentList.size}")
-
-                // İlk yüklemede clone kontrolü yap
                 if (isInitialLoad) {
-                    checkForCloneData(context, currentList.toMutableList(), createVoiceItem)
+                    // İlk yükleme: sadece Firestore verilerini ayarla, klonlar sonra eklenecek
+                    _allVoices.value = voiceList
+                    // İlk yüklemede klonları kontrol et
+                    setupCloneListener(context)
+                } else {
+                    // Daha fazla yükleme: mevcut listeye ekle (klonları koru)
+                    val currentList = _allVoices.value?.toMutableList() ?: mutableListOf()
+                    // Sadece klon olmayan öğeleri filtrele (create_voice ve user clones hariç)
+                    val nonCloneItems = currentList.filter {
+                        !it.isClone || it.id == "create_voice"
+                    }.toMutableList()
+                    nonCloneItems.addAll(voiceList)
+                    _allVoices.value = nonCloneItems
                 }
+
+                _loadingState.value = LoadingState.Success
+                Log.d("Pagination", "Loaded ${voiceList.size} items, Total: ${_allVoices.value?.size ?: 0}")
 
                 if (voiceList.size < pageSize) {
                     _isLastPage = true
@@ -133,21 +124,88 @@ class HomeViewModel : ViewModel() {
             }
     }
 
-    fun loadMoreVoices(context: Context) {
-        if (!_isLoading && !_isLastPage) {
-            Log.d("Pagination", "Loading more voices...")
-            fetchVoices("all", context, false)
+    // Klon listener'ını kur
+    private fun setupCloneListener(context: Context) {
+        // Önceki listener'ı temizle
+        cloneSnapshotListener?.remove()
+
+        viewModelScope.launch {
+            DataStoreManager.getUid(context).collect { uid ->
+                if (uid != null) {
+                    val db = FirebaseFirestore.getInstance()
+                    val userDocRef = db.collection("users").document(uid)
+                    val clonesRef = userDocRef.collection("clones")
+
+                    cloneSnapshotListener = clonesRef.addSnapshotListener { cloneDocumentSnapshot, exception ->
+                        if (exception != null) {
+                            Log.e("CloneListener", "Error: ${exception.message}")
+                            _cloneCount.value = 0
+                            updateVoicesWithClones(emptyList())
+                            return@addSnapshotListener
+                        }
+
+                        val cloneCount = cloneDocumentSnapshot?.size() ?: 0
+                        _cloneCount.value = cloneCount
+
+                        val cloneList = mutableListOf<VoiceModel>()
+                        if (cloneCount > 0) {
+                            for (document in cloneDocumentSnapshot!!.documents) {
+                                val cloneData = document.data
+                                val id = document.id
+                                val name = cloneData?.get("name") as? String ?: "Unnamed Clone"
+                                val imageUrl = (cloneData?.get("imageUrl") ?: "") as? String ?: ""
+                                val createdAt = (cloneData?.get("createdAt") ?: Timestamp.now()) as? Timestamp ?: Timestamp.now()
+                                val modelName = (cloneData?.get("model_name") ?: "") as? String ?: ""
+
+                                val cloneVoiceModel = VoiceModel(
+                                    name = name,
+                                    id = id,
+                                    imageUrl = imageUrl,
+                                    createdAt = createdAt,
+                                    model_name = modelName,
+                                    category = emptyList(),
+                                    isClone = true
+                                )
+                                cloneList.add(cloneVoiceModel)
+                            }
+                        }
+
+                        updateVoicesWithClones(cloneList)
+                    }
+                }
+            }
         }
     }
 
+    // Klonları ana listeye ekle
+    private fun updateVoicesWithClones(cloneList: List<VoiceModel>) {
+        val currentList = _allVoices.value?.toMutableList() ?: mutableListOf()
+
+        // Create voice item'ını oluştur veya bul
+        val createVoiceItem = createVoiceItem()
+
+        // Mevcut listeden tüm klonları ve create_voice'u temizle
+        val cleanedList = currentList.filter {
+            !it.isClone && it.id != "create_voice"
+        }.toMutableList()
+
+        // Yeni listeyi oluştur: create_voice + klonlar + diğer sesler
+        val newList = mutableListOf<VoiceModel>().apply {
+            add(createVoiceItem) // Her zaman ilk eleman
+            addAll(cloneList)    // Kullanıcı klonları
+            addAll(cleanedList)  // Firestore'dan gelen sesler
+        }
+
+        _allVoices.value = newList
+        Log.d("CloneUpdate", "Updated list with ${cloneList.size} clones, total: ${newList.size}")
+    }
+
     private fun createVoiceItem(): VoiceModel {
-        val date = Date()
-        val timestamp = Timestamp(date)
         return VoiceModel(
             name = "Create Voice",
             id = "create_voice",
             imageUrl = "R.drawable.sing_ai",
-            createdAt = timestamp,
+            createdAt = Timestamp.now(),
             model_name = "Create Voice",
             category = listOf("all", "trends"),
             allTimeCounter = 0,
@@ -157,85 +215,16 @@ class HomeViewModel : ViewModel() {
         )
     }
 
-    private fun checkForCloneData(
-        context: Context,
-        voiceList: MutableList<VoiceModel>,
-        createVoiceItem: VoiceModel
-    ) {
-        dataStoreManager = DataStoreManager
-        viewModelScope.launch {
-            dataStoreManager.getUid(context).collect { uid ->
-                if (uid != null) {
-                    val db = FirebaseFirestore.getInstance()
-                    val userDocRef = db.collection("users").document(uid)
-
-                    val clonesRef = userDocRef.collection("clones")
-                    clonesRef.addSnapshotListener { cloneDocumentSnapshot, exception ->
-                        if (exception != null) {
-                            _hasClone.value = false
-                            // Create voice item zaten eklendi, sadece cloneCount'u güncelle
-                            _cloneCount.value = 0
-                            return@addSnapshotListener
-                        }
-
-                        // Mevcut listeden klonları temizle (create_voice hariç)
-                        voiceList.removeAll { it.isClone && it.id != "create_voice" }
-
-                        val cloneCount = cloneDocumentSnapshot?.size() ?: 0
-                        _cloneCount.value = cloneCount
-
-                        if (cloneCount > 0) {
-                            _hasClone.value = true
-
-                            // Klon dökümanlarını listeye ekleyin (create_voice'tan sonra)
-                            for (document in cloneDocumentSnapshot!!.documents) {
-                                val cloneData = document.data
-                                val id = document.id
-                                val name = cloneData?.get("name") as String
-                                val imageUrl = (cloneData["imageUrl"] ?: "") as String
-                                val createdAt = (cloneData["createdAt"] ?: Timestamp.now()) as Timestamp
-                                val modelName = (cloneData["model_name"] ?: "") as String
-
-                                // Klon verilerini içeren VoiceModel oluştur
-                                val cloneVoiceModel = VoiceModel(
-                                    name = name,
-                                    id = id,
-                                    imageUrl = imageUrl,
-                                    createdAt = createdAt,
-                                    model_name = modelName,
-                                    category = emptyList(),
-                                    isClone = true  // Klon olarak işaretle
-                                )
-
-                                // Create voice item'ından sonra ekle
-                                val createVoiceIndex = voiceList.indexOfFirst { it.id == "create_voice" }
-                                if (createVoiceIndex != -1) {
-                                    voiceList.add(createVoiceIndex + 1, cloneVoiceModel)
-                                } else {
-                                    voiceList.add(0, cloneVoiceModel)
-                                }
-                            }
-                        } else {
-                            _hasClone.value = false
-                        }
-                        _allVoices.value = voiceList
-                    }
-                }
-            }
+    fun loadMoreVoices(context: Context) {
+        if (!_isLoading && !_isLastPage) {
+            Log.d("Pagination", "Loading more voices...")
+            fetchVoices("all", context, false)
         }
-    }
-
-    fun filterVoices(query: String) {
-        val filteredVoices = _allVoices.value?.filter { voiceModel ->
-            voiceModel.name.contains(query, ignoreCase = true)
-        } ?: emptyList()
-        // Filtrelenmiş verileri göstermek için ayrı bir LiveData kullanabilirsiniz
-        // _filteredVoices.value = filteredVoices
     }
 
     fun deleteClone(cloneId: String, context: Context) {
         viewModelScope.launch {
-            dataStoreManager.getUid(context).collect { uid ->
+            DataStoreManager.getUid(context).collect { uid ->
                 if (uid != null) {
                     val db = FirebaseFirestore.getInstance()
                     val userDocRef = db.collection("users").document(uid)
@@ -243,26 +232,7 @@ class HomeViewModel : ViewModel() {
 
                     cloneDocRef.delete().addOnSuccessListener {
                         Log.d("DeleteClone", "Clone deleted from Firestore")
-
-                        // Mevcut listeyi al
-                        val currentList = _allVoices.value?.toMutableList() ?: mutableListOf()
-
-                        // Silinecek klonu bul
-                        val cloneToRemove = currentList.find { it.id == cloneId }
-
-                        if (cloneToRemove != null) {
-                            // Klonu listeden kaldır
-                            currentList.remove(cloneToRemove)
-                            _allVoices.value = currentList
-
-                            // Klon sayısını güncelle
-                            val cloneCount = currentList.count { it.isClone && it.id != "create_voice" }
-                            _cloneCount.value = cloneCount
-
-                            Log.d("DeleteClone", "Clone removed. Total items: ${currentList.size}, Clones: $cloneCount")
-                        } else {
-                            Log.d("DeleteClone", "Clone not found in current list")
-                        }
+                        // Klon silindiğinde listener otomatik olarak güncelleyecek
                     }.addOnFailureListener { exception ->
                         Log.e("DeleteClone", "Error deleting clone: $exception")
                     }
@@ -271,8 +241,8 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun updateEnteredText(text: String) {
-        Log.d("Observed entered text", "updateEnteredText: $text ")
-        _enteredText.value = text
+    override fun onCleared() {
+        super.onCleared()
+        cloneSnapshotListener?.remove()
     }
 }

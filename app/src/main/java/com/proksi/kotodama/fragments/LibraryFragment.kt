@@ -58,11 +58,11 @@ class LibraryFragment : Fragment() {
         design.rvLibrary.adapter = adapter
 
         viewModel.libraryItems.observe(viewLifecycleOwner, Observer { libraryItems ->
-            if (libraryItems.isEmpty()) {
-                navController.navigate(R.id.nullFilesFragment)
-            } else {
+//            if (libraryItems.isEmpty()) {
+//                navController.navigate(R.id.nullFilesFragment)
+//            } else {
                 adapter.updateItems(libraryItems)
-            }
+       //     }
         })
 
         viewModel.fetchUserLibrary(this.requireContext())

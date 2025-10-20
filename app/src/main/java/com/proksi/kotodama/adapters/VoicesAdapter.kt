@@ -23,7 +23,7 @@ import com.proksi.kotodama.models.VoiceModel
 class VoicesAdapter(var mContext: Context,
                     var items: List<VoiceModel>,
                     val selectedImg: View,
-                    val isSubscribed: Boolean,
+                    var isSubscribed: Boolean,
                     val hasClone:Boolean,
                     val dataStoreManager : DataStoreManager,
                     viewLifecycleOwner: LifecycleOwner,
@@ -37,54 +37,36 @@ class VoicesAdapter(var mContext: Context,
         fun deleteClone(cloneId: String, context: Context)  // Add this method for deletion
     }
 
-    interface OnCategoryClickListener {
-      //  fun onCategoryClick(position: Int, item: VoiceModel)
-    }
 
-    private var onCategoryClickListener: OnCategoryClickListener? = null
-
-
-    fun setOnCategoryClickListener(listener: OnCategoryClickListener) {
-        onCategoryClickListener = listener
-    }
-
-    inner class ViewHolder(design: CardViewVoicesBinding) : RecyclerView.ViewHolder(design.root){
-        var design: CardViewVoicesBinding
-
+    inner class ViewHolder(val design: CardViewVoicesBinding) : RecyclerView.ViewHolder(design.root) {
         init {
-            this.design=design
-            design.cardImgView.setOnClickListener{
-                val preiousSelectedPosition = selectedPosition
-                selectedPosition = if (selectedPosition==adapterPosition) -1 else adapterPosition
+            design.cardImgView.setOnClickListener {
+                val pos = bindingAdapterPosition
+                if (pos == RecyclerView.NO_POSITION) return@setOnClickListener
 
-                notifyItemChanged(preiousSelectedPosition)
-                notifyItemChanged(selectedPosition)
+                val previous = selectedPosition
+                val isSame = (previous == pos)
+                selectedPosition = if (isSame) RecyclerView.NO_POSITION else pos
+
+                if (previous != RecyclerView.NO_POSITION) notifyItemChanged(previous)
+                if (selectedPosition != RecyclerView.NO_POSITION) notifyItemChanged(selectedPosition)
 
                 updateViewVisibility()
-                if (selectedPosition != -1) {
-                    val selectedVoice = items[selectedPosition]
-                    if (selectedVoice.name == "Create Your Voice") {
-                        val navController = Navigation.findNavController(itemView)
-                        navController.navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
-                    }
-                    voiceSelectedListener.onVoiceSelected(selectedVoice)
-                } else {
-                    voiceSelectedListener.onVoiceSelected(
-                        VoiceModel(
-                            name = "",
-                            id = "",
-                            imageUrl = "",
-                            createdAt = Timestamp.now(),
-                            model_name = "Sample Model",
-                            category = emptyList(),
-                            allTimeCounter = 0,
-                            weeklyCounter = 0,
-                            charUsedCount = 0
-                        )
+
+                val selected = if (selectedPosition != RecyclerView.NO_POSITION) items[selectedPosition] else null
+                voiceSelectedListener.onVoiceSelected(
+                    selected ?: VoiceModel(
+                        name = "",
+                        id = "",
+                        imageUrl = "",
+                        createdAt = Timestamp.now(),
+                        model_name = "Sample Model",
+                        category = emptyList(),
+                        allTimeCounter = 0,
+                        weeklyCounter = 0,
+                        charUsedCount = 0
                     )
-                }
-
-
+                )
             }
         }
     }
@@ -106,7 +88,7 @@ class VoicesAdapter(var mContext: Context,
         val voice = items[position]
 
         if (voice.id=="create_voice"){
-                Log.d("create voice da", "onBindViewHolder: ")
+                Log.d("create voice da", "onBindViewHolder: $isSubscribed ")
                 //val imgResId = if (isSubscribed) R.drawable.sing_ai_subscribed else R.drawable.sing_ai
             val imgResId = if (isSubscribed) R.drawable.plus_frame_subs else R.drawable.plus_clone_unsubs
                 Glide.with(holder.itemView.context)
@@ -116,6 +98,7 @@ class VoicesAdapter(var mContext: Context,
         } else {
             if(voice.isClone){
                 if(voice.id=="create_voice"){
+                    Log.d("adapterr", "onBindViewHolder: burda")
                     holder.design.topRightImage.visibility=View.GONE
                 }else{
                     holder.design.topRightImage.visibility=View.VISIBLE
@@ -176,12 +159,27 @@ class VoicesAdapter(var mContext: Context,
             selectedImg.visibility=View.GONE
         }
     }
+
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newVoicesList: List<VoiceModel>) {
-        this.items = newVoicesList
-        notifyDataSetChanged()
-    }
+        Log.d("pagination adapter", "updateData: ${newVoicesList.size}")
 
+        // Aynı liste referansı kontrolü
+        if (this.items === newVoicesList) {
+            Log.d("pagination adapter", "Same list reference, skipping update")
+            return
+        }
+
+        // Aynı içerik kontrolü
+        if (this.items == newVoicesList) {
+            Log.d("pagination adapter", "Same list content, skipping update")
+            return
+        }
+
+        this.items = ArrayList(newVoicesList)
+        notifyDataSetChanged()
+        Log.d("pagination adapter", "Data updated successfully")
+    }
 
 
 }
