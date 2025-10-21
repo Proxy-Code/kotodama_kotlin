@@ -18,9 +18,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import android.database.Cursor
+import android.graphics.Color
+import android.graphics.Rect
 import android.media.MediaRecorder
 import android.os.Build
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewTreeObserver
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -30,11 +35,14 @@ import java.io.File
 import java.io.FileOutputStream
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -57,7 +65,12 @@ import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiInterface
 import com.proksi.kotodama.utils.DialogUtils
 import com.proksi.kotodama.utils.KeyboardUtils
+import com.proksi.kotodama.utils.SpotlightOverlayView
 import com.proksi.kotodama.viewmodel.HomeViewModel
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.createBalloon
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -70,6 +83,7 @@ import java.security.MessageDigest
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.math.max
 
 class HomeFragment : BaseFragment() {
 
@@ -110,6 +124,13 @@ class HomeFragment : BaseFragment() {
     private var isRecording = false
     private var recorder: MediaRecorder? = null
     private var recordedFile: File? = null
+
+    private  val TOUR_OVERLAY_TAG = "tour_overlay"
+
+    private var currentBalloon: Balloon? = null
+    private var isTourRunning = false
+    private var spotlightOverlay: SpotlightOverlayView? = null
+
 
     private val requestMicPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -181,10 +202,12 @@ class HomeFragment : BaseFragment() {
 
                     if (isActive) {
                         design.imageCrown.visibility = View.GONE
+                        design.infoButton.visibility = View.GONE
                         design.counterLayout.visibility = View.GONE
                         design.referButton.visibility = View.VISIBLE
                     } else{
                         design.imageCrown.visibility = View.VISIBLE
+                        design.infoButton.visibility = View.VISIBLE
                         design.counterLayout.visibility = View.VISIBLE
                         design.referButton.visibility = View.GONE
                     }
@@ -330,6 +353,10 @@ class HomeFragment : BaseFragment() {
             } else {
                 showPaywall(RCPlacement.HOME)
             }
+        }
+
+        design.infoButton.setOnClickListener {
+            startInfoTour()
         }
 
         design.doneLayout.setOnClickListener(){
@@ -992,10 +1019,160 @@ class HomeFragment : BaseFragment() {
     }
 
 
+    private fun Fragment.finishTour() {
+        isTourRunning = false
+        currentBalloon?.dismiss()
+        currentBalloon = null
 
+        // overlay'ı kesin kaldır
+        val root = requireActivity().window.decorView.findViewById<ViewGroup>(android.R.id.content)
+        for (i in root.childCount - 1 downTo 0) {
+            val child = root.getChildAt(i)
+            if (child.tag == TOUR_OVERLAY_TAG) {
+                root.removeView(child)
+                break
+            }
+        }
+        spotlightOverlay?.clearHighlight()
+        spotlightOverlay?.invalidate()
 
+        if(!isStsMode){
+            design.stsButtonsLayout.visibility = View.GONE
+        }
 
+        spotlightOverlay?.let(root::removeView)
+        spotlightOverlay = null
+    }
 
+    // --- Yardımcılar ---
+    private inline fun View.awaitLaidOut(crossinline onReady: () -> Unit) {
+        if (ViewCompat.isLaidOut(this) && width > 0 && height > 0) onReady()
+        else viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if (ViewCompat.isLaidOut(this@awaitLaidOut) && width > 0 && height > 0) {
+                    viewTreeObserver.removeOnGlobalLayoutListener(this); onReady()
+                }
+            }
+        })
+    }
 
+    private fun View.scrollIntoViewIfNeeded() {
+        (parent as? View)?.requestRectangleOnScreen(Rect(left, top, right, bottom), true)
+    }
+
+    private enum class Align { TOP, RIGHT, LEFT, BOTTOM }
+
+    private fun arrowFor(align: Align): ArrowOrientation = when (align) {
+        Align.TOP    -> ArrowOrientation.BOTTOM
+        Align.RIGHT  -> ArrowOrientation.LEFT
+        Align.LEFT   -> ArrowOrientation.RIGHT
+        Align.BOTTOM -> ArrowOrientation.TOP
+    }
+
+    private fun Fragment.buildBalloon(@StringRes textRes: Int, align: Align): Balloon =
+        createBalloon(requireContext()) {
+            setText(getString(textRes))
+            setTextSize(14f)
+            setPadding(10)
+            setCornerRadius(14f)
+            setArrowSize(10)
+            setBackgroundColor(Color.parseColor("#FFFFFF"))
+            setTextColorResource(android.R.color.black)
+            setElevation(10)
+            setBalloonAnimation(BalloonAnimation.FADE)
+            setLifecycleOwner(viewLifecycleOwner)
+            setIsVisibleOverlay(false)
+            setDismissWhenTouchOutside(true)
+            setAutoDismissDuration(0)
+            setFocusable(true)
+            setArrowOrientation(arrowFor(align))
+            setArrowPosition(0.5f)
+            setWidth(dp(80))       // ✅ max 250dp genişlik
+        }
+
+    private fun Fragment.ensureOverlayFor(target: View) {
+        val root = requireActivity().window.decorView.findViewById<ViewGroup>(android.R.id.content)
+
+        if (spotlightOverlay == null) {
+            spotlightOverlay = SpotlightOverlayView(requireContext()).apply {
+                tag = TOUR_OVERLAY_TAG
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                setOnClickListener { finishTour() }
+            }
+            root.addView(spotlightOverlay)
+        }
+
+        // hedefi öne al (bringToFront yok)
+        val oldElevation = target.elevation
+        val oldTranslationZ = target.translationZ
+        target.setTag(R.id.tour_old_elev, oldElevation)
+        target.setTag(R.id.tour_old_tz,   oldTranslationZ)
+
+        target.translationZ = 100f
+        target.elevation = max(oldElevation, 100f)
+
+        spotlightOverlay?.highlight(target, paddingPx = dp(6), radiusPx = dp(12).toFloat())
+    }
+
+    private fun dp(value: Int): Int =
+        (value * resources.displayMetrics.density).toInt()
+
+    private fun showBalloonForTarget(
+        target: View, @StringRes textRes: Int, align: Align, onDismiss: () -> Unit
+    ) {
+        target.awaitLaidOut {
+            target.scrollIntoViewIfNeeded()
+
+            ensureOverlayFor(target)
+            val balloon = buildBalloon(textRes, align)
+            currentBalloon = balloon
+
+            if(target===design.btnSts && !isStsMode){
+                design.stsButtonsLayout.visibility = View.VISIBLE
+            }
+
+            balloon.setOnBalloonDismissListener {
+                (target.getTag(R.id.tour_old_elev) as? Float)?.let { target.elevation = it }
+                (target.getTag(R.id.tour_old_tz) as? Float)?.let { target.translationZ = it }
+                onDismiss()
+            }
+
+            when (align) {
+                Align.TOP    -> balloon.showAlignTop(target)
+                Align.RIGHT  -> balloon.showAlignRight(target)
+                Align.LEFT   -> balloon.showAlignLeft(target)
+                Align.BOTTOM -> balloon.showAlignBottom(target)
+            }
+        }
+    }
+
+    private fun startInfoTour() {
+        if (isTourRunning) return
+        isTourRunning = true
+
+        val step1 = design.remaningCounterLayout
+        val step2 = design.btnTts
+        val step3 = design.btnSts
+        val step4 = design.uploadBtn
+        val step5 = design.recordBtn
+        val step6 = design.deleteBtnSts
+
+        showBalloonForTarget(step1, R.string.info1, Align.BOTTOM) {
+            showBalloonForTarget(step2, R.string.info2, Align.BOTTOM) {
+                showBalloonForTarget(step3, R.string.info3, Align.BOTTOM) {
+                    showBalloonForTarget(step4, R.string.info4, Align.LEFT) {
+                        showBalloonForTarget(step5, R.string.info5, Align.LEFT) {
+                            showBalloonForTarget(step6, R.string.info6, Align.LEFT) {
+                                finishTour()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }

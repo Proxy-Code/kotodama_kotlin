@@ -5,6 +5,14 @@
 
     <string name="client_token_facebook" translatable="false">b6d878f2dc98bbc23dc5e08866b78d1e</string>
 
+    <string name="info1" translatable="false">Upload audio to create your own voice</string>
+    <string name="info2" translatable="false">Convert any written text into a natural-sounding AI voice</string>
+    <string name="info3" translatable="false">Transform your own voice into any style, instantly and seamlessly.</string>
+    <string name="info4" translatable="false">Easily upload your audio and start creating.</string>
+    <string name="info5" translatable="false">Capture your voice in seconds with one tap.</string>
+    <string name="info6" translatable="false">Quickly remove any recording.</string>
+
+
 
     <string name="language">Language</string>
     <string name="restore">Restore</string>

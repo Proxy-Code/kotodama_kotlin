@@ -81,7 +81,7 @@
            android:src="@drawable/crown_white" />
 
        <ImageView
-           android:visibility="gone"
+            android:visibility="gone"
            android:id="@+id/referButton"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
            app:tint="@color/main_purple" />
 
        <LinearLayout
-            android:visibility="gone"
+           android:visibility="gone"
            android:id="@+id/counterLayout"
            android:enabled="false"
            android:layout_width="53dp"
@@ -126,6 +126,22 @@
                android:src="@drawable/icon_counter"
                app:tint="@color/main_purple" />
        </LinearLayout>
+
+       <ImageView
+           android:id="@+id/infoButton"
+           android:visibility="gone"
+           android:layout_marginEnd="108dp"
+           android:layout_width="40dp"
+           android:layout_height="43dp"
+           android:layout_marginTop="8dp"
+           android:layout_alignParentEnd="true"
+           android:background="@drawable/radius_12_white"
+           android:contentDescription="@string/app_name"
+           android:padding="12dp"
+           android:src="@drawable/vector_4"
+           app:tint="@color/black" />
+
+
 
        <com.google.android.material.button.MaterialButtonToggleGroup
            android:id="@+id/type_buttons"

@@ -25,8 +25,8 @@ android {
         applicationId = "com.kotodama.tts"
         minSdk = 24
         targetSdk = 35
-        versionCode = 52
-        versionName = "1.0.4"
+        versionCode = 53
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "ar-rAE", "de",  "es", "fr", "in",
@@ -148,6 +148,9 @@ dependencies {
 
     implementation("androidx.compose.foundation:foundation:1.7.8")
     implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
+
+    //skydove ballon
+    implementation("com.github.skydoves:balloon:1.2.9")
 
 
 }
