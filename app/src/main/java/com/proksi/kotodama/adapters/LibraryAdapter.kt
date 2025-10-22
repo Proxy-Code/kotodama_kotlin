@@ -147,7 +147,7 @@ class LibraryAdapter(var mContext: Context,
             }
         }
 
-        holder.design.textType.text = item.type
+      //  holder.design.textType.text = item.type
 
         holder.design.sendButton.setOnClickListener {
             lifecycleScope.launch {
@@ -207,14 +207,10 @@ class LibraryAdapter(var mContext: Context,
             holder.design.progressBar.visibility = View.VISIBLE
             holder.design.progressBar.isIndeterminate = true
             holder.design.sendButton.visibility = View.GONE
-            holder.design.textType.visibility = View.GONE
         } else {
             holder.design.progressBar.visibility = View.GONE
             holder.design.sendButton.visibility=View.VISIBLE
-            holder.design.textType.visibility = View.VISIBLE
         }
-
-
     }
 
 

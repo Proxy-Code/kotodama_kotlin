@@ -169,6 +169,10 @@ class VoicesAdapter(var mContext: Context,
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newVoicesList: List<VoiceModel>) {
 
+
+
+        Log.d("updatetete", "updateData: burda ")
+
         if (this.items === newVoicesList) {
             return
         }

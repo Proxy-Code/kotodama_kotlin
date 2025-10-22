@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
@@ -19,11 +20,14 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import android.database.Cursor
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.media.MediaRecorder
 import android.os.Build
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewTreeObserver
+import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -40,9 +44,15 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.model.KeyPath
+import com.airbnb.lottie.value.LottieValueCallback
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -75,6 +85,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -130,6 +141,7 @@ class HomeFragment : BaseFragment() {
     private var currentBalloon: Balloon? = null
     private var isTourRunning = false
     private var spotlightOverlay: SpotlightOverlayView? = null
+    private val navigatedToLibrary = java.util.concurrent.atomic.AtomicBoolean(false)
 
 
     private val requestMicPermissionLauncher =
@@ -173,23 +185,15 @@ class HomeFragment : BaseFragment() {
         design.recyclerViewVoices.layoutManager=
             GridLayoutManager(requireContext(),3, GridLayoutManager.VERTICAL,false)
 
-//
-//        if (viewModel.allVoices.value.isNullOrEmpty()) {
-//            design.progressBar.visibility = View.VISIBLE
-//            design.loadingOverlay.visibility = View.VISIBLE
-//            (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
-//        } else {
-//
-//            viewModel.allVoices.value?.let { voices ->
-//                adapterVoice.updateData(voices)
-//            }
-//        }
-
-
         setupToggle()
 
         isStsMode = false   // TTS
         updateAuxLayoutsVisibility()
+
+        val color = ContextCompat.getColor(requireContext(), R.color.main_purple)
+        val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        design.progressBar.addValueCallback(KeyPath("**"), LottieProperty.COLOR_FILTER) { colorFilter }
+
 
         lifecycleScope.launch {
             dataStoreManager.getSubscriptionStatusKey(this@HomeFragment.requireContext()).collect { isActive ->
@@ -262,27 +266,21 @@ class HomeFragment : BaseFragment() {
 
     private fun setupObservers() {
         viewModel.allVoices.observe(viewLifecycleOwner) { voicesList ->
-
             if (!voicesList.isNullOrEmpty()) {
-                showLoading(false)
+               // showLoading(false)
                 adapterVoice.updateData(voicesList)
-                (requireActivity() as? MainActivity)?.setBottomNavigationVisibility(true)
+               // (requireActivity() as? MainActivity)?.setBottomNavigationVisibility(true)
 
                 design.recyclerViewVoices.post {
                 }
             } else {
-                showLoading(false)
+              //  showLoading(false)
             }
         }
 
 
     }
 
-    private fun showLoading(visible: Boolean) {
-        design.progressBar.visibility = if (visible) View.VISIBLE else View.GONE
-        design.loadingOverlay.visibility = if (visible) View.VISIBLE else View.GONE
-        (requireActivity() as? MainActivity)?.setBottomNavigationVisibility(!visible)
-    }
 
     private fun updateAuxLayoutsVisibility() {
         if (isStsMode) {
@@ -390,7 +388,8 @@ class HomeFragment : BaseFragment() {
                         showPaywall(RCPlacement.HOME)
                     }
                     else {
-                        design.progressBar.visibility = View.VISIBLE
+  //                      design.progressBar.visibility = View.VISIBLE
+//                        design.progressBar.playAnimation()
                         design.loadingOverlay.visibility = View.VISIBLE
                         (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
 
@@ -424,6 +423,7 @@ class HomeFragment : BaseFragment() {
                 }
             }
             design.progressBar.visibility = View.VISIBLE
+            design.progressBar.playAnimation()
             design.loadingOverlay.visibility = View.VISIBLE
             (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
 
@@ -538,14 +538,12 @@ class HomeFragment : BaseFragment() {
                 response: retrofit2.Response<ApiInterface.ProcessResponse>) {
 
                 if (response.isSuccessful) {
-                    design.progressBar.visibility = View.GONE
-                    design.loadingOverlay.visibility = View.GONE
-                    (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
-
-                    findNavController().navigate(R.id.action_homeFragment_to_libraryFragment)
+                    (requireActivity() as? MainActivity)?.setBottomNavigationVisibility(true)
+                    val nc = findNavController()
+                    nc.navigateToLibraryOnce()
                 } else {
-                    val errorMessage = response.errorBody()?.string()
                     design.progressBar.visibility = View.GONE
+                    design.progressBar.playAnimation()
                     design.loadingOverlay.visibility = View.GONE
                     (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
                 }
@@ -553,12 +551,12 @@ class HomeFragment : BaseFragment() {
 
             override fun onFailure(call: Call<ApiInterface.ProcessResponse>, t: Throwable) {
                 design.progressBar.visibility = View.GONE
+                design.progressBar.cancelAnimation()
                 design.loadingOverlay.visibility = View.GONE
                 (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
             }
         })
     }
-
 
 
     fun generateCode(userId: String): String {
@@ -673,6 +671,25 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         snapshotListener?.remove()
+        Log.d("navaga", "onDestroyView: ondestroyda ")
+        lifecycleScope.coroutineContext.cancelChildren()
+        navigatedToLibrary.set(false)
+    }
+
+    private fun NavController.navigateToLibraryOnce() {
+        // Zaten Library hiyerarşisindeysek dokunma
+        Log.d("navaga", "adadad")
+
+        val alreadyOnLibrary = currentDestination?.hierarchy?.any { it.id == R.id.libraryFragment } == true
+        if (alreadyOnLibrary) return
+        if (navigatedToLibrary.compareAndSet(false, true)) {
+            // İstersen NavOptions ile Home’u stack’ten temizle:
+            // val options = NavOptions.Builder()
+            //     .setPopUpTo(R.id.homeFragment, inclusive = true)
+            //     .build()
+            // navigate(R.id.libraryFragment, null, options)
+            navigate(R.id.libraryFragment)
+        }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -794,14 +811,42 @@ class HomeFragment : BaseFragment() {
         return MultipartBody.Part.createFormData(partName, fileName, body)
     }
 
-    private fun setupToggle(){
+    private fun setupToggle() {
         val toggleGroup = design.typeButtons
+        val btnTts = design.btnTts as MaterialButton
+        val btnSts = design.btnSts as MaterialButton
 
-        toggleGroup.check( design.btnTts.id)
+        // Renkler
+        val selectedBg   = ContextCompat.getColor(requireContext(), R.color.main_purple)
+        val unselectedBg = ContextCompat.getColor(requireContext(), android.R.color.white)
+        val selectedTxt  = ContextCompat.getColor(requireContext(), android.R.color.white)
+        val unselectedTxt= ContextCompat.getColor(requireContext(), R.color.black)
+
+        fun applyToggleColors() {
+            val checked = toggleGroup.checkedButtonId
+            val ttsChecked = (checked == btnTts.id)
+            val stsChecked = (checked == btnSts.id)
+
+            btnTts.backgroundTintList = ColorStateList.valueOf(if (ttsChecked) selectedBg else unselectedBg)
+            btnTts.setTextColor(if (ttsChecked) selectedTxt else unselectedTxt)
+            // Eğer ikon varsa:
+            btnTts.iconTint = ColorStateList.valueOf(if (ttsChecked) selectedTxt else unselectedTxt)
+
+            btnSts.backgroundTintList = ColorStateList.valueOf(if (stsChecked) selectedBg else unselectedBg)
+            btnSts.setTextColor(if (stsChecked) selectedTxt else unselectedTxt)
+            btnSts.iconTint = ColorStateList.valueOf(if (stsChecked) selectedTxt else unselectedTxt)
+
+            // İsteğe bağlı: stroke kapatma/ayarlama
+            btnTts.strokeColor = ColorStateList.valueOf(android.graphics.Color.TRANSPARENT)
+            btnSts.strokeColor = ColorStateList.valueOf(android.graphics.Color.TRANSPARENT)
+        }
+
+        // Varsayılan seçim
+        toggleGroup.check(btnTts.id)
+        applyToggleColors()
 
         toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (!isChecked) return@addOnButtonCheckedListener
-
             when (checkedId) {
                 R.id.btn_tts -> {
                     isStsMode = false
@@ -822,6 +867,7 @@ class HomeFragment : BaseFragment() {
                     design.editTextSpeechLayout.visibility = View.VISIBLE
                 }
             }
+            applyToggleColors()
         }
     }
 

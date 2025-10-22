@@ -4,12 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingBottom="20dp"
     android:paddingTop="50dp"
     android:layout_above="@+id/bottomNavigationView"
     android:layout_height="match_parent">
 <androidx.core.widget.NestedScrollView
-
     android:id="@+id/homeScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -140,8 +138,6 @@
            android:src="@drawable/vector_4"
            app:tint="@color/black" />
 
-
-
        <com.google.android.material.button.MaterialButtonToggleGroup
            android:id="@+id/type_buttons"
            android:layout_width="match_parent"
@@ -156,17 +152,20 @@
                android:id="@+id/btn_tts"
                style="@style/Widget.Material3.Button.OutlinedButton"
                android:layout_width="0dp"
-               app:strokeWidth="0dp"
-               app:strokeColor="@android:color/transparent"
                android:layout_height="40dp"
                android:layout_weight="1"
                android:text="Text To Speech"
                app:shapeAppearanceOverlay="@style/Shape.Capsule"
-           />
+               app:backgroundTint="@drawable/toggle_button_selector"
+               app:iconTint="@drawable/toggle_text_selector"
+               app:strokeColor="@android:color/transparent"
+               android:textColor="@drawable/toggle_text_selector" />
+
 
            <com.google.android.material.button.MaterialButton
                android:id="@+id/btn_sts"
                app:strokeWidth="0dp"
+               android:textColor="@color/black"
                app:strokeColor="@android:color/transparent"
                style="@style/Widget.Material3.Button.OutlinedButton"
                android:layout_width="0dp"
@@ -177,8 +176,6 @@
                 />
 
        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-
 
        <FrameLayout
            android:id="@+id/textFrameLayout"
@@ -408,7 +405,7 @@
            android:layout_below="@+id/recycler_view_categories"
            android:layout_width="match_parent"
            android:layout_marginTop="20dp"
-           android:layout_marginBottom="30dp"
+           android:layout_marginBottom="45dp"
            android:layout_height="wrap_content"/>
 
 
@@ -424,6 +421,7 @@
        android:layout_marginHorizontal="30dp"
         android:layout_gravity="bottom|center_horizontal"
         android:text="@string/create"
+        android:layout_marginBottom="10dp"
         android:textSize="18sp"
         android:fontFamily="@font/bold"
         android:paddingVertical="15dp"
@@ -436,12 +434,16 @@
         android:background="#80000000"
         android:visibility="gone" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        app:lottie_rawRes="@raw/lottie"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/paywallComposeView"
