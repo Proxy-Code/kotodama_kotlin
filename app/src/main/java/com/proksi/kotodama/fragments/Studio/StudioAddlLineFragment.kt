@@ -235,7 +235,6 @@ class StudioAddLineFragment : Fragment() {
 
         val notReady = conversations.any { it.isGenerating }
         if (notReady) {
-            Log.d("Export", "Bazı konuşmalar hâlâ oluşturuluyor. Export yapılamaz.")
             return
         }
 
@@ -282,14 +281,11 @@ class StudioAddLineFragment : Fragment() {
                 override fun onResponse(call: Call, response: Response) {
                     val responseBody = response.body?.string()
 
-                    Log.d("export", "onResponse:${responseBody} ")
                     if (response.isSuccessful){
-                        Log.d("export", "onResponse:${response.message} ")
                         requireActivity().runOnUiThread {
                             findNavController().navigate(R.id.action_studioAddLineFragment_to_libraryFragment)
                         }
                     }else{
-                        Log.d("export", "onResponse: ${response.message}")
                         requireActivity().runOnUiThread {
                             Toast.makeText(requireContext(), "Export hatası", Toast.LENGTH_SHORT).show()
                         }
@@ -318,7 +314,6 @@ class StudioAddLineFragment : Fragment() {
                 }
 
                 snapshot?.documents?.forEach { doc ->
-                    Log.d("DEBUG", "Doc ID: ${doc.id} - Data: ${doc.data}") // Log ekle
                 }
 
                 val conversations = snapshot?.documents?.mapNotNull { doc ->
@@ -330,7 +325,6 @@ class StudioAddLineFragment : Fragment() {
                             this.isGenerating = doc.getBoolean("isGenerating") ?: false
                         }
                     } catch (e: Exception) {
-                        Log.e("DEBUG", "Mapping error for doc ${doc.id}", e)
                         null
                     }
                 } ?: emptyList()
@@ -370,7 +364,6 @@ class StudioAddLineFragment : Fragment() {
             collectionRef.document(item.id)
                 .update(data as Map<String, Any>)
                 .addOnSuccessListener {
-                    Log.d("FirebaseUpdate", "Updated ${item.id} with order $index")
                 }
                 .addOnFailureListener { e ->
                     Log.e("FirebaseUpdate", "Error updating ${item.id}", e)
@@ -455,11 +448,9 @@ class StudioAddLineFragment : Fragment() {
 
         docRef.update("name", newName)
             .addOnSuccessListener {
-                Log.d("Firestore", "Dosya adı güncellendi: $newName")
                 item = item.copy(name = newName) // local item'ı da güncelle
             }
             .addOnFailureListener { e ->
-                Log.e("Firestore", "Dosya adı güncellenemedi", e)
             }
     }
 

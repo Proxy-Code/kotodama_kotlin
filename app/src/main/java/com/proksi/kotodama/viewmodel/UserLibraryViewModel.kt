@@ -26,7 +26,6 @@ class UserLibraryViewModel : ViewModel() {
                     fetchItems(uid)
                 } else {
                     _libraryItems.value = emptyList()
-                    Log.w("Firestore", "UID is null.")
                 }
             }
         }
@@ -38,7 +37,6 @@ class UserLibraryViewModel : ViewModel() {
         registration = userDocRef.addSnapshotListener { querySnapshot, exception ->
             if (exception != null) {
                 _libraryItems.value = emptyList()
-                Log.w("Firestore", "Listen failed.", exception)
                 return@addSnapshotListener
             }
 
@@ -66,7 +64,6 @@ class UserLibraryViewModel : ViewModel() {
 
 
     fun removeFirestoreListener() {
-            Log.d("cleared", "removeFirestoreListener: ")
             registration?.remove()
             registration = null // Set to null after removing the listener
         }

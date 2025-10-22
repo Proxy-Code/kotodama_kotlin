@@ -164,7 +164,7 @@ class HomeFragment : BaseFragment() {
         setupSts()
         setupRecordButton()
 
-        viewModel.fetchVoices("all", requireContext(), true)
+        viewModel.fetchVoicesOnce(requireContext(), false)
 
         viewModel.cloneCount.observe(viewLifecycleOwner) { cloneCount ->
             updateIsShowSlotPaywall(cloneCount)
@@ -173,18 +173,17 @@ class HomeFragment : BaseFragment() {
         design.recyclerViewVoices.layoutManager=
             GridLayoutManager(requireContext(),3, GridLayoutManager.VERTICAL,false)
 
-
-        if (viewModel.allVoices.value.isNullOrEmpty()) {
-            design.progressBar.visibility = View.VISIBLE
-            design.loadingOverlay.visibility = View.VISIBLE
-            (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
-            viewModel.fetchVoices("all", requireContext(), true)
-        } else {
-
-            viewModel.allVoices.value?.let { voices ->
-                adapterVoice.updateData(voices)
-            }
-        }
+//
+//        if (viewModel.allVoices.value.isNullOrEmpty()) {
+//            design.progressBar.visibility = View.VISIBLE
+//            design.loadingOverlay.visibility = View.VISIBLE
+//            (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
+//        } else {
+//
+//            viewModel.allVoices.value?.let { voices ->
+//                adapterVoice.updateData(voices)
+//            }
+//        }
 
 
         setupToggle()
@@ -199,6 +198,7 @@ class HomeFragment : BaseFragment() {
                 }
                 if (isAdded) {
                     isSubscribed = isActive
+                    adapterVoice.updateSubscription(isActive)
 
                     if (isActive) {
                         design.imageCrown.visibility = View.GONE
@@ -212,8 +212,6 @@ class HomeFragment : BaseFragment() {
                         design.referButton.visibility = View.GONE
                     }
 
-                } else {
-                    Log.d(TAG, "Fragment not added or view is null, skipping UI update")
                 }
             }
         }
@@ -230,20 +228,14 @@ class HomeFragment : BaseFragment() {
             viewLifecycleOwner,
             object : VoicesAdapter.OnVoiceSelectedListener {
                 override fun onVoiceSelected(voice: VoiceModel) {
-                    Log.d("adapterr", "ses: ${voice.id}")
                     if (voice.id == "create_voice" && isSubscribed) {
-                        Log.d("adapterr", "onVoiceSelected: burda1" )
                         if (isShowSlotPaywall) {
                             showPaywall(RCPlacement.CLONE)
-                            Log.d("adapterr", "onVoiceSelected: burda12" )
-
                         } else {
                             findNavController().navigate(R.id.action_homeFragment_to_voiceLabNameFragment)
-                            Log.d("adapterr", "onVoiceSelected: burda13" )
 
                         }
                     } else if (voice.id == "create_voice") {
-                        Log.d("adapterr", "bureda 3 home ")
                         showPaywall(RCPlacement.HOME)
                     } else {
                         selectedVoiceId = voice.id
@@ -265,16 +257,7 @@ class HomeFragment : BaseFragment() {
             setHasFixedSize(true)
         }
 
-        design.homeScroll.setOnScrollChangeListener { v: NestedScrollView, _, scrollY, _, oldScrollY ->
-            if (scrollY > oldScrollY) { // Aşağı kaydırma
-                val view = v.getChildAt(v.childCount - 1)
-                val diff = (view.bottom - (v.height + v.scrollY))
 
-                if (diff < 100 && !viewModel.isLoading && !viewModel.isLastPage) {
-                    viewModel.loadMoreVoices(requireContext())
-                }
-            }
-        }
     }
 
     private fun setupObservers() {
@@ -286,32 +269,13 @@ class HomeFragment : BaseFragment() {
                 (requireActivity() as? MainActivity)?.setBottomNavigationVisibility(true)
 
                 design.recyclerViewVoices.post {
-                    Log.d("Pagination", "RecyclerView item count: ${adapterVoice.itemCount}")
                 }
             } else {
                 showLoading(false)
             }
         }
 
-        viewModel.loadingState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is HomeViewModel.LoadingState.Loading -> {
-                    if (viewModel.allVoices.value.isNullOrEmpty()) {
-                        showLoading(true)
-                    }
-                }
-                is HomeViewModel.LoadingState.LoadingMore -> {
 
-                }
-                is HomeViewModel.LoadingState.Success -> {
-                    showLoading(false)
-                }
-                is HomeViewModel.LoadingState.Error -> {
-                    showLoading(false)
-                    Toast.makeText(requireContext(), "Error: ${state.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
     }
 
     private fun showLoading(visible: Boolean) {
@@ -584,12 +548,10 @@ class HomeFragment : BaseFragment() {
                     design.progressBar.visibility = View.GONE
                     design.loadingOverlay.visibility = View.GONE
                     (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
-                    Log.d(TAG, "Error: $errorMessage")
                 }
             }
 
             override fun onFailure(call: Call<ApiInterface.ProcessResponse>, t: Throwable) {
-                Log.d(TAG,"Failure: ${t.message}")
                 design.progressBar.visibility = View.GONE
                 design.loadingOverlay.visibility = View.GONE
                 (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
@@ -641,7 +603,6 @@ class HomeFragment : BaseFragment() {
                         }
                     }
                 } else {
-                    Log.d("HomeFragment", "No UID found in DataStore")
                 }
             }
         }
@@ -668,7 +629,6 @@ class HomeFragment : BaseFragment() {
         // Clone count observe'ını sadece bir kere başlat
         setupCloneCountObserver()
     }
-
 
     private fun createInitialUserData(uid: String, userDocRef: DocumentReference) {
         serverRemaining = 150
@@ -738,7 +698,6 @@ class HomeFragment : BaseFragment() {
         }
 
     private fun openFilePicker() {
-
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             type = "audio/*"
         }
@@ -765,6 +724,8 @@ class HomeFragment : BaseFragment() {
                         val filePart = withContext(Dispatchers.IO) {
                             uriToAudioPart(requireContext(), audioUri)
                         }
+
+                        Log.d("filepart", "$filePart : ")
 
                         // 4) API çağrısı (IO thread'de)
                         val startTime = System.currentTimeMillis()
@@ -1044,7 +1005,11 @@ class HomeFragment : BaseFragment() {
         spotlightOverlay = null
     }
 
+
+
     // --- Yardımcılar ---
+
+
     private inline fun View.awaitLaidOut(crossinline onReady: () -> Unit) {
         if (ViewCompat.isLaidOut(this) && width > 0 && height > 0) onReady()
         else viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

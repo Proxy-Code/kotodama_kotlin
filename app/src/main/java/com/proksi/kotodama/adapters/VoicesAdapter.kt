@@ -83,13 +83,22 @@ class VoicesAdapter(var mContext: Context,
         return items.size
     }
 
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.contains("SUB_STATE_CHANGED") && items[position].id == "create_voice") {
+            val imgResId = if (isSubscribed) R.drawable.plus_frame_subs else R.drawable.plus_clone_unsubs
+            Glide.with(holder.itemView.context)
+                .load(imgResId)
+                .into(holder.design.cardImgView)
+            return
+        }
+        super.onBindViewHolder(holder, position, payloads)
+    }
+
     @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val voice = items[position]
 
         if (voice.id=="create_voice"){
-                Log.d("create voice da", "onBindViewHolder: $isSubscribed ")
-                //val imgResId = if (isSubscribed) R.drawable.sing_ai_subscribed else R.drawable.sing_ai
             val imgResId = if (isSubscribed) R.drawable.plus_frame_subs else R.drawable.plus_clone_unsubs
                 Glide.with(holder.itemView.context)
                     .load(imgResId)
@@ -98,12 +107,10 @@ class VoicesAdapter(var mContext: Context,
         } else {
             if(voice.isClone){
                 if(voice.id=="create_voice"){
-                    Log.d("adapterr", "onBindViewHolder: burda")
                     holder.design.topRightImage.visibility=View.GONE
                 }else{
                     holder.design.topRightImage.visibility=View.VISIBLE
                 }
-
             }else{
                 holder.design.topRightImage.visibility=View.GONE
             }
@@ -128,7 +135,6 @@ class VoicesAdapter(var mContext: Context,
                 builder.setMessage("Are you sure you want to delete this voice?")
 
                 builder.setPositiveButton("Delete") { dialog, _ ->
-                    // Call the ViewModel's delete function to delete from Firestore
                     voiceSelectedListener.deleteClone(voice.id, holder.itemView.context)
                     dialog.dismiss()
                 }
@@ -162,24 +168,28 @@ class VoicesAdapter(var mContext: Context,
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newVoicesList: List<VoiceModel>) {
-        Log.d("pagination adapter", "updateData: ${newVoicesList.size}")
 
-        // Aynı liste referansı kontrolü
         if (this.items === newVoicesList) {
-            Log.d("pagination adapter", "Same list reference, skipping update")
-            return
-        }
-
-        // Aynı içerik kontrolü
-        if (this.items == newVoicesList) {
-            Log.d("pagination adapter", "Same list content, skipping update")
             return
         }
 
         this.items = ArrayList(newVoicesList)
         notifyDataSetChanged()
-        Log.d("pagination adapter", "Data updated successfully")
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateSubscription(subscribed: Boolean) {
+        if (this.isSubscribed == subscribed) return
+        this.isSubscribed = subscribed
+
+        val idx = items.indexOfFirst { it.id == "create_voice" }
+        if (idx != -1) {
+            notifyItemChanged(idx, "SUB_STATE_CHANGED")
+        } else {
+            notifyDataSetChanged()
+        }
+    }
+
 
 
 }

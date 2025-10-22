@@ -120,7 +120,6 @@ class StudioCharacterFragment : Fragment() {
 //            }
 //        }
 
-        viewModel.fetchVoices("all", requireContext())
     }
 
     private fun callPaywall(item: String){

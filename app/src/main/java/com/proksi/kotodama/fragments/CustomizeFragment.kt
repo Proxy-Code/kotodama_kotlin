@@ -2,15 +2,12 @@ package com.proksi.kotodama.fragments
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.Matrix
 import android.graphics.drawable.ColorDrawable
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -20,12 +17,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import java.io.File
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -33,14 +29,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.kotodama.tts.R
 import com.kotodama.tts.databinding.FragmentCustomizeBinding
-import com.kotodama.tts.databinding.FragmentVoiceLabFormatBinding
 import com.proksi.kotodama.adapters.ImagesAdapter
 import com.proksi.kotodama.dataStore.DataStoreManager
+import com.proksi.kotodama.models.AudioRecord
 import com.proksi.kotodama.objects.EventLogger
 import com.proksi.kotodama.retrofit.ApiClient
 import com.proksi.kotodama.retrofit.ApiClient.imagesService
@@ -49,25 +44,19 @@ import com.proksi.kotodama.viewmodel.CloneViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-
 class CustomizeFragment : Fragment() {
-
     private lateinit var design:FragmentCustomizeBinding
     private val TAG = CustomizeFragment::class.java.simpleName
-    private lateinit var photoUri: Uri
     private lateinit var name:String
     private val viewModel: CloneViewModel by activityViewModels()
-    private lateinit var imagesButtons:List<ImageView>
     private lateinit var imageUrls:List<String>
     private lateinit var dataStoreManager: DataStoreManager
     private var uid: String? = null
@@ -91,48 +80,47 @@ class CustomizeFragment : Fragment() {
                     idToken?.let {
                         viewModel.setIdToken(it)
                     }
-
                 } catch (e: Exception) {
                     Log.e("FirebaseAuth", "Error getting ID token", e)
                 }
             }
+
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     val idToken = getFirebaseIdToken()
                     if (idToken != null) {
-                        val imageUrl = viewModel.voiceImage.value ?: ""  // URL olarak göndermek
+                        val imageUrl = viewModel.voiceImage.value ?: ""
                         val name = viewModel.voiceName.value ?: ""
                         val cleanedIdToken = idToken.trim()
-                        val allowedFormats = listOf("wav", "mp3", "m4a")
-                        val audioParts = viewModel.audioFilePaths.value?.mapNotNull { audioRecord ->
-                            val audioFile = File(audioRecord.path)
-                            val fileExtension = audioFile.extension.lowercase()
 
-                            if (allowedFormats.contains(fileExtension)) {
-                                val requestFile = RequestBody.create("audio/$fileExtension".toMediaTypeOrNull(), audioFile)
-                                MultipartBody.Part.createFormData("files", audioFile.name, requestFile)
-                            } else {
-                                Log.e("Upload", "Invalid file format: $fileExtension. Allowed formats: $allowedFormats")
-                                null
-                            }
-                        } ?: emptyList()
+                        val records = viewModel.audioFilePaths.value ?: emptyList()
+                        val audioParts = prepareAudioPartsFromRecords(records)  // <-- değişen kısım
+
                         if (audioParts.isNotEmpty()) {
-                            uploadData(cleanedIdToken, imageUrl, name, audioParts )
-                        } else{
+                            uploadData(cleanedIdToken, imageUrl, name, audioParts)
+                        } else {
                             Log.d(TAG, "uploadData: No valid audio files to upload")
+                            Toast.makeText(requireContext(), "Something went wrong, please try again", Toast.LENGTH_LONG).show()
+                            findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
+
                         }
                     } else {
                         Log.e(TAG, "Firebase ID Token is null")
+                        Toast.makeText(requireContext(), "Something went wrong, please try again", Toast.LENGTH_LONG).show()
+                        findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
+
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Error fetching Firebase ID token", e)
+                    Toast.makeText(requireContext(), "Something went wrong, please try again", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
+
                 }
             }
 
+
             design.progressBar.visibility = View.VISIBLE
             design.loadingOverlay.visibility = View.VISIBLE
-
-            //findNavController().navigate(R.id.action_customizeFragment_to_voiceLabLoadingFragment)
         }
 
         design.backBtn.setOnClickListener{
@@ -141,13 +129,9 @@ class CustomizeFragment : Fragment() {
 
         lifecycleScope.launch {
             uid = dataStoreManager.getUid(requireContext()).firstOrNull().toString()
-            Log.d(TAG, "onCreateView: $uid")
         }
 
-
-
         viewModel.isButtonEnabled.observe(viewLifecycleOwner, Observer { isEnabled ->
-
             design.continueButton.isEnabled = isEnabled
             if (isEnabled) {
                 design.continueButton.setBackgroundResource(R.drawable.create_btn_active)
@@ -167,31 +151,15 @@ class CustomizeFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        suspend fun getFirebaseIdToken(): String? = suspendCancellableCoroutine { cont ->
-            val firebaseUser = Firebase.auth.currentUser
-            firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    cont.resume(task.result?.token)
-                } else {
-                    cont.resumeWithException(task.exception ?: Exception("Unknown error"))
-                }
-            }
-        }
-
-
-
         design.uploadPhoto.setOnClickListener{
             showCustomDialog()
         }
 
         imagesService.getImages().enqueue(object : Callback<List<String>> {
-
-
             @SuppressLint("SuspiciousIndentation")
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
                 if (response.isSuccessful) {
                     imageUrls = response.body()!!
-                    Log.d("aaa", "onResponse: ${imageUrls.size}")
                     design.uploadPhoto.isEnabled = true
 
                 } else {
@@ -206,49 +174,6 @@ class CustomizeFragment : Fragment() {
 
 
         return design.root
-    }
-
-    private fun openGallery() {
-        pickImageLauncher.launch("image/*")
-    }
-
-
-    private val pickImageLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                photoUri = it
-                viewModel.setVoiceImage(photoUri.toString())
-                val bitmap = getCorrectlyOrientedBitmap(photoUri)
-                design.uploadPhoto.setImageBitmap(bitmap)
-                design.fotoImg.visibility=View.GONE
-            }
-        }
-
-    private fun getCorrectlyOrientedBitmap(uri: Uri): Bitmap? {
-        val inputStream = requireContext().contentResolver.openInputStream(uri)
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-        inputStream?.close()
-
-        val exifInterface = ExifInterface(requireContext().contentResolver.openInputStream(uri)!!)
-        val orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
-
-        val rotatedBitmap = when (orientation) {
-            ExifInterface.ORIENTATION_ROTATE_90 -> TransformationUtils.rotateImage(bitmap, 90)
-            ExifInterface.ORIENTATION_ROTATE_180 -> TransformationUtils.rotateImage(bitmap, 180)
-            ExifInterface.ORIENTATION_ROTATE_270 -> TransformationUtils.rotateImage(bitmap, 270)
-            ExifInterface.ORIENTATION_NORMAL -> bitmap
-            ExifInterface.ORIENTATION_TRANSPOSE -> transposeImage(bitmap)
-            else -> bitmap
-        }
-
-        return rotatedBitmap
-    }
-
-    private fun transposeImage(source: Bitmap): Bitmap {
-        val matrix = Matrix()
-        matrix.postRotate(90f)
-        matrix.postScale(-1f, 1f)
-        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -283,16 +208,12 @@ class CustomizeFragment : Fragment() {
             dialog.show()
         } else {
             Log.e(TAG, "imageUrls not initialized yet.")
-            // Optionally show a message to the user or handle it appropriately
         }
     }
 
     fun uploadData(idToken:String,imageUrl:String,name:String,audioParts: List<MultipartBody.Part>) {
-        Log.d(TAG, "uploadData: $idToken ")
-        Log.d(TAG, "uploadData: $imageUrl")
 
         if (idToken.isEmpty() || imageUrl.isEmpty() || name.isEmpty()) {
-            Log.e(TAG, "missing: idToken=$idToken, imageUrl=$imageUrl, name=$name")
             return
         }
         ApiClient.cloneService.cloneRequest(
@@ -302,29 +223,19 @@ class CustomizeFragment : Fragment() {
             files = audioParts
         ).enqueue(object : Callback<ApiInterface.CloneResponse> {
             override fun onResponse(call: Call<ApiInterface.CloneResponse>, response: Response<ApiInterface.CloneResponse>) {
-                Log.d("id token", idToken)
                 if (response.isSuccessful) {
                     val result = response.body()
-                    val status = result?.status
-                    Log.d("Upload", "Clone created successfully with status: $status")
                     findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
                 } else {
-                    Log.e("Upload", "Failed: ${response.errorBody()?.string()}")
                     Toast.makeText(requireContext(), "Failed ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
                 }
-
-
             }
 
             override fun onFailure(call: Call<ApiInterface.CloneResponse>, t: Throwable) {
-                Log.e("Upload", "onFailure: ${t.message}")
-                //Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_LONG).show()
                 findNavController().navigate(R.id.action_customizeFragment_to_homeFragment)
-
             }
         })
-
     }
 
     suspend fun getFirebaseIdToken(): String? = suspendCancellableCoroutine { cont ->
@@ -332,13 +243,86 @@ class CustomizeFragment : Fragment() {
         firebaseUser?.getIdToken(true)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 cont.resume(task.result?.token)
-                Log.d(TAG, "getFirebaseIdToken: success ")
             } else {
-                Log.d(TAG, "getFirebaseIdToken: basarisiz")
                 cont.resumeWithException(task.exception ?: Exception("Unknown error"))
             }
         }
     }
+
+    private fun Fragment.prepareAudioPartsFromRecords(
+        records: List<AudioRecord>,
+        allowed: Set<String> = setOf("wav", "mp3", "m4a")
+    ): List<MultipartBody.Part> {
+
+        fun mimeToExt(mime: String?): String? = when (mime?.lowercase()) {
+            "audio/wav", "audio/x-wav" -> "wav"
+            "audio/mpeg", "audio/mp3" -> "mp3"
+            "audio/mp4", "audio/aac", "audio/m4a", "audio/x-m4a" -> "m4a"
+            else -> null
+        }
+
+        val parts = mutableListOf<MultipartBody.Part>()
+        val cr = requireContext().contentResolver
+
+        for (rec in records) {
+            val path = rec.path
+            try {
+                if (path.startsWith("content://")) {
+                    val uri = Uri.parse(path)
+
+                    // 1) MIME ve görünen ad
+                    val mime = cr.getType(uri)
+                    var ext = mimeToExt(mime)
+                    var displayName: String? = null
+
+                    cr.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { c ->
+                        val idx = c.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                        if (idx >= 0 && c.moveToFirst()) displayName = c.getString(idx)
+                    }
+                    if (ext == null && !displayName.isNullOrBlank()) {
+                        val dot = displayName!!.lastIndexOf('.')
+                        if (dot != -1 && dot < displayName!!.length - 1) {
+                            ext = displayName!!.substring(dot + 1).lowercase()
+                        }
+                    }
+
+                    if (ext == null || ext !in allowed) {
+                        Log.e("Upload", "Unsupported audio from content:// (mime=$mime, name=$displayName, ext=$ext)")
+                        continue
+                    }
+
+                    // 2) İçeriği cache'e kopyala
+                    val temp = File(requireContext().cacheDir, "upload_${System.currentTimeMillis()}.$ext")
+                    cr.openInputStream(uri)?.use { input ->
+                        temp.outputStream().use { output -> input.copyTo(output) }
+                    }
+
+                    // 3) Multipart part oluştur
+                    val mediaType = ("audio/$ext").toMediaTypeOrNull()
+                    val body = temp.asRequestBody(mediaType)
+                    val fileName = displayName ?: temp.name
+                    val part = MultipartBody.Part.createFormData("files", fileName, body)
+                    parts += part
+
+                } else {
+                    // Gerçek dosya yolu kullanımı
+                    val file = File(path)
+                    val ext = file.extension.lowercase()
+                    if (ext in allowed && file.exists()) {
+                        val body = file.asRequestBody(("audio/$ext").toMediaTypeOrNull())
+                        parts += MultipartBody.Part.createFormData("files", file.name, body)
+                    } else {
+                        Log.e("Upload", "Invalid file path or ext: ${file.absolutePath} (ext=$ext)")
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("Upload", "Failed to prepare part for $path", e)
+            }
+        }
+        return parts
+    }
+
+
 
 }
 
