@@ -3,10 +3,14 @@ package com.proksi.kotodama
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,52 +42,15 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         dataStoreManager = DataStoreManager
 
-        askNotificationPermission()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController= navHostFragment.navController
 
-        binding.bottomNavigationView.setupWithNavController(navController)
-        binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.home_bottom -> navController.navigate(R.id.homeFragment)
-                R.id.cover_bottom -> {
-                    navController.navigate(R.id.libraryFragment)
-                }
-                R.id.studio_bottom -> navController.navigate(R.id.fragmentIntro)
-                R.id.settings_bottom -> navController.navigate(R.id.settingsFragment)
-            }
-            true
-        }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.voiceLabFormatFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.voiceLabNameFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.voiceLabPhotoFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.recordVoiceFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.customizeFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.voiceLabLoadingFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.referFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.studioTextFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.studioAddLineFragment -> binding.bottomNavigationView.visibility = View.GONE
-                R.id.studioCharacterFragment -> binding.bottomNavigationView.visibility = View.GONE
+        askNotificationPermission()
+        setupBottomMenu()
 
-                else -> binding.bottomNavigationView.visibility = View.VISIBLE
-            }
-            when (destination.id) {
-                R.id.homeFragment -> binding.bottomNavigationView.menu.findItem(R.id.home_bottom).isChecked =
-                    true
 
-                R.id.libraryFragment -> binding.bottomNavigationView.menu.findItem(
-                    R.id.cover_bottom
-                ).isChecked = true
-
-                R.id.settingsFragment -> binding.bottomNavigationView.menu.findItem(R.id.settings_bottom).isChecked =
-                    true
-            }
-
-        }
 
         val sharedPreferences: SharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val lastOfferKey = "lastOfferKey"
@@ -169,6 +136,68 @@ class MainActivity : BaseActivity() {
             })
         } else {
             // TODO: Inform user that that your app will not show notifications.
+        }
+    }
+
+    private fun setTabUnselected(tab: LinearLayout, icon: ImageView, text: TextView) {
+        icon.setColorFilter(ContextCompat.getColor(this, R.color.unselected_nav), PorterDuff.Mode.SRC_IN)
+        text.setTextColor(ContextCompat.getColor(this, R.color.unselected_nav))
+    }
+
+    private fun setTabSelected(tab: LinearLayout, icon: ImageView, text: TextView) {
+        icon.setColorFilter(ContextCompat.getColor(this, R.color.main_purple), PorterDuff.Mode.SRC_IN)
+        text.setTextColor(ContextCompat.getColor(this, R.color.main_purple))
+    }
+    private fun resetTabSelection(binding: ActivityMainBinding) {
+        setTabUnselected(binding.navHome,binding.navHomeImg,binding.navHomeText)
+        setTabUnselected(binding.navLibrary, binding.navLibraryImg, binding.navLibraryText)
+        setTabUnselected(binding.navSettings, binding.navSettingsImg, binding.navSettingsText)
+    }
+    private fun setupBottomMenu() {
+        navController.addOnDestinationChangedListener {_, destination, _ ->
+            resetTabSelection(binding)
+            when (destination.id) {
+                R.id.homeFragment -> setTabSelected(
+                    binding.navHome,
+                    binding.navHomeImg,
+                    binding.navHomeText
+                )
+
+                R.id.libraryFragment -> setTabSelected(
+                    binding.navLibrary,
+                    binding.navLibraryImg,
+                    binding.navLibraryText
+                )
+
+                R.id.settingsFragment-> setTabSelected(
+                    binding.navSettings,
+                    binding.navSettingsImg,
+                    binding.navSettingsText
+                )
+            }
+
+            binding.navHome.setOnClickListener {
+                navController.navigate(R.id.homeFragment)}
+
+            binding.navLibrary.setOnClickListener {
+                navController.navigate(R.id.libraryFragment)}
+
+            binding.navSettings.setOnClickListener {
+                navController.navigate(R.id.settingsFragment)}
+
+            binding.bottomNavigationView.visibility = if (
+                destination.id == R.id.voiceLabFormatFragment ||
+                destination.id == R.id.voiceLabNameFragment ||
+                destination.id == R.id.voiceLabPhotoFragment||
+                destination.id == R.id.voiceLabLoadingFragment ||
+                destination.id == R.id.recordVoiceFragment ||
+                destination.id == R.id.customizeFragment ||
+                destination.id == R.id.referFragment  ||
+                destination.id == R.id.languageFragment
+            ) View.GONE else View.VISIBLE
+
+
+
         }
     }
 

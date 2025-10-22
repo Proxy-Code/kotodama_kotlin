@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="40dp"
-    android:paddingBottom="80dp"
+    android:background="@color/main_bg"
+    android:paddingBottom="10dp"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settingsFragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_bg"
         tools:context="com.example.songcover.ui.fragments.SettingsFragment">
 
         <TextView

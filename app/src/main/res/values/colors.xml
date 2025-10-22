@@ -13,6 +13,7 @@
     <color name="progress_red">#FF0000</color>
     <color name="progress_green">#00FF00</color>
     <color name="christmas_green">#1A8D7D</color>
+    <color name="unselected_nav">#C1C1C1</color>
 
 
         <array name="progress_bar_colors">
