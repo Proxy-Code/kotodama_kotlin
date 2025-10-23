@@ -25,8 +25,8 @@ android {
         applicationId = "com.kotodama.tts"
         minSdk = 24
         targetSdk = 35
-        versionCode = 53
-        versionName = "1.0.2"
+        versionCode = 56
+        versionName = "1.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += listOf("en", "ar-rAE", "de",  "es", "fr", "in",

@@ -3,6 +3,7 @@ package com.proksi.kotodama.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,8 +26,10 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.media.MediaRecorder
 import android.os.Build
+import android.os.Looper
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewTreeObserver
+import android.webkit.MimeTypeMap
 import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -86,15 +89,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import retrofit2.Call
 import java.security.MessageDigest
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.math.max
+import kotlin.math.pow
 
 class HomeFragment : BaseFragment() {
 
@@ -388,8 +394,7 @@ class HomeFragment : BaseFragment() {
                         showPaywall(RCPlacement.HOME)
                     }
                     else {
-  //                      design.progressBar.visibility = View.VISIBLE
-//                        design.progressBar.playAnimation()
+  //
                         design.loadingOverlay.visibility = View.VISIBLE
                         (requireActivity() as MainActivity).setBottomNavigationVisibility(false)
 
@@ -516,7 +521,6 @@ class HomeFragment : BaseFragment() {
         name: String?,
         isClone: Boolean,
     ) {
-
         if (selectedVoiceId.isNullOrEmpty() || imageUrl.isNullOrEmpty() || name.isNullOrEmpty()) {
             Log.e(TAG, "Payload values are missing: selectedVoiceId=$selectedVoiceId, imageUrl=$imageUrl, name=$name")
             return
@@ -532,32 +536,77 @@ class HomeFragment : BaseFragment() {
             idToken = idToken
         )
 
-        ApiClient.apiService.processRequest(payload).enqueue(object : retrofit2.Callback<ApiInterface.ProcessResponse> {
-            override fun onResponse(
-                call: Call<ApiInterface.ProcessResponse>,
-                response: retrofit2.Response<ApiInterface.ProcessResponse>) {
+        // UI: yükleme aç (burada açıyorsan)
+        design.loadingOverlay.visibility = View.VISIBLE
+        design.progressBar.visibility = View.VISIBLE
+        design.progressBar.playAnimation()
+
+        // Aynı ekranda garanti olsun diye viewLifecycleOwner.lifecycleScope kullanıyoruz
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                // Retrofit Call oluştur
+                val call = ApiClient.createService.processRequest(payload)
+
+                // OkHttp per-call timeout (enqueue/execute fark etmeksizin çalışır)
+                call.timeout().timeout(60, java.util.concurrent.TimeUnit.SECONDS)
+
+                // 60 sn üst sınır: yanıt dönmezse otomatik iptal ve exception atar
+                val response = withTimeout(60_000) {
+                    withContext(Dispatchers.IO) {
+                        call.execute() // SENKRON çağrı (IO thread)
+                    }
+                }
 
                 if (response.isSuccessful) {
                     (requireActivity() as? MainActivity)?.setBottomNavigationVisibility(true)
-                    val nc = findNavController()
-                    nc.navigateToLibraryOnce()
+                    findNavController().navigateToLibraryOnce()
                 } else {
-                    design.progressBar.visibility = View.GONE
-                    design.progressBar.playAnimation()
-                    design.loadingOverlay.visibility = View.GONE
+                    Log.e(TAG, "onResponse error: ${response.code()} ${response.errorBody()?.string()}")
+                    showErrorDialog() {
+
+                    }
                     (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
                 }
-            }
 
-            override fun onFailure(call: Call<ApiInterface.ProcessResponse>, t: Throwable) {
-                design.progressBar.visibility = View.GONE
-                design.progressBar.cancelAnimation()
-                design.loadingOverlay.visibility = View.GONE
+            } catch (e: kotlinx.coroutines.TimeoutCancellationException) {
+                Log.e(TAG, "Request timed out (60s)", e)
+                showErrorDialog() {
+
+                }
                 (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Request failed: ${e.message}", e)
+                showErrorDialog() {
+
+                }
+                (requireActivity() as MainActivity).setBottomNavigationVisibility(true)
+
+            } finally {
+                // UI: her durumda kapat
+                design.progressBar.cancelAnimation()
+                design.progressBar.visibility = View.GONE
+                design.loadingOverlay.visibility = View.GONE
             }
-        })
+        }
     }
 
+
+
+    private fun showErrorDialog(onRetry: () -> Unit) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Error")
+            .setMessage("Failed to connect to service")
+            .setCancelable(false)
+            .setPositiveButton("Try Again") { dialog, _ ->
+                dialog.dismiss()
+                onRetry()
+            }
+            .setNegativeButton("Kapat") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
 
     fun generateCode(userId: String): String {
         // Get the current time in milliseconds
@@ -671,23 +720,15 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         snapshotListener?.remove()
-        Log.d("navaga", "onDestroyView: ondestroyda ")
         lifecycleScope.coroutineContext.cancelChildren()
         navigatedToLibrary.set(false)
     }
 
     private fun NavController.navigateToLibraryOnce() {
-        // Zaten Library hiyerarşisindeysek dokunma
-        Log.d("navaga", "adadad")
 
         val alreadyOnLibrary = currentDestination?.hierarchy?.any { it.id == R.id.libraryFragment } == true
         if (alreadyOnLibrary) return
         if (navigatedToLibrary.compareAndSet(false, true)) {
-            // İstersen NavOptions ile Home’u stack’ten temizle:
-            // val options = NavOptions.Builder()
-            //     .setPopUpTo(R.id.homeFragment, inclusive = true)
-            //     .build()
-            // navigate(R.id.libraryFragment, null, options)
             navigate(R.id.libraryFragment)
         }
     }
@@ -723,66 +764,167 @@ class HomeFragment : BaseFragment() {
 
     private val audioPickerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val audioUri = result.data?.data ?: return@registerForActivityResult
-                design.uploadImg.visibility = View.GONE
-                design.uploadProgressBar.visibility = View.VISIBLE
-                viewLifecycleOwner.lifecycleScope.launch {
-                    try {
-                        // 1) Firebase idToken
-                        val token = getFirebaseIdToken()
-                        if (token.isNullOrEmpty()) {
-                            Log.e("lelelele", "Firebase ID Token is null/empty")
-                            return@launch
-                        }
+            if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+            val audioUri = result.data?.data ?: return@registerForActivityResult
 
-                        // 3) Multipart parçaları oluştur (IO thread)
-                        val tokenPart = idTokenPart(token)
-                        val filePart = withContext(Dispatchers.IO) {
-                            uriToAudioPart(requireContext(), audioUri)
-                        }
+            // UI: tek seferde aç
+            design.uploadImg.visibility = View.GONE
+            design.uploadProgressBar.visibility = View.VISIBLE
+            design.recordBtn.isEnabled = false
+            design.deleteBtnSts.isEnabled = false
+            design.uploadBtn.isEnabled = false
 
-                        Log.d("filepart", "$filePart : ")
+            viewLifecycleOwner.lifecycleScope.launch {
+                val maxRetries = 3
+                var attempt = 0
+                var success = false
+                var lastError: Throwable? = null
 
-                        // 4) API çağrısı (IO thread'de)
-                        val startTime = System.currentTimeMillis()
-                        val resp = withContext(Dispatchers.IO) {
-                            ApiClient.apiService.transcribePreview(tokenPart, filePart)
-                        }
-                        val endTime = System.currentTimeMillis()
-                        val duration = endTime - startTime
+                // URI'yi cache'e bir kez kopyala
+                val tmpFile = withContext(Dispatchers.IO) {
+                    uriToTempAudioFile(requireContext(), audioUri)
+                }
 
-                        // 5) UI güncelleme - MAIN THREAD'DE!
-                        withContext(Dispatchers.Main) {
-                            // Null ve boyut kontrolü
+                // İstersen aynı dosya mı diye kontrol/log
+                runCatching {
+                    val info = withContext(Dispatchers.IO) { debugUriInfo(requireContext(), audioUri) }
+                    android.util.Log.e("Upload", "file info: $info")
+                    android.util.Log.e("Upload", "temp file path: ${tmpFile.absolutePath} size=${tmpFile.length()}")
+                }
+
+                try {
+                    // Her denemede aynı temp file'dan Part üret
+                    while (attempt < maxRetries && !success) {
+                        try {
+                            val token = getFirebaseIdToken()
+                            if (token.isNullOrEmpty()) {
+                                // Token yoksa retry etmek anlamsız; kır.
+                                throw IllegalStateException("Firebase ID Token is null/empty")
+                            }
+
+                            val tokenPart = idTokenPart(token)
+                            val filePart = withContext(Dispatchers.IO) {
+                                fileToAudioPart(tmpFile, detectMimeFromFile(tmpFile) ?: "audio/*")
+                            }
+
+                            android.util.Log.e("Upload", "$attempt file part $filePart")
+
+                            // Ağ çağrısı
+                            val startTime = System.currentTimeMillis()
+                            val resp = withContext(Dispatchers.IO) {
+                                ApiClient.apiService.transcribePreview(tokenPart, filePart)
+                            }
+                            val duration = System.currentTimeMillis() - startTime
+                          Log.d("Upload", "transcribePreview took ${duration}ms")
+
+                            // UI güncelle
                             val displayText = resp.text?.takeIf { it.isNotEmpty() } ?: "No transcription available"
-
-                            // Büyük metinleri kısalt
                             val finalText = if (displayText.length > 5000) {
                                 displayText.substring(0, 5000) + "\n\n...[text truncated]..."
-                            } else {
-                                displayText
-                            }
+                            } else displayText
 
                             design.editTextSpeechLayout.setText(finalText)
                             design.editTextLayout.setText(finalText)
                             this@HomeFragment.audioHash = resp.audioHash
-                        }
 
-                    } catch (t: Throwable) {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(requireContext(), "Upload failed: ${t.message}", Toast.LENGTH_LONG).show()
-                        }
-                    } finally {
-                        withContext(Dispatchers.Main) {
-                            design.uploadImg.visibility = View.VISIBLE
-                            design.uploadProgressBar.visibility = View.GONE
+                            success = true
+                        } catch (t: Throwable) {
+                            attempt++
+                            lastError = t
+                            Log.e("Upload", "Attempt $attempt failed: ${t.message}")
+
+                            if (attempt < maxRetries) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Retrying... ($attempt/$maxRetries)",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                delay(exponentialBackoffWithJitter(attempt))
+                            }
                         }
                     }
+
+                    if (!success) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Upload failed after $maxRetries tries: ${lastError?.message ?: "unknown error"}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } finally {
+                    // UI: tek seferde kapat
+                    design.uploadImg.visibility = View.VISIBLE
+                    design.uploadProgressBar.visibility = View.GONE
+                    design.recordBtn.isEnabled = true
+                    design.deleteBtnSts.isEnabled = true
+                    design.uploadBtn.isEnabled = true
+                    // Temp dosyayı sil
+                    withContext(Dispatchers.IO) { runCatching { tmpFile.delete() } }
                 }
             }
         }
+    private suspend fun uriToTempAudioFile(context: android.content.Context, uri: Uri): File =
+        withContext(Dispatchers.IO) {
+            val cr = context.contentResolver
+            val ext = MimeTypeMap.getSingleton()
+                .getExtensionFromMimeType(cr.getType(uri)) ?: "bin"
+            val tmp = File.createTempFile("upload_", ".$ext", context.cacheDir)
+            cr.openInputStream(uri).use { input ->
+                FileOutputStream(tmp).use { output -> input?.copyTo(output) }
+            }
+            tmp
+        }
 
+    private fun fileToAudioPart(file: File, mime: String = "audio/*"): MultipartBody.Part {
+        val mediaType = mime.toMediaTypeOrNull()
+        val reqBody = file.asRequestBody(mediaType)
+        return MultipartBody.Part.createFormData("files", file.name, reqBody)
+    }
+
+    private fun detectMimeFromFile(file: File): String? {
+        // Basit yaklaşım: uzantıya göre
+        val ext = file.extension.lowercase()
+        return when (ext) {
+            "wav" -> "audio/wav"
+            "mp3" -> "audio/mpeg"
+            "m4a" -> "audio/mp4"
+            else -> null
+        }
+    }
+
+    private fun exponentialBackoffWithJitter(attempt: Int): Long {
+        // 1s, 2s, 4s ... + 0-400ms jitter
+        val base = (1000.0 * 2.0.pow(attempt.toDouble())).toLong().coerceAtMost(8000L) // üst sınır 8s
+        val jitter = (0..400).random().toLong()
+        return base + jitter
+    }
+
+    private fun debugUriInfo(context: android.content.Context, uri: Uri): String {
+        val cr = context.contentResolver
+        var name = "unknown"
+        var size: Long = -1
+        val mime = cr.getType(uri) ?: "application/octet-stream"
+
+        cr.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE), null, null, null)
+            ?.use { c ->
+                if (c.moveToFirst()) {
+                    val nameIdx = c.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    val sizeIdx = c.getColumnIndex(OpenableColumns.SIZE)
+                    if (nameIdx >= 0) name = c.getString(nameIdx) ?: name
+                    if (sizeIdx >= 0) size = c.getLong(sizeIdx)
+                }
+            }
+
+        val digest = MessageDigest.getInstance("SHA-256")
+        cr.openInputStream(uri)?.use { input ->
+            val buf = ByteArray(8192)
+            var n: Int
+            while (input.read(buf).also { n = it } > 0) digest.update(buf, 0, n)
+        }
+        val sha256 = digest.digest().joinToString("") { "%02x".format(it) }
+
+        return "name=$name size=$size mime=$mime sha256=$sha256"
+    }
     fun idTokenPart(token: String): RequestBody =
         token.toRequestBody("text/plain".toMediaTypeOrNull())
 
